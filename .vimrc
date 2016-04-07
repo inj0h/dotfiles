@@ -31,7 +31,7 @@ set expandtab                                       " whitespace/tab stuff
 set ignorecase                                      " ignore casing when searching 
 set history=100                                     " history log 
 set hlsearch                                        " highlight search results
-set laststatus=2                                    " always enable Lightline plugin
+set laststatus=2                                    " always show bottom status bar
 set lazyredraw                                      " redraw lines only when needed
 set linebreak                                       " break lines
 set mouse=a                                         " enable mouse
@@ -45,6 +45,7 @@ set smartcase                                       " specify casing in searchin
 set smarttab                                        " whitespace/tab stuff 
 set splitbelow                                      " always split windows below
 set softtabstop=4                                   " whitespace/tab stuff 
+set showtabline=2                                   " always show tabline
 set t_Co=256                                        " use 250 terminal colors
 set tabstop=4                                       " whitespace/tab stuff
 set textwidth=0                                     " text width (duh)
@@ -75,46 +76,44 @@ highlight Visual ctermbg=gray ctermfg=none
 
 
 
+" functions 
+" -------------------------------------------------------------------------------- 
+" turn on normal line numbers 
+function! NormLines()
+    set relativenumber!
+endfunc
+
+
+
+
+
+
+
+
 " keybindings
 " -------------------------------------------------------------------------------- 
 " regular
-" ----------------------------------------
-" rebind colon to semicolon
-nmap ; : 
-" better window jumping
-nmap gs <c-w><c-w> 
-" rebind escape to jj 
-imap jj <esc>
+nmap ; :|                                           " rebind colon to semicolon
+nmap gs <c-w><c-w>|                                 " better window jumping
+imap jj <esc>|                                      " rebind escape to jj 
 
 
 
 
 " leader
-" ----------------------------------------
-" leader bound to spacebar
-let mapleader = " "
+let mapleader = " "|                                " leader bound to spacebar
 
+nmap <leader>` :e $MYVIMRC<cr>|                     " quick access to this file 
+nmap <leader>- <c-b>|                               " page up
+nmap <leader>= <c-f>|                               " page down 
 
-" quick access to this file 
-nmap <leader>` :e $MYVIMRC<cr>
-" page up
-nmap <leader>- <c-b>
-" page down 
-nmap <leader>= <c-f>
+nmap <leader>r :call NormLines()<cr>|               " change line numbers 
+nmap <leader>t :tabe<cr>|                           " new tab 
+nmap <leader>i 0i<cr><esc>k|                        " insert line
 
-
-" new tab 
-nmap <leader>t :tabe<cr> 
-" insert line
-nmap <leader>i 0i<cr><esc>k
-
-
-" new window
-nmap <leader>s :split<cr>
-" open directory
-nmap <leader>d :e .<cr>
-" jump to last edit 
-nmap <leader>l `. 
+nmap <leader>s :split<cr>|                          " new window
+nmap <leader>d :e .<cr>|                            " open directory
+nmap <leader>l `.|                                  " jump to last edit 
 
 
 
@@ -127,5 +126,15 @@ nmap <leader>l `.
 " -------------------------------------------------------------------------------- 
 " Lightline settings
 let g:lightline = {
-      \ 'colorscheme': 'wombat',
-      \ }
+    \ 'colorscheme': 'wombat',
+    \ 'active' : {
+    \ 'left': [ [ 'mode', 'paste' ],
+    \           [ 'readonly', 'filename', 'modified' ] ],
+    \ 'right': [ [ 'lineinfo' ],
+    \            [ 'fileformat', 'fileencoding', 'filetype' ] ] ,
+    \ },
+    \ 'tabline': {
+    \ 'left': [ [ 'tabs' ] ],
+    \ 'right': [ [ ] ] 
+    \ },
+    \ }

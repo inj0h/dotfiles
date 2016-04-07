@@ -1,10 +1,3 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =8
-let g:netrw_dirhist_1='/Users/Eric/Desktop/315-502/projects/p2/dev/bin/appl'
-let g:netrw_dirhist_2='/Users/Eric/Desktop/315-502/projects/p2/dev/bin/bash'
-let g:netrw_dirhist_3='/Users/Eric/Desktop/315-502/projects/p2/dev/bin/appl'
-let g:netrw_dirhist_4='/Users/Eric/.vim'
-let g:netrw_dirhist_5='/Users/Eric'
-let g:netrw_dirhist_6='/Users/Eric/Eric'
-let g:netrw_dirhist_7='/Users/Eric'
-let g:netrw_dirhist_8='/Users/Eric/.vim'
+let g:netrw_dirhist_cnt =1
+let g:netrw_dirhist_1='/Users/Eric/.dotfiles/.vim/bundle/lightline.vim'
