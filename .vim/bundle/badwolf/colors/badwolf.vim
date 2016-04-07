@@ -199,8 +199,8 @@ call s:HL('TabLineSel', 'coal', 'tardis', 'none')
 
 call s:HL('MatchParen', 'dalespale', 'darkgravel', 'bold')
 
-" call s:HL('NonText',    'deepgravel', 'bg')
-" call s:HL('SpecialKey', 'deepgravel', 'bg')
+"  call s:HL('NonText',    'deepgravel', 'bg')
+ call s:HL('SpecialKey', 'deepgravel')
 
 call s:HL('Visual',    '',  'deepgravel')
 call s:HL('VisualNOS', '',  'deepgravel')
@@ -217,11 +217,11 @@ call s:HL('Directory', 'dirtyblonde', '', 'bold')
 
 call s:HL('Title', 'lime')
 
-call s:HL('ErrorMsg',   'taffy',       'bg', 'bold')
+" call s:HL('ErrorMsg',   'taffy',       'bg', 'bold')
 call s:HL('MoreMsg',    'dalespale',   '',   'bold')
 call s:HL('ModeMsg',    'dirtyblonde', '',   'bold')
 call s:HL('Question',   'dirtyblonde', '',   'bold')
-call s:HL('WarningMsg', 'dress',       '',   'bold')
+" call s:HL('WarningMsg', 'dress',       '',   'bold')
 
 " This is a ctags tag, not an HTML one.  'Something you can use c-] on'.
 call s:HL('Tag', '', '', 'bold')
