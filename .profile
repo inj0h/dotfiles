@@ -17,3 +17,7 @@ alias vim=/usr/local/Cellar/vim/7.4.1655/bin/vim
 # ssh 
 alias compute='ssh -Y eric.chung@compute.cse.tamu.edu'
 alias linux='ssh -Y eric.chung@linux.cse.tamu.edu'
+
+# git
+alias git_shove='./.bin/git_shove.sh'
+alias git_up_subs='git submodule foreach git pull origin master'

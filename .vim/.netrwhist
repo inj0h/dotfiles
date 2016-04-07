@@ -1,4 +1,4 @@
 let g:netrw_dirhistmax  =10
 let g:netrw_dirhist_cnt =2
-let g:netrw_dirhist_1='/Users/Eric/.dotfiles/.vim/bundle/lightline.vim'
-let g:netrw_dirhist_2='/Users/Eric/.dotfiles/.vim/bundle/badwolf'
+let g:netrw_dirhist_1='/Users/Eric/Desktop/313-511/machineProblems/mp4'
+let g:netrw_dirhist_2='/Users/Eric/Desktop/313-511/machineProblems/mp4/bld'
