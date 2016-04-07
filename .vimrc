@@ -13,7 +13,7 @@ filetype plugin indent on                           " enable indent by plugin(s)
 filetype plugin on                                  " enable plugins
 
 
-set nocompatible                                    " ?
+set nocompatible                                    " not compatible with vi
 
 set autoindent                                      " auto indents supposedly
 set autoread                                        " ?
@@ -34,6 +34,7 @@ set number                                          " line numbers
 set relativenumber                                  " relative line numbers
 set ruler                                           " ? 
 set shiftwidth=4                                    " whitespace/tab stuff
+set showcmd                                         " show commands as typed
 set smartcase                                       " specify casing in searching 
 set smarttab                                        " whitespace/tab stuff 
 set splitbelow                                      " always split windows below
@@ -105,15 +106,15 @@ nmap <leader>l `.|                                  " jump to last edit
 " -------------------------------------------------------------------------------- 
 " Lightline settings
 let g:lightline = {
-    \ 'colorscheme': 'wombat',
-    \ 'active' : {
-    \ 'left': [ [ 'mode', 'paste' ],
-    \           [ 'readonly', 'filename', 'modified' ] ],
-    \ 'right': [ [ 'lineinfo' ],
-    \            [ 'fileformat', 'fileencoding', 'filetype' ] ] ,
-    \ },
-    \ 'tabline': {
-    \ 'left': [ [ 'tabs' ] ],
-    \ 'right': [ [ ] ] 
-    \ },
-    \ }
+            \ 'colorscheme': 'wombat',
+            \ 'active' : {
+            \ 'left': [ [ 'mode', 'paste' ],
+            \           [ 'readonly', 'filename', 'modified' ] ],
+            \ 'right': [ [ 'lineinfo' ],
+            \            [ 'fileformat', 'fileencoding', 'filetype' ] ] ,
+            \ },
+            \ 'tabline': {
+            \ 'left': [ [ 'tabs' ] ],
+            \ 'right': [ [ ] ] 
+            \ },
+            \ }
