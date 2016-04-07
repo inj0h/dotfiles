@@ -4,20 +4,13 @@
 
 
 
-
-
-
-
 " general
 " -------------------------------------------------------------------------------- 
-" Pathogen package manager
-execute pathogen#infect()                                       
+execute pathogen#infect()|                          " Pathogen package manager
 
 syntax on                                           " enable syntax check, linting, etc
 filetype plugin indent on                           " enable indent by plugin(s)
 filetype plugin on                                  " enable plugins
-
-
 
 
 set nocompatible                                    " ?
@@ -72,20 +65,12 @@ highlight Visual ctermbg=gray ctermfg=none
 
 
 
-
-
-
-
 " functions 
 " -------------------------------------------------------------------------------- 
 " turn on normal line numbers 
 function! NormLines()
     set relativenumber!
 endfunc
-
-
-
-
 
 
 
@@ -98,10 +83,8 @@ nmap gs <c-w><c-w>|                                 " better window jumping
 imap jj <esc>|                                      " rebind escape to jj 
 
 
-
-
 " leader
-let mapleader = " "|                                " leader bound to spacebar
+let mapleader = " "|                                " bind leader to spacebar
 
 nmap <leader>` :e $MYVIMRC<cr>|                     " quick access to this file 
 nmap <leader>- <c-b>|                               " page up
@@ -114,10 +97,6 @@ nmap <leader>i 0i<cr><esc>k|                        " insert line
 nmap <leader>s :split<cr>|                          " new window
 nmap <leader>d :e .<cr>|                            " open directory
 nmap <leader>l `.|                                  " jump to last edit 
-
-
-
-
 
 
 

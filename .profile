@@ -1,10 +1,7 @@
 # erikoelrojo's .profile
 # --------------------------------------------------------------------------------
 export PS1="\u @ \h \w\n$ "                         # prompt
-
-
-
-
+printf "Welcome $USER! \xf0\x9f\x98\x83  \n"        # welcome message 
 
 
 
@@ -12,7 +9,7 @@ export PS1="\u @ \h \w\n$ "                         # prompt
 # aliases
 # --------------------------------------------------------------------------------
 # general
-alias emacs='printf "\xf0\x9f\x98\x90  Sorry, this system does not support that software\n"'
+alias emacs='printf "\xf0\x9f\x98\x90  Sorry, this system does not support that software.\n"'
 alias ls='ls -aF'                                   
 alias vi=/usr/local/Cellar/vim/7.4.1655/bin/vim
 alias vim=/usr/local/Cellar/vim/7.4.1655/bin/vim
