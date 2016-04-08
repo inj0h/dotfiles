@@ -1,4 +1,5 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =2
+let g:netrw_dirhist_cnt =3
 let g:netrw_dirhist_1='/Users/Eric/Desktop/313-511/machineProblems/mp4'
 let g:netrw_dirhist_2='/Users/Eric/Desktop/313-511/machineProblems/mp4/bld'
+let g:netrw_dirhist_3='/usr/local/etc/nginx'

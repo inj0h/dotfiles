@@ -19,3 +19,6 @@
 [submodule ".vim/bundle/lightline.vim"]
 	path = .vim/bundle/lightline.vim
 	url = https://github.com/itchyny/lightline.vim.git
+[submodule ".vim/vim-javascript-syntax"]
+	path = .vim/vim-javascript-syntax
+	url = https://github.com/jelera/vim-javascript-syntax.git
