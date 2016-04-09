@@ -1,5 +1,9 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =3
-let g:netrw_dirhist_1='/Users/Eric/Desktop/313-511/machineProblems/mp4'
-let g:netrw_dirhist_2='/Users/Eric/Desktop/313-511/machineProblems/mp4/bld'
-let g:netrw_dirhist_3='/usr/local/etc/nginx'
+let g:netrw_dirhist_cnt =7
+let g:netrw_dirhist_1='/Users/Eric/.dotfiles/.bin'
+let g:netrw_dirhist_2='/Users/Eric/.dotfiles/.bin/appl'
+let g:netrw_dirhist_3='/usr/local/var/www/sld/client/assets/js'
+let g:netrw_dirhist_4='/Users/Eric/.dotfiles/.vim'
+let g:netrw_dirhist_5='/Users/Eric/.dotfiles/.bin/bash'
+let g:netrw_dirhist_6='/Users/Eric/.dotfiles/.bin'
+let g:netrw_dirhist_7='/Users/Eric/.dotfiles/.bin/appl'
