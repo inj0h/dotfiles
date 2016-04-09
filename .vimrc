@@ -13,6 +13,9 @@ filetype plugin indent on                           " enable indent by plugin(s)
 filetype plugin on                                  " enable plugins
 
 
+let $BASH_ENV = "$HOME/.bashrc"                     " talk to .bashrc
+
+
 set nocompatible                                    " not compatible with vi
 
 set autoindent                                      " auto indents supposedly
@@ -45,11 +48,10 @@ set tabstop=4                                       " whitespace/tab stuff
 set textwidth=0                                     " text width (duh)
 set undolevels=50                                   " how much undo remembers 
 set visualbell                                      " please no beeping
+set wildmode=longest,list                           " bash-like tab comp
+set wildmenu                                        " ^ ?
 set wrap                                            " wrap lines
 set wrapmargin=0                                    " warp line margin size
-
-
-let $BASH_ENV = "$HOME/.bashrc"                     " vim talks to .bashrc
 
 
 
@@ -92,8 +94,8 @@ let mapleader = " "|                                " bind leader to spacebar
 
 nmap <leader>` :e $MYVIMRC<cr>|                     " quick access to this file 
 nmap <leader>1 :!goto_safari<cr>|                   " call applescript goto_safari 
-nmap <leader>- <c-b>|                               " page up
-nmap <leader>= <c-f>|                               " page down 
+map <leader>- <c-b>|                                " page up
+map <leader>= <c-f>|                                " page down 
 
 nmap <leader>r :call NormLines()<cr>|               " change line numbers 
 nmap <leader>t :tabe<cr>|                           " new tab 
