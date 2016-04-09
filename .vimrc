@@ -49,7 +49,7 @@ set wrap                                            " wrap lines
 set wrapmargin=0                                    " warp line margin size
 
 
-let $BASH_ENV = "$HOME/.profile"                    " set cnfg to .profile 
+let $BASH_ENV = "$HOME/.bashrc"                    " set cnfg to .profile 
 
 
 
