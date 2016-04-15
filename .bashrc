@@ -14,6 +14,7 @@ alias goto_safari='cd; cd .bin/appl/; osascript goto_safari.scpt'
 # ssh 
 alias compute='ssh -Y eric.chung@compute.cse.tamu.edu'                  # compute server
 alias linux='ssh -Y eric.chung@linux.cse.tamu.edu'                      # linux server
+alias sld='ssh sld@pulse.bitwisehero.com'                               # Randall's server
 
 # git
 alias git_shove='./.bin/bash/git_shove.sh'                              # quick commit
