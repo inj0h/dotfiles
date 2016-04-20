@@ -5,8 +5,8 @@ shopt -s expand_aliases                                                 # vim re
 # general
 alias emacs='printf "\xf0\x9f\x98\x90  Dont do that.\n"'                # fun
 alias ls='ls -aF'                                   
-alias vi=/usr/local/Cellar/vim/7.4.1707/bin/vim                         # lazy Cellar vim
-alias vim=/usr/local/Cellar/vim/7.4.1707/bin/vim                        # " 
+alias vi=/usr/local/Cellar/vim/7.4.1724/bin/vim                         # lazy Cellar vim
+alias vim=/usr/local/Cellar/vim/7.4.1724/bin/vim                        # " 
 
 # apple scripts 
 alias goto_safari='cd; cd .bin/appl/; osascript goto_safari.scpt'

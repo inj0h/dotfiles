@@ -87,7 +87,7 @@ imap jj <esc>|                                          " rebind escape to jj
 let mapleader = " "|                                    " bind leader to spacebar
 
 nmap <leader>` :e $MYVIMRC<cr>|                         " quick access to this file 
-nmap <leader>1 :!goto_safari<cr>|                       " call applescript goto_safari 
+nmap <leader>1 :!goto_safari<cr>|                       " call appl.scpt
 map <leader>- <c-b>|                                    " page up
 map <leader>= <c-f>|                                    " page down 
 
