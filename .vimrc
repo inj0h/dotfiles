@@ -6,12 +6,9 @@ syntax on                                               " enable syntax check, l
 filetype plugin indent on                               " enable indent by plugin(s)
 filetype plugin on                                      " enable plugins
 
-
 let $BASH_ENV = "$HOME/.bashrc"                         " talk to .bashrc
 
-
 set nocompatible                                        " not compatible with vi
-
 set autoindent                                          " auto indents supposedly
 set autoread                                            " ?
 set backspace=eol,start,indent                          " enable backspace
@@ -81,7 +78,6 @@ endfunc
 nmap ; :|                                               " rebind colon to semicolon
 nmap gs <c-w><c-w>|                                     " better window jumping
 imap jj <esc>|                                          " rebind escape to jj 
-
 
 " leader
 let mapleader = " "|                                    " bind leader to spacebar

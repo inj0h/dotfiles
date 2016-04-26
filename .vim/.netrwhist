@@ -1,4 +1,9 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =2
-let g:netrw_dirhist_1='/usr/local/var/www/sld/client'
-let g:netrw_dirhist_2='/usr/local/var/www/sld/client/assets/js'
+let g:netrw_dirhist_cnt =7
+let g:netrw_dirhist_1='/Users/Eric/Desktop/313-511/tmp/Machine Problems/MP5'
+let g:netrw_dirhist_2='/Users/Eric/Desktop/313-511/tmp/Machine Problems'
+let g:netrw_dirhist_3='/Users/Eric/Desktop/313-511/tmp'
+let g:netrw_dirhist_4='/Users/Eric/Desktop/313-511'
+let g:netrw_dirhist_5='/Users/Eric/Desktop/313-511/machineProblems'
+let g:netrw_dirhist_6='/Users/Eric/Desktop/313-511/machineProblems/mp6'
+let g:netrw_dirhist_7='/Users/Eric/Desktop/313-511/machineProblems/mp6/src'
