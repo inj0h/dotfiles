@@ -45,8 +45,6 @@ set wrap                                                " wrap lines
 set wrapmargin=0                                        " warp line margin size
 
 
-
-
 " aesthetic 
 " -------------------------------------------------------------------------------- 
 colorscheme badwolf                                     " rad colorscheme 
@@ -60,16 +58,12 @@ highlight Normal ctermbg=none ctermfg=none
 highlight Visual ctermbg=gray ctermfg=none
 
 
-
-
 " functions 
 " -------------------------------------------------------------------------------- 
 " turn on normal line numbers 
 function! NormLines()
     set relativenumber!
 endfunc
-
-
 
 
 " keybindings
@@ -94,8 +88,6 @@ nmap <leader>i 0i<cr><esc>k|                            " insert line
 nmap <leader>s :split<cr>|                              " new window
 nmap <leader>d :e .<cr>|                                " open directory
 nmap <leader>l `.|                                      " jump to last edit 
-
-
 
 
 " et al 
