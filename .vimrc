@@ -15,9 +15,9 @@ set backspace=eol,start,indent                          " enable backspace
 set clipboard=unnamed                                   " enable clipboard access
 set cursorline                                          " enable current line recognition 
 set expandtab                                           " whitespace/tab stuff 
-set ignorecase                                          " ignore casing when searching 
 set history=100                                         " history log 
 set hlsearch                                            " highlight search results
+set ignorecase                                          " ignore casing when searching 
 set laststatus=2                                        " always show bottom status bar
 set lazyredraw                                          " redraw lines only when needed
 set linebreak                                           " break lines
@@ -25,6 +25,7 @@ set mouse=a                                             " enable mouse
 set nofoldenable                                        " disable line folding
 set nolist                                              " list disables linebreak
 set number                                              " line numbers
+set numberwidth=6                                       " line number column width
 set relativenumber                                      " relative line numbers
 set ruler                                               " ? 
 set shiftwidth=4                                        " whitespace/tab stuff
@@ -52,9 +53,10 @@ colorscheme badwolf                                     " rad colorscheme
 " color settings
 highlight CursorLine ctermbg=none ctermfg=none
 highlight CursorLineNR ctermbg=gray ctermfg=black
-highlight LineNr ctermbg=none 
+highlight LineNr ctermbg=none
 highlight MatchParen cterm=none ctermbg=gray 
 highlight Normal ctermbg=none ctermfg=none
+highlight SignColumn ctermbg=none
 highlight Visual ctermbg=gray ctermfg=none
 
 
@@ -99,6 +101,7 @@ let g:lightline = {
             \ 'left': [ [ 'mode', 'paste' ],
             \           [ 'readonly', 'filename', 'modified' ] ],
             \ 'right': [ [ 'lineinfo' ],
+            \            [ 'percent' ],
             \            [ 'fileformat', 'fileencoding', 'filetype' ] ] ,
             \ },
             \ 'tabline': {
