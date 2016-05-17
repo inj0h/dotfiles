@@ -25,7 +25,7 @@ set mouse=a                                             " enable mouse
 set nofoldenable                                        " disable line folding
 set nolist                                              " list disables linebreak
 set number                                              " line numbers
-set numberwidth=6                                       " line number column width
+set numberwidth=5                                       " line number column width
 set relativenumber                                      " relative line numbers
 set ruler                                               " ? 
 set shiftwidth=4                                        " whitespace/tab stuff
