@@ -4,7 +4,7 @@ execute pathogen#infect()|                              " Pathogen package manag
 
 syntax on                                               " enable syntax check, linting, etc
 
-" settings if using regular vim
+" settings if using regular vim and not nvim
 if !has('nvim') 
     filetype plugin on                                  " enable plugins
     filetype plugin indent on                           " enable indent by plugin(s)
@@ -19,7 +19,6 @@ if !has('nvim')
     set wildmenu                                        " bash-like tab comp
 endif
 
-" neovim settings
 let $BASH_ENV = "$HOME/.bashrc"                         " talk to .bashrc
 
 set autoread                                            " reads external file updates 

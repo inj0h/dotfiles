@@ -1,10 +1,15 @@
+# general 
+# ------------------------------------------------------------------------------------------
+export CLICOLOR=1
+export LSCOLORS=GxCxFxBxDxegedabagacad
+
 # aliases
-# --------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------
 shopt -s expand_aliases                                                 # vim reads aliases
 
 # general
 alias emacs='printf "\xf0\x9f\x98\x90  Dont do that.\n"'                # fun
-alias ls='ls -aF'                                   
+alias ls='ls -aGh'                                   
 alias vi=/usr/local/Cellar/neovim/0.1.4/bin/nvim                        # lazy nvim
 alias vim=/usr/local/Cellar/vim/7.4.1830/bin/vim                        # lazy Cellar vim 
 
