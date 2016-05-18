@@ -3,25 +3,32 @@
 execute pathogen#infect()|                              " Pathogen package manager
 
 syntax on                                               " enable syntax check, linting, etc
-filetype plugin indent on                               " enable indent by plugin(s)
-filetype plugin on                                      " enable plugins
 
+" settings if using regular vim
+if !has('nvim') 
+    filetype plugin on                                  " enable plugins
+    filetype plugin indent on                           " enable indent by plugin(s)
+    set autoindent                                      " auto indents supposedly
+    set backspace=eol,start,indent                      " enable backspace
+    set hlsearch                                        " highlight search results
+    set laststatus=2                                    " always show bottom status bar
+    set mouse=a                                         " enable mouse
+    set nocompatible                                    " not compatible with vi
+    set nolazyredraw                                    " redraw lines only when needed
+    set smarttab                                        " whitespace/tab stuff 
+    set wildmenu                                        " bash-like tab comp
+endif
+
+" neovim settings
 let $BASH_ENV = "$HOME/.bashrc"                         " talk to .bashrc
 
-set nocompatible                                        " not compatible with vi
-set autoindent                                          " auto indents supposedly
 set autoread                                            " reads external file updates 
-set backspace=eol,start,indent                          " enable backspace
 set clipboard=unnamed                                   " enable clipboard access
 set cursorline                                          " vi knows current line 
 set expandtab                                           " whitespace/tab stuff 
 set history=100                                         " history log 
-set hlsearch                                            " highlight search results
 set ignorecase                                          " ignore casing when searching 
-set laststatus=2                                        " always show bottom status bar
-set lazyredraw                                          " redraw lines only when needed
 set linebreak                                           " break lines
-set mouse=a                                             " enable mouse
 set nofoldenable                                        " disable line folding
 set nolist                                              " list disables linebreak
 set number                                              " line numbers
@@ -31,7 +38,6 @@ set ruler                                               " show file data at bott
 set shiftwidth=4                                        " whitespace/tab stuff
 set showcmd                                             " show commands as typed
 set smartcase                                           " specify casing in searching 
-set smarttab                                            " whitespace/tab stuff 
 set splitbelow                                          " always split windows below
 set softtabstop=4                                       " whitespace/tab stuff 
 set showtabline=2                                       " always show tabline
@@ -41,7 +47,6 @@ set textwidth=0                                         " text width (duh)
 set undolevels=50                                       " how much undo remembers 
 set visualbell                                          " please no beeping
 set wildmode=longest,list                               " bash-like tab comp
-set wildmenu                                            " bash-like tab comp
 set wrap                                                " wrap lines
 set wrapmargin=0                                        " warp line margin size
 
