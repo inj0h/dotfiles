@@ -1,5 +1,5 @@
 " general
-" -------------------------------------------------------------------------------- 
+" ------------------------------------------------------------------------------------------
 execute pathogen#infect()|                              " Pathogen package manager
 
 syntax on                                               " enable syntax check, linting, etc
@@ -10,10 +10,10 @@ let $BASH_ENV = "$HOME/.bashrc"                         " talk to .bashrc
 
 set nocompatible                                        " not compatible with vi
 set autoindent                                          " auto indents supposedly
-set autoread                                            " ?
+set autoread                                            " reads external file updates 
 set backspace=eol,start,indent                          " enable backspace
 set clipboard=unnamed                                   " enable clipboard access
-set cursorline                                          " enable current line recognition 
+set cursorline                                          " vi knows current line 
 set expandtab                                           " whitespace/tab stuff 
 set history=100                                         " history log 
 set hlsearch                                            " highlight search results
@@ -27,7 +27,7 @@ set nolist                                              " list disables linebrea
 set number                                              " line numbers
 set numberwidth=5                                       " line number column width
 set relativenumber                                      " relative line numbers
-set ruler                                               " ? 
+set ruler                                               " show file data at bottom right
 set shiftwidth=4                                        " whitespace/tab stuff
 set showcmd                                             " show commands as typed
 set smartcase                                           " specify casing in searching 
@@ -41,13 +41,12 @@ set textwidth=0                                         " text width (duh)
 set undolevels=50                                       " how much undo remembers 
 set visualbell                                          " please no beeping
 set wildmode=longest,list                               " bash-like tab comp
-set wildmenu                                            " ^ ?
+set wildmenu                                            " bash-like tab comp
 set wrap                                                " wrap lines
 set wrapmargin=0                                        " warp line margin size
 
-
 " aesthetic 
-" -------------------------------------------------------------------------------- 
+" ------------------------------------------------------------------------------------------
 colorscheme badwolf                                     " rad colorscheme 
 
 " color settings
@@ -59,17 +58,15 @@ highlight Normal ctermbg=none ctermfg=none
 highlight SignColumn ctermbg=none
 highlight Visual ctermbg=gray ctermfg=none
 
-
 " functions 
-" -------------------------------------------------------------------------------- 
+" ------------------------------------------------------------------------------------------
 " turn on normal line numbers 
 function! NormLines()
     set relativenumber!
 endfunc
 
-
 " keybindings
-" -------------------------------------------------------------------------------- 
+" ------------------------------------------------------------------------------------------
 " regular
 nmap ; :|                                               " rebind colon to semicolon
 nmap gs <c-w><c-w>|                                     " better window jumping
@@ -91,9 +88,8 @@ nmap <leader>s :split<cr>|                              " new window
 nmap <leader>d :e .<cr>|                                " open directory
 nmap <leader>l `.|                                      " jump to last edit 
 
-
 " et al 
-" -------------------------------------------------------------------------------- 
+" ------------------------------------------------------------------------------------------
 " Lightline settings
 let g:lightline = {
             \ 'colorscheme': 'wombat',
