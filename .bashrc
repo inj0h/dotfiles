@@ -1,7 +1,12 @@
 # general 
 # ------------------------------------------------------------------------------------------
 export CLICOLOR=1
-export LSCOLORS=GxCxFxBxDxegedabagacad
+export LSCOLORS=GxFxDxCxBxegedabagacad                                  # order of lscolors
+                                                                        # directory = G, cyan
+                                                                        # symlink = F, magenta
+                                                                        # socket = D, brown
+                                                                        # pipe = C, green
+                                                                        # executable = B, red
 
 # aliases
 # ------------------------------------------------------------------------------------------

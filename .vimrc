@@ -56,7 +56,7 @@ colorscheme badwolf                                     " rad colorscheme
 " color settings
 highlight CursorLine ctermbg=none ctermfg=none
 highlight CursorLineNR ctermbg=gray ctermfg=black
-highlight LineNr ctermbg=none
+highlight LineNr ctermbg=darkgray ctermfg=white
 highlight MatchParen cterm=none ctermbg=gray 
 highlight Normal ctermbg=none ctermfg=none
 highlight SignColumn ctermbg=none
@@ -64,48 +64,48 @@ highlight Visual ctermbg=gray ctermfg=none
 
 " functions 
 " ------------------------------------------------------------------------------------------
-" turn on normal line numbers 
+    " turn on normal line numbers 
 function! NormLines()
     set relativenumber!
-endfunc
+    endfunc
 
-" keybindings
-" ------------------------------------------------------------------------------------------
-" regular
-nmap ; :|                                               " rebind colon to semicolon
-nmap gs <c-w><c-w>|                                     " better window jumping
-imap jj <esc>|                                          " rebind escape to jj 
+    " keybindings
+    " ------------------------------------------------------------------------------------------
+    " regular
+    nmap ; :|                                               " rebind colon to semicolon
+    nmap gs <c-w><c-w>|                                     " better window jumping
+    imap jj <esc>|                                          " rebind escape to jj 
 
-" leader
-let mapleader = " "|                                    " bind leader to spacebar
+    " leader
+    let mapleader = " "|                                    " bind leader to spacebar
 
-nmap <leader>` :e $MYVIMRC<cr>|                         " quick access to this file 
-nmap <leader>1 :!goto_safari<cr>|                       " call appl.scpt
-map <leader>- <c-b>|                                    " page up
-map <leader>= <c-f>|                                    " page down 
+    nmap <leader>` :e $MYVIMRC<cr>|                         " quick access to this file 
+    nmap <leader>1 :!goto_safari<cr>|                       " call appl.scpt
+    map <leader>- <c-b>|                                    " page up
+    map <leader>= <c-f>|                                    " page down 
 
-nmap <leader>r :call NormLines()<cr>|                   " change line numbers 
-nmap <leader>t :tabe<cr>|                               " new tab 
-nmap <leader>i 0i<cr><esc>k|                            " insert line
+    nmap <leader>r :call NormLines()<cr>|                   " change line numbers 
+    nmap <leader>t :tabe<cr>|                               " new tab 
+    nmap <leader>i 0i<cr><esc>k|                            " insert line
 
-nmap <leader>s :split<cr>|                              " new window
-nmap <leader>d :e .<cr>|                                " open directory
-nmap <leader>l `.|                                      " jump to last edit 
+    nmap <leader>s :split<cr>|                              " new window
+    nmap <leader>d :e .<cr>|                                " open directory
+    nmap <leader>l `.|                                      " jump to last edit 
 
-" et al 
-" ------------------------------------------------------------------------------------------
-" Lightline settings
-let g:lightline = {
-            \ 'colorscheme': 'wombat',
-            \ 'active' : {
+    " et al 
+    " ------------------------------------------------------------------------------------------
+    " Lightline settings
+    let g:lightline = {
+        \ 'colorscheme': 'wombat',
+        \ 'active' : {
             \ 'left': [ [ 'mode', 'paste' ],
             \           [ 'readonly', 'filename', 'modified' ] ],
             \ 'right': [ [ 'lineinfo' ],
             \            [ 'percent' ],
             \            [ 'fileformat', 'fileencoding', 'filetype' ] ] ,
             \ },
-            \ 'tabline': {
+        \ 'tabline': {
             \ 'left': [ [ 'tabs' ] ],
             \ 'right': [ [ ] ] 
-            \ },
-            \ }
+                \ },
+        \ }
