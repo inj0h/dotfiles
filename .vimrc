@@ -36,6 +36,7 @@ set ruler                                               " show file data at bott
 set shiftwidth=4                                        " whitespace/tab stuff
 set showcmd                                             " show commands as typed
 set smartcase                                           " specify casing in searching 
+set nospell
 set splitbelow                                          " always split windows below
 set softtabstop=4                                       " whitespace/tab stuff 
 set showtabline=2                                       " always show tabline

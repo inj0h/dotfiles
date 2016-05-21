@@ -1,5 +1,7 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =3
+let g:netrw_dirhist_cnt =5
 let g:netrw_dirhist_1='/Users/Eric/Desktop/315-502/individual assignment/game-database'
 let g:netrw_dirhist_2='/Users/Eric/.dotfiles/.nvim'
 let g:netrw_dirhist_3='/Users/Eric/.dotfiles'
+let g:netrw_dirhist_4='/Users/Eric/.config'
+let g:netrw_dirhist_5='/Users/Eric/Desktop/315-502/projects/p1/src'
