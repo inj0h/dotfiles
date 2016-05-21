@@ -15,8 +15,9 @@ if !has('nvim')
     set laststatus=2                                    " always show bottom status bar
     set mouse=a                                         " enable mouse
     set nocompatible                                    " not compatible with vi
-    set nolazyredraw                                    " redraw lines only when needed
+    set lazyredraw                                      " redraw lines only when needed
     set smarttab                                        " whitespace/tab stuff 
+    set t_Co=256                                            " use 250 terminal colors
     set wildmenu                                        " bash-like tab comp
 endif
 
@@ -36,14 +37,12 @@ set ruler                                               " show file data at bott
 set shiftwidth=4                                        " whitespace/tab stuff
 set showcmd                                             " show commands as typed
 set smartcase                                           " specify casing in searching 
-set nospell
 set splitbelow                                          " always split windows below
 set softtabstop=4                                       " whitespace/tab stuff 
 set showtabline=2                                       " always show tabline
-set t_Co=256                                            " use 250 terminal colors
 set tabstop=4                                           " whitespace/tab stuff
 set textwidth=0                                         " text width (duh)
-set undolevels=50                                       " how much undo remembers 
+set undolevels=100                                      " how much undo remembers 
 set visualbell                                          " please no beeping
 set wildmode=longest,list                               " bash-like tab comp
 set wrap                                                " wrap lines
