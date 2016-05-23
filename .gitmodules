@@ -1,30 +1,27 @@
-[submodule ".vim/bundle/vim-multiple-cursors"]
-	path = .vim/bundle/vim-multiple-cursors
+[submodule ".config/nvim/bundle/vim-multiple-cursors"]
+	path = .config/nvim/bundle/vim-multiple-cursors
 	url = https://github.com/terryma/vim-multiple-cursors.git
-[submodule ".vim/bundle/syntastic"]
-	path = .vim/bundle/syntastic
+[submodule ".config/nvim/bundle/syntastic"]
+	path = .config/nvim/bundle/syntastic
 	url = https://github.com/scrooloose/syntastic.git
-[submodule ".vim/bundle/vim-cpp-enhanced-highlight"]
-	path = .vim/bundle/vim-cpp-enhanced-highlight
-	url = https://github.com/octol/vim-cpp-enhanced-highlight.git
-[submodule ".vim/bundle/vim-surround"]
-	path = .vim/bundle/vim-surround
-	url = https://github.com/tpope/vim-surround.git
-[submodule ".vim/bundle/ctrlp.vim"]
-	path = .vim/bundle/ctrlp.vim
-	url = https://github.com/ctrlpvim/ctrlp.vim.git
-[submodule ".vim/bundle/vim-fugitive"]
-	path = .vim/bundle/vim-fugitive
-	url = https://github.com/tpope/vim-fugitive.git
-[submodule ".vim/bundle/lightline.vim"]
-	path = .vim/bundle/lightline.vim
-	url = https://github.com/itchyny/lightline.vim.git
-[submodule ".vim/vim-javascript-syntax"]
-	path = .vim/vim-javascript-syntax
-	url = https://github.com/jelera/vim-javascript-syntax.git
-[submodule ".vim/bundle/vim-javascript-syntax"]
-	path = .vim/bundle/vim-javascript-syntax
-	url = https://github.com/jelera/vim-javascript-syntax.git
-[submodule ".vim/bundle/SearchComplete"]
-	path = .vim/bundle/SearchComplete
+[submodule ".config/nvim/bundle/SearchComplete"]
+	path = .config/nvim/bundle/SearchComplete
 	url = https://github.com/vim-scripts/SearchComplete.git
+[submodule ".config/nvim/bundle/lightline.vim"]
+	path = .config/nvim/bundle/lightline.vim
+	url = https://github.com/itchyny/lightline.vim.git
+[submodule ".config/nvim/bundle/ctrlp.vim"]
+	path = .config/nvim/bundle/ctrlp.vim
+	url = https://github.com/kien/ctrlp.vim.git
+[submodule ".config/nvim/bundle/vim-cpp-enhanced-highlight"]
+	path = .config/nvim/bundle/vim-cpp-enhanced-highlight
+	url = https://github.com/octol/vim-cpp-enhanced-highlight.git
+[submodule ".config/nvim/bundle/vim-fugitive"]
+	path = .config/nvim/bundle/vim-fugitive
+	url = https://github.com/tpope/vim-fugitive.git
+[submodule ".config/nvim/bundle/vim-javascript-syntax"]
+	path = .config/nvim/bundle/vim-javascript-syntax
+	url = https://github.com/jelera/vim-javascript-syntax.git
+[submodule ".config/nvim/bundle/vim-surround"]
+	path = .config/nvim/bundle/vim-surround
+	url = https://github.com/tpope/vim-surround.git
