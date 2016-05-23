@@ -86,11 +86,14 @@ map <leader>= <c-f>|                                    " page down
 nmap <leader>r :call NormLines()<cr>|                   " change line numbers 
 nmap <leader>t :tabe<cr>|                               " new tab 
 nmap <leader>i 0i<cr><esc>k|                            " insert line
+nmap <leader>[ <c-t>|                                   " return from def ctag
+nmap <leader>] <c-]>|                                   " goto fun def ctag
 
 nmap <leader>s :split<cr>|                              " new window
 nmap <leader>d :e .<cr>|                                " open directory
 nmap <leader>l `.|                                      " jump to last edit 
 
+nmap <leader>c :!ctags -R .|                            " make ctags in dir 
 " et al 
 " ------------------------------------------------------------------------------------------
 " Lightline settings
