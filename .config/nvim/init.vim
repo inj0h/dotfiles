@@ -94,6 +94,7 @@ nmap <leader>d :e .<cr>|                                " open directory
 nmap <leader>l `.|                                      " jump to last edit 
 
 nmap <leader>c :!ctags -R .|                            " make ctags in dir 
+
 " et al 
 " ------------------------------------------------------------------------------------------
 " Lightline settings
