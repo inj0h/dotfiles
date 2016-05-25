@@ -2,6 +2,8 @@
 " ------------------------------------------------------------------------------------------
 execute pathogen#infect()|                              " Pathogen package manager
 
+autocmd! BufWritePost * Neomake                         " Async run Neomake upon write
+
 syntax on                                               " enable syntax check, linting, etc
 filetype plugin on                                      " enable plugins
 filetype plugin indent on                               " enable indent by plugin(s)
