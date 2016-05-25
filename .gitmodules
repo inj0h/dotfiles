@@ -1,9 +1,6 @@
 [submodule ".config/nvim/bundle/vim-multiple-cursors"]
 	path = .config/nvim/bundle/vim-multiple-cursors
 	url = https://github.com/terryma/vim-multiple-cursors.git
-[submodule ".config/nvim/bundle/syntastic"]
-	path = .config/nvim/bundle/syntastic
-	url = https://github.com/scrooloose/syntastic.git
 [submodule ".config/nvim/bundle/SearchComplete"]
 	path = .config/nvim/bundle/SearchComplete
 	url = https://github.com/vim-scripts/SearchComplete.git
@@ -25,3 +22,6 @@
 [submodule ".config/nvim/bundle/vim-surround"]
 	path = .config/nvim/bundle/vim-surround
 	url = https://github.com/tpope/vim-surround.git
+[submodule ".config/nvim/bundle/neomake"]
+	path = .config/nvim/bundle/neomake
+	url = https://github.com/neomake/neomake.git
