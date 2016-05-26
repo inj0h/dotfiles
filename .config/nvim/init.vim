@@ -23,7 +23,7 @@ if !has('nvim')
     set wildmenu                                        " bash-like tab comp
 endif
 
-set autoread                                            " reads external file updates 
+set autoread                                            " reads external file updates
 set clipboard=unnamed                                   " enable clipboard access
 set cursorline                                          " vi knows current line 
 set expandtab                                           " whitespace/tab stuff 
@@ -43,7 +43,7 @@ set splitbelow                                          " always split windows b
 set softtabstop=4                                       " whitespace/tab stuff 
 set showtabline=2                                       " always show tabline
 set tabstop=4                                           " whitespace/tab stuff
-set textwidth=89                                        " text width (duh)
+set textwidth=79                                        " text width (duh)
 set undolevels=100                                      " how much undo remembers 
 set visualbell                                          " please no beeping
 set wildmode=longest,list                               " bash-like tab comp
