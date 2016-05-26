@@ -3,4 +3,4 @@
 set -e
 git add .
 git commit -a -m "autoupdate"
-git push origin alt 
+git push origin internkit 
