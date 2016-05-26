@@ -2,7 +2,7 @@
 " ------------------------------------------------------------------------------------------
 execute pathogen#infect()|                              " Pathogen package manager
 
-autocmd! BufWritePost * Neomake                         " Async run Neomake upon write
+autocmd! BufWritePost * Neomake                         " async run Neomake upon write
 
 syntax on                                               " enable syntax check, linting, etc
 filetype plugin on                                      " enable plugins
@@ -82,6 +82,7 @@ let mapleader = " "|                                    " bind leader to spaceba
 
 nmap <leader>` :e $MYVIMRC<cr>|                         " quick access to this file 
 nmap <leader>1 :!goto_safari<cr>|                       " call appl.scpt
+nmap <leader>2 :!python|                                " quick run/exec *.py 
 map <leader>- <c-b>|                                    " page up
 map <leader>= <c-f>|                                    " page down 
 
