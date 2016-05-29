@@ -2,8 +2,6 @@
 " ------------------------------------------------------------------------------------------
 execute pathogen#infect()|                              " Pathogen package manager
 
-autocmd! BufWritePost * Neomake                         " async run Neomake upon write
-
 syntax on                                               " enable syntax check, linting, etc
 filetype plugin on                                      " enable plugins
 filetype plugin indent on                               " enable indent by plugin(s)
@@ -43,12 +41,14 @@ set splitbelow                                          " always split windows b
 set softtabstop=4                                       " whitespace/tab stuff 
 set showtabline=2                                       " always show tabline
 set tabstop=4                                           " whitespace/tab stuff
-set textwidth=79                                        " text width (duh)
 set undolevels=100                                      " how much undo remembers 
 set visualbell                                          " please no beeping
 set wildmode=longest,list                               " bash-like tab comp
 set wrap                                                " wrap lines
 set wrapmargin=0                                        " warp line margin size
+
+autocmd BufNewFile,BufRead *.py set textwidth=79        " if .py break line after x chars
+autocmd! BufWritePost * Neomake                         " async run Neomake upon write
 
 " aesthetic 
 " ------------------------------------------------------------------------------------------
@@ -81,8 +81,8 @@ imap jj <esc>|                                          " rebind escape to jj
 let mapleader = " "|                                    " bind leader to spacebar
 
 nmap <leader>` :e $MYVIMRC<cr>|                         " quick access to this file 
-nmap <leader>1 :!goto_safari<cr>|                       " call appl.scpt
-nmap <leader>2 :!python|                                " quick run/exec *.py 
+nmap <leader>1 :<c-p><cr>|                              " redo previous command 
+nmap <leader>2 :!goto_safari<cr>|                       " call appl.scpt
 map <leader>- <c-b>|                                    " page up
 map <leader>= <c-f>|                                    " page down 
 
