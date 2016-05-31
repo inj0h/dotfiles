@@ -12,18 +12,19 @@ zstyle ':vcs_info:*' enable git svn hg
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' formats "%{$fg[yellow]%}%c%{$fg[green]%}%u%{$reset_color%} [%{$fg[blue]%}%b%{$reset_color%}] %{$fg[yellow]%}%s%{$reset_color%}:%r"
 precmd() {  # run before each prompt
-  vcs_info
+    vcs_info
 }
 
 # prompt
 setopt PROMPT_SUBST     # allow funky stuff in prompt
+
 color="blue"
 if [ "$USER" = "root" ]; then
     color="red"         # root is red, user is blue
 fi;
-PROMPT="%{$fg[$color]%}%n%{$reset_color%}@%U%{$fg[yellow]%}%m%{$reset_color%}%u %B%~%b
+
+PROMPT="%{$fg[$color]%}%n%{$reset_color%}@%U%{$fg[yellow]%}%m%{$reset_color%}%u %B%~%b \$vcs_info_msg_0_
 %{$fg[$color]%}%#%{$reset_color%} %{$fg[green]%}$ %{$reset_color%}"
-RPROMPT='${vcs_info_msg_0_}'
 
 # ls colors
 export LSCOLORS=exfxdxbxcxegedabagacad                                  
