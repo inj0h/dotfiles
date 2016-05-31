@@ -21,9 +21,9 @@ color="blue"
 if [ "$USER" = "root" ]; then
     color="red"         # root is red, user is blue
 fi;
-PROMPT="%{$fg[$color]%}%n%{$reset_color%}@%U%{$fg[yellow]%}%m%{$reset_color%}%u %B%~%b ${vcs_info_msg_0_}
+PROMPT="%{$fg[$color]%}%n%{$reset_color%}@%U%{$fg[yellow]%}%m%{$reset_color%}%u %B%~%b
 %{$fg[$color]%}%#%{$reset_color%} %{$fg[green]%}$ %{$reset_color%}"
-# RPROMPT='${vcs_info_msg_0_}'
+RPROMPT='${vcs_info_msg_0_}'
 
 #export LSCOLORS=GxFxDxBxCxegedabagacad                                  
 # order of lscolors from left to right..
