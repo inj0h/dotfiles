@@ -82,7 +82,7 @@ imap jj <esc>|                                          " rebind escape to jj
 let mapleader = " "|                                    " bind leader to spacebar
 
 nmap <leader>` :e $MYVIMRC<cr>|                         " quick access to this file 
-nmap <leader>1 :w<cr> :<c-p><cr>|                  " write then redo previous command 
+nmap <leader>1 :w<cr> :<c-p><cr>|                       " write then redo previous command 
 nmap <leader>2 :!goto_safari<cr>|                       " call appl.scpt
 map <leader>- <c-b>|                                    " page up
 map <leader>= <c-f>|                                    " page down 
