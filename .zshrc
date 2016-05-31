@@ -1,13 +1,12 @@
 # general
 # ------------------------------------------------------------------------------------------
+# init 
 autoload -U colors zsh-mime-setup select-word-style
 colors          # colors
 zsh-mime-setup  # run everything as if it's an executable
 select-word-style bash # ctrl+w on words
 
-##
-# Vcs info
-##
+# vcs 
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git svn hg
 zstyle ':vcs_info:*' check-for-changes true
@@ -16,20 +15,30 @@ precmd() {  # run before each prompt
   vcs_info
 }
 
-##
-# Prompt
-##
+# prompt
 setopt PROMPT_SUBST     # allow funky stuff in prompt
 color="blue"
 if [ "$USER" = "root" ]; then
     color="red"         # root is red, user is blue
 fi;
-prompt="%{$fg[$color]%}%n%{$reset_color%}@%U%{$fg[yellow]%}%m%{$reset_color%}%u %T %B%~%b "
-RPROMPT='${vim_mode} ${vcs_info_msg_0_}'
+PROMPT="%{$fg[$color]%}%n%{$reset_color%}@%U%{$fg[yellow]%}%m%{$reset_color%}%u %B%~%b ${vcs_info_msg_0_}
+%{$fg[$color]%}%#%{$reset_color%} %{$fg[green]%}$ %{$reset_color%}"
+# RPROMPT='${vcs_info_msg_0_}'
 
-##
-# Key bindings
-##
+#export LSCOLORS=GxFxDxBxCxegedabagacad                                  
+# order of lscolors from left to right..
+# directory = G
+# symlink = F
+# socket = D
+# pipe = B
+# executable = C
+# B = red 
+# C = green
+# D = brown
+# F = magenta
+# G = cyan
+
+# key bindings
 # Lookup in /etc/termcap or /etc/terminfo else, you can get the right keycode
 # by typing ^v and then type the key or key combination you want to use.
 # "man zshzle" for the list of available actions
@@ -56,3 +65,9 @@ alias linux='ssh -Y eric.chung@linux.cse.tamu.edu'                      # linux 
 # git
 alias git_shove='./.bin/bash/git_shove.sh'                              # quick commit
 alias git_up_subs='git submodule foreach git pull origin master'        # update submods
+
+# init 
+# ------------------------------------------------------------------------------------------
+#export PS1="\u @ \h \w\n$ "                         # prompt
+#export TERM='xterm-256color'                        # terminal type
+printf "Welcome $USER! \xf0\x9f\x98\x84  \n"        # welcome message 

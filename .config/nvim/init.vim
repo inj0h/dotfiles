@@ -41,6 +41,7 @@ set splitbelow                                          " always split windows b
 set softtabstop=4                                       " whitespace/tab stuff 
 set showtabline=2                                       " always show tabline
 set tabstop=4                                           " whitespace/tab stuff
+set textwidth=90                                        " break line after 90 chars
 set undolevels=100                                      " how much undo remembers 
 set visualbell                                          " please no beeping
 set wildmode=longest,list                               " bash-like tab comp
