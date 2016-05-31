@@ -1,6 +1,5 @@
-# general
-# ------------------------------------------------------------------------------------------
 # init 
+# ------------------------------------------------------------------------------------------
 autoload -U colors zsh-mime-setup select-word-style
 colors          # colors
 zsh-mime-setup  # run everything as if it's an executable
@@ -81,7 +80,7 @@ zstyle ':completion:*:*:killall:*' menu yes select
 zstyle ':completion:*:killall:*' force-list always
 users=(jvoisin root)           # because I don't care about others
 zstyle ':completion:*' users $users
-
+zstyle ':completion:*' special-dirs true
 # generic completion with --help
 compdef _gnu_generic gcc
 compdef _gnu_generic gdb
