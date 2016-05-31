@@ -44,9 +44,10 @@ export LSCOLORS=exfxdxbxcxegedabagacad
 # Lookup in /etc/termcap or /etc/terminfo else, you can get the right keycode
 # by typing ^v and then type the key or key combination you want to use.
 # "man zshzle" for the list of available actions
-##
-# Completion
-##
+
+# a lot of stuff that I'm not quite sure of but used anyway 
+# ------------------------------------------------------------------------------------------
+# completion
 autoload -U compinit
 compinit
 zmodload -i zsh/complist        
@@ -80,7 +81,7 @@ zstyle ':completion:*:killall:*' force-list always
 users=(jvoisin root)           # because I don't care about others
 zstyle ':completion:*' users $users
 
-#generic completion with --help
+# generic completion with --help
 compdef _gnu_generic gcc
 compdef _gnu_generic gdb
 
@@ -120,6 +121,7 @@ unsetopt ignore_eof             # do not exit on end-of-file
 unsetopt list_beep              # no bell on ambiguous completion
 unsetopt rm_star_silent         # ask for confirmation for `rm *' or `rm path/*'
 # setxkbmap -option compose:ralt  # compose-key
+# ------------------------------------------------------------------------------------------
 
 # aliases
 # ------------------------------------------------------------------------------------------
