@@ -5,6 +5,7 @@ execute pathogen#infect()|                              " Pathogen package manag
 syntax on                                               " enable syntax linting
 filetype plugin on                                      " enable plugins
 filetype plugin indent on                               " enable indent by plugin(s)
+
 let $BASH_ENV =  "$HOME/.bashrc"                        " talk to .bashrc
 let python_highlight_all = 1                            " better python syntax hilighting
 
@@ -45,9 +46,9 @@ set undolevels=100                                      " how much undo remember
 set visualbell                                          " please no beeping
 set wildmode=list:longest,list                          " bash-like tab comp
 
-"au BufNewFile,BufRead *.py set textwidth=79             " break line = python pep8
-au BufNewFile,BufRead init.vim setlocal textwidth=79    " break line = zshrc 
-au BufNewFile,BufRead .zshrc set textwidth=160          " break line = zshrc 
+" automatic commands
+au BufNewFile,BufRead * set formatoptions+=t            " set textwidth upon init      
+au BufNewFile,BufRead .zshrc set textwidth=159          " break line = zshrc 
 au! BufWritePost * Neomake                              " async run Neomake upon write
 
 " aesthetic 
