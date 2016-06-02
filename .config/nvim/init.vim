@@ -6,6 +6,7 @@ syntax on                                               " enable syntax check, l
 filetype plugin on                                      " enable plugins
 filetype plugin indent on                               " enable indent by plugin(s)
 let $BASH_ENV = "$HOME/.bashrc"                         " talk to .bashrc
+let python_highlight_all = 1                            " better python syntax hilighting
 
 " settings if using regular vim and not nvim
 if !has('nvim') 
