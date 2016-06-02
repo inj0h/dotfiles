@@ -1,11 +1,11 @@
 " general
-" ------------------------------------------------------------------------------------------
+" ----------------------------------------------------------------------------- 
 execute pathogen#infect()|                              " Pathogen package manager
 
-syntax on                                               " enable syntax check, linting, etc
+syntax on                                               " enable syntax linting
 filetype plugin on                                      " enable plugins
 filetype plugin indent on                               " enable indent by plugin(s)
-let $BASH_ENV = "$HOME/.bashrc"                         " talk to .bashrc
+let $BASH_ENV =  "$HOME/.bashrc"                        " talk to .bashrc
 let python_highlight_all = 1                            " better python syntax hilighting
 
 " settings if using regular vim and not nvim
@@ -18,7 +18,7 @@ if !has('nvim')
     set nocompatible                                    " not compatible with vi
     set lazyredraw                                      " redraw lines only when needed
     set smarttab                                        " whitespace/tab stuff 
-    set t_Co=256                                            " use 250 terminal colors
+    set t_Co=256                                        " use 250 terminal colors
     set wildmenu                                        " bash-like tab comp
 endif
 
@@ -28,9 +28,7 @@ set cursorline                                          " vi knows current line
 set expandtab                                           " whitespace/tab stuff 
 set history=100                                         " history log 
 set ignorecase                                          " ignore casing when searching 
-set linebreak                                           " break lines
 set nofoldenable                                        " disable line folding
-set nolist                                              " list disables linebreak
 set number                                              " line numbers
 set numberwidth=5                                       " line number column width
 set relativenumber                                      " relative line numbers
@@ -42,18 +40,18 @@ set splitbelow                                          " always split windows b
 set softtabstop=4                                       " whitespace/tab stuff 
 set showtabline=2                                       " always show tabline
 set tabstop=4                                           " whitespace/tab stuff
-set textwidth=90                                        " break line after 90 chars
+set textwidth=79                                        " break line after 90 chars
 set undolevels=100                                      " how much undo remembers 
 set visualbell                                          " please no beeping
-set wildmode=longest,list                               " bash-like tab comp
-set wrap                                                " wrap lines
-set wrapmargin=0                                        " warp line margin size
+set wildmode=list:longest,list                          " bash-like tab comp
 
-autocmd BufNewFile,BufRead *.py set textwidth=79        " if .py break line after x chars
-autocmd! BufWritePost * Neomake                         " async run Neomake upon write
+"au BufNewFile,BufRead *.py set textwidth=79             " break line = python pep8
+au BufNewFile,BufRead init.vim setlocal textwidth=79    " break line = zshrc 
+au BufNewFile,BufRead .zshrc set textwidth=160          " break line = zshrc 
+au! BufWritePost * Neomake                              " async run Neomake upon write
 
 " aesthetic 
-" ------------------------------------------------------------------------------------------
+" ----------------------------------------------------------------------------- 
 colorscheme badwolf                                     " rad colorscheme 
 
 " color settings
@@ -66,14 +64,14 @@ highlight SignColumn ctermbg=none
 highlight Visual ctermbg=gray ctermfg=none
 
 " functions 
-" ------------------------------------------------------------------------------------------
+" ----------------------------------------------------------------------------- 
 " turn on normal line numbers 
 function! NormLines()
     set relativenumber!
 endfunc
 
 " keybindings
-" ------------------------------------------------------------------------------------------
+" ----------------------------------------------------------------------------- 
 " regular
 nmap ; :|                                               " rebind colon to semicolon
 nmap gs <c-w><c-w>|                                     " better window jumping
@@ -101,7 +99,7 @@ nmap <leader>l `.|                                      " jump to last edit
 nmap <leader>c :!ctags -R .|                            " make ctags in dir 
 
 " et al 
-" ------------------------------------------------------------------------------------------
+" ----------------------------------------------------------------------------- 
 " Lightline settings
 let g:lightline = {
             \ 'colorscheme': 'wombat',

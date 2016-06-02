@@ -1,3 +1,11 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =1
+let g:netrw_dirhist_cnt =9
 let g:netrw_dirhist_1='/Users/eric0112/Desktop/python_prac/dev/parser/tmp'
+let g:netrw_dirhist_2='/Users/eric0112/Desktop/python_prac'
+let g:netrw_dirhist_3='/Users/eric0112/.vim'
+let g:netrw_dirhist_4='/Users/eric0112/Desktop/python_prac/dev/nosetest'
+let g:netrw_dirhist_5='/Users/eric0112/Desktop/python_prac/dev'
+let g:netrw_dirhist_6='/Users/eric0112/Desktop/python_prac'
+let g:netrw_dirhist_7='/Users/eric0112/Desktop/python_prac/dev'
+let g:netrw_dirhist_8='/Users/eric0112/Desktop/python_prac/dev/nosetest'
+let g:netrw_dirhist_9='/Users/eric0112/.dotfiles/.git/modules/.config'

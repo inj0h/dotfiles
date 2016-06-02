@@ -1,5 +1,5 @@
 # init 
-# ------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------
 autoload -U colors zsh-mime-setup select-word-style
 colors          # colors
 zsh-mime-setup  # run everything as if it's an executable
@@ -46,7 +46,7 @@ export LSCOLORS=exfxdxbxcxegedabagacad
 # "man zshzle" for the list of available actions
 
 # a lot of stuff that I'm not quite sure of but used anyway 
-# ------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------
 # completion
 autoload -U compinit
 compinit
@@ -121,10 +121,15 @@ unsetopt ignore_eof             # do not exit on end-of-file
 unsetopt list_beep              # no bell on ambiguous completion
 unsetopt rm_star_silent         # ask for confirmation for `rm *' or `rm path/*'
 # setxkbmap -option compose:ralt  # compose-key
-# ------------------------------------------------------------------------------------------
+
+# ----------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------
 
 # aliases
-# ------------------------------------------------------------------------------------------
+
+
+# ----------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------
 # shopt -s expand_aliases                                                 # vim reads aliases
 
 # general
@@ -147,5 +152,6 @@ alias git_shove='./.bin/bash/git_shove.sh'                              # quick 
 alias git_up_subs='git submodule foreach git pull origin master'        # update submods
 
 # init 
-# ------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------
 printf "Welcome $USER! \xf0\x9f\x98\x84  \n"        # welcome message 
