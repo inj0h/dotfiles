@@ -78,9 +78,10 @@ zstyle ':completion:*:kill:*' force-list always
 zstyle ':completion:*:*:kill:*:processes' list-colors "=(#b) #([0-9]#)*=29=34"
 zstyle ':completion:*:*:killall:*' menu yes select
 zstyle ':completion:*:killall:*' force-list always
-users=(jvoisin root)           # because I don't care about others
+# users=(jvoisin root)           # because I don't care about others
 zstyle ':completion:*' users $users
 zstyle ':completion:*' special-dirs true
+
 # generic completion with --help
 compdef _gnu_generic gcc
 compdef _gnu_generic gdb
@@ -120,17 +121,15 @@ unsetopt hup                    # no hup signal at shell exit
 unsetopt ignore_eof             # do not exit on end-of-file
 unsetopt list_beep              # no bell on ambiguous completion
 unsetopt rm_star_silent         # ask for confirmation for `rm *' or `rm path/*'
-# setxkbmap -option compose:ralt  # compose-key
+# setxkbmap -option compose:ralt  # compose-key... shell doesn't seem to like this
 
 # aliases
 # ------------------------------------------------------------------------------ 
-# shopt -s expand_aliases                                                 # vim reads aliases
-
 # general
 alias emacs='printf "\xf0\x9f\x98\x90  Dont do that.\n"'                # fun
 alias ls='ls -aGh'                                   
 alias vi=/usr/local/Cellar/neovim/0.1.4/bin/nvim                        # lazy nvim
-alias vim=/usr/local/Cellar/vim/7.4.1847_1/bin/vim                        # lazy Cellar vim 
+alias vim=/usr/local/Cellar/vim/7.4.1847_1/bin/vim                      # lazy Cellar vim 
 
 # apple scripts 
 alias goto_safari='cd; cd .bin/appl/; osascript goto_safari.scpt'
