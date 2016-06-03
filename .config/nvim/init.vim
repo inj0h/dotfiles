@@ -1,5 +1,5 @@
 " general
-" ----------------------------------------------------------------------------- 
+" ------------------------------------------------------------------------------ 
 execute pathogen#infect()|                              " Pathogen package manager
 
 syntax on                                               " enable syntax linting
@@ -47,32 +47,32 @@ set visualbell                                          " please no beeping
 set wildmode=list:longest,list                          " bash-like tab comp
 
 " automatic commands
-au BufNewFile,BufRead * set formatoptions+=t            " set textwidth upon init      
-au BufNewFile,BufRead .zshrc set textwidth=159          " break line = zshrc 
+au BufNewFile,BufRead * set formatoptions+=t            " set textwidth for code, not comments
+au BufNewFile,BufRead .zshrc set textwidth=159          " double textwidth for zshrc 
 au! BufWritePost * Neomake                              " async run Neomake upon write
 
 " aesthetic 
-" ----------------------------------------------------------------------------- 
+" ------------------------------------------------------------------------------ 
 colorscheme badwolf                                     " rad colorscheme 
 
-" color settings
-highlight CursorLine ctermbg=none ctermfg=none
-highlight CursorLineNR ctermbg=gray ctermfg=black
-highlight LineNr ctermbg=darkgray ctermfg=white
-highlight MatchParen cterm=none ctermbg=gray 
-highlight Normal ctermbg=none ctermfg=none
-highlight SignColumn ctermbg=none
-highlight Visual ctermbg=gray ctermfg=none
+" hilight color settings
+hi CursorLine ctermbg=none ctermfg=none
+hi CursorLineNR ctermbg=gray ctermfg=black
+hi LineNr ctermbg=darkgray ctermfg=white
+hi MatchParen cterm=none ctermbg=gray 
+hi Normal ctermbg=none ctermfg=none
+hi SignColumn ctermbg=none
+hi Visual ctermbg=gray ctermfg=none
 
 " functions 
-" ----------------------------------------------------------------------------- 
+" ------------------------------------------------------------------------------ 
 " turn on normal line numbers 
 function! NormLines()
     set relativenumber!
 endfunc
 
 " keybindings
-" ----------------------------------------------------------------------------- 
+" ------------------------------------------------------------------------------ 
 " regular
 nmap ; :|                                               " rebind colon to semicolon
 nmap gs <c-w><c-w>|                                     " better window jumping
@@ -100,7 +100,7 @@ nmap <leader>l `.|                                      " jump to last edit
 nmap <leader>c :!ctags -R .|                            " make ctags in dir 
 
 " et al 
-" ----------------------------------------------------------------------------- 
+" ------------------------------------------------------------------------------ 
 " Lightline settings
 let g:lightline = {
             \ 'colorscheme': 'wombat',

@@ -1,5 +1,7 @@
-# general 
-# ------------------------------------------------------------------------------------------
+# ~/.bashrc
+# ------------------------------------------------------------------------------ 
+export PS1="\u @ \h \w\n$ "                                             # prompt
+export TERM='xterm-256color'                                            # terminal type
 export CLICOLOR=1
 export LSCOLORS=GxFxDxBxCxegedabagacad                                  
 # order of lscolors from left to right..
@@ -15,14 +17,14 @@ export LSCOLORS=GxFxDxBxCxegedabagacad
 # G = cyan
 
 # aliases
-# ------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------ 
 shopt -s expand_aliases                                                 # vim reads aliases
 
 # general
 alias emacs='printf "\xf0\x9f\x98\x90  Dont do that.\n"'                # fun
 alias ls='ls -aGh'                                   
 alias vi=/usr/local/Cellar/neovim/0.1.4/bin/nvim                        # lazy nvim
-alias vim=/usr/local/Cellar/vim/7.4.1847_1/bin/vim                        # lazy Cellar vim 
+alias vim=/usr/local/Cellar/vim/7.4.1847_1/bin/vim                      # lazy Cellar vim 
 
 # apple scripts 
 alias goto_safari='cd; cd .bin/appl/; osascript goto_safari.scpt'
