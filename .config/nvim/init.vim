@@ -27,12 +27,11 @@ set autoread                                            " reads external file up
 set clipboard=unnamed                                   " enable clipboard access
 set cursorline                                          " vi knows current line 
 set expandtab                                           " whitespace/tab stuff 
+set foldcolumn=1
 set history=100                                         " history log 
 set ignorecase                                          " ignore casing when searching 
 set nofoldenable                                        " disable line folding
-set number                                              " line numbers
 set numberwidth=5                                       " line number column width
-set relativenumber                                      " relative line numbers
 set ruler                                               " show file data at bottom right
 set shiftwidth=4                                        " whitespace/tab stuff
 set showcmd                                             " show commands as typed
@@ -55,9 +54,10 @@ au! BufWritePost * Neomake                              " async run Neomake upon
 " ------------------------------------------------------------------------------ 
 colorscheme badwolf                                     " rad colorscheme 
 
-" hilight color settings
-hi CursorLine ctermbg=none ctermfg=none
+" highlight color settings
+hi CursorLine ctermbg=gray ctermfg=black
 hi CursorLineNR ctermbg=gray ctermfg=black
+hi FoldColumn ctermbg=none
 hi LineNr ctermbg=darkgray ctermfg=white
 hi MatchParen cterm=none ctermbg=gray 
 hi Normal ctermbg=none ctermfg=none
@@ -66,9 +66,24 @@ hi Visual ctermbg=gray ctermfg=none
 
 " functions 
 " ------------------------------------------------------------------------------ 
-" turn on normal line numbers 
-function! NormLines()
+" turn on and toggle line numbers 
+function! OnLines()
+    set foldcolumn=0
     set relativenumber!
+    if (&number == 0)
+        set number
+    endif 
+endfunc
+
+" turn off line numbers 
+function! OffLines()
+    set foldcolumn=1
+    if (&relativenumber == 1)
+        set relativenumber!
+    endif
+    if (&number == 1)
+        set number!
+    endif
 endfunc
 
 " keybindings
@@ -82,22 +97,28 @@ imap jj <esc>|                                          " rebind escape to jj
 let mapleader = " "|                                    " bind leader to spacebar
 
 nmap <leader>` :e $MYVIMRC<cr>|                         " quick access to this file 
-nmap <leader>1 :w<cr> :<c-p><cr>|                       " write then redo previous command 
-nmap <leader>2 :!goto_safari<cr>|                       " call appl.scpt
+nmap <leader>0 zz                                       " recenter window
 map <leader>- <c-b>|                                    " page up
 map <leader>= <c-f>|                                    " page down 
 
-nmap <leader>r :call NormLines()<cr>|                   " change line numbers 
+nmap <leader>q :qall<cr>|                               " quit if everything is saved
+nmap <leader>w :!goto_safari<cr>|                       " call appl.scpt
+nmap <leader>e :w<cr> :<c-p><cr>|                       " write then redo prev command 
 nmap <leader>t :tabe<cr>|                               " new tab 
 nmap <leader>i 0i<cr><esc>k|                            " insert line
 nmap <leader>[ <c-t>|                                   " return from def ctag
-nmap <leader>] <c-]>|                                   " goto fun def ctag
+nmap <leader>] <c-]>|                                   " goto function def ctag
 
 nmap <leader>s :split<cr>|                              " new window
 nmap <leader>d :e .<cr>|                                " open directory
+nmap <leader>f /|                                       " forward search
+nmap <leader>F ?|                                       " backward search
+nmap <leader>h :noh<cr>|                                " unmark search highlights
 nmap <leader>l `.|                                      " jump to last edit 
 
 nmap <leader>c :!ctags -R .|                            " make ctags in dir 
+nmap <leader>n :call OnLines()<cr>|                     " call function 
+nmap <leader>N :call OffLines()<cr>|                    " call function 
 
 " et al 
 " ------------------------------------------------------------------------------ 
