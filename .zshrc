@@ -128,6 +128,8 @@ unsetopt rm_star_silent         # ask for confirmation for `rm *' or `rm path/*'
 # general
 alias emacs='printf "\xf0\x9f\x98\x90  Dont do that.\n"'                # fun
 alias ls='ls -aGh'                                   
+alias ls1='ls -aGh1'                                   
+alias lsl='ls -aGhl'                                   
 alias vi=/usr/local/Cellar/neovim/0.1.4/bin/nvim                        # lazy nvim
 alias vim=/usr/local/Cellar/vim/7.4.1847_1/bin/vim                      # lazy Cellar vim 
 
@@ -137,9 +139,15 @@ alias goto_safari='cd; cd .bin/appl/; osascript goto_safari.scpt'
 # utility scripts 
 
 # ssh 
+# tamu
 alias compute='ssh -Y eric.chung@compute.cse.tamu.edu'                  # compute server
 alias linux='ssh -Y eric.chung@linux.cse.tamu.edu'                      # linux server
+# et al
+if [ -f ~/.ssh_aliases ]; 
+then
+    source ~/.ssh_aliases
+fi
 
 # git
-alias git_shove='./.bin/bash/git_shove.sh'                              # quick commit
+alias git_shove='./.bin/shell/git_shove.sh'                              # quick commit
 alias git_up_subs='git submodule foreach git pull origin master'        # update submods
