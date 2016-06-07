@@ -133,10 +133,10 @@ alias lsl='ls -aGhl'
 alias vi=/usr/local/Cellar/neovim/0.1.4/bin/nvim                        # lazy nvim
 alias vim=/usr/local/Cellar/vim/7.4.1847_1/bin/vim                      # lazy Cellar vim 
 
-# apple scripts 
-alias goto_safari='cd; cd .bin/appl/; osascript goto_safari.scpt'
-
 # utility scripts 
+# apple scriptsj
+alias quit_all='cd; cd .bin/appl/; osascript goto_safari.scpt'
+alias goto_safari='cd; cd .bin/appl/; osascript goto_safari.scpt'
 
 # ssh 
 # tamu
@@ -151,3 +151,5 @@ fi
 # git
 alias git_shove='./.bin/shell/git_shove.sh'                              # quick commit
 alias git_up_subs='git submodule foreach git pull origin master'        # update submods
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
