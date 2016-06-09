@@ -1,10 +1,5 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =8
-let g:netrw_dirhist_1='/Users/eric0112/.internship/repos/cbs-salt/files/base'
-let g:netrw_dirhist_2='/Users/eric0112/.internship/repos/cbs-salt/files'
-let g:netrw_dirhist_3='/Users/eric0112/.internship/repos/cbs-salt'
-let g:netrw_dirhist_4='/Users/eric0112/.internship/repos'
-let g:netrw_dirhist_5='/Users/eric0112/.internship'
-let g:netrw_dirhist_6='/Users/eric0112'
-let g:netrw_dirhist_7='/Users/eric0112/.dotfiles/.bin/appl'
-let g:netrw_dirhist_8='/Users/eric0112'
+let g:netrw_dirhist_cnt =3
+let g:netrw_dirhist_1='/Users/eric0112/.dotfiles/.config'
+let g:netrw_dirhist_2='/Users/eric0112/.dotfiles/.config/nvim'
+let g:netrw_dirhist_3='/Users/eric0112/.internship/repos/cbs-salt/files/base/common/home/eric0112'

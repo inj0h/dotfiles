@@ -128,8 +128,9 @@ unsetopt rm_star_silent         # ask for confirmation for `rm *' or `rm path/*'
 # general
 alias emacs='printf "\xf0\x9f\x98\x90  Dont do that.\n"'                # fun
 alias ls='ls -aGh'                                   
-alias ls1='ls -aGh1'                                   
-alias lsl='ls -aGhl'                                   
+alias ll='ls -aGh1'                                   
+alias lv='ls -aGhl'                                   
+alias p='ps'                                   
 alias vi=/usr/local/Cellar/neovim/0.1.4/bin/nvim                        # lazy nvim
 alias vim=/usr/local/Cellar/vim/7.4.1847_1/bin/vim                      # lazy Cellar vim 
 
