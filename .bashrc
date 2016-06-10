@@ -24,7 +24,7 @@ shopt -s expand_aliases                                                 # vim re
 alias emacs='printf "\xf0\x9f\x98\x90  Dont do that.\n"'                # fun
 alias ls='ls -aGh'                                   
 alias vi=/usr/local/Cellar/neovim/0.1.4/bin/nvim                        # lazy nvim
-alias vim=/usr/local/Cellar/vim/7.4.1847_1/bin/vim                      # lazy Cellar vim 
+alias vim=/usr/local/Cellar/vim/7.4.1910/bin/vim                      # lazy Cellar vim 
 
 # apple scripts 
 alias goto_safari='cd; cd .bin/appl/; osascript goto_safari.scpt'

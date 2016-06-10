@@ -101,8 +101,8 @@ let mapleader = " "|                                    " bind leader to spaceba
 map <leader>- <c-b>|                                    " page up
 map <leader>= <c-f>|                                    " page down
 
-map <leader>j 10j<cr>|                                  " far jump down
-map <leader>k 10k<cr>|                                  " far jump up
+map <leader>j 10j<cr>|                                  " jump 10 lines down
+map <leader>k 10k<cr>|                                  " jump 10 lines up
 
 " normal 
 nmap <leader>` :e $MYVIMRC<cr>|                         " quick access to this file
