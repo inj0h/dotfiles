@@ -34,6 +34,7 @@ set ignorecase                                          " ignore casing when sea
 set nofoldenable                                        " disable line folding
 set numberwidth=5                                       " line number column width
 set ruler                                               " show file data at bottom right
+set shell=zsh\ -l
 set shiftwidth=4                                        " whitespace/tab stuff
 set showcmd                                             " show commands as typed
 set smartcase                                           " specify casing in searching 
@@ -109,6 +110,7 @@ nmap <leader>` :e $MYVIMRC<cr>|                         " quick access to this f
 nmap <leader>0 zz                                       " recenter window
 nmap <leader>1 :Explore<cr>|                            " open netrw file tree
 nmap <leader>3 :!ctags -R .|                            " make ctags in dir
+nmap <leader>9 :e $CLIS<cr>|                            " make ctags in dir
 
 nmap <leader>q :qall<cr>|                               " quit if everything is saved
 nmap <leader>w :!goto_safari<cr>|                       " call appl.scpt

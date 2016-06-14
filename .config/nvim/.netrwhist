@@ -1,4 +1,9 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =2
+let g:netrw_dirhist_cnt =7
 let g:netrw_dirhist_1='/Users/eric0112'
 let g:netrw_dirhist_2='scp://eric0112@cbsadmin1.dfw2.lunr.racklabs.com/'
+let g:netrw_dirhist_3='/Users/eric0112'
+let g:netrw_dirhist_4='/Users/eric0112/.dotfiles/.config/nvim'
+let g:netrw_dirhist_5='/Users/eric0112/.dotfiles/.config'
+let g:netrw_dirhist_6='/Users/eric0112/.dotfiles'
+let g:netrw_dirhist_7='/Users/eric0112/.dotfiles/.config/nvim'
