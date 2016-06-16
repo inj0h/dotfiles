@@ -4,6 +4,10 @@
 # variables 
 # ------------------------------------------------------------------------------ 
 export CLIS='~/.internship/.clis'
+export FZF_DEFAULT_OPTS='
+--color fg:252,bg:233,hl:67,fg+:252,bg+:235,hl+:81
+--color info:144,prompt:161,spinner:135,pointer:135,marker:118'         # fzf colors (monokai)
+export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -f -g ""'         # fzf search 
 
 # aliases
 # ------------------------------------------------------------------------------ 
@@ -14,7 +18,7 @@ alias ll='ls -aGh1'
 alias lv='ls -aGhl'                                   
 alias p='ps'                                   
 alias vi=/usr/local/Cellar/neovim/0.1.4/bin/nvim                        # lazy nvim
-alias vim=/usr/local/Cellar/vim/7.4.1910/bin/vim                      # lazy Cellar vim 
+alias vim=/usr/local/Cellar/vim/7.4.1910/bin/vim                        # lazy Cellar vim 
 
 # utility scripts 
 # apple scripts
@@ -32,7 +36,7 @@ then
 fi
 
 # git
-alias git_shove='./.bin/shell/git_shove.sh'                              # quick commit
+alias git_shove='./.bin/shell/git_shove.sh'                             # quick commit
 alias git_up_subs='git submodule foreach git pull origin master'        # update submods
 
 # shell integration

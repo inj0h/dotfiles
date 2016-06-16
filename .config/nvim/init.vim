@@ -28,12 +28,12 @@ set autoread                                            " reads external file up
 set clipboard=unnamed                                   " enable clipboard access
 set cursorline                                          " vi knows current line 
 set expandtab                                           " whitespace/tab stuff 
-set foldcolumn=1
+set foldcolumn=1                                        " single whitespace indentation on left margin
 set history=100                                         " history log 
 set ignorecase                                          " ignore casing when searching 
 set nofoldenable                                        " disable line folding
 set numberwidth=5                                       " line number column width
-set rtp+=~/.fzf
+set rtp+=/usr/local/opt/fzf                             " fzf plugin path
 set ruler                                               " show file data at bottom right
 set shell=zsh\ -l
 set shiftwidth=4                                        " whitespace/tab stuff
@@ -97,7 +97,7 @@ nmap ; :|                                               " rebind colon to semico
 nmap gs <c-w><c-w>|                                     " better window jumping
 
 " leader
-let mapleader = " "|                                    " bind leader to spacebar
+let mapleader = "\<space>"|                             " bind leader to spacebar
 
 " global 
 map <leader>- <c-b>|                                    " page up
@@ -109,7 +109,8 @@ map <leader>k 10k<cr>|                                  " jump 10 lines up
 " normal 
 nmap <leader>` :e $MYVIMRC<cr>|                         " quick access to this file
 nmap <leader>0 zz                                       " recenter window
-nmap <leader>1 :Explore<cr>|                            " open netrw file tree
+nmap <leader>2 :Explore<cr>|                            " open file tree
+nmap <leader>@ :Explore scp://<cr>|                     " open remote file tree 
 nmap <leader>3 :!ctags -R .|                            " make ctags in dir
 nmap <leader>9 :e $CLIS<cr>|                            " make ctags in dir
 
@@ -135,6 +136,9 @@ nmap <leader>N :call OffLines()<cr>|                    " call function
 " ------------------------------------------------------------------------------ 
 " Multiple Cursors bindings
 let g:multi_cursor_quit_key='q'
+
+" fzf settings
+let g:fzf_layout = { 'down': '~25%' }
 
 " Lightline settings
 let g:lightline = {
