@@ -33,6 +33,7 @@ set history=100                                         " history log
 set ignorecase                                          " ignore casing when searching 
 set nofoldenable                                        " disable line folding
 set numberwidth=5                                       " line number column width
+set rtp+=~/.fzf
 set ruler                                               " show file data at bottom right
 set shell=zsh\ -l
 set shiftwidth=4                                        " whitespace/tab stuff

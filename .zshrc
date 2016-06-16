@@ -122,3 +122,5 @@ unsetopt ignore_eof             # do not exit on end-of-file
 unsetopt list_beep              # no bell on ambiguous completion
 unsetopt rm_star_silent         # ask for confirmation for `rm *' or `rm path/*'
 # setxkbmap -option compose:ralt  # compose-key... shell doesn't seem to like this
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh  # fzf
