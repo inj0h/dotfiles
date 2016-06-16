@@ -69,25 +69,7 @@ hi Visual ctermbg=lightgray ctermfg=black
 
 " functions 
 " ------------------------------------------------------------------------------ 
-" turn on and toggle line numbers 
-function! OnLines()
-    set foldcolumn=0
-    set relativenumber!
-    if (&number == 0)
-        set number
-    endif 
-endfunc
-
-" turn off line numbers 
-function! OffLines()
-    set foldcolumn=1
-    if (&relativenumber == 1)
-        set relativenumber!
-    endif
-    if (&number == 1)
-        set number!
-    endif
-endfunc
+" none atm 
 
 " keybindings
 " ------------------------------------------------------------------------------ 
@@ -119,6 +101,7 @@ nmap <leader>w :!goto_safari<cr>|                       " call appl.scpt
 nmap <leader>e :w<cr> :<c-p><cr>|                       " write then redo prev command
 nmap <leader>t :tabnew<cr>:Explore .<cr>|               " new tab
 nmap <leader>i 0i<cr><esc>k|                            " insert line
+nmap <leader>p :Files |                                 " fzf by file
 nmap <leader>[ <c-t>|                                   " return from def ctag
 nmap <leader>] <c-]>|                                   " goto function def ctag
 
@@ -129,8 +112,6 @@ nmap <leader>l `.|                                      " jump to last edit
 
 nmap <leader>b :buffers <cr>|                           " see buffers
 nmap <leader>B :bd |                                    " see buffers
-nmap <leader>n :call OnLines()<cr>|                     " call function 
-nmap <leader>N :call OffLines()<cr>|                    " call function 
 
 " plugins, et al 
 " ------------------------------------------------------------------------------ 
