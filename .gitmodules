@@ -1,18 +1,12 @@
 [submodule ".config/nvim/bundle/vim-multiple-cursors"]
 	path = .config/nvim/bundle/vim-multiple-cursors
 	url = https://github.com/terryma/vim-multiple-cursors.git
-[submodule ".config/nvim/bundle/syntastic"]
-	path = .config/nvim/bundle/syntastic
-	url = https://github.com/scrooloose/syntastic.git
 [submodule ".config/nvim/bundle/SearchComplete"]
 	path = .config/nvim/bundle/SearchComplete
 	url = https://github.com/vim-scripts/SearchComplete.git
 [submodule ".config/nvim/bundle/lightline.vim"]
 	path = .config/nvim/bundle/lightline.vim
 	url = https://github.com/itchyny/lightline.vim.git
-[submodule ".config/nvim/bundle/ctrlp.vim"]
-	path = .config/nvim/bundle/ctrlp.vim
-	url = https://github.com/kien/ctrlp.vim.git
 [submodule ".config/nvim/bundle/vim-cpp-enhanced-highlight"]
 	path = .config/nvim/bundle/vim-cpp-enhanced-highlight
 	url = https://github.com/octol/vim-cpp-enhanced-highlight.git
