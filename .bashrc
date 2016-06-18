@@ -34,3 +34,6 @@ alias linux='ssh -Y eric.chung@linux.cse.tamu.edu'                      # linux 
 # git
 alias git_shove='./.bin/bash/git_shove.sh'                              # quick commit
 alias git_up_subs='git submodule foreach git pull origin master'        # update submods
+
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

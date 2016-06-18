@@ -25,3 +25,15 @@
 [submodule ".config/nvim/bundle/vim-surround"]
 	path = .config/nvim/bundle/vim-surround
 	url = https://github.com/tpope/vim-surround.git
+[submodule ".config/nvim/bundle/fzf.vim"]
+	path = .config/nvim/bundle/fzf.vim
+	url = https://github.com/junegunn/fzf.vim.git
+[submodule ".config/nvim/bundle/neomake"]
+	path = .config/nvim/bundle/neomake
+	url = https://github.com/neomake/neomake.git
+[submodule ".config/nvim/bundle/python-syntax"]
+	path = .config/nvim/bundle/python-syntax
+	url = https://github.com/hdima/python-syntax.git
+[submodule ".config/nvim/bundle/vim-python-pep8-indent"]
+	path = .config/nvim/bundle/vim-python-pep8-indent
+	url = https://github.com/hynek/vim-python-pep8-indent.git
