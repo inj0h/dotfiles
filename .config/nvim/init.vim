@@ -28,12 +28,12 @@ set autoread                                            " reads external file up
 set clipboard=unnamed                                   " enable clipboard access
 set cursorline                                          " vi knows current line 
 set expandtab                                           " whitespace/tab stuff 
-set foldcolumn=1                                        " single whitespace indentation on left margin
+set foldcolumn=1                                        " 1 whitespace indent on left margin
 set history=100                                         " history log 
 set ignorecase                                          " ignore casing when searching 
 set nofoldenable                                        " disable line folding
 set numberwidth=5                                       " line number column width
-set rtp+=/usr/local/opt/fzf                             " fzf plugin path
+set rtp+=/usr/local/opt/fzf/                            " fzf plugin path
 set ruler                                               " show file data at bottom right
 set shell=zsh\ -l
 set shiftwidth=4                                        " whitespace/tab stuff
@@ -94,14 +94,14 @@ nmap <leader>0 zz                                       " recenter window
 nmap <leader>2 :Explore<cr>|                            " open file tree
 nmap <leader>@ :Explore scp://<cr>|                     " open remote file tree 
 nmap <leader>3 :!ctags -R .|                            " make ctags in dir
-nmap <leader>9 :e $CLIS<cr>|                            " make ctags in dir
 
 nmap <leader>q :qall<cr>|                               " quit if everything is saved
 nmap <leader>w :!goto_safari<cr>|                       " call appl.scpt
 nmap <leader>e :w<cr> :<c-p><cr>|                       " write then redo prev command
 nmap <leader>t :tabnew<cr>:Explore .<cr>|               " new tab
 nmap <leader>i 0i<cr><esc>k|                            " insert line
-nmap <leader>p :Files |                                 " fzf by file
+nmap <leader>p :Files /Users/<cr>|                      " fzf from /Users 
+nmap <leader>P :Files /|                                " fzf from / 
 nmap <leader>[ <c-t>|                                   " return from def ctag
 nmap <leader>] <c-]>|                                   " goto function def ctag
 
@@ -115,13 +115,13 @@ nmap <leader>B :bd |                                    " see buffers
 
 " plugins, et al 
 " ------------------------------------------------------------------------------ 
-" Multiple Cursors bindings
+" multiple cursors bindings
 let g:multi_cursor_quit_key='q'
 
 " fzf settings
 let g:fzf_layout = { 'down': '~25%' }
 
-" Lightline settings
+" lightline settings
 let g:lightline = {
             \ 'colorscheme': 'wombat',
             \ 'active' : {
