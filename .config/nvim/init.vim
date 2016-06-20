@@ -35,7 +35,6 @@ set nofoldenable                                        " disable line folding
 set numberwidth=5                                       " line number column width
 set rtp+=/usr/local/opt/fzf                             " fzf plugin path
 set ruler                                               " show line+column at bottom right
-set guitablabel=%t
 set shell=zsh\ -l
 set shiftwidth=4                                        " whitespace/tab stuff
 set showcmd                                             " show commands as typed
@@ -83,37 +82,39 @@ nmap gs <c-w><c-w>|                                     " better window jumping
 let mapleader = "\<space>"|                             " bind leader to spacebar
 
 " global 
-map <leader>- <c-b>|                                    " page up
-map <leader>= <c-f>|                                    " page down
+noremap <leader>- <c-b>|                                " page up
+noremap <leader>= <c-f>|                                " page down
 
-map <leader>j 10j<cr>|                                  " jump 10 lines down
-map <leader>k 10k<cr>|                                  " jump 10 lines up
+noremap <leader>j 10j<cr>|                              " jump 10 lines down
+noremap <leader>k 10k<cr>|                              " jump 10 lines up
 
 " normal 
-nmap <leader>` :e $MYVIMRC<cr>|                         " quick access to this file
-nmap <leader>0 zz                                       " recenter window
-nmap <leader>2 :Explore<cr>|                            " open file tree
-nmap <leader>@ :Explore scp://<cr>|                     " open remote file tree 
-nmap <leader>3 :!ctags -R .|                            " make ctags in dir
-nmap <leader>9 :e $CLIS<cr>|                            " make ctags in dir
+nnoremap <leader>` :e $MYVIMRC<cr>|                     " quick access to this file
+nnoremap <leader>0 zz                                   " recenter window
+nnoremap <leader>1 :Explore<cr>|                        " open file tree
+nnoremap <leader>! :Explore scp://<cr>|                 " open remote file tree 
+nnoremap <leader>2 @@|                                  " replay macro q
+nnoremap <leader>@ @q|                                  " play macro q
+nnoremap <leader>3 :!ctags -R .|                        " make ctags in dir
+nnoremap <leader>9 :e $CLIS<cr>|                        " make ctags in dir
 
-nmap <leader>Q :qall<cr>|                               " quit if everything is saved
-nmap <leader>w :!goto_safari<cr>|                       " call appl.scpt
-nmap <leader>e :w<cr> :<c-p><cr>|                       " write then redo prev command
-nmap <leader>t :tabnew<cr>:Explore .<cr>|               " new tab
-nmap <leader>i 0i<cr><esc>k|                            " insert line
-nmap <leader>p :Files /Users/eric0112/<cr>|             " fzf by file
-nmap <leader>P :Files /|                                " fzf by file
-nmap <leader>[ <c-t>|                                   " return from def ctag
-nmap <leader>] <c-]>|                                   " goto function def ctag
+nnoremap <leader>Q :qall<cr>|                           " quit if everything is saved
+nnoremap <leader>w :!goto_safari<cr>|                   " call appl.scpt
+nnoremap <leader>r :w<cr> :<c-p><cr>|                   " write then redo prev command
+nnoremap <leader>t :tabnew<cr>:Explore .<cr>|           " new tab
+nnoremap <leader>i 0i<cr><esc>k|                        " insert line
+nnoremap <leader>p :Files /Users/eric0112/<cr>|         " fzf by file
+nnoremap <leader>P :Files /|                            " fzf by file
+nnoremap <leader>[ <c-t>|                               " return from def ctag
+nnoremap <leader>] <c-]>|                               " goto function def ctag
 
-nmap <leader>s :split<cr>|                              " new window
-nmap <leader>f /|                                       " forward search
-nmap <leader>F :noh<cr>|                                " undo serach highlighting 
-nmap <leader>l `.|                                      " jump to last edit 
+nnoremap <leader>s :split<cr>|                          " new window
+nnoremap <leader>f /|                                   " forward search
+nnoremap <leader>F :noh<cr>|                            " undo serach highlighting 
+nnoremap <leader>l `.|                                  " jump to last edit 
 
-nmap <leader>b :buffers <cr>|                           " see buffers
-nmap <leader>B :bd |                                    " see buffers
+nnoremap <leader>b :buffers <cr>|                       " see buffers
+nnoremap <leader>B :bd |                                " see buffers
 
 " plugins, et al 
 " ------------------------------------------------------------------------------ 
@@ -127,7 +128,7 @@ let g:fzf_layout = { 'down': '~25%' }
 let g:lightline = {
             \ 'colorscheme': 'wombat',
             \ 'active' : {
-            \ 'left': [ [ 'mode', 'paste' ],
+            \ 'left': [ ['paste' ],
             \           [ 'readonly', 'filename', 'modified' ] ],
             \ 'right': [ [ 'lineinfo' ],
             \            [ 'percent' ],
