@@ -1,5 +1,8 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =3
+let g:netrw_dirhist_cnt =6
 let g:netrw_dirhist_1='/Users/eric0112'
-let g:netrw_dirhist_2='/Users/eric0112/.internship/cbs-salt-etc/cbs-salt/modules/pillar'
+let g:netrw_dirhist_2='/Users/eric0112/.dotfiles'
 let g:netrw_dirhist_3='/Users/eric0112'
+let g:netrw_dirhist_4='/Users/eric0112/.dotfiles'
+let g:netrw_dirhist_5='/Users/eric0112'
+let g:netrw_dirhist_6='/Users/eric0112/.dotfiles'

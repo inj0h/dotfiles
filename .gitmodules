@@ -28,3 +28,6 @@
 [submodule ".config/nvim/bundle/fzf.vim"]
 	path = .config/nvim/bundle/fzf.vim
 	url = https://github.com/junegunn/fzf.vim.git
+[submodule ".config/nvim/bundle/lightline.vim"]
+	path = .config/nvim/bundle/lightline.vim
+	url = https://github.com/itchyny/lightline.vim.git

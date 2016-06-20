@@ -34,7 +34,8 @@ set ignorecase                                          " ignore casing when sea
 set nofoldenable                                        " disable line folding
 set numberwidth=5                                       " line number column width
 set rtp+=/usr/local/opt/fzf                             " fzf plugin path
-set ruler                                               " show file data at bottom right
+set ruler                                               " show line+column at bottom right
+set guitablabel=%t
 set shell=zsh\ -l
 set shiftwidth=4                                        " whitespace/tab stuff
 set showcmd                                             " show commands as typed
@@ -61,11 +62,11 @@ colorscheme badwolf                                     " rad colorscheme
 hi CursorLine ctermbg=gray ctermfg=black
 hi CursorLineNR ctermbg=gray ctermfg=black
 hi FoldColumn ctermbg=none
-hi LineNr ctermbg=darkgray ctermfg=white
 hi MatchParen ctermbg=red ctermfg=none
 hi Normal ctermbg=none ctermfg=none
 hi SignColumn ctermbg=none
-hi Visual ctermbg=lightgray ctermfg=black
+hi StatusLine ctermbg=none ctermfg=gray
+hi Visual ctermbg=gray ctermfg=black
 
 " functions 
 " ------------------------------------------------------------------------------ 
@@ -121,3 +122,19 @@ let g:multi_cursor_quit_key='q'
 
 " fzf settings
 let g:fzf_layout = { 'down': '~25%' }
+
+" Lightline settings
+let g:lightline = {
+            \ 'colorscheme': 'wombat',
+            \ 'active' : {
+            \ 'left': [ [ 'mode', 'paste' ],
+            \           [ 'readonly', 'filename', 'modified' ] ],
+            \ 'right': [ [ 'lineinfo' ],
+            \            [ 'percent' ],
+            \            [ 'fileformat', 'fileencoding', 'filetype' ] ] ,
+            \ },
+            \ 'tabline': {
+            \ 'left': [ [ 'tabs' ] ],
+            \ 'right': [ [ ] ] 
+            \ },
+            \ }
