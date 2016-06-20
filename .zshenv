@@ -17,8 +17,8 @@ alias ls='ls -aGh'
 alias ll='ls -aGh1'                                   
 alias lv='ls -aGhl'                                   
 alias p='ps'                                   
-alias vi=/usr/local/Cellar/neovim/0.1.4/bin/nvim                        # lazy nvim
-alias vim=/usr/local/Cellar/vim/7.4.1910/bin/vim                        # lazy Cellar vim 
+alias vi=/usr/local/opt/neovim/bin/nvim                                 # lazy nvim
+alias vim=/usr/local/opt/vim/bin/vim                                    # lazy Cellar vim 
 
 # utility scripts 
 # apple scripts

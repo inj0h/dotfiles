@@ -4,9 +4,6 @@
 [submodule ".config/nvim/bundle/SearchComplete"]
 	path = .config/nvim/bundle/SearchComplete
 	url = https://github.com/vim-scripts/SearchComplete.git
-[submodule ".config/nvim/bundle/lightline.vim"]
-	path = .config/nvim/bundle/lightline.vim
-	url = https://github.com/itchyny/lightline.vim.git
 [submodule ".config/nvim/bundle/vim-cpp-enhanced-highlight"]
 	path = .config/nvim/bundle/vim-cpp-enhanced-highlight
 	url = https://github.com/octol/vim-cpp-enhanced-highlight.git

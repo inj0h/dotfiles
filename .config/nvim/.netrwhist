@@ -1,3 +1,5 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =1
+let g:netrw_dirhist_cnt =3
 let g:netrw_dirhist_1='/Users/eric0112'
+let g:netrw_dirhist_2='/Users/eric0112/.internship/cbs-salt-etc/cbs-salt/modules/pillar'
+let g:netrw_dirhist_3='/Users/eric0112'
