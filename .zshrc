@@ -9,7 +9,7 @@ select-word-style bash # ctrl+w on words
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git svn hg
 zstyle ':vcs_info:*' check-for-changes true
-zstyle ':vcs_info:*' formats "%{$fg[yellow]%}%c%{$fg[green]%}%u%{$reset_color%} [%{$fg[blue]%}%b%{$reset_color%}] %{$fg[yellow]%}%s%{$reset_color%}:%r"
+zstyle ':vcs_info:*' formats "%{$fg[yellow]%}%c%{$fg[green]%}%u%{$reset_color%} [%{$fg[red]%}%b%{$reset_color%}] %{$fg[yellow]%}%s%{$reset_color%}:%r"
 precmd() {  # run before each prompt
     vcs_info
 }
@@ -17,13 +17,13 @@ precmd() {  # run before each prompt
 # prompt
 setopt PROMPT_SUBST     # allow funky stuff in prompt
 
-color="blue"
+color="green"
 if [ "$USER" = "root" ]; then
     color="red"         # root is red, user is blue
 fi;
 
-PROMPT="%{$fg[$color]%}%n%{$reset_color%}@%U%{$fg[yellow]%}%m%{$reset_color%}%u %B%~%b \$vcs_info_msg_0_
-%{$fg[$color]%}%#%{$reset_color%} %{$fg[green]%}$ %{$reset_color%}"
+PROMPT="%{$fg[$color]%}%n%{$reset_color%}%B%{$fg[red]%}@%b%U%B%{$fg[red]%}%m%b%{$reset_color%}%u %{$fg[yellow]%}%~ \$vcs_info_msg_0_
+%{$fg[$color]%}$ %{$reset_color%}"
 
 # ls colors
 export LSCOLORS=exfxdxbxcxegedabagacad                                  
@@ -52,7 +52,7 @@ autoload -U compinit
 compinit
 zmodload -i zsh/complist        
 setopt hash_list_all            # hash everything before completion
-setopt completealiases          # complete alisases
+setopt completealiases          # complete aliases
 setopt always_to_end            # when completing from the middle of a word, move the cursor to the end of the word    
 setopt complete_in_word         # allow completion from within a word/phrase
 setopt correct                  # spelling correction for commands
@@ -62,8 +62,8 @@ zstyle ':completion::complete:*' use-cache on               # completion caching
 zstyle ':completion:*' cache-path ~/.zsh/cache              # cache path
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'   # ignore case
 zstyle ':completion:*' menu select=2                        # menu if nb items > 2
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}       # colorz !
-zstyle ':completion:*::::' completer _expand _complete _ignored _approximate # list of completers to use
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}       # colors!
+zstyle ':completion:*::::' completer _expand _complete _ignored _approximate # list of completors to use
 
 # sections completion
 zstyle ':completion:*' verbose yes
@@ -109,13 +109,13 @@ setopt bang_hist                # !keyword
 setopt auto_cd                  # if command is a path, cd into it
 setopt auto_remove_slash        # self explicit
 setopt chase_links              # resolve symlinks
+setopt clobber                  # truncate existing files when using >
 setopt correct                  # try to correct spelling of commands
 setopt extended_glob            # activate complex pattern globbing
 setopt glob_dots                # include dotfiles in globbing
 setopt print_exit_value         # print return value if non-zero
 unsetopt beep                   # no bell on error
 unsetopt bg_nice                # no lower prio for background jobs
-unsetopt clobber                # must use >| to truncate existing files
 unsetopt hist_beep              # no bell on error in history
 unsetopt hup                    # no hup signal at shell exit
 unsetopt ignore_eof             # do not exit on end-of-file
