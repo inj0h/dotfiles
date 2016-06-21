@@ -12,7 +12,7 @@ export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -f -g ""'         # fzf se
 # aliases
 # ------------------------------------------------------------------------------ 
 # easy access 
-alias emacs='printf "\xf0\x9f\x98\x90  Dont do that.\n"'                # fun
+alias emacs='printf "\xf0\x9f\x98\x90  Don'"'"'t do that.\n"'           # fun
 alias ls='ls -aGh'                                   
 alias ll='ls -aGh1'                                   
 alias lv='ls -aGhl'                                   
