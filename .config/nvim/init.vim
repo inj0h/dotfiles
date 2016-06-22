@@ -26,7 +26,7 @@ endif
 set autoread                                            " reads external file updates
 set clipboard=unnamed                                   " enable clipboard access
 set cursorline                                          " vi knows current line 
-set expandtab                                           " whitespace/tab stuff 
+set expandtab                                           " tabs = spaces 
 set foldcolumn=1                                        " single whitespace indentation on left margin
 set history=100                                         " history log 
 set ignorecase                                          " ignore casing when searching 
@@ -34,20 +34,19 @@ set ignorecase                                          " ignore casing when sea
 "not sure if I need these atm
 "set listchars=tab:>-,nbsp:_,trail:.                    " make tabs + trailing spaces visible
 "set list                                               " ^
-" ------------------------------------------------------------------------------ 
+" ------------------------------------------------------------------------------
 set nofoldenable                                        " disable line folding
-set numberwidth=5                                       " line number column width
 set rtp+=/usr/local/opt/fzf                             " fzf plugin path
 set ruler                                               " show line+column at bottom right
 set shell=zsh\ -l                                       " shell = zsh
-set shiftwidth=4                                        " whitespace/tab stuff
+set shiftwidth=4                                        " width of indent in spaces 
 set showcmd                                             " show commands as typed
 set smartcase                                           " specify casing in searching 
 set splitbelow                                          " always split windows below
-set softtabstop=4                                       " whitespace/tab stuff 
+set softtabstop=0                                       " whitespace/tab stuff 
 set showtabline=2                                       " always show tabline
-set tabstop=4                                           " whitespace/tab stuff
-set textwidth=79                                        " break line after 90 chars
+set tabstop=8                                           " width of tab char in spaces
+set textwidth=79                                        " break line after 80 chars
 set undolevels=500                                      " how much undo remembers 
 set visualbell                                          " no beeping
 set wildmode=list:longest,list                          " tab completion
@@ -78,7 +77,7 @@ hi Visual ctermbg=gray ctermfg=black
 
 " functions 
 " ------------------------------------------------------------------------------ 
-" turn on linter for spelling (en_us)
+" enable linter for spelling (en_us)
 function! LintSpell()
     set spell!
 endfunc
@@ -95,8 +94,8 @@ nmap gs <c-w><c-w>|                                     " better window jumping
 let mapleader = "\<space>"|                             " bind leader to spacebar
 
 " global 
-noremap <leader>- <c-b>|                                " page up
-noremap <leader>= <c-f>|                                " page down
+noremap <leader>- <c-b><bar>zz|                         " page up
+noremap <leader>= <c-f><bar>zz|                         " page down
 
 noremap <leader>j 10j<cr>|                              " jump 10 lines down
 noremap <leader>k 10k<cr>|                              " jump 10 lines up
@@ -105,7 +104,6 @@ noremap <leader>k 10k<cr>|                              " jump 10 lines up
 nmap <leader>f /|                                       " find regex, no nnoremap b/c SearchComplete
 
 nnoremap <leader>` :e $MYVIMRC<cr>|                     " quick access to this file
-nnoremap <leader>0 zz                                   " recenter window
 nnoremap <leader>1 :e . <cr>|                           " open file tree
 nnoremap <leader>! :e scp://|                           " open remote file tree 
 nnoremap <leader>2 @@|                                  " replay key macro q
@@ -113,6 +111,7 @@ nnoremap <leader>@ @q|                                  " play key macro q
 nnoremap <leader>3 :!ctags -R .|                        " make ctags in dir
 nnoremap <leader>4 :call LintSpell()<cr>|               " call function
 nnoremap <leader>9 :e $CLIS<cr>|                        " open file
+nnoremap <leader>0 zz                                   " recenter window
 
 nnoremap <leader>Q :qall<cr>|                           " quit if everything is saved
 nnoremap <leader>w :!goto_safari<cr>|                   " call appl.scpt

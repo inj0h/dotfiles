@@ -25,8 +25,8 @@ fi;
 PROMPT="%{$fg[$color]%}%n%{$reset_color%}%B%{$fg[red]%}@%b%U%B%{$fg[red]%}%m%b%{$reset_color%}%u %{$fg[yellow]%}%~ \$vcs_info_msg_0_
 %{$fg[$color]%}$ %{$reset_color%}"
 
-# ls colors
-export LSCOLORS=exfxdxbxcxegedabagacad                                  
+export TERM=xterm-256color
+export LSCOLORS=exfxdxbxcxegedabagacad  # ls colors
 # order of lscolors from left to right..
 # directory = b
 # symlink = f
