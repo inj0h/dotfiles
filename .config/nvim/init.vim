@@ -6,6 +6,7 @@ syntax on                                               " enable syntax linting
 filetype plugin on                                      " enable plugins
 filetype plugin indent on                               " enable indent by plugin(s)
 
+let g:gruvbox_contrast_dark='soft'
 let python_highlight_all = 1                            " better python syntax highlighting
 let g:netrw_liststyle=3                                 " netrw listing with vertical lines
 
@@ -24,6 +25,7 @@ if !has('nvim')
 endif
 
 set autoread                                            " reads external file updates
+set background=dark
 set clipboard=unnamed                                   " enable clipboard access
 set cursorline                                          " vi knows current line 
 set expandtab                                           " tabs = spaces 
@@ -46,6 +48,7 @@ set splitbelow                                          " always split windows b
 set softtabstop=0                                       " whitespace/tab stuff 
 set showtabline=2                                       " always show tabline
 set tabstop=8                                           " width of tab char in spaces
+set termguicolors
 set textwidth=79                                        " break line after 80 chars
 set undolevels=500                                      " how much undo remembers 
 set visualbell                                          " no beeping
@@ -59,11 +62,10 @@ au! BufWritePost * Neomake                              " async run Neomake upon
 
 " aesthetic 
 " ------------------------------------------------------------------------------ 
-colorscheme badwolf                                     " rad colorscheme 
+colorscheme gruvbox                                     " rad colorscheme 
 
 " highlight color settings
-hi CursorLine ctermbg=gray ctermfg=black
-hi CursorLineNR ctermbg=gray ctermfg=black
+hi CursorLine ctermbg=gray ctermfg=none
 hi FoldColumn ctermbg=none
 hi MatchParen ctermbg=red ctermfg=none
 hi Normal ctermbg=none ctermfg=none
@@ -73,7 +75,7 @@ hi SpellCap ctermbg=none
 hi SpellLocal ctermbg=Blue ctermfg=black
 hi SpellRare ctermbg=Blue ctermfg=black
 hi StatusLine ctermbg=none ctermfg=gray
-hi Visual ctermbg=gray ctermfg=black
+hi Visual ctermbg=none ctermfg=black
 
 " functions 
 " ------------------------------------------------------------------------------ 
@@ -138,6 +140,8 @@ let g:multi_cursor_quit_key='q'
 
 " fzf settings
 let g:fzf_layout = { 'down': '~25%' }
+
+" Gruvbox
 
 " Lightline settings
 let g:lightline = {
