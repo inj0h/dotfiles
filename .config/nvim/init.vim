@@ -6,7 +6,7 @@ syntax on                                               " enable syntax linting
 filetype plugin on                                      " enable plugins
 filetype plugin indent on                               " enable indent by plugin(s)
 
-let g:gruvbox_contrast_dark='soft'
+let g:gruvbox_contrast_dark='soft'                      " soft 
 let python_highlight_all = 1                            " better python syntax highlighting
 let g:netrw_liststyle=3                                 " netrw listing with vertical lines
 
@@ -66,7 +66,8 @@ colorscheme gruvbox                                     " rad colorscheme
 
 " highlight color settings
 hi CursorLine ctermbg=gray ctermfg=none
-hi FoldColumn ctermbg=none
+hi CursorLineNR ctermbg=gray
+hi FoldColumn ctermbg=gray
 hi MatchParen ctermbg=red ctermfg=none
 hi Normal ctermbg=none ctermfg=none
 hi SignColumn ctermbg=none
@@ -140,8 +141,6 @@ let g:multi_cursor_quit_key='q'
 
 " fzf settings
 let g:fzf_layout = { 'down': '~25%' }
-
-" Gruvbox
 
 " Lightline settings
 let g:lightline = {

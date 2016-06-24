@@ -179,6 +179,7 @@ if s:is_dark
   let s:bg2  = s:gb.dark2
   let s:bg3  = s:gb.dark3
   let s:bg4  = s:gb.dark4
+  let s:bg5  = s:gb.dark0_soft
 
   let s:gray = s:gb.gray_245
 
@@ -458,7 +459,7 @@ if version >= 700
   hi! link TabLine TabLineFill
 
   " Match paired bracket under the cursor
-  call s:HL('MatchParen', s:none, s:bg3, s:bold)
+  call s:HL('MatchParen', s:none, s:gb.bright_yellow, s:bold)
 endif
 
 if version >= 703
@@ -521,7 +522,7 @@ call s:HL('SignColumn', s:none, s:sign_column)
 " Line used for closed folds
 call s:HL('Folded', s:gray, s:bg1, s:italic)
 " Column where folds are displayed
-call s:HL('FoldColumn', s:gray, s:bg1)
+call s:HL('FoldColumn', s:gb.dark0_soft, s:gb.dark0_soft)
 
 " }}}
 " Cursor: {{{
