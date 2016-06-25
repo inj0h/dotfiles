@@ -6,8 +6,6 @@ syntax on                                               " enable syntax linting
 filetype plugin on                                      " enable plugins
 filetype plugin indent on                               " enable indent by plugin(s)
 
-let g:gruvbox_contrast_dark='soft'                      " soft 
-let python_highlight_all = 1                            " better python syntax highlighting
 let g:netrw_liststyle=3                                 " netrw listing with vertical lines
 
 " settings if using regular vim and not nvim
@@ -62,7 +60,8 @@ au! BufWritePost * Neomake                              " async run Neomake upon
 
 " aesthetic 
 " ------------------------------------------------------------------------------ 
-colorscheme gruvbox                                     " rad colorscheme 
+let g:gruvbox_contrast_dark='soft'                      " soft colors
+colorscheme gruvbox                                     " rad colorscheme (truecolors!)
 
 " highlight color settings
 hi CursorLine ctermbg=gray ctermfg=none
@@ -134,7 +133,7 @@ nnoremap <leader>l `.|                                  " jump to last edit
 nnoremap <leader>b :buffers <cr>|                       " see buffers
 nnoremap <leader>B :bd |                                " delete buffer(s)
 
-" plugins, et al 
+" plugin settings
 " ------------------------------------------------------------------------------ 
 " Multiple Cursors bindings
 let g:multi_cursor_quit_key='q'
@@ -157,3 +156,12 @@ let g:lightline = {
             \ 'right': [ [ ] ] 
             \ },
             \ }
+
+" language support
+" ------------------------------------------------------------------------------ 
+" haskell
+let g:haskell_classic_highlighting = 1
+
+" python
+let python_highlight_all = 1                            " better python syntax highlighting
+

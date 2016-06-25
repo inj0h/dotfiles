@@ -643,11 +643,11 @@ if has("spell")
     call s:HL('SpellCap',   s:green, s:none, s:bold . s:italic)
   endif
   " Not recognized word
-  call s:HL('SpellBad',   s:none, s:none, s:undercurl, s:blue)
+  call s:HL('SpellBad',   s:gb.bright_red, s:none, s:undercurl, s:blue)
   " Wrong spelling for selected region
-  call s:HL('SpellLocal', s:none, s:none, s:undercurl, s:aqua)
+  call s:HL('SpellLocal', s:gb.bright_red, s:none, s:undercurl, s:aqua)
   " Rare word
-  call s:HL('SpellRare',  s:none, s:none, s:undercurl, s:purple)
+  call s:HL('SpellRare',  s:gb.bright_red, s:none, s:undercurl, s:purple)
 endif
 
 " }}}
@@ -1184,13 +1184,13 @@ hi! link markdownIdDeclaration markdownLinkText
 " hi! link haskellOperators GruvboxOrange
 " hi! link haskellConditional GruvboxAqua
 " hi! link haskellLet GruvboxOrange
-"
+
 hi! link haskellType GruvboxFg1
 hi! link haskellIdentifier GruvboxFg1
 hi! link haskellSeparator GruvboxFg1
 hi! link haskellDelimiter GruvboxFg4
 hi! link haskellOperators GruvboxBlue
-"
+
 hi! link haskellBacktick GruvboxOrange
 hi! link haskellStatement GruvboxOrange
 hi! link haskellConditional GruvboxOrange
