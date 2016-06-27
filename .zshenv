@@ -21,7 +21,7 @@ alias vim=/usr/local/opt/vim/bin/vim                                            
 
 # utility scripts 
 # apple scripts
-alias quit_all='cd; cd .bin/appl/; osascript goto_safari.scpt'
+alias quitter='./.bin/sh/quitter.sh'
 alias goto_safari='cd; cd .bin/appl/; osascript goto_safari.scpt'
 
 # ssh 
@@ -35,7 +35,7 @@ then
 fi
 
 # git
-alias git_shove='./.bin/shell/git_shove.sh'                                     # quick commit
+alias git_shove='./.bin/sh/git_shove.sh'                                     # quick commit
 alias git_up_subs='git submodule foreach git pull origin master'                # update submods
 
 # shell integration

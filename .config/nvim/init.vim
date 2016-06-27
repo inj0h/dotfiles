@@ -112,7 +112,6 @@ nnoremap <leader>2 @@|                                  " replay key macro q
 nnoremap <leader>@ @q|                                  " play key macro q
 nnoremap <leader>3 :!ctags -R .|                        " make ctags in dir
 nnoremap <leader>4 :call LintSpell()<cr>|               " call function
-nnoremap <leader>9 :e $CLIS<cr>|                        " open file
 nnoremap <leader>0 zz                                   " recenter window
 
 nnoremap <leader>Q :qall<cr>|                           " quit if everything is saved
