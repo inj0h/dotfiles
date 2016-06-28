@@ -3,6 +3,6 @@
 set -e
 killall "Microsoft Outlook"
 killall "Google Chrome"
-killall "LimeChat"
+killall "Slack"
 killall "Cisco AnyConnect Secure Mobility Client"
 killall "Activity Monitor"

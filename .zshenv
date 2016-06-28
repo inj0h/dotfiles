@@ -35,7 +35,7 @@ then
 fi
 
 # git
-alias git_shove='./.bin/sh/git_shove.sh'                                     # quick commit
+alias git_shove_config='./.bin/sh/git_shove_config.sh'                          # quick commit
 alias git_up_subs='git submodule foreach git pull origin master'                # update submods
 
 # shell integration

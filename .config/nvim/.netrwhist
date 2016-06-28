@@ -1,7 +1,10 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =5
+let g:netrw_dirhist_cnt =8
 let g:netrw_dirhist_1='/Users/eric0112'
 let g:netrw_dirhist_2='/Users/eric0112/.dotfiles/.bin/sh'
 let g:netrw_dirhist_3='/Users/eric0112/.dotfiles'
 let g:netrw_dirhist_4='/Users/eric0112/.dotfiles/.bin'
 let g:netrw_dirhist_5='/Users/eric0112/.dotfiles/.bin/sh'
+let g:netrw_dirhist_6='/Users/eric0112/Desktop/python/dev/exercise'
+let g:netrw_dirhist_7='/Users/eric0112/.dotfiles/.config'
+let g:netrw_dirhist_8='/Users/eric0112/Desktop/python/dev/exercise'
