@@ -1,6 +1,6 @@
 " general
 " ------------------------------------------------------------------------------ 
-execute pathogen#infect()|                              " Pathogen package manager
+execute pathogen#infect()|                              " pathogen package manager
 
 syntax on                                               " enable syntax linting
 filetype plugin on                                      " enable plugins
@@ -19,11 +19,11 @@ if !has('nvim')
     set lazyredraw                                      " redraw lines only when needed
     set smarttab                                        " whitespace/tab stuff 
     set t_Co=256                                        " use 250 terminal colors
-    set wildmenu                                        " bash-like tab comp
+    set wildmenu                                        " tab completion
 endif
 
 set autoread                                            " reads external file updates
-set background=dark
+set background=dark                                     " c.f. gruvbox colors
 set clipboard=unnamed                                   " enable clipboard access
 set cursorline                                          " vi knows current line 
 set expandtab                                           " tabs = spaces 
@@ -31,14 +31,14 @@ set foldcolumn=1                                        " single whitespace inde
 set history=100                                         " history log 
 set ignorecase                                          " ignore casing when searching 
 " ------------------------------------------------------------------------------ 
-"not sure if I need these atm
-"set listchars=tab:>-,nbsp:_,trail:.                    " make tabs + trailing spaces visible
-"set list                                               " ^
+" not sure if I need these atm
+" set listchars=tab:>-,nbsp:_,trail:.                    " make tabs + trailing spaces visible
+" set list                                               " ^
 " ------------------------------------------------------------------------------
 set nofoldenable                                        " disable line folding
 set rtp+=/usr/local/opt/fzf                             " fzf plugin path
 set ruler                                               " show line+column at bottom right
-set shell=zsh\ -l                                       " shell = zsh
+set shell=zsh                                           " shell = zsh
 set shiftwidth=4                                        " width of indent in spaces 
 set showcmd                                             " show commands as typed
 set smartcase                                           " specify casing in searching 
@@ -46,14 +46,14 @@ set splitbelow                                          " always split windows b
 set softtabstop=0                                       " whitespace/tab stuff 
 set showtabline=2                                       " always show tabline
 set tabstop=8                                           " width of tab char in spaces
-set termguicolors
+set termguicolors                                       " enable truecolor support
 set textwidth=79                                        " break line after 80 chars
-set undolevels=500                                      " how much undo remembers 
+set undolevels=500                                      " extent of undo remembers
 set visualbell                                          " no beeping
 set wildmode=list:longest,list                          " tab completion
 
 " automatic commands
-au BufNewFile,BufRead * set formatoptions+=t            " set textwidth for code, not comments
+au BufNewFile,BufRead * set formatoptions+=t            " set textwidth for code but not comments
 au BufNewFile,BufRead .txt set spell spelllang=en_us    " spell checking for .txt
 au BufNewFile,BufRead .zshrc set textwidth=159          " double textwidth for zshrc 
 au! BufWritePost * Neomake                              " async run Neomake upon write
@@ -61,13 +61,13 @@ au! BufWritePost * Neomake                              " async run Neomake upon
 " aesthetic 
 " ------------------------------------------------------------------------------ 
 let g:gruvbox_contrast_dark='soft'                      " soft colors
-colorscheme gruvbox                                     " rad colorscheme (truecolors!)
+colorscheme gruvbox                                     " rad colorscheme
 
-" highlight color settings
+" highlight color settings (mostly overwritten by colorscheme)
 hi CursorLine ctermbg=gray ctermfg=none
 hi CursorLineNR ctermbg=gray
 hi FoldColumn ctermbg=gray
-hi MatchParen ctermbg=red ctermfg=none
+hi MatchParen ctermbg=none ctermfg=none
 hi Normal ctermbg=none ctermfg=none
 hi SignColumn ctermbg=none
 hi SpellBad ctermbg=Blue ctermfg=black  
@@ -79,7 +79,7 @@ hi Visual ctermbg=none ctermfg=black
 
 " functions 
 " ------------------------------------------------------------------------------ 
-" enable linter for spelling (en_us)
+" enable spell linter (en_us)
 function! LintSpell()
     set spell!
 endfunc
@@ -87,22 +87,24 @@ endfunc
 " keybindings
 " ------------------------------------------------------------------------------ 
 " regular
-inoremap jj <esc>|                                      " rebind escape to jj 
+inoremap jj <esc>|                                      " rebind escape
 
-nmap ; :|                                               " rebind colon to semicolon
+nmap ; :|                                               " rebind colon
 nmap gs <c-w><c-w>|                                     " better window jumping
+nmap <c-a> 0|                                           " rebind beginning of line
+nmap <c-e> $|                                           " rebind end of line
 
 " leader
 let mapleader = "\<space>"|                             " bind leader to spacebar
 
-" global 
+" leader general
 noremap <leader>- <c-b><bar>zz|                         " page up
 noremap <leader>= <c-f><bar>zz|                         " page down
 
 noremap <leader>j 10j<cr>|                              " jump 10 lines down
 noremap <leader>k 10k<cr>|                              " jump 10 lines up
 
-" normal 
+" leader normal
 nmap <leader>f /|                                       " find regex, no nnoremap b/c SearchComplete
 
 nnoremap <leader>` :e $MYVIMRC<cr>|                     " quick access to this file
@@ -115,7 +117,7 @@ nnoremap <leader>4 :call LintSpell()<cr>|               " call function
 nnoremap <leader>0 zz                                   " recenter window
 
 nnoremap <leader>Q :qall<cr>|                           " quit if everything is saved
-nnoremap <leader>w :!goto_safari<cr>|                   " call appl.scpt
+nnoremap <leader>w :!goto_safari<cr>|                   " call script
 nnoremap <leader>r :w<cr> :<c-p><cr>|                   " write then redo prev command
 nnoremap <leader>t :tabnew<cr>|                         " new tab
 nnoremap <leader>T :tabnew<cr>:e .<cr>|                 " new tab + file tree
@@ -134,13 +136,13 @@ nnoremap <leader>B :bd |                                " delete buffer(s)
 
 " plugin settings
 " ------------------------------------------------------------------------------ 
-" Multiple Cursors bindings
+" multiple cursors bindings
 let g:multi_cursor_quit_key='q'
 
 " fzf settings
 let g:fzf_layout = { 'down': '~25%' }
 
-" Lightline settings
+" lightline settings
 let g:lightline = {
             \ 'colorscheme': 'wombat',
             \ 'active' : {
@@ -163,4 +165,3 @@ let g:haskell_classic_highlighting = 1
 
 " python
 let python_highlight_all = 1                            " better python syntax highlighting
-
