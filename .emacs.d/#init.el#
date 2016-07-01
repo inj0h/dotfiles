@@ -19,7 +19,7 @@
 (setq inhibit-startup-message t)                                                ;; disable splash screen 
 (tool-bar-mode -1)                                                              ;; disable toolbar
 (scroll-bar-mode -1)                                                            ;; disable scrollbar
-(setq column-number-mode t)                                                     ;; show column number
+setq column-number-mode t)                                                     ;; show column number
 (global-hl-line-mode 1)                                                         ;; highlight current line
 (blink-cursor-mode 0)                                                           ;; stop blinking cursor
 
@@ -53,6 +53,7 @@
 ;; aesthetics 
 ;;------------------------------------------------------------------------------
 (load-theme 'gruvbox)
+
 
 (show-paren-mode 1)
 (setq show-paren-delay 0)
