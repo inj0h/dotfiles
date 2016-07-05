@@ -1,4 +1,3 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =2
-let g:netrw_dirhist_1='/Users/eric0112/Desktop/projects/one_node'
-let g:netrw_dirhist_2='/Users/eric0112/.dotfiles/.emacs.d/elpa/gruvbox-theme-20160514.658'
+let g:netrw_dirhist_cnt =1
+let g:netrw_dirhist_1='/Users/Eric/.dotfiles/.config/nvim/bundle/lightline.vim/autoload/lightline/colorscheme'
