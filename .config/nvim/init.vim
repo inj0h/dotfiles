@@ -144,7 +144,7 @@ let g:fzf_layout = { 'down': '~25%' }
 
 " lightline settings
 let g:lightline = {
-            \ 'colorscheme': 'mywombat',
+            \ 'colorscheme': 'wombat',
             \ 'active' : {
             \ 'left': [ ['paste' ],
             \           [ 'readonly', 'filename', 'modified' ] ],
