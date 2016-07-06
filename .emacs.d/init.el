@@ -28,7 +28,14 @@
 (blink-cursor-mode 0)
 (add-to-list 'default-frame-alist '(font . "Menlo-11"))
 (setq-default fill-column 80)
+
+;; all about scrolling
 (setq scroll-preserve-screen-position 1)
+;;(setq
+;; scroll-margin 0
+ ;;scroll-conservatively 100000
+ ;;scroll-preserve-screen-position 1
+ ;;scroll-error-top-bottom t)
 
 ;; backup files 
 (setq make-backup-files -1)
@@ -40,10 +47,14 @@
 (when window-system
   (load-theme 'gruvbox t))
 
-(show-paren-mode 1)
+;; parenthesis stuff
+(require 'paren)
 (setq show-paren-delay 0)
-(set-face-background hl-line-face "gray13")
-(global-evil-tabs-mode t)
+(show-paren-mode 1)
+
+;; cursor & cursorline
+(set-face-background hl-line-face "#3c3836")
+(set-cursor-color "#f1958c") 
 
 ;; plugin settings
 ;;------------------------------------------------------------------------------ 
@@ -57,6 +68,7 @@
 (require 'evil-surround)
 (global-evil-leader-mode) ;; must come before setting evil
 (evil-mode t)
+(global-evil-tabs-mode t)
 (global-evil-surround-mode 1)
 
 ;; functions and macros
@@ -64,7 +76,7 @@
 ;; functions
 
 ;; macros
-;; insert newline.. recorded macro (very hacky)
+;; insert newline.. recorded macro (hacky.. not good)
 (fset 'place_line
       (lambda (&optional arg)
         "Keyboard macro."
@@ -83,7 +95,7 @@
 
 ;; regular
 ;; (global-set-key (kbd "C-z") 'display_sleep) ;; buggy
-(key-chord-define-global "gs" 'other-window)
+;; (key-chord-define-global "gs" 'other-window)
 
 ;; evil
 (key-chord-define evil-insert-state-map "jj" 'evil-normal-state) ;; remap escape-to-normal
@@ -102,7 +114,15 @@
 (evil-leader/set-key "-" 'evil-scroll-page-up)
 (evil-leader/set-key "=" 'evil-scroll-page-down)
 
-(evil-leader/set-key "s" 'split-window-below)
+
+;;(evil-leader/set-key "j" 'evil-next-line 
+;;(evil-leader/set-key "k" 'evil-previous-line ('10))
+(evil-leader/set-key "t" 'elscreen-create)
+(evil-leader/set-key "T" 'dired)
+
+(evil-leader/set-key "s" 'other-window)
+(evil-leader/set-key "S" 'split-window-below)
 (evil-leader/set-key "l" 'goto-last-change)
 
+(evil-leader/set-key "b" 'list-buffers)
 
