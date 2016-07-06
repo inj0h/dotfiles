@@ -1,20 +1,23 @@
 ;; defaults 
 ;;------------------------------------------------------------------------------ 
-;; turn it off!
-(blink-cursor-mode 0)
-(menu-bar-mode -1)
-(scroll-bar-mode -1)
-(tool-bar-mode -1)
-(setq make-backup-files -1)
-
 (setq inhibit-startup-message t) 
 (setq-default indent-tabs-mode nil)
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
 (setq column-number-mode t)
 (global-hl-line-mode 1)
+(blink-cursor-mode 0)
 (add-to-list 'default-frame-alist '(font . "Menlo-11"))
 (setq-default fill-column 80)
 (server-start)
+
+;; all about scrolling
 (setq scroll-preserve-screen-position 1)
+
+;; backup files 
+(setq make-backup-files -1)
+;;(setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
 
 ;; plugin management
 ;;------------------------------------------------------------------------------ 
@@ -28,20 +31,19 @@
 
 (package-initialize)
 
-;; figure this out later...
-;;(unless (package-installed-p 'use-package)
-;;  (package-refresh-contents)
-;;  (package-install 'use-package))
-;;(eval-when-compile
-;;  (require 'use-package))
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
+(eval-when-compile
+  (require 'use-package))
 
 ;; plugin settings
 ;;------------------------------------------------------------------------------ 
 (require 'goto-last-change)
 
-;; figure this out later...
-;;(use-package magit
-;;  :ensure t)
+(use-package magit
+  :ensure t)
 
 ;; evil 
 (require 'evil-leader)
@@ -122,14 +124,11 @@
 (set-face-background hl-line-face "#3c3836")
 (set-cursor-color "#f1958c")
 
-;; selection highlighting
-(set-face-attribute 'region nil :background "#3c3836")
-
 ;; colors, etc. 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(show-paren-mismatch ((t (:box (:line-width 2 :color "#fb4934" :style released-button)))))
- '(show-paren-match ((t (:background "#fabd2f")))))
+ '(show-paren-match ((t (:background "#fabd2f"))))
+ '(show-paren-mismatch ((t (:box (:line-width 2 :color "#fb4934" :style released-button))))))
