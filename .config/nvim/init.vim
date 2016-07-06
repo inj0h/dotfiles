@@ -90,7 +90,6 @@ endfunc
 inoremap jj <esc>|                                      " rebind escape
 
 nmap ; :|                                               " rebind colon
-nmap gs <c-w><c-w>|                                     " better window jumping
 nmap <c-a> 0|                                           " rebind beginning of line
 nmap <c-e> $|                                           " rebind end of line
 
@@ -127,7 +126,8 @@ nnoremap <leader>P :Files /|                            " fzf by file from /
 nnoremap <leader>[ <c-t>|                               " return from def ctag
 nnoremap <leader>] <c-]>|                               " goto function def ctag
 
-nnoremap <leader>s :split<cr>|                          " split new window below
+nnoremap <leader>s <c-w><c-w>|                          " better window jumping
+nnoremap <leader>S :split<cr>|                          " split new window below
 nnoremap <leader>F :noh<cr>|                            " undo find highlighting 
 nnoremap <leader>l `.|                                  " jump to last edit 
 
