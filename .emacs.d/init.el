@@ -1,51 +1,58 @@
-;; defaults 
-;;------------------------------------------------------------------------------ 
-(setq inhibit-startup-message t) 
-(setq-default indent-tabs-mode nil)
+;; defaults
+;;------------------------------------------------------------------------------
+;; turn it off!
+(blink-cursor-mode -1)
 (menu-bar-mode -1)
-(tool-bar-mode -1)
 (scroll-bar-mode -1)
+(tool-bar-mode -1)
+(setq make-backup-files -1)
+(setq inhibit-startup-screen t)
+;;(setq initial-scratch-message "")
+
+;; personal info
+(setq user-full-name "erikoelrojo")
+(setq user-mail-address "eric.chung2718@gmail.com")
+
+;; all's well with these
+(defalias 'yes-or-no-p 'y-or-n-p)
+(setq-default indent-tabs-mode nil)
 (setq column-number-mode t)
 (global-hl-line-mode 1)
-(blink-cursor-mode 0)
 (add-to-list 'default-frame-alist '(font . "Menlo-11"))
 (setq-default fill-column 80)
 (server-start)
-
-;; all about scrolling
 (setq scroll-preserve-screen-position 1)
 
-;; backup files 
-(setq make-backup-files -1)
-;;(setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
-
 ;; plugin management
-;;------------------------------------------------------------------------------ 
+;;------------------------------------------------------------------------------
 (require 'package)
 
 (setq package-enable-at-startup nil)
 
-(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
+(add-to-list 'package-archives '("elpy" . "https://jorgenschaefer.github.io/packages/"))
+(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (add-to-list 'package-archives '("melpa-stable" ."http://stable.melpa.org/packages/"))
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
 
 (package-initialize)
 
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-
-(eval-when-compile
-  (require 'use-package))
+;; figure this out later...
+;;(unless (package-installed-p 'use-package)
+;;  (package-refresh-contents)
+;;  (package-install 'use-package))
+;;(eval-when-compile
+;;  (require 'use-package))
 
 ;; plugin settings
-;;------------------------------------------------------------------------------ 
+;;------------------------------------------------------------------------------
 (require 'goto-last-change)
 
-(use-package magit
-  :ensure t)
+;; figure this out later...
+;;(use-package magit
+;;  :ensure t)
 
-;; evil 
+;; evil
 (require 'evil-leader)
 (require 'evil)
 (require 'evil-surround)
@@ -53,33 +60,53 @@
 (evil-mode t)
 (global-evil-tabs-mode t)
 (global-evil-surround-mode 1)
-(evil-set-initial-state 'dire-mode 'normal) ;; enter insert mode to edit a commit message
 
-;; functions and macros
-;;------------------------------------------------------------------------------ 
+;; utility functions and keyboard macros
+;;------------------------------------------------------------------------------
 ;; functions
+(defun display_sleep()
+  (interactive)
+  (compile "~/.bin/sh/display_sleep.sh"))
 
-;; macros
-;; insert newline.. recorded macro (hacky.. not good)
+(defun indent-whole-buffer ()
+  "Indent whole buffer."
+  (interactive)
+  (save-excursion
+    (indent-region (point-min) (point-max))))
+
+(defun cleanup-whitespace ()
+  "Perform a bunch of operations on the whitespace content of a buffer."
+  (interactive)
+  (save-excursion
+    (delete-trailing-whitespace)
+    (indent-region (point-min) (point-max))))
+
+;; keyboard macros (hacks.. replace these eventually!)
+;; insert newline
 (fset 'insert_line
       (lambda (&optional arg)
         "Keyboard macro."
         (interactive "p")
         (kmacro-exec-ring-item (quote ([48 105 return escape 107] 0 "%d")) arg)))
 
-(defun display_sleep()
-  (interactive)
-  (compile "~/.bin/sh/display_sleep.sh"))
+;; evil everywhere!
+(setq evil-normal-state-modes (append evil-motion-state-modes evil-normal-state-modes))
+(setq evil-motion-state-modes nil)
+(setq evil-normal-state-modes (append evil-emacs-state-modes evil-normal-state-modes))
+(setq evil-emacs-state-modes nil)
 
-;; keybindings
+;; keybindings(!)
 ;;------------------------------------------------------------------------------
 ;; keychord stuff
 (setq key-chord-two-keys-delay 0.25)
 (key-chord-mode 1)
 
-;; regular
+;; global
 ;; (global-set-key (kbd "C-z") 'display_sleep) ;; buggy
 ;; (key-chord-define-global "gs" 'other-window)
+
+
+;; buffer (more evil!)
 
 ;; evil
 (key-chord-define evil-insert-state-map "jj" 'evil-normal-state) ;; remap escape-to-normal
@@ -90,15 +117,15 @@
 (evil-leader/set-leader "<SPC>")
 (evil-leader/set-key
   "`" (lambda () (interactive) (find-file "~/.emacs.d/init.el"))
-  "0" (kbd "@q") 
-  "2" (kbd "@@") 
-  "@" 'evil-execute-macro
+  "2" (kbd "@@")
+  "@" (kbd "@q")
   "-" 'evil-scroll-page-up
   "=" 'evil-scroll-page-down
 
   "t" 'elscreen-create
   "T" 'dired
   "i" 'insert_line
+  "I" 'indent-whole-buffer
 
   "s" 'other-window
   "S" 'split-window-below
@@ -107,28 +134,63 @@
   "k" (lambda () (interactive) (evil-previous-line 10))
   "l" 'goto-last-change
 
+  "C" 'cleanup-whitespace
   "b" 'list-buffers)
 
-;; aesthetics 
+;; more evil! (there must be a better way to do this! find out!)
+;; buffer
+
+;; dired
+(define-key dired-mode-map "$" 'evil-end-of-line)
+(define-key dired-mode-map "0" 'evil-beginning-of-line)
+(define-key dired-mode-map "w" 'evil-forward-word-begin)
+(define-key dired-mode-map "f" 'evil-find-char)
+(define-key dired-mode-map "g" 'evil-goto-first-line)
+(define-key dired-mode-map "G" 'evil-goto-line)
+(define-key dired-mode-map "h" 'evil-backward-char)
+(define-key dired-mode-map "j" 'evil-next-line)
+(define-key dired-mode-map "k" 'evil-previous-line)
+(define-key dired-mode-map "l" 'evil-forward-char)
+(define-key dired-mode-map "b" 'evil-backward-word-begin)
+(define-key dired-mode-map  "/" 'evil-search-forward)
+
+;; package menu
+(define-key package-menu-mode-map "$" 'evil-end-of-line)
+(define-key package-menu-mode-map "0" 'evil-beginning-of-line)
+(define-key package-menu-mode-map "w" 'evil-forward-word-begin)
+(define-key package-menu-mode-map "f" 'evil-find-char)
+(define-key package-menu-mode-map "g" 'evil-goto-first-line)
+(define-key package-menu-mode-map "G" 'evil-goto-line)
+(define-key package-menu-mode-map "h" 'evil-backward-char)
+(define-key package-menu-mode-map "j" 'evil-next-line)
+(define-key package-menu-mode-map "k" 'evil-previous-line)
+(define-key package-menu-mode-map "l" 'evil-forward-char)
+(define-key package-menu-mode-map "b" 'evil-backward-word-begin)
+(define-key package-menu-mode-map  "/" 'evil-search-forward)
+
+;; aesthetics
 ;;------------------------------------------------------------------------------
 ;; theme
 (when window-system
   (load-theme 'gruvbox t))
 
-;; parenthesis stuff
+;; parenthesis
 (require 'paren)
 (setq show-paren-delay 0)
 (show-paren-mode 1)
 
 ;; cursor & cursorline
+(set-cursor-color "#ff6666")
 (set-face-background hl-line-face "#3c3836")
-(set-cursor-color "#f1958c")
 
-;; colors, etc. 
+;; selection highlighting
+(set-face-attribute 'region nil :background "#daffb3")
+
+;; colors, etc.
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(show-paren-match ((t (:background "#fabd2f"))))
- '(show-paren-mismatch ((t (:box (:line-width 2 :color "#fb4934" :style released-button))))))
+ '(show-paren-mismatch ((t (:box (:line-width 2 :color "#fb4934" :style released-button)))))
+ '(show-paren-match ((t (:background "#ff6666")))))

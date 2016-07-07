@@ -11,7 +11,8 @@ export FZF_DEFAULT_COMMAND='ag --hidden --silent --ignore .git -f -g ""'        
 # aliases
 # ------------------------------------------------------------------------------ 
 # easy access 
-alias emacs=emacsclient -t                                                      # plug into gui emacs
+alias em=emacsclient                                                            # plug into gui emacs
+alias emacs=emacsclient                                                         # plug into gui emacs
 alias ls='ls -aGh'                                   
 alias ll='ls -aGh1'                                   
 alias lv='ls -aGhl'                                   
