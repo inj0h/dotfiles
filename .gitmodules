@@ -1,0 +1,36 @@
+[submodule "nvim/bundle/SearchComplete"]
+	path = nvim/bundle/SearchComplete
+	url = https://github.com/vim-scripts/SearchComplete.git
+[submodule "nvim/bundle/fzf.vim"]
+	path = nvim/bundle/fzf.vim
+	url = https://github.com/junegunn/fzf.vim.git
+[submodule "nvim/bundle/haskell-vim"]
+	path = nvim/bundle/haskell-vim
+	url = https://github.com/neovimhaskell/haskell-vim.git
+[submodule "nvim/bundle/lightline.vim"]
+	path = nvim/bundle/lightline.vim
+	url = https://github.com/itchyny/lightline.vim.git
+[submodule "nvim/bundle/neomake"]
+	path = nvim/bundle/neomake
+	url = https://github.com/neomake/neomake.git
+[submodule "nvim/bundle/python-syntax"]
+	path = nvim/bundle/python-syntax
+	url = https://github.com/hdima/python-syntax.git
+[submodule "nvim/bundle/vim-cpp-enhanced-highlight"]
+	path = nvim/bundle/vim-cpp-enhanced-highlight
+	url = https://github.com/octol/vim-cpp-enhanced-highlight.git
+[submodule "nvim/bundle/vim-fugitive"]
+	path = nvim/bundle/vim-fugitive
+	url = https://github.com/tpope/vim-fugitive.git
+[submodule "nvim/bundle/vim-javascript"]
+	path = nvim/bundle/vim-javascript
+	url = https://github.com/pangloss/vim-javascript.git
+[submodule "nvim/bundle/vim-multiple-cursors"]
+	path = nvim/bundle/vim-multiple-cursors
+	url = https://github.com/terryma/vim-multiple-cursors.git
+[submodule "nvim/bundle/vim-python-pep8-indent"]
+	path = nvim/bundle/vim-python-pep8-indent
+	url = https://github.com/hynek/vim-python-pep8-indent.git
+[submodule "nvim/bundle/vim-surround"]
+	path = nvim/bundle/vim-surround
+	url = https://github.com/tpope/vim-surround.git
