@@ -1,19 +1,21 @@
 ;; defaults
 ;;------------------------------------------------------------------------------
-;; turn it off!
+;; shut it off!
+;;---------------------------------------
 (blink-cursor-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
-(setq make-backup-files -1)
-(setq inhibit-startup-screen t)
-;;(setq initial-scratch-message "")
+(setq make-backup-files -1
+      inhibit-startup-screen t)
 
 ;; personal info
-(setq user-full-name "erikoelrojo")
-(setq user-mail-address "eric.chung2718@gmail.com")
+;;---------------------------------------
+(setq user-full-name "erikoelrojo"
+      user-mail-address "eric.chung2718@gmail.com")
 
 ;; all's well with these
+;;---------------------------------------
 (defalias 'yes-or-no-p 'y-or-n-p)
 (setq-default indent-tabs-mode nil)
 (setq column-number-mode t)
@@ -22,6 +24,24 @@
 (setq-default fill-column 80)
 (server-start)
 (setq scroll-preserve-screen-position 1)
+
+;; windowing
+;;---------------------------------------
+;; always split vertically (one on top of the other)
+(setq split-height-threshold nil
+      split-width-threshold 0)
+
+;; tabs and whitespace
+;;---------------------------------------
+;; no tab chars please
+(setq-default indent-tabs-mode nil)
+
+;; tabs = spaces * 4
+(setq c-basic-offset 4)
+(setq tab-width 4)
+(setq tab-stop-list (number-sequence 4 120 4))
+
+(setq show-trailing-whitespace t)
 
 ;; plugin management
 ;;------------------------------------------------------------------------------
@@ -53,17 +73,18 @@
 ;;  :ensure t)
 
 ;; evil
-(require 'evil-leader)
+(require 'evil-leader) ;; <- must come before setting evil?
+(global-evil-leader-mode) ;; <- must come before setting evil
 (require 'evil)
+(require 'evil-mc)
 (require 'evil-surround)
-(global-evil-leader-mode) ;; must come before setting evil
 (evil-mode t)
+(global-evil-mc-mode  1)
 (global-evil-tabs-mode t)
 (global-evil-surround-mode 1)
 
-;; utility functions and keyboard macros
+;; utility functions
 ;;------------------------------------------------------------------------------
-;; functions
 (defun display_sleep()
   (interactive)
   (compile "~/.bin/sh/display_sleep.sh"))
@@ -81,7 +102,8 @@
     (delete-trailing-whitespace)
     (indent-region (point-min) (point-max))))
 
-;; keyboard macros (hacks.. replace these eventually!)
+;; keyboard macros
+;;------------------------------------------------------------------------------
 ;; insert newline
 (fset 'insert_line
       (lambda (&optional arg)
@@ -89,29 +111,34 @@
         (interactive "p")
         (kmacro-exec-ring-item (quote ([48 105 return escape 107] 0 "%d")) arg)))
 
-;; evil everywhere!
-(setq evil-normal-state-modes (append evil-motion-state-modes evil-normal-state-modes))
-(setq evil-motion-state-modes nil)
-(setq evil-normal-state-modes (append evil-emacs-state-modes evil-normal-state-modes))
-(setq evil-emacs-state-modes nil)
 
-;; keybindings(!)
+;; keybindings
 ;;------------------------------------------------------------------------------
-;; keychord stuff
-(setq key-chord-two-keys-delay 0.25)
+;; keychord
+(setq key-chord-two-keys-delay 0.5)
 (key-chord-mode 1)
 
-;; global
+;; global (emacs)
+;;---------------------------------------
 ;; (global-set-key (kbd "C-z") 'display_sleep) ;; buggy
 ;; (key-chord-define-global "gs" 'other-window)
+;; (define-key text-mode-map (kbd "<tab>") 'tab-to-tab-stop)
 
-
-;; buffer (more evil!)
-
-;; evil
+;; evil!
+;;---------------------------------------
+;; escape everything
+(define-key evil-normal-state-map [escape] 'keyboard-quit)
+(define-key evil-visual-state-map [escape] 'keyboard-quit)
+(define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
 (key-chord-define evil-insert-state-map "jj" 'evil-normal-state) ;; remap escape-to-normal
 
-(define-key evil-normal-state-map (kbd ";") 'evil-ex) ;; remap : to ;
+;; ergonomic!
+(define-key evil-normal-state-map (kbd ";") 'evil-ex)
+(define-key evil-normal-state-map (kbd ":") 'execute-extended-command)
 
 ;; evil leader
 (evil-leader/set-leader "<SPC>")
@@ -130,15 +157,22 @@
   "s" 'other-window
   "S" 'split-window-below
   "f" 'find-file
+  "g" 'keyboard-quit
   "j" (lambda () (interactive) (evil-next-line 10))
   "k" (lambda () (interactive) (evil-previous-line 10))
   "l" 'goto-last-change
 
-  "C" 'cleanup-whitespace
-  "b" 'list-buffers)
+  "c" 'cleanup-whitespace
+  "C" 'comment-dwim
+  "b" 'list-buffers
+  "n" 'count-words-region)
 
 ;; more evil! (there must be a better way to do this! find out!)
-;; buffer
+;; evil everywhere!.. <- not sure if this works
+;; (setq evil-normal-state-modes (append evil-motion-state-modes evil-normal-state-modes))
+;; (setq evil-motion-state-modes nil)
+;; (setq evil-normal-state-modes (append evil-emacs-state-modes evil-normal-state-modes))
+;; (setq evil-emacs-state-modes nil)
 
 ;; dired
 (define-key dired-mode-map "$" 'evil-end-of-line)
@@ -187,10 +221,11 @@
 (set-face-attribute 'region nil :background "#daffb3")
 
 ;; colors, etc.
+;;---------------------------------------
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(show-paren-mismatch ((t (:box (:line-width 2 :color "#fb4934" :style released-button)))))
- '(show-paren-match ((t (:background "#ff6666")))))
+ '(show-paren-match ((t (:background "#fabd2f")))))

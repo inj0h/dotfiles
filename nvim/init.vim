@@ -1,5 +1,5 @@
 " general
-" ------------------------------------------------------------------------------ 
+" ------------------------------------------------------------------------------
 execute pathogen#infect()|                              " pathogen package manager
 
 syntax on                                               " enable syntax linting
@@ -9,7 +9,7 @@ filetype plugin indent on                               " enable indent by plugi
 let g:netrw_liststyle=3                                 " netrw listing with vertical lines
 
 " settings if using regular vim and not nvim
-if !has('nvim') 
+if !has('nvim')
     set autoindent                                      " auto indents supposedly
     set backspace=eol,start,indent                      " enable backspace
     set hlsearch                                        " highlight search results
@@ -17,7 +17,7 @@ if !has('nvim')
     set mouse=a                                         " enable mouse
     set nocompatible                                    " not compatible with vi
     set lazyredraw                                      " redraw lines only when needed
-    set smarttab                                        " whitespace/tab stuff 
+    set smarttab                                        " whitespace/tab stuff
     set t_Co=256                                        " use 250 terminal colors
     set wildmenu                                        " tab completion
 endif
@@ -25,25 +25,22 @@ endif
 set autoread                                            " reads external file updates
 set background=dark                                     " c.f. gruvbox colors
 set clipboard=unnamed                                   " enable clipboard access
-set cursorline                                          " vi knows current line 
-set expandtab                                           " tabs = spaces 
+set cursorline                                          " vi knows current line
+set expandtab                                           " tabs = spaces
 set foldcolumn=1                                        " single whitespace indentation on left margin
-set history=100                                         " history log 
-set ignorecase                                          " ignore casing when searching 
-" ------------------------------------------------------------------------------ 
-" not sure if I need these atm
-" set listchars=tab:>-,nbsp:_,trail:.                    " make tabs + trailing spaces visible
-" set list                                               " ^
-" ------------------------------------------------------------------------------
+set history=100                                         " history log
+set ignorecase                                          " ignore casing when searching
+set listchars=tab:>-,nbsp:_,trail:.                     " make tabs + trailing spaces visible
+set list                                                " ^
 set nofoldenable                                        " disable line folding
 set rtp+=/usr/local/opt/fzf                             " fzf plugin path
 set ruler                                               " show line+column at bottom right
 set shell=zsh                                           " shell = zsh
-set shiftwidth=4                                        " width of indent in spaces 
+set shiftwidth=4                                        " width of indent in spaces
 set showcmd                                             " show commands as typed
-set smartcase                                           " specify casing in searching 
+set smartcase                                           " specify casing in searching
 set splitbelow                                          " always split windows below
-set softtabstop=0                                       " whitespace/tab stuff 
+set softtabstop=0                                       " whitespace/tab stuff
 set showtabline=2                                       " always show tabline
 set tabstop=8                                           " width of tab char in spaces
 set termguicolors                                       " enable truecolor support
@@ -55,11 +52,11 @@ set wildmode=list:longest,list                          " tab completion
 " automatic commands
 au BufNewFile,BufRead * set formatoptions+=t            " set textwidth for code but not comments
 au BufNewFile,BufRead .txt set spell spelllang=en_us    " spell checking for .txt
-au BufNewFile,BufRead .zshrc set textwidth=159          " double textwidth for zshrc 
+au BufNewFile,BufRead .zshrc set textwidth=159          " double textwidth for zshrc
 au! BufWritePost * Neomake                              " async run Neomake upon write
 
-" aesthetic 
-" ------------------------------------------------------------------------------ 
+" aesthetic
+" ------------------------------------------------------------------------------
 let g:gruvbox_contrast_dark='soft'                      " soft colors
 colorscheme gruvbox                                     " rad colorscheme
 
@@ -70,22 +67,22 @@ hi FoldColumn ctermbg=gray
 hi MatchParen ctermbg=none ctermfg=none
 hi Normal ctermbg=none ctermfg=none
 hi SignColumn ctermbg=none
-hi SpellBad ctermbg=Blue ctermfg=black  
+hi SpellBad ctermbg=Blue ctermfg=black
 hi SpellCap ctermbg=none
 hi SpellLocal ctermbg=Blue ctermfg=black
 hi SpellRare ctermbg=Blue ctermfg=black
 hi StatusLine ctermbg=none ctermfg=gray
 hi Visual ctermbg=none ctermfg=black
 
-" functions 
-" ------------------------------------------------------------------------------ 
+" functions
+" ------------------------------------------------------------------------------
 " enable spell linter (en_us)
 function! LintSpell()
     set spell!
 endfunc
 
 " keybindings
-" ------------------------------------------------------------------------------ 
+" ------------------------------------------------------------------------------
 " regular
 inoremap jj <esc>|                                      " rebind escape
 
@@ -108,7 +105,7 @@ nmap <leader>f /|                                       " find regex, no nnorema
 
 nnoremap <leader>` :e $MYVIMRC<cr>|                     " quick access to this file
 nnoremap <leader>1 :e . <cr>|                           " open file tree
-nnoremap <leader>! :e scp://|                           " open remote file tree 
+nnoremap <leader>! :e scp://|                           " open remote file tree
 nnoremap <leader>2 @@|                                  " replay key macro q
 nnoremap <leader>@ @q|                                  " play key macro q
 nnoremap <leader>3 :!ctags -R .|                        " make ctags in dir
@@ -121,21 +118,22 @@ nnoremap <leader>r :w<cr> :<c-p><cr>|                   " write then redo prev c
 nnoremap <leader>t :tabnew<cr>|                         " new tab
 nnoremap <leader>T :tabnew<cr>:e .<cr>|                 " new tab + file tree
 nnoremap <leader>i 0i<cr><esc>k|                        " insert line
-nnoremap <leader>p :Files /Users/<cr>|                  " fzf by file
-nnoremap <leader>P :Files /|                            " fzf by file from /
+nnoremap <leader>f :Files /Users/<cr>|                  " fzf by file
+nnoremap <leader>F :Files /|                            " fzf by file from /
 nnoremap <leader>[ <c-t>|                               " return from def ctag
 nnoremap <leader>] <c-]>|                               " goto function def ctag
 
 nnoremap <leader>s <c-w><c-w>|                          " better window jumping
 nnoremap <leader>S :split<cr>|                          " split new window below
-nnoremap <leader>F :noh<cr>|                            " undo find highlighting 
-nnoremap <leader>l `.|                                  " jump to last edit 
+nnoremap <leader>l `.|                                  " jump to last edit
 
+nnoremap <leader>C :%s/\s\+$//<cr>|                     " delete all trailing whitespace in file
 nnoremap <leader>b :buffers <cr>|                       " see buffers
 nnoremap <leader>B :bd |                                " delete buffer(s)
+nnoremap <leader>? :noh<cr>|                            " undo find highlighting
 
 " plugin settings
-" ------------------------------------------------------------------------------ 
+" ------------------------------------------------------------------------------
 " multiple cursors bindings
 let g:multi_cursor_quit_key='q'
 
@@ -154,12 +152,12 @@ let g:lightline = {
             \ },
             \ 'tabline': {
             \ 'left': [ [ 'tabs' ] ],
-            \ 'right': [ [ ] ] 
+            \ 'right': [ [ ] ]
             \ },
             \ }
 
 " language support
-" ------------------------------------------------------------------------------ 
+" ------------------------------------------------------------------------------
 " haskell
 let g:haskell_classic_highlighting = 1
 
