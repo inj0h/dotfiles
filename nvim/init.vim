@@ -127,10 +127,10 @@ nnoremap <leader>s <c-w><c-w>|                          " better window jumping
 nnoremap <leader>S :split<cr>|                          " split new window below
 nnoremap <leader>l `.|                                  " jump to last edit
 
-nnoremap <leader>C :%s/\s\+$//<cr>|                     " delete all trailing whitespace in file
+nnoremap <leader>c :%s/\s\+$//<cr>|                     " delete all trailing whitespace in file
 nnoremap <leader>b :buffers <cr>|                       " see buffers
 nnoremap <leader>B :bd |                                " delete buffer(s)
-nnoremap <leader>? :noh<cr>|                            " undo find highlighting
+nnoremap <leader>/ :noh<cr>|                            " undo find highlighting
 
 " plugin settings
 " ------------------------------------------------------------------------------

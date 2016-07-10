@@ -1,20 +1,23 @@
-;; defaults
+;; Defaults
 ;;------------------------------------------------------------------------------
-;; shut it off!
+;; Shut it off!
 ;;---------------------------------------
 (blink-cursor-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
-(tool-bar-mode -1)
-(setq make-backup-files -1
-      inhibit-startup-screen t)
 
-;; personal info
+;; I realize the danger.
+(tool-bar-mode -1)
+(setq auto-save-default nil
+      inhibit-startup-screen t
+      make-backup-files -1)
+
+;; Personal Info
 ;;---------------------------------------
 (setq user-full-name "erikoelrojo"
       user-mail-address "eric.chung2718@gmail.com")
 
-;; all's well with these
+;; All's well with these.
 ;;---------------------------------------
 (defalias 'yes-or-no-p 'y-or-n-p)
 (setq-default indent-tabs-mode nil)
@@ -25,25 +28,25 @@
 (server-start)
 (setq scroll-preserve-screen-position 1)
 
-;; windowing
+;; Windowing
 ;;---------------------------------------
-;; always split vertically (one on top of the other)
+;; Always split vertically (one on top of the other)
 (setq split-height-threshold nil
       split-width-threshold 0)
 
-;; tabs and whitespace
+;; Tabs and Whitespace
 ;;---------------------------------------
-;; no tab chars please
+;; No tab chars please.
 (setq-default indent-tabs-mode nil)
 
-;; tabs = spaces * 4
+;; Tabs = spaces * 4.
 (setq c-basic-offset 4)
 (setq tab-width 4)
 (setq tab-stop-list (number-sequence 4 120 4))
 
 (setq show-trailing-whitespace t)
 
-;; plugin management
+;; Plugin Management
 ;;------------------------------------------------------------------------------
 (require 'package)
 
@@ -57,33 +60,33 @@
 
 (package-initialize)
 
-;; figure this out later...
+;; Figure this out later...
 ;;(unless (package-installed-p 'use-package)
 ;;  (package-refresh-contents)
 ;;  (package-install 'use-package))
 ;;(eval-when-compile
 ;;  (require 'use-package))
 
-;; plugin settings
+;; Plugin Settings
 ;;------------------------------------------------------------------------------
 (require 'goto-last-change)
 
-;; figure this out later...
+;; Figure this out later...
 ;;(use-package magit
 ;;  :ensure t)
 
-;; evil
+;; Evil
 (require 'evil-leader) ;; <- must come before setting evil?
 (global-evil-leader-mode) ;; <- must come before setting evil
 (require 'evil)
 (require 'evil-mc)
 (require 'evil-surround)
 (evil-mode t)
-(global-evil-mc-mode  1)
+(global-evil-mc-mode 1)
 (global-evil-tabs-mode t)
 (global-evil-surround-mode 1)
 
-;; utility functions
+;; Utility Functions
 ;;------------------------------------------------------------------------------
 (defun display_sleep()
   (interactive)
@@ -102,31 +105,30 @@
     (delete-trailing-whitespace)
     (indent-region (point-min) (point-max))))
 
-;; keyboard macros
+;; Keyboard Macros
 ;;------------------------------------------------------------------------------
-;; insert newline
+;; Insert a newline.
 (fset 'insert_line
       (lambda (&optional arg)
         "Keyboard macro."
         (interactive "p")
         (kmacro-exec-ring-item (quote ([48 105 return escape 107] 0 "%d")) arg)))
 
-
-;; keybindings
+;; Keybindings
 ;;------------------------------------------------------------------------------
-;; keychord
+;; Keychord
 (setq key-chord-two-keys-delay 0.5)
 (key-chord-mode 1)
 
-;; global (emacs)
+;; Global (Emacs)
 ;;---------------------------------------
 ;; (global-set-key (kbd "C-z") 'display_sleep) ;; buggy
 ;; (key-chord-define-global "gs" 'other-window)
 ;; (define-key text-mode-map (kbd "<tab>") 'tab-to-tab-stop)
 
-;; evil!
+;; Evil Mode
 ;;---------------------------------------
-;; escape everything
+;; Escape everything.
 (define-key evil-normal-state-map [escape] 'keyboard-quit)
 (define-key evil-visual-state-map [escape] 'keyboard-quit)
 (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
@@ -134,13 +136,19 @@
 (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
 (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
 (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
-(key-chord-define evil-insert-state-map "jj" 'evil-normal-state) ;; remap escape-to-normal
 
-;; ergonomic!
+;; (Ergonomic!) Normal Mode
+(key-chord-define evil-insert-state-map "jj" 'evil-normal-state) ;; remap escape-to-normal
 (define-key evil-normal-state-map (kbd ";") 'evil-ex)
 (define-key evil-normal-state-map (kbd ":") 'execute-extended-command)
 
-;; evil leader
+;; Multiple Cursors
+(define-key evil-normal-state-map (kbd "C-m") 'evil-mc-make-all-cursors)
+(define-key evil-normal-state-map (kbd "C-n") 'evil-mc-make-and-goto-next-match)
+(define-key evil-normal-state-map (kbd "C-p") 'evil-mc-make-and-goto-prev-match)
+(define-key evil-normal-state-map (kbd "C-q") 'evil-mc-undo-all-cursors)
+
+;; Evil Leader
 (evil-leader/set-leader "<SPC>")
 (evil-leader/set-key
   "`" (lambda () (interactive) (find-file "~/.emacs.d/init.el"))
@@ -167,14 +175,14 @@
   "b" 'list-buffers
   "n" 'count-words-region)
 
-;; more evil! (there must be a better way to do this! find out!)
+;; More evil! (there must be a better way to do this! find out!)
 ;; evil everywhere!.. <- not sure if this works
 ;; (setq evil-normal-state-modes (append evil-motion-state-modes evil-normal-state-modes))
 ;; (setq evil-motion-state-modes nil)
 ;; (setq evil-normal-state-modes (append evil-emacs-state-modes evil-normal-state-modes))
 ;; (setq evil-emacs-state-modes nil)
 
-;; dired
+;; Dired
 (define-key dired-mode-map "$" 'evil-end-of-line)
 (define-key dired-mode-map "0" 'evil-beginning-of-line)
 (define-key dired-mode-map "w" 'evil-forward-word-begin)
@@ -188,7 +196,7 @@
 (define-key dired-mode-map "b" 'evil-backward-word-begin)
 (define-key dired-mode-map  "/" 'evil-search-forward)
 
-;; package menu
+;; Package Menu
 (define-key package-menu-mode-map "$" 'evil-end-of-line)
 (define-key package-menu-mode-map "0" 'evil-beginning-of-line)
 (define-key package-menu-mode-map "w" 'evil-forward-word-begin)
@@ -202,30 +210,35 @@
 (define-key package-menu-mode-map "b" 'evil-backward-word-begin)
 (define-key package-menu-mode-map  "/" 'evil-search-forward)
 
-;; aesthetics
+;; Aesthetics
 ;;------------------------------------------------------------------------------
-;; theme
-(when window-system
-  (load-theme 'gruvbox t))
+;; Cursor and Cursorline
+(set-cursor-color "#ff6666")
+(add-to-list 'default-frame-alist '(cursor-color . "ff6666"))
+(set-face-background hl-line-face "#3c3836")
 
-;; parenthesis
+;; Parenthesis
 (require 'paren)
 (setq show-paren-delay 0)
 (show-paren-mode 1)
 
-;; cursor & cursorline
-(set-cursor-color "#ff6666")
-(set-face-background hl-line-face "#3c3836")
-
-;; selection highlighting
+;; Selection Highlighting
 (set-face-attribute 'region nil :background "#daffb3")
 
-;; colors, etc.
+;; Theme
+(when window-system
+  (load-theme 'gruvbox t))
+
+;; Window Transparency (#active, #inactive)
+(set-frame-parameter (selected-frame) 'alpha '(97 . 78))
+(add-to-list 'default-frame-alist '(alpha . (97 . 78)))
+
+;; .. Et al
 ;;---------------------------------------
 (custom-set-faces
- ;; custom-set-faces was added by Custom.
+ ;; Custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(show-paren-mismatch ((t (:box (:line-width 2 :color "#fb4934" :style released-button)))))
- '(show-paren-match ((t (:background "#fabd2f")))))
+ '(show-paren-match ((t (:background "#fabd2f"))))
+ '(show-paren-mismatch ((t (:box (:line-width 2 :color "#fb4934" :style released-button))))))
