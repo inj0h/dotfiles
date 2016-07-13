@@ -1,5 +1,5 @@
 ;; Filename: load-packages.el
-;; Description: package checker for configuration file. 
+;; Description: package checker for configuration file.
 ;; -----------------------------------------------------------------------------
 
 ;; Probably need Common Lisp macro, "for loop"
@@ -7,7 +7,8 @@
 
 ;; Check that we installed the following packages.
 (defvar required-packages
-  '(goto-chg
+  '(exec-path-from-shell
+    goto-chg
     goto-last-change
     undo-tree
     evil
@@ -17,7 +18,8 @@
     evil-tabs
     flycheck
     gruvbox-theme
-    key-chord)
+    key-chord
+    helm)
   "Packages that require installation at launch.")
 
 (defun package-not-installed ()

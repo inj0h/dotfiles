@@ -4,7 +4,7 @@
 
 ;; Defaults
 ;;------------------------------------------------------------------------------
-;; Shut it off!
+;; Shut It Off!
 ;;---------------------------------------
 (blink-cursor-mode -1)
 (menu-bar-mode -1)
@@ -21,7 +21,7 @@
 (setq user-full-name "erikoelrojo"
       user-mail-address "eric.chung2718@gmail.com")
 
-;; All's well with these.
+;; Strong Defaults
 ;;---------------------------------------
 (defalias 'yes-or-no-p 'y-or-n-p)
 (setq-default indent-tabs-mode nil)
@@ -33,23 +33,28 @@
 (setq scroll-preserve-screen-position 1)
 (setq ispell-program-name "/usr/local/bin/aspell")
 
-;; Windowing
+;; Dired
 ;;---------------------------------------
-;; Always split vertically (one on top of the other)
-(setq split-height-threshold nil
-      split-width-threshold 0)
+;; Auto-refresh Dired upon file change(s)
+(add-hook 'dired-mode-hook 'auto-revert-mode)
 
 ;; Tabs and Whitespace
 ;;---------------------------------------
 ;; No tab chars please.
 (setq-default indent-tabs-mode nil)
 
-;; Tabs = spaces * 4.
+;; Tabs = spaces * 4
 (setq c-basic-offset 4)
 (setq tab-width 4)
 (setq tab-stop-list (number-sequence 4 120 4))
 
-;; Plugin Management
+;; Windowing
+;;---------------------------------------
+;; Always split vertically (one on top of the other). ;; <- Doesn't work yet!
+;; (setq split-height-threshold nil
+;;       split-width-threshold 0)
+
+;; Package Management
 ;;------------------------------------------------------------------------------
 (require 'package)
 
@@ -63,21 +68,39 @@
 
 (package-initialize)
 
+;; Package Settings
+;;------------------------------------------------------------------------------
 ;; Get my packages!
 (load "~/.emacs.d/load-packages.el")
 
-;; Plugin Settings
-;;------------------------------------------------------------------------------
+;; "exec-path-from-shell"
+;;---------------------------------------
+;; Use the shell environment on MacOS
+(when (memq window-system '(mac ns))
+  (exec-path-from-shell-initialize))
+
 ;; Evil
-(require 'evil-leader) ;; <- must come before setting evil?
+;;---------------------------------------
+(require 'evil-leader) ;; <- Must come before setting evil?
 (require 'evil)
 (require 'evil-mc)
 (require 'evil-surround)
-(global-evil-leader-mode) ;; <- must come before setting evil?
-(evil-mode t)
+(global-evil-leader-mode) ;; <- Must come before setting evil?
+(evil-mode 1)
 (global-evil-mc-mode 1)
 (global-evil-tabs-mode t)
 (global-evil-surround-mode 1)
+
+;; Helm
+;;---------------------------------------
+(require 'helm)
+(require 'helm-config)
+
+;; Helm windowing.
+(helm-autoresize-mode 1)
+(setq helm-autoresize-max-height 33)
+(setq helm-autoresize-min-height 33)
+(helm-mode 1)
 
 ;; Utility Functions
 ;;------------------------------------------------------------------------------
@@ -118,14 +141,16 @@
 (setq key-chord-two-keys-delay 0.5)
 (key-chord-mode 1)
 
-;; Global (Emacs)
+;; Global (Emacs Mode)
 ;;---------------------------------------
 ;; (global-set-key (kbd "C-z") 'display_sleep) ;; buggy
 ;; (key-chord-define-global "gs" 'other-window)
 ;; (define-key text-mode-map (kbd "<tab>") 'tab-to-tab-stop)
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
 
 ;; Evil Mode
 ;;---------------------------------------
+;; Evil Global
 ;; Escape everything.
 (define-key evil-normal-state-map [escape] 'keyboard-quit)
 (define-key evil-visual-state-map [escape] 'keyboard-quit)
@@ -151,6 +176,7 @@
 (evil-leader/set-key
   "`" (lambda () (interactive) (find-file "~/.emacs.d/init.el"))
   "2" (kbd "@@")
+  "4" 'shell-command
   "-" 'evil-scroll-page-up
   "=" 'evil-scroll-page-down
 
@@ -159,6 +185,9 @@
   "T" 'dired
   "i" 'insert_line
   "I" 'indent-whole-buffer
+  "[" 'pop-tag-mark
+  "]" (lambda () (interactive) (find-tag (find-tag-default-as-regexp)))
+  "\\" 'list-tags
 
   "a0" (lambda () (interactive) (flyspell-mode 0))
   "aa" 'flyspell-buffer
@@ -167,7 +196,7 @@
   "@" (kbd "@q")
   "s" 'other-window
   "S" 'split-window-below
-  "f" 'find-file
+  "f" 'helm-find-files
   "j" (lambda () (interactive) (evil-next-line 10))
   "k" (lambda () (interactive) (evil-previous-line 10))
   "l" 'goto-last-change
@@ -216,6 +245,10 @@
 
 ;; Aesthetics
 ;;------------------------------------------------------------------------------
+;; Background
+(set-face-attribute 'default t :background "#32302f")
+(set-face-attribute 'fringe t :background "#32302f")
+
 ;; Cursor and Cursorline
 (set-cursor-color "#ff6666")
 (add-to-list 'default-frame-alist '(cursor-color . "ff6666"))
@@ -237,10 +270,10 @@
 (set-frame-parameter (selected-frame) 'alpha '(97 . 78))
 (add-to-list 'default-frame-alist '(alpha . (97 . 78)))
 
-;; .. Et al
+;; Et al
 ;;---------------------------------------
 (custom-set-faces
- ;; Custom-set-faces was added by Custom.
+ ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
