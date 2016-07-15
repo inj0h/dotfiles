@@ -96,10 +96,19 @@
 (require 'helm)
 (require 'helm-config)
 
-;; Helm windowing.
+;; Fuzzy finding.
+(setq helm-mode-fuzzy-match t
+      helm-completion-in-region-fuzzy-match t)
+
+;; Update fast sources immediately.
+(setq helm-idle-delay 0.0
+      helm-input-idle-delay 0.01) ;; <- This actually updates things.
+
+;; Windowing.
 (helm-autoresize-mode 1)
 (setq helm-autoresize-max-height 33)
-(setq helm-autoresize-min-height 33)
+;; (setq helm-autoresize-min-height 33)
+
 (helm-mode 1)
 
 ;; Utility Functions
@@ -143,9 +152,15 @@
 
 ;; Global (Emacs Mode)
 ;;---------------------------------------
-;; (global-set-key (kbd "C-z") 'display_sleep) ;; buggy
-;; (key-chord-define-global "gs" 'other-window)
-;; (define-key text-mode-map (kbd "<tab>") 'tab-to-tab-stop)
+;; Using Keychord bindings.
+(key-chord-define-global "11" 'keyboard-quit)
+
+(key-chord-define-global "w1" 'delete-other-windows)
+(key-chord-define-global "wd" 'delete-window)
+
+(key-chord-define-global "ZZ" 'display_sleep)
+
+;; Find files with Helm.
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 
 ;; Evil Mode
@@ -168,45 +183,47 @@
 ;; Multiple Cursors
 (define-key evil-normal-state-map (kbd "C-m") 'evil-mc-make-all-cursors)
 (define-key evil-normal-state-map (kbd "C-n") 'evil-mc-make-and-goto-next-match)
-(define-key evil-normal-state-map (kbd "C-p") 'evil-mc-make-and-goto-prev-match)
-(define-key evil-normal-state-map (kbd "C-q") 'evil-mc-undo-all-cursors)
+
+(define-key evil-mc-key-map (kbd "<escape>") 'evil-mc-undo-all-cursors)
+;; (define-key evil-mcnormal-state-map (kbd "C-q") 'evil-mc-undo-all-cursors)
+;; (define-key evil-normal-state-map (kbd "C-p") 'evil-mc-make-and-goto-prev-match)
 
 ;; Evil Leader
 (evil-leader/set-leader "<SPC>")
 (evil-leader/set-key
-  "`" (lambda () (interactive) (find-file "~/.emacs.d/init.el"))
-  "2" (kbd "@@")
-  "4" 'shell-command
-  "-" 'evil-scroll-page-up
-  "=" 'evil-scroll-page-down
+  "`"  (lambda () (interactive) (find-file "~/.emacs.d/init.el"))
+  "2"  (kbd "@@")
+  "4"  'async-shell-command
+  "-"  'evil-scroll-page-up
+  "="  'evil-scroll-page-down
 
   "el" 'eval-last-sexp
-  "t" 'elscreen-create
-  "T" 'dired
-  "i" 'insert_line
-  "I" 'indent-whole-buffer
-  "[" 'pop-tag-mark
-  "]" (lambda () (interactive) (find-tag (find-tag-default-as-regexp)))
+  "t"  'elscreen-create
+  "T"  'dired
+  "i"  'insert_line
+  "I"  'indent-whole-buffer
+  "["  'pop-tag-mark
+  "]"  (lambda () (interactive) (find-tag (find-tag-default-as-regexp)))
   "\\" 'list-tags
 
   "a0" (lambda () (interactive) (flyspell-mode 0))
   "aa" 'flyspell-buffer
   "af" (lambda () (interactive) (flyspell-mode 1))
   "ap" 'flyspell-prog-mode
-  "@" (kbd "@q")
-  "s" 'other-window
-  "S" 'split-window-below
-  "f" 'helm-find-files
-  "j" (lambda () (interactive) (evil-next-line 10))
-  "k" (lambda () (interactive) (evil-previous-line 10))
-  "l" 'goto-last-change
+  "@"  (kbd "@q")
+  "s"  'other-window
+  "S"  'split-window-below
+  "f"  'helm-find-files
+  "j"  (lambda () (interactive) (evil-next-line 10))
+  "k"  (lambda () (interactive) (evil-previous-line 10))
+  "l"  'goto-last-change
 
-  "c" 'cleanup-whitespace
-  "C" 'comment-dwim
-  "b" 'list-buffers
-  "n" 'count-words-region
+  "c"  'cleanup-whitespace
+  "C"  'comment-dwim
+  "b"  'list-buffers
+  "n"  'count-words-region
 
-  "/" 'show-trailing-whitespace)
+  "/"  'show-trailing-whitespace)
 
 ;; More evil! (there must be a better way to do this! find out!)
 ;; evil everywhere!.. <- not sure if this works
@@ -242,6 +259,13 @@
 (define-key package-menu-mode-map "l" 'evil-forward-char)
 (define-key package-menu-mode-map "b" 'evil-backward-word-begin)
 (define-key package-menu-mode-map  "/" 'evil-search-forward)
+
+;; Helm Mode
+;;---------------------------------------
+(define-key helm-map [tab] 'helm-execute-persistent-action)
+(define-key helm-map (kbd "C-j") 'helm-find-files-down-last-level)
+(define-key helm-map (kbd "C-k") 'helm-find-files-up-one-level)
+(define-key helm-map (kbd "C-o") 'helm-select-action) ;; <- o = option
 
 ;; Aesthetics
 ;;------------------------------------------------------------------------------
