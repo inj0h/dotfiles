@@ -50,7 +50,7 @@
 
 ;; Windowing
 ;;---------------------------------------
-;; Always split vertically (one on top of the other). ;; <- Doesn't work yet!
+;; Always split vertically (one on top of the other). ;; <- Fix!
 ;; (setq split-height-threshold nil
 ;;       split-width-threshold 0)
 
@@ -91,10 +91,19 @@
 (global-evil-tabs-mode t)
 (global-evil-surround-mode 1)
 
+;; Fix!
+;; Disable Evil Tab top-left-most indent.
+;; (defadvice elscreen-tab-control-face (after undisplay-header activate)
+;;   (setq header-line-format nil))
+
 ;; Helm
 ;;---------------------------------------
 (require 'helm)
 (require 'helm-config)
+
+;; Disable Helm help bar and
+(defadvice helm-display-mode-line (after undisplay-header activate)
+  (setq header-line-format nil))
 
 ;; Fuzzy finding.
 (setq helm-mode-fuzzy-match t
@@ -106,8 +115,7 @@
 
 ;; Windowing.
 (helm-autoresize-mode 1)
-(setq helm-autoresize-max-height 33)
-;; (setq helm-autoresize-min-height 33)
+;; (setq helm-autoresize-max-height 33)
 
 (helm-mode 1)
 
@@ -153,14 +161,12 @@
 ;; Global (Emacs Mode)
 ;;---------------------------------------
 ;; Using Keychord bindings.
-(key-chord-define-global "11" 'keyboard-quit)
-
-(key-chord-define-global "w1" 'delete-other-windows)
-(key-chord-define-global "wd" 'delete-window)
-
 (key-chord-define-global "ZZ" 'display_sleep)
+(key-chord-define-global "XX" 'delete-other-windows)
+(key-chord-define-global "XD" 'delete-window)
 
-;; Find files with Helm.
+;; Default to Helm.
+(global-set-key (kbd "C-x b") 'helm-buffers-list)
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 
 ;; Evil Mode
@@ -197,6 +203,8 @@
   "-"  'evil-scroll-page-up
   "="  'evil-scroll-page-down
 
+  "w1" 'delete-other-windows
+  "wd" 'delete-window
   "el" 'eval-last-sexp
   "t"  'elscreen-create
   "T"  'dired
@@ -220,7 +228,7 @@
 
   "c"  'cleanup-whitespace
   "C"  'comment-dwim
-  "b"  'list-buffers
+  "b"  'helm-buffers-list
   "n"  'count-words-region
 
   "/"  'show-trailing-whitespace)
@@ -265,7 +273,7 @@
 (define-key helm-map [tab] 'helm-execute-persistent-action)
 (define-key helm-map (kbd "C-j") 'helm-find-files-down-last-level)
 (define-key helm-map (kbd "C-k") 'helm-find-files-up-one-level)
-(define-key helm-map (kbd "C-o") 'helm-select-action) ;; <- o = option
+(define-key helm-map (kbd "C-o") 'helm-select-action) ;; <- 'o' = option
 
 ;; Aesthetics
 ;;------------------------------------------------------------------------------
@@ -301,5 +309,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(elscreen-tab-control-face ((t (:background "#282828" :foreground "#282828" :box nil :underline nil))))
+ '(mode-line ((t (:box nil :foreground "#b8bb26" :background "#504945"))))
+ '(mode-line-buffer-id ((t (:weight bold :foreground "#fabd2f"))))
  '(show-paren-match ((t (:background "#fabd2f"))))
  '(show-paren-mismatch ((t (:box (:line-width 2 :color "#fb4934" :style released-button))))))
