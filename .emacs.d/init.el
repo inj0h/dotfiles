@@ -206,7 +206,6 @@
   "wd" 'delete-window
   "el" 'eval-last-sexp
   "t"  'elscreen-create
-  "T"  'dired
   "i"  'insert_line
   "I"  'indent-whole-buffer
   "p"  'flycheck-mode ; <- p = parse

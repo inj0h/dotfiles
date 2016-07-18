@@ -1,2 +1,2 @@
 # Dotfiles
-My configs. Share, steal, etc.
+My *nix configuration files. Share, steal, etc.

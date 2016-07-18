@@ -16,6 +16,7 @@
     evil-mc
     evil-surround
     evil-tabs
+    auto-complete
     flycheck
     gruvbox-theme
     key-chord
