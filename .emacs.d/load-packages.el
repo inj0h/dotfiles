@@ -2,7 +2,7 @@
 ;; Description: package checker for configuration file.
 ;; -----------------------------------------------------------------------------
 
-;; Probably need Common Lisp macro, "for loop"
+;; Common Lisp macro which allows "for loop?"
 (require 'cl)
 
 ;; Check that we installed the following packages.
@@ -19,7 +19,8 @@
     flycheck
     gruvbox-theme
     key-chord
-    helm)
+    helm
+    magit)
   "Packages that require installation at launch.")
 
 (defun package-not-installed ()

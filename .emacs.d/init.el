@@ -18,8 +18,7 @@
 
 ;; Personal Info
 ;;---------------------------------------
-(setq user-full-name "erikoelrojo"
-      user-mail-address "eric.chung2718@gmail.com")
+(setq user-full-name "erikoelrojo")
 
 ;; Strong Defaults
 ;;---------------------------------------
@@ -210,13 +209,14 @@
   "T"  'dired
   "i"  'insert_line
   "I"  'indent-whole-buffer
+  "p"  'flycheck-mode ; <- p = parse
   "["  'pop-tag-mark
   "]"  (lambda () (interactive) (find-tag (find-tag-default-as-regexp)))
   "\\" 'list-tags
 
-  "a0" (lambda () (interactive) (flyspell-mode 0))
+  "a0" (lambda () (interactive) (flyspell-mode 0)) ; <- a = aspell
   "aa" 'flyspell-buffer
-  "af" (lambda () (interactive) (flyspell-mode 1))
+  "a1" (lambda () (interactive) (flyspell-mode 1))
   "ap" 'flyspell-prog-mode
   "@"  (kbd "@q")
   "s"  'other-window
@@ -273,7 +273,7 @@
 (define-key helm-map [tab] 'helm-execute-persistent-action)
 (define-key helm-map (kbd "C-j") 'helm-find-files-down-last-level)
 (define-key helm-map (kbd "C-k") 'helm-find-files-up-one-level)
-(define-key helm-map (kbd "C-o") 'helm-select-action) ;; <- 'o' = option
+(define-key helm-map (kbd "C-o") 'helm-select-action) ; <- o = option
 
 ;; Aesthetics
 ;;------------------------------------------------------------------------------
