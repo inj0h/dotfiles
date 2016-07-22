@@ -5,6 +5,7 @@ TAGS
 
 # emacs
 *~
+*.dat
 backups/
 elpa/
 tramp/

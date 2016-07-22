@@ -21,7 +21,8 @@
     gruvbox-theme
     key-chord
     helm
-    magit)
+    magit
+    markdown-mode)
   "Packages that require installation at launch.")
 
 (defun package-not-installed ()

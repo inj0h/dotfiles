@@ -23,14 +23,20 @@
 ;; Strong Defaults
 ;;---------------------------------------
 (defalias 'yes-or-no-p 'y-or-n-p)
-(setq-default indent-tabs-mode nil)
 (setq column-number-mode t)
 (global-hl-line-mode 1)
 (add-to-list 'default-frame-alist '(font . "Menlo-11"))
 (setq-default fill-column 80)
 (server-start)
-(setq scroll-preserve-screen-position 1)
 (setq ispell-program-name "/usr/local/bin/aspell")
+
+;; Smooth scrolling.
+;;---------------------------------------
+(setq mouse-wheel-scroll-amount '(1 ((shift) . 1))
+      mouse-wheel-progressive-speed nil
+      mouse-wheel-follow-mouse 't
+      scroll-preserve-screen-position t
+      scroll-step 1)
 
 ;; Dired
 ;;---------------------------------------
@@ -43,9 +49,9 @@
 (setq-default indent-tabs-mode nil)
 
 ;; Tabs = spaces * 4
-(setq c-basic-offset 4)
-(setq tab-width 4)
-(setq tab-stop-list (number-sequence 4 120 4))
+(setq c-basic-offset 4
+      tab-width 4
+      tab-stop-list (number-sequence 4 120 4))
 
 ;; Windowing
 ;;---------------------------------------
@@ -120,7 +126,7 @@
 
 ;; Utility Functions
 ;;------------------------------------------------------------------------------
-(defun display_sleep()
+(defun display_sleep ()
   (interactive)
   (compile "~/.bin/sh/display_sleep.sh"))
 
@@ -154,21 +160,30 @@
 ;; Keybindings
 ;;------------------------------------------------------------------------------
 ;; Keychord
-(setq key-chord-two-keys-delay 0.5)
+(require 'key-chord)
 (key-chord-mode 1)
+(setq key-chord-two-keys-delay 0.5)
 
-;; Global (Emacs Mode)
+;; Global (Emacs Keys)
 ;;---------------------------------------
-;; Using Keychord bindings.
-(key-chord-define-global "ZZ" 'display_sleep)
-(key-chord-define-global "XX" 'delete-other-windows)
-(key-chord-define-global "XD" 'delete-window)
-
-;; Default to Helm.
+;; Navigation
 (global-set-key (kbd "C-x b") 'helm-buffers-list)
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 
-;; Evil Mode
+(global-set-key (kbd "s-q") 'keyboard-quit)
+
+;; Tabs and Windows
+(global-set-key (kbd "s-1") 'delete-other-windows)
+
+(global-set-key (kbd "s-}") 'evil-tabs-goto-tab) ; Like MacOS
+(global-set-key (kbd "s-{") 'elscreen-previous) ; Like MacOS
+
+(global-set-key (kbd "s-x") 'delete-window)
+
+;; ..Et al
+(global-set-key (kbd "s-Z") 'display_sleep)
+
+;; Evil Keys 
 ;;---------------------------------------
 ;; Evil Global
 ;; Escape everything.
@@ -182,14 +197,12 @@
 
 ;; (Ergonomic!) Normal Mode
 (key-chord-define evil-insert-state-map "jj" 'evil-normal-state) ;; remap escape-to-normal
-(define-key evil-normal-state-map (kbd ";") 'evil-ex)
-(define-key evil-normal-state-map (kbd ":") 'execute-extended-command)
+(define-key evil-normal-state-map (kbd ";") 'execute-extended-command)
 
 ;; Multiple Cursors
 (define-key evil-normal-state-map (kbd "C-m") 'evil-mc-make-all-cursors)
 (define-key evil-normal-state-map (kbd "C-n") 'evil-mc-make-and-goto-next-match)
-
-(define-key evil-mc-key-map (kbd "<escape>") 'evil-mc-undo-all-cursors)
+;; (define-key evil-mc-key-map (kbd "jj") 'evil-mc-undo-all-cursors)
 ;; (define-key evil-mcnormal-state-map (kbd "C-q") 'evil-mc-undo-all-cursors)
 ;; (define-key evil-normal-state-map (kbd "C-p") 'evil-mc-make-and-goto-prev-match)
 
@@ -214,8 +227,8 @@
   "\\" 'list-tags
 
   "a0" (lambda () (interactive) (flyspell-mode 0)) ; <- a = aspell
-  "aa" 'flyspell-buffer
   "a1" (lambda () (interactive) (flyspell-mode 1))
+  "aa" 'flyspell-buffer
   "ap" 'flyspell-prog-mode
   "@"  (kbd "@q")
   "s"  'other-window
@@ -225,49 +238,30 @@
   "k"  (lambda () (interactive) (evil-previous-line 10))
   "l"  'goto-last-change
 
-  "c"  'cleanup-whitespace
-  "C"  'comment-dwim
+  "c"  'comment-dwim
+  "C"  'cleanup-whitespace
   "b"  'helm-buffers-list
   "n"  'count-words-region
 
   "/"  'show-trailing-whitespace)
 
-;; More evil! (there must be a better way to do this! find out!)
-;; evil everywhere!.. <- not sure if this works
-;; (setq evil-normal-state-modes (append evil-motion-state-modes evil-normal-state-modes))
-;; (setq evil-motion-state-modes nil)
-;; (setq evil-normal-state-modes (append evil-emacs-state-modes evil-normal-state-modes))
-;; (setq evil-emacs-state-modes nil)
+;; Evil (Almost) Everywhere.
+(defun more-evil ()
+  "Extend Evilness to 'Good' modes."
+  (local-set-key (kbd "j") 'next-line)
+  (local-set-key (kbd "k") 'previous-line)
+  (local-set-key (kbd "/") 'evil-search-forward)
+  (local-set-key (kbd "n") 'evil-search-next))
 
-;; Dired
-(define-key dired-mode-map "$" 'evil-end-of-line)
-(define-key dired-mode-map "0" 'evil-beginning-of-line)
-(define-key dired-mode-map "w" 'evil-forward-word-begin)
-(define-key dired-mode-map "f" 'evil-find-char)
-(define-key dired-mode-map "g" 'evil-goto-first-line)
-(define-key dired-mode-map "G" 'evil-goto-line)
-(define-key dired-mode-map "h" 'evil-backward-char)
-(define-key dired-mode-map "j" 'evil-next-line)
-(define-key dired-mode-map "k" 'evil-previous-line)
-(define-key dired-mode-map "l" 'evil-forward-char)
-(define-key dired-mode-map "b" 'evil-backward-word-begin)
-(define-key dired-mode-map  "/" 'evil-search-forward)
+(add-hook 'dired-mode-hook 'more-evil)
+(add-hook 'package-menu-mode-hook 'more-evil)
 
-;; Package Menu
-(define-key package-menu-mode-map "$" 'evil-end-of-line)
-(define-key package-menu-mode-map "0" 'evil-beginning-of-line)
-(define-key package-menu-mode-map "w" 'evil-forward-word-begin)
-(define-key package-menu-mode-map "f" 'evil-find-char)
-(define-key package-menu-mode-map "g" 'evil-goto-first-line)
-(define-key package-menu-mode-map "G" 'evil-goto-line)
-(define-key package-menu-mode-map "h" 'evil-backward-char)
-(define-key package-menu-mode-map "j" 'evil-next-line)
-(define-key package-menu-mode-map "k" 'evil-previous-line)
-(define-key package-menu-mode-map "l" 'evil-forward-char)
-(define-key package-menu-mode-map "b" 'evil-backward-word-begin)
-(define-key package-menu-mode-map  "/" 'evil-search-forward)
+;; Fix! 
+;; (dolist (mode '(dired-mode
+;;                 package-menu-mode))
+;;   (add-to-list 'evil-emacs-state-modes mode))
 
-;; Helm Mode
+;; Helm Keys 
 ;;---------------------------------------
 (define-key helm-map [tab] 'helm-execute-persistent-action)
 (define-key helm-map (kbd "C-j") 'helm-find-files-down-last-level)
@@ -301,7 +295,7 @@
 (set-frame-parameter (selected-frame) 'alpha '(97 . 78))
 (add-to-list 'default-frame-alist '(alpha . (97 . 78)))
 
-;; Et al
+;; ..Et al
 ;;---------------------------------------
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
