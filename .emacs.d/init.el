@@ -25,7 +25,6 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 (setq column-number-mode t)
 (global-hl-line-mode 1)
-(add-to-list 'default-frame-alist '(font . "Menlo-11"))
 (setq-default fill-column 80)
 (server-start)
 (setq ispell-program-name "/usr/local/bin/aspell")
@@ -124,7 +123,7 @@
 
 (helm-mode 1)
 
-;; Utility Functions
+;; General Utility Functions
 ;;------------------------------------------------------------------------------
 (defun display_sleep ()
   (interactive)
@@ -183,7 +182,7 @@
 ;; ..Et al
 (global-set-key (kbd "s-Z") 'display_sleep)
 
-;; Evil Keys 
+;; Evil Keys
 ;;---------------------------------------
 ;; Evil Global
 ;; Escape everything.
@@ -256,17 +255,30 @@
 (add-hook 'dired-mode-hook 'more-evil)
 (add-hook 'package-menu-mode-hook 'more-evil)
 
-;; Fix! 
+;; Fix!
 ;; (dolist (mode '(dired-mode
 ;;                 package-menu-mode))
 ;;   (add-to-list 'evil-emacs-state-modes mode))
 
-;; Helm Keys 
+;; Helm Keys
 ;;---------------------------------------
 (define-key helm-map [tab] 'helm-execute-persistent-action)
 (define-key helm-map (kbd "C-j") 'helm-find-files-down-last-level)
 (define-key helm-map (kbd "C-k") 'helm-find-files-up-one-level)
 (define-key helm-map (kbd "C-o") 'helm-select-action) ; <- o = option
+
+;; Word Processing
+;;---------------------------------------
+(defun my-text-format()
+  "Sensible keybindings for word processing."
+  (local-set-key (kbd "s-b") 'facemenu-set-bold)
+  (local-set-key (kbd "s-d") 'facemenu-set-default)
+  (local-set-key (kbd "s-i") 'facemenu-set-italic)
+  (local-set-key (kbd "s-u") 'facemenu-set-underline))
+
+;; Enriched Mode allows saved formating.
+(add-hook 'text-mode-hook 'enriched-mode)
+(add-hook 'text-mode-hook 'my-text-format)
 
 ;; Aesthetics
 ;;------------------------------------------------------------------------------
@@ -278,6 +290,17 @@
 (set-cursor-color "#ff6666")
 (add-to-list 'default-frame-alist '(cursor-color . "ff6666"))
 (set-face-background hl-line-face "#3c3836")
+
+;; Fonts
+(add-to-list 'default-frame-alist '(font . "Menlo-11"))
+;; Buffer-specific fonts..
+(defun text-buffer-face-mode-variable ()
+  "For Text Mode, set variable width (proportional) fonts in current buffer."
+  (interactive)
+  (setq buffer-face-mode-face '(:family "Baskerville" :height 160 :width semi-condensed))
+  (buffer-face-mode))
+;; .. And their hooks.
+(add-hook 'text-mode-hook 'text-buffer-face-mode-variable)
 
 ;; Parenthesis
 (require 'paren)
