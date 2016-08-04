@@ -8,6 +8,7 @@ TAGS
 *.dat
 backups/
 elpa/
+games/
 tramp/
 
 # vim

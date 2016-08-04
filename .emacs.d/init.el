@@ -91,7 +91,7 @@
 (require 'evil-surround)
 (global-evil-leader-mode) ;; <- Must come before setting evil?
 (evil-mode 1)
-(global-evil-mc-mode 1)
+;; (global-evil-mc-mode 1) <- For now.
 (global-evil-tabs-mode t)
 (global-evil-surround-mode 1)
 
@@ -122,6 +122,11 @@
 ;; (setq helm-autoresize-max-height 33)
 
 (helm-mode 1)
+
+;; Python
+;;---------------------------------------
+(require 'py-autopep8)
+(add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
 
 ;; General Utility Functions
 ;;------------------------------------------------------------------------------
@@ -155,6 +160,10 @@
         "Keyboard macro."
         (interactive "p")
         (kmacro-exec-ring-item (quote ([48 105 return escape 107] 0 "%d")) arg)))
+
+;; Persistent indentation
+(fset 'persistent-indent
+      [?\C-j tab escape ?i ? ])
 
 ;; Keybindings
 ;;------------------------------------------------------------------------------
@@ -198,9 +207,9 @@
 (key-chord-define evil-insert-state-map "jj" 'evil-normal-state) ;; remap escape-to-normal
 (define-key evil-normal-state-map (kbd ";") 'execute-extended-command)
 
-;; Multiple Cursors
-(define-key evil-normal-state-map (kbd "C-m") 'evil-mc-make-all-cursors)
+;; Multiple Cursors (Fix This!)
 (define-key evil-normal-state-map (kbd "C-n") 'evil-mc-make-and-goto-next-match)
+;;(define-key evil-normal-state-map (kbd "C-m") 'evil-mc-make-all-cursors)
 ;; (define-key evil-mc-key-map (kbd "jj") 'evil-mc-undo-all-cursors)
 ;; (define-key evil-mcnormal-state-map (kbd "C-q") 'evil-mc-undo-all-cursors)
 ;; (define-key evil-normal-state-map (kbd "C-p") 'evil-mc-make-and-goto-prev-match)
@@ -208,7 +217,7 @@
 ;; Evil Leader
 (evil-leader/set-leader "<SPC>")
 (evil-leader/set-key
-  "`"  (lambda () (interactive) (find-file "~/.emacs.d/init.el"))
+  ;; "`"  (lambda () (interactive) (find-file "~/.emacs.d/init.el"))
   "2"  (kbd "@@")
   "4"  'async-shell-command
   "-"  'evil-scroll-page-up
@@ -270,13 +279,16 @@
 ;; Word Processing
 ;;---------------------------------------
 (defun my-text-format()
-  "Sensible keybindings for word processing."
+  "Sensible keybindings for word formatting."
   (local-set-key (kbd "s-b") 'facemenu-set-bold)
   (local-set-key (kbd "s-d") 'facemenu-set-default)
   (local-set-key (kbd "s-i") 'facemenu-set-italic)
-  (local-set-key (kbd "s-u") 'facemenu-set-underline))
+  (local-set-key (kbd "s-u") 'facemenu-set-underline)
 
-;; Enriched Mode allows saved formating.
+  "Sensible indenting with Evil Mode."
+  (evil-define-key 'insert text-mode-map (kbd "RET") 'persistent-indent))
+
+;; Enriched Mode allows saved formatting.
 (add-hook 'text-mode-hook 'enriched-mode)
 (add-hook 'text-mode-hook 'my-text-format)
 
@@ -294,13 +306,13 @@
 ;; Fonts
 (add-to-list 'default-frame-alist '(font . "Menlo-11"))
 ;; Buffer-specific fonts..
-(defun text-buffer-face-mode-variable ()
-  "For Text Mode, set variable width (proportional) fonts in current buffer."
-  (interactive)
-  (setq buffer-face-mode-face '(:family "Baskerville" :height 160 :width semi-condensed))
-  (buffer-face-mode))
+;; (defun text-buffer-face-mode-variable ()
+;;   "For Text Mode, set variable width (proportional) fonts in current buffer."
+;;   (interactive)
+;;   (setq buffer-face-mode-face '(:family "Baskerville" :height 150 :width semi-condensed))
+;;   (buffer-face-mode))
 ;; .. And their hooks.
-(add-hook 'text-mode-hook 'text-buffer-face-mode-variable)
+;; (add-hook 'text-mode-hook 'text-buffer-face-mode-variable)
 
 ;; Parenthesis
 (require 'paren)

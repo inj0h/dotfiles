@@ -22,7 +22,8 @@
     key-chord
     helm
     magit
-    markdown-mode)
+    markdown-mode
+    py-autopep8)
   "Packages that require installation at launch.")
 
 (defun package-not-installed ()
