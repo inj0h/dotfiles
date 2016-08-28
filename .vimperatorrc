@@ -1,0 +1,5 @@
+" General
+" ------------------------------------------------------------------------------
+set gui=nonavigation
+set hintchars="hjklasdfgyuiopqwertnmzxcvb"
+highlight Hint font-family: monospace; font-size: 14px; font-weight: bold; text-transform: uppercase; color: white; background-color: black; border-color: ButtonShadow; border-width: 0px; border-style: solid; padding: 0px 1px 0px 1px; 

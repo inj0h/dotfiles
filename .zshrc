@@ -122,3 +122,5 @@ unsetopt ignore_eof             # Do not exit on end-of-file.
 unsetopt list_beep              # No bell on ambiguous completion.
 unsetopt rm_star_silent         # Ask for confirmation for `rm *' or `rm path/*'.
 # setxkbmap -option compose:ralt  # compose-key... shell doesn't seem to like this.
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"

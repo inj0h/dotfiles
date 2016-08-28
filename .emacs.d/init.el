@@ -92,7 +92,7 @@
 (global-evil-leader-mode) ;; <- Must come before setting evil?
 (evil-mode 1)
 ;; (global-evil-mc-mode 1) <- For now.
-(global-evil-tabs-mode t)
+;; (global-evil-tabs-mode t)
 (global-evil-surround-mode 1)
 
 ;; Fix!
@@ -134,13 +134,6 @@
   (interactive)
   (compile "~/.bin/sh/display_sleep.sh"))
 
-(defun cleanup-whitespace ()
-  "Perform a bunch of operations on the whitespace content of a buffer."
-  (interactive)
-  (save-excursion
-    (delete-trailing-whitespace)
-    (indent-region (point-min) (point-max))))
-
 (defun indent-whole-buffer ()
   "Indent whole buffer."
   (interactive)
@@ -180,12 +173,8 @@
 
 (global-set-key (kbd "s-q") 'keyboard-quit)
 
-;; Tabs and Windows
+;; Windows
 (global-set-key (kbd "s-1") 'delete-other-windows)
-
-(global-set-key (kbd "s-}") 'evil-tabs-goto-tab) ; Like MacOS
-(global-set-key (kbd "s-{") 'elscreen-previous) ; Like MacOS
-
 (global-set-key (kbd "s-x") 'delete-window)
 
 ;; ..Et al
@@ -217,7 +206,6 @@
 ;; Evil Leader
 (evil-leader/set-leader "<SPC>")
 (evil-leader/set-key
-  ;; "`"  (lambda () (interactive) (find-file "~/.emacs.d/init.el"))
   "2"  (kbd "@@")
   "4"  'async-shell-command
   "-"  'evil-scroll-page-up
@@ -226,7 +214,6 @@
   "w1" 'delete-other-windows
   "wd" 'delete-window
   "el" 'eval-last-sexp
-  "t"  'elscreen-create
   "i"  'insert_line
   "I"  'indent-whole-buffer
   "p"  'flycheck-mode ; <- p = parse
@@ -245,9 +232,10 @@
   "j"  (lambda () (interactive) (evil-next-line 10))
   "k"  (lambda () (interactive) (evil-previous-line 10))
   "l"  'goto-last-change
+  "L"  'linum-relative-mode
 
   "c"  'comment-dwim
-  "C"  'cleanup-whitespace
+  "C"  'delete-trailing-whitespace
   "b"  'helm-buffers-list
   "n"  'count-words-region
 
@@ -279,17 +267,16 @@
 ;; Word Processing
 ;;---------------------------------------
 (defun my-text-format()
-  "Sensible keybindings for word formatting."
-  (local-set-key (kbd "s-b") 'facemenu-set-bold)
-  (local-set-key (kbd "s-d") 'facemenu-set-default)
-  (local-set-key (kbd "s-i") 'facemenu-set-italic)
-  (local-set-key (kbd "s-u") 'facemenu-set-underline)
+  ;; "Sensible keybindings for word formatting."
+  ;; Probably don't need these bindings anymore.
+  ;; (local-set-key (kbd "s-b") 'facemenu-set-bold)
+  ;; (local-set-key (kbd "s-d") 'facemenu-set-default)
+  ;; (local-set-key (kbd "s-i") 'facemenu-set-italic)
+  ;; (local-set-key (kbd "s-u") 'facemenu-set-underline)
 
   "Sensible indenting with Evil Mode."
   (evil-define-key 'insert text-mode-map (kbd "RET") 'persistent-indent))
 
-;; Enriched Mode allows saved formatting.
-(add-hook 'text-mode-hook 'enriched-mode)
 (add-hook 'text-mode-hook 'my-text-format)
 
 ;; Aesthetics

@@ -8,7 +8,8 @@ alias emacs='emacsclient'                                                       
 alias ls='ls -aGh'
 alias ll='ls -aGh1'
 alias lv='ls -aGhl'
-alias vi='emacsclient -tty'                                                     # Heresy! 
+alias vi='/usr/local/opt/neovim/bin/nvim'                                       # Neovim.
+alias vim='/usr/local/opt/neovim/bin/nvim'                                      # And Neovim.
 
 # Apple Scripts
 alias goto_safari='cd; cd .bin/appl/; osascript goto_safari.scpt'
@@ -17,7 +18,7 @@ alias goto_safari='cd; cd .bin/appl/; osascript goto_safari.scpt'
 alias quitter='./.bin/sh/quitter.sh'
 
 # ssh
-# TAMU 
+# TAMU
 alias compute='ssh -Y eric.chung@compute.cse.tamu.edu'                          # Compute Server.
 alias linux='ssh -Y eric.chung@linux.cse.tamu.edu'                              # Linux Server.
 # Et al

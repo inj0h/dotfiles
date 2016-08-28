@@ -15,7 +15,6 @@
     evil-leader
     evil-mc
     evil-surround
-    evil-tabs
     auto-complete
     flycheck
     gruvbox-theme
@@ -23,7 +22,12 @@
     helm
     magit
     markdown-mode
-    py-autopep8)
+    py-autopep8
+    slime
+    clojure-mode
+    clojure-mode-extra-font-locking
+    cider
+    linum-relative)
   "Packages that require installation at launch.")
 
 (defun package-not-installed ()
