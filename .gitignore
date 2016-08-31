@@ -3,15 +3,12 @@
 # ctags
 TAGS
 
-# emacs
-*~
-*.dat
-backups/
-elpa/
-games/
-tramp/
-
 # vim
+bundle/*
+!gruvbox/
+!plug.sh
+!haskell.vim
+!mywombat.vim
 *.swo
 *.swp
 *.netrwhist
