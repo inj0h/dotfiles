@@ -1,7 +1,11 @@
 # ~/.bashrc
 # ------------------------------------------------------------------------------
-export PS1="\u @ \h \w\n$ "                                             # Prompt.
-export TERM='xterm-256color'                                            # Terminal type.
+# Prompt.
+export PS1="\u @ \h \w\n$ "
+
+# Terminal type.
+export TERM='xterm-256color'
+
 export CLICOLOR=1
 export LSCOLORS=GxFxDxBxCxegedabagacad
 # Order of lscolors from left to right.

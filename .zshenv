@@ -3,10 +3,13 @@
 
 # Variables
 # ------------------------------------------------------------------------------
+# fzf colors (monokai)
 export FZF_DEFAULT_OPTS='
 --color fg:252,bg:-1,hl:67,fg+:252,bg+:235,hl+:81
---color info:144,prompt:161,spinner:135,pointer:135,marker:118'                 # fzf colors (monokai)
-export FZF_DEFAULT_COMMAND='ag --hidden --silent --ignore .git -f -g ""' # fzf search 
+--color info:144,prompt:161,spinner:135,pointer:135,marker:118'                 
+
+# fzf search 
+export FZF_DEFAULT_COMMAND='ag --hidden --silent --ignore .git -f -g ""' 
 
 # Aliases
 # ------------------------------------------------------------------------------
