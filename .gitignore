@@ -4,6 +4,7 @@
 TAGS
 
 # vim
+nvim/autoload/*
 nvim/bundle/*
 !nvim/bundle/gruvbox/
 !nvim/bundle/plug.sh
