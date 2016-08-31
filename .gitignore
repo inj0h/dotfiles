@@ -4,11 +4,11 @@
 TAGS
 
 # vim
-bundle/*
-!gruvbox/
-!plug.sh
-!haskell.vim
-!mywombat.vim
+nvim/bundle/*
+!nvim/bundle/gruvbox/
+!nvim/bundle/plug.sh
+!nvim/bundle/haskell.vim
+!nvim/bundle/mywombat.vim
 *.swo
 *.swp
 *.netrwhist
