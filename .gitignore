@@ -9,6 +9,6 @@ nvim/bundle/*
 !nvim/bundle/plug.sh
 !nvim/bundle/haskell.vim
 !nvim/bundle/mywombat.vim
-*.swo
-*.swp
-*.netrwhist
+nvim/*.swo
+nvim/*.swp
+nvim/*.netrwhist
