@@ -3,6 +3,7 @@
 execute pathogen#infect()|                              " Pathogen package manager.
 
 syntax on                                               " Enable syntax linting.
+filetype on                                             " Enable filetype variable.
 filetype plugin on                                      " Enable plugins.
 filetype plugin indent on                               " Enable indent by plugin(s).
 
@@ -28,6 +29,7 @@ set clipboard=unnamed                                   " Enable clipboard acces
 set cursorline                                          " Show current line.
 set expandtab                                           " Set tabs = spaces.
 set foldcolumn=1                                        " Whitespace indentation on left margin.
+set formatoptions+=t                                    " Set textwidth for code but not comments.
 set history=100                                         " History log.
 set ignorecase                                          " Ignore casing when searching.
 set listchars=tab:>-,nbsp:_,trail:.                     " Make tabs + trailing spaces visible.
@@ -39,39 +41,34 @@ set shell=zsh                                           " Shell = zsh.
 set shiftwidth=4                                        " Width of indent in spaces.
 set showcmd                                             " Show commands as typed.
 set smartcase                                           " Specify casing in searching.
+set spelllang=en_us                                     " Parse English.
 set splitbelow                                          " Always split windows below.
 set softtabstop=4                                       " Whitespace/tab stuff.
 set tabstop=8                                           " Width of tab char in spaces.
 set termguicolors                                       " Enable truecolors.
-set textwidth=79                                        " Break line after 80 chars.
+set textwidth=0                                         " Textwidth = window width.
 set undolevels=500                                      " Extent of undo remembers.
 set visualbell                                          " No beeping.
 set wildmode=list:longest,list                          " Tab completion.
 
 " Automatic Commands
-au BufNewFile,BufRead * set formatoptions+=t            " Set textwidth for code but not comments.
-au BufNewFile,BufRead .txt set spell spelllang=en_us    " Spell checking for .txt.
-au BufNewFile,BufRead .zshrc set textwidth=159          " Double textwidth for zshrc.
-au! BufWritePost * Neomake                              " Async run Neomake upon write.
+" ------------------------------------------------------------------------------
+" Async run Neomake upon write.
+autocmd! BufEnter,BufReadPost,BufWritePost * Neomake
+
+" Pep8 compliance.
+autocmd FileType python setlocal textwidth=79 tabstop=4 fileformat=unix
+
+" Better word processing.
+autocmd FileType text setlocal wrap linebreak nolist spell!
+
+" For editing VimL.
+autocmd FileType vim setlocal textwidth=79 formatoptions+=t
 
 " Aesthetic
 " ------------------------------------------------------------------------------
 let g:gruvbox_contrast_dark='soft'                      " Set soft colors.
 colorscheme gruvbox                                     " A rad colorscheme.
-
-" Highlight color settings (mostly overwritten by colorscheme).
-hi CursorLine ctermbg=gray ctermfg=none
-hi CursorLineNR ctermbg=gray
-hi FoldColumn ctermbg=gray
-hi MatchParen ctermbg=none ctermfg=none
-hi Normal ctermbg=none ctermfg=none
-hi SignColumn ctermbg=none
-hi SpellBad ctermbg=Blue ctermfg=black
-hi SpellCap ctermbg=none
-hi SpellLocal ctermbg=Blue ctermfg=black
-hi SpellRare ctermbg=Blue ctermfg=black
-hi StatusLine ctermbg=none ctermfg=gray
-hi Visual ctermbg=none ctermfg=black
 
 " Functions
 " ------------------------------------------------------------------------------
@@ -129,7 +126,7 @@ nnoremap <leader>t :tabnew<cr>|                         " New tab.
 nnoremap <leader>T :tabnew<cr>:e .<cr>|                 " New tab + file tree.
 nnoremap <leader>y 0wv$hy<cr>|                          " Yank a line without \n.
 nnoremap <leader>i 0i<cr><esc>k|                        " Insert line.
-nnoremap <leader>f :Files /Users/Eric/<cr>|                  " FZF by file.
+nnoremap <leader>f :Files /Users/Eric/<cr>|             " FZF by file.
 nnoremap <leader>F :Files /|                            " FZF by file from /.
 nnoremap <leader>[ <c-t>|                               " Return from def ctag.
 nnoremap <leader>] <c-]>|                               " Goto function def ctag.
@@ -147,7 +144,7 @@ nnoremap <leader>/ :noh<cr>|                            " Undo find highlighting
 " Plugin Settings
 " ------------------------------------------------------------------------------
 " FZF
-let g:fzf_layout = { 'down': '~33%' }
+let g:fzf_layout = { 'up': '~33%' }
 
 " Lightline
 let g:lightline = {
@@ -168,7 +165,7 @@ let g:lightline = {
 " Multiple Cursors
 let g:multi_cursor_quit_key='q'
 
-" Language support
+" Language Support
 " ------------------------------------------------------------------------------
 " Haskell
 let g:haskell_classic_highlighting = 1
