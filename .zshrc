@@ -5,7 +5,7 @@ colors                 # Colors.
 zsh-mime-setup         # Run everything as if it's an executable.
 select-word-style bash # Ctrl+W on words.
 
-# VCS 
+# VCS
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git svn hg
 zstyle ':vcs_info:*' check-for-changes true
@@ -19,7 +19,7 @@ setopt PROMPT_SUBST     # Allow funky stuff in prompt.
 
 color="green"
 if [ "$USER" = "root" ]; then
-    color="red"         # Root is red. 
+    color="red"         # Root is red.
 fi;
 
 PROMPT="%{$fg[$color]%}%n%{$reset_color%}%B%{$fg[red]%}@%b%U%B%{$fg[red]%}%m%b%{$reset_color%}%u %{$fg[yellow]%}%~ \$vcs_info_msg_0_

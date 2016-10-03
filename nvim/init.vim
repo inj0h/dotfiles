@@ -60,7 +60,7 @@ autocmd! BufEnter,BufReadPost,BufWritePost * Neomake
 autocmd FileType python setlocal textwidth=79 tabstop=4 fileformat=unix
 
 " Better word processing.
-autocmd FileType text setlocal wrap linebreak nolist spell!
+autocmd FileType text setlocal wrap linebreak nolist spell
 
 " For editing VimL.
 autocmd FileType vim setlocal textwidth=79 formatoptions+=t
@@ -122,8 +122,6 @@ nnoremap <leader>0 zz                                   " Recenter window.
 nnoremap <leader>Q :qall<cr>|                           " Quit if everything is saved.
 nnoremap <leader>w :!goto_safari<cr>|                   " Call script.
 nnoremap <leader>r :w<cr> :<c-p><cr>|                   " Write then redo prev command.
-nnoremap <leader>t :tabnew<cr>|                         " New tab.
-nnoremap <leader>T :tabnew<cr>:e .<cr>|                 " New tab + file tree.
 nnoremap <leader>y 0wv$hy<cr>|                          " Yank a line without \n.
 nnoremap <leader>i 0i<cr><esc>k|                        " Insert line.
 nnoremap <leader>f :Files /Users/Eric/<cr>|             " FZF by file.

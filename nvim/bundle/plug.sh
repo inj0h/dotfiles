@@ -1,5 +1,5 @@
 #!/bin/bash
-# Install and update Pathogen managed Vim plugins. 
+# Install and update Pathogen managed Vim plugins.
 set -e
 
 # Variables.
@@ -29,7 +29,7 @@ then
     echo "Installing plugins."
     for i in "${PLUGINS[@]}"
     do
-        git clone $i 
+        git clone $i
     done
 fi
 

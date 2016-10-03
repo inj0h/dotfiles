@@ -25,10 +25,9 @@ export LSCOLORS=GxFxDxBxCxegedabagacad
 shopt -s expand_aliases                                                 # Vim reads aliases.
 
 # General
-alias em='emacsclient -tty'                                             # Plug into terminal Emacs.
-alias emacs='emacsclient'                                               # Plug into GUI Emacs.
 alias ls='ls -aGh'
-alias vi='emacsclient -tty'                                             # Heresy!
+alias vi='/usr/local/opt/neovim/bin/nvim'                               # Neovim.
+alias vim='/usr/local/opt/neovim/bin/nvim'                              # And Neovim.
 
 # Apple Scripts
 alias goto_safari='cd; cd .bin/appl/; osascript goto_safari.scpt'

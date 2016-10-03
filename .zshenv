@@ -3,18 +3,16 @@
 
 # Variables
 # ------------------------------------------------------------------------------
-# fzf colors (monokai)
+# fzf colors
 export FZF_DEFAULT_OPTS='
---color fg:252,bg:-1,hl:67,fg+:252,bg+:-1,hl+:81
---color info:144,prompt:161,spinner:135,pointer:135,marker:118'                 
+--color fg:252,bg:-1,hl:144,fg+:252,bg+:-1,hl+:228
+--color info:144,prompt:114,spinner:-1,pointer:114,marker:193'
 
-# fzf search 
-export FZF_DEFAULT_COMMAND='ag --hidden --silent --ignore .git -f -g ""' 
+# fzf search
+export FZF_DEFAULT_COMMAND='ag --hidden --silent --ignore .git -f -g ""'
 
 # Aliases
 # ------------------------------------------------------------------------------
-alias em='emacsclient -tty'                                                     # Plug into terminal Emacs.
-alias emacs='emacsclient'                                                       # Plug into GUI Emacs.
 alias ls='ls -aGh'
 alias ll='ls -aGh1'
 alias lv='ls -aGhl'
