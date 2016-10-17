@@ -2,5 +2,5 @@
 # quickly push changes to a github repo
 set -e
 git add .
-git commit -a -m "autoupdate"
-git push origin master 
+git commit -am "Emergency push!"
+git push origin master

@@ -51,10 +51,14 @@ set undolevels=500                                      " Extent of undo remembe
 set visualbell                                          " No beeping.
 set wildmode=list:longest,list                          " Tab completion.
 
+
 " Automatic Commands
 " ------------------------------------------------------------------------------
 " Async run Neomake upon write.
 autocmd! BufEnter,BufReadPost,BufWritePost * Neomake
+
+" Remove all trailing whitespace upon write.
+autocmd BufWritePre * %s/\s\+$//e
 
 " Pep8 compliance.
 autocmd FileType python setlocal textwidth=79 tabstop=4 fileformat=unix
@@ -65,10 +69,12 @@ autocmd FileType text setlocal wrap linebreak nolist spell
 " For editing VimL.
 autocmd FileType vim setlocal textwidth=79 formatoptions+=t
 
+
 " Aesthetic
 " ------------------------------------------------------------------------------
 let g:gruvbox_contrast_dark='soft'                      " Set soft colors.
 colorscheme gruvbox                                     " A rad colorscheme.
+
 
 " Functions
 " ------------------------------------------------------------------------------
@@ -87,6 +93,7 @@ endfunc
 function LintSpell()
     set spell!
 endfunc
+
 
 " Keybindings
 " ------------------------------------------------------------------------------
@@ -139,6 +146,7 @@ nnoremap <leader>b :bnext <cr>|                         " Cycle buffers.
 nnoremap <leader>B :buffers <cr>|                       " List buffer(s).
 nnoremap <leader>/ :noh<cr>|                            " Undo find highlighting.
 
+
 " Plugin Settings
 " ------------------------------------------------------------------------------
 " FZF
@@ -162,6 +170,7 @@ let g:lightline = {
 
 " Multiple Cursors
 let g:multi_cursor_quit_key='q'
+
 
 " Language Support
 " ------------------------------------------------------------------------------

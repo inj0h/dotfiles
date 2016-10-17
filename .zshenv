@@ -13,17 +13,38 @@ export FZF_DEFAULT_COMMAND='ag --hidden --silent --ignore .git -f -g ""'
 
 # Aliases
 # ------------------------------------------------------------------------------
+# General
 alias ls='ls -aGh'
 alias ll='ls -aGh1'
 alias lv='ls -aGhl'
+alias ff='fzf'
 alias vi='/usr/local/opt/neovim/bin/nvim'                                       # Neovim.
 alias vim='/usr/local/opt/neovim/bin/nvim'                                      # And Neovim.
 
-# Apple Scripts
-alias goto_safari='cd; cd .bin/appl/; osascript goto_safari.scpt'
+# Git
+alias git_shove_config='./.bin/sh/git_shove_config.sh'                          # Quick commit.
+alias git_up_subs='git submodule foreach git pull origin master'                # Update submodules.
 
-# Utility Scripts
+# Paths
+alias cellar='/usr/local/Cellar/'                                               # Homebrew CLI binaries.
+# Class paths (tmp).
+alias cs206='~/Desktop/strucprog_206/'
+alias datasci='~/Desktop/datasci_489/'
+alias hci='~/Desktop/hci_436/project/'
+alias gamedev='~/Desktop/gamedev_443/'
+alias parallel='~/Desktop/parallel_435/'
+alias seminar='~/Desktop/seminar_481/'
+
+# Scripts
+alias goto_safari='cd; cd .bin/appl/; osascript goto_safari.scpt'
 alias quitter='./.bin/sh/quitter.sh'
+
+# Sql
+alias mysqladmin='/usr/local/Cellar/mysql/5.7.13/bin/mysql -u root -h localhost -p'
+alias mysqluser='/usr/local/Cellar/mysql/5.7.13/bin/mysql -u eric0112 -h localhost -p'
+
+# Shell integration
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 # ssh
 # TAMU
@@ -34,14 +55,3 @@ if [ -f ~/.ssh_aliases ];
 then
     source ~/.ssh_aliases
 fi
-
-# Git
-alias git_shove_config='./.bin/sh/git_shove_config.sh'                          # Quick commit.
-alias git_up_subs='git submodule foreach git pull origin master'                # Update submodules.
-
-# Shell Integration
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-
-# MySQL (testing)
-alias mysqladmin='/usr/local/Cellar/mysql/5.7.13/bin/mysql -u root -h localhost -p'
-alias mysqluser='/usr/local/Cellar/mysql/5.7.13/bin/mysql -u eric0112 -h localhost -p'
