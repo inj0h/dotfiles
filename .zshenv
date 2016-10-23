@@ -14,6 +14,7 @@ export FZF_DEFAULT_COMMAND='ag --hidden --silent --ignore .git -f -g ""'
 # Aliases
 # ------------------------------------------------------------------------------
 # General
+alias ctags='/usr/local/opt/ctags/bin/ctags'                                    # ctags.
 alias ls='ls -aGh'
 alias ll='ls -aGh1'
 alias lv='ls -aGhl'
