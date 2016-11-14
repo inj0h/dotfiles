@@ -575,17 +575,17 @@
 	<key>NSWindow Frame Preferences</key>
 	<string>199 395 606 456 0 0 1440 877 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
-	<string>650 498 620 392 0 0 1920 1057 </string>
+	<string>650 499 620 392 0 0 1920 1057 </string>
 	<key>NSWindow Frame SessionsPreferences</key>
 	<string>424 198 606 456 0 0 1920 1057 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>263 385 796 473 0 0 1920 1057 </string>
+	<string>151 371 918 495 0 0 1440 877 </string>
 	<key>NSWindow Frame UKCrashReporter</key>
 	<string>99 293 592 584 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>965 567 710 490 0 0 1920 1057 </string>
+	<string>965 541 955 516 0 0 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
-	<string>0 556 710 490 0 0 1920 1057 </string>
+	<string>0 10 1438 867 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 10</key>
 	<string>436 532 710 490 0 0 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 11</key>
@@ -599,13 +599,13 @@
 	<key>NSWindow Frame iTerm Window 15</key>
 	<string>541 417 710 490 0 0 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
-	<string>338 39 710 490 0 0 1920 1057 </string>
+	<string>965 528 955 529 0 0 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 3</key>
-	<string>373 6 710 490 0 0 1920 1057 </string>
+	<string>0 4 955 516 0 0 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 4</key>
-	<string>310 38 710 490 0 0 1920 1057 </string>
+	<string>0 541 955 516 0 0 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 5</key>
-	<string>331 15 710 490 0 0 1920 1057 </string>
+	<string>0 541 955 516 0 0 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 6</key>
 	<string>352 567 710 490 0 0 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 7</key>
@@ -874,7 +874,7 @@
 			<key>Blink Allowed</key>
 			<false/>
 			<key>Blinking Cursor</key>
-			<false/>
+			<true/>
 			<key>Blur</key>
 			<false/>
 			<key>Blur Radius</key>
@@ -2343,6 +2343,10 @@
 	<true/>
 	<key>NoSyncDoNotWarnBeforeMultilinePaste_selection</key>
 	<integer>0</integer>
+	<key>NoSyncDoNotWarnBeforePastingOneLineEndingInNewlineAtShellPrompt</key>
+	<true/>
+	<key>NoSyncDoNotWarnBeforePastingOneLineEndingInNewlineAtShellPrompt_selection</key>
+	<integer>1</integer>
 	<key>NoSyncHaveWarnedAboutIncompatibleSoftware</key>
 	<true/>
 	<key>NoSyncInstallationId</key>
@@ -2497,7 +2501,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2016-10-24T04:33:08Z</date>
+	<date>2016-11-13T01:35:37Z</date>
 	<key>SavePasteHistory</key>
 	<false/>
 	<key>Secure Input</key>
@@ -2549,7 +2553,7 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>3.0.11</string>
+	<string>3.0.12</string>
 	<key>kCPKSelectionViewPreferredModeKey</key>
 	<integer>0</integer>
 	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>

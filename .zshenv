@@ -15,10 +15,11 @@ export FZF_DEFAULT_COMMAND='ag --hidden --silent --ignore .git -f -g ""'
 # ------------------------------------------------------------------------------
 # General
 alias ctags='/usr/local/opt/ctags/bin/ctags'                                    # ctags.
+alias ff='fzf'
+alias grep='/usr/local/opt/grep/bin/grep --color'                               # GNU grep.
 alias ls='ls -aGh'
 alias ll='ls -aGh1'
 alias lv='ls -aGhl'
-alias ff='fzf'
 alias vi='/usr/local/opt/neovim/bin/nvim'                                       # Neovim.
 alias vim='/usr/local/opt/neovim/bin/nvim'                                      # And Neovim.
 
