@@ -22,7 +22,7 @@ if [ "$USER" = "root" ]; then
     color="red"         # Root is red.
 fi;
 
-PROMPT="%{$fg[$color]%}%n%{$reset_color%}%B%{$fg[red]%}@%b%U%B%{$fg[red]%}%m%b%{$reset_color%}%u %{$fg[yellow]%}%~ \$vcs_info_msg_0_
+PROMPT="%{$fg[yellow]%}[%{$reset_color%}% %{$fg[$color]%}%n%{$reset_color%}%B%{$fg[red]%}@%b%U%B%{$fg[red]%}%m%b%{$reset_color%}%{$fg[yellow]%}]%{$reset_color%}%u %{$fg[yellow]%}%~ \$vcs_info_msg_0_
 %{$fg[$color]%}$ %{$reset_color%}"
 
 export TERM=xterm-256color
