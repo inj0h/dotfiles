@@ -18,8 +18,10 @@ alias ctags='/usr/local/opt/ctags/bin/ctags'                                    
 alias ff='fzf'
 alias grep='/usr/local/opt/grep/bin/grep --color'                               # GNU grep.
 alias ls='ls -aGh'
+alias lsgrep='ls | /usr/local/opt/grep/bin/grep --color'                        # ls | grep.
 alias ll='ls -aGh1'
 alias lv='ls -aGhl'
+alias lvgrep='lv | /usr/local/opt/grep/bin/grep --color'                        # lv | grep.
 alias vi='/usr/local/opt/neovim/bin/nvim'                                       # Neovim.
 alias vim='/usr/local/opt/neovim/bin/nvim'                                      # And Neovim.
 
