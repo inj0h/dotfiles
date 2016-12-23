@@ -22,6 +22,7 @@ alias lsgrep='ls | /usr/local/opt/grep/bin/grep --color'                        
 alias ll='ls -aGh1'
 alias lv='ls -aGhl'
 alias lvgrep='lv | /usr/local/opt/grep/bin/grep --color'                        # lv | grep.
+alias python='python3'                                                          # python3.
 alias vi='/usr/local/opt/neovim/bin/nvim'                                       # Neovim.
 alias vim='/usr/local/opt/neovim/bin/nvim'                                      # And Neovim.
 
