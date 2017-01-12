@@ -13,6 +13,7 @@ PLUGINS=(https://github.com/hdima/python-syntax
          https://github.com/neovimhaskell/haskell-vim
          https://github.com/octol/vim-cpp-enhanced-highlight
          https://github.com/pangloss/vim-javascript
+         https://github.com/sheerun/vim-polyglot.git
          https://github.com/terryma/vim-multiple-cursors
          https://github.com/tpope/vim-fugitive
          https://github.com/tpope/vim-surround
