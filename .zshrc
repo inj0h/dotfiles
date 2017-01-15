@@ -26,13 +26,14 @@ PROMPT="%{$fg[yellow]%}[%{$reset_color%}% %{$fg[$color]%}%n%{$reset_color%}%B%{$
 %{$fg[$color]%}$ %{$reset_color%}"
 
 export TERM=xterm-256color
-export LSCOLORS=exfxdxbxcxegedabagacad  # ls colors.
+export LSCOLORS=GxBxdxbxcxegedabagacad # ls colors.
 # Order of lscolors from left to right.
-# directory = b
-# symlink = f
-# socket = d
-# pipe = b
-# executable = c
+# directory
+# symlink
+# socket
+# pipe
+# executable
+# a = black
 # b = red
 # c = green
 # d = yellow
