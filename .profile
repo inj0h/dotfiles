@@ -1,7 +1,7 @@
 # ~/.profile
 # ------------------------------------------------------------------------------
 # Welcome Message
-printf "New session with $USER! \xf0\x9f\x8e\xb7  \n"
+printf "New session with $USER! \xf0\x9f\x8e\xb8  \n"
 
 # Adding to $PATH
 export PATH=~/anaconda2/bin:"$PATH"
