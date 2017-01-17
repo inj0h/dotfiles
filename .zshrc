@@ -17,13 +17,8 @@ precmd() {  # Run before each prompt.
 # Prompt
 setopt PROMPT_SUBST     # Allow funky stuff in prompt.
 
-color="green"
-if [ "$USER" = "root" ]; then
-    color="red"         # Root is red.
-fi;
-
-PROMPT="%{$fg[yellow]%}[%{$reset_color%}% %{$fg[$color]%}%n%{$reset_color%}%B%{$fg[red]%}@%b%U%B%{$fg[red]%}%m%b%{$reset_color%}%{$fg[yellow]%}]%{$reset_color%}%u %{$fg[yellow]%}%~ \$vcs_info_msg_0_
-%{$fg[$color]%}$ %{$reset_color%}"
+PROMPT="%{$fg[yellow]%}[%{$reset_color%}% %B%{$fg[red]%}%n%{$reset_color%}%{$fg[yellow]%}]%{$reset_color%} %{$fg[yellow]%}%~ \$vcs_info_msg_0_
+%{$fg[yellow]%}$ %{$reset_color%}"
 
 export TERM=xterm-256color
 export LSCOLORS=GxBxdxbxcxegedabagacad # ls colors.
