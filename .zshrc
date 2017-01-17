@@ -18,7 +18,7 @@ precmd() {  # Run before each prompt.
 setopt PROMPT_SUBST     # Allow funky stuff in prompt.
 
 PROMPT="%{$fg[yellow]%}[%{$reset_color%}% %B%{$fg[red]%}%n%{$reset_color%}%{$fg[yellow]%}]%{$reset_color%} %{$fg[yellow]%}%~ \$vcs_info_msg_0_
-%{$fg[yellow]%}$ %{$reset_color%}"
+%{$fg[yellow]%}> %{$reset_color%}"
 
 export TERM=xterm-256color
 export LSCOLORS=GxBxdxbxcxegedabagacad # ls colors.
