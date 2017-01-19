@@ -33,12 +33,11 @@ alias git_up_subs='git submodule foreach git pull origin master'                
 # Paths
 alias cellar='/usr/local/Cellar/'                                               # Homebrew CLI binaries.
 # Class paths (tmp).
-alias cs206='~/Desktop/strucprog_206/'
-alias datasci='~/Desktop/datasci_489/'
-alias hci='~/Desktop/hci_436/project/'
-alias gamedev='~/Desktop/gamedev_443/'
-alias parallel='~/Desktop/parallel_435/'
-alias seminar='~/Desktop/seminar_481/'
+alias cap='~/Desktop/cs482-502/'
+alias ethics='~/Desktop/cs489-900/'
+alias geo='~/Desktop/ge202-503/'
+alias micro='~/Desktop/cs462-501/'
+alias music='~/Desktop/mu201-501/'
 
 # Scripts
 alias goto_safari='cd; cd .bin/appl/; osascript goto_safari.scpt'
