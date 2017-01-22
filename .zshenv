@@ -34,7 +34,7 @@ alias git_up_subs='git submodule foreach git pull origin master'                
 alias cellar='/usr/local/Cellar/'                                               # Homebrew CLI binaries.
 # Class paths (tmp).
 alias cap='~/Desktop/cs482-502/'
-alias ethics='~/Desktop/cs489-900/'
+alias ethics='~/Desktop/cs489-901/'
 alias geo='~/Desktop/ge202-503/'
 alias micro='~/Desktop/cs462-501/'
 alias music='~/Desktop/mu201-501/'
