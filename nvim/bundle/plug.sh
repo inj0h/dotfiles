@@ -37,7 +37,7 @@ fi
 if [ "$1" == "update" ];
 then
     echo "Updating plugins."
-    for REPO in `ls | grep -v gruvbox | grep -v 'haskell\.vim' | grep -v mywombat.vim | grep -v plug.sh`
+    for REPO in `ls | grep -v 'haskell\.vim' | grep -v plug.sh`
     do
         (cd "$REPO"; git pull);
     done
