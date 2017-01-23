@@ -17,14 +17,13 @@ if !has('nvim')
     set laststatus=2                                    " Always show bottom status bar.
     set mouse=a                                         " Enable mouse.
     set nocompatible                                    " Disable vi compatibility.
-    set lazyredraw                                      " Redraw lines only when needed.
     set smarttab                                        " Whitespace/tab stuff.
     set t_Co=256                                        " Use 250 terminal colors.
     set wildmenu                                        " Tab completion.
 endif
 
 set autoread                                            " Reads external file updates.
-set background=dark                                     " C.f. gruvbox colors.
+set background=dark                                     " Goth background.
 set clipboard=unnamed                                   " Enable clipboard access.
 set cursorline                                          " Show current line.
 set expandtab                                           " Set tabs = spaces.
@@ -72,8 +71,7 @@ autocmd FileType vim setlocal textwidth=79 formatoptions+=t
 
 " Aesthetic
 " ------------------------------------------------------------------------------
-let g:gruvbox_contrast_dark='soft'                      " Set soft colors.
-colorscheme gruvbox                                     " A rad colorscheme.
+colorscheme cuevacafe
 
 
 " Functions
@@ -131,13 +129,14 @@ nnoremap <leader>w :!goto_safari<cr>|                   " Call script.
 nnoremap <leader>r :w<cr> :<c-p><cr>|                   " Write then redo prev command.
 nnoremap <leader>y 0wv$hy<cr>|                          " Yank a line without \n.
 nnoremap <leader>i 0i<cr><esc>k|                        " Insert line.
-nnoremap <leader>f :Files /Users/Eric/<cr>|             " FZF by file.
-nnoremap <leader>F :Files /|                            " FZF by file from /.
 nnoremap <leader>[ <c-t>|                               " Return from def ctag.
 nnoremap <leader>] <c-]>|                               " Goto function def ctag.
 
 nnoremap <leader>s <c-w><c-w>|                          " Better window jumping.
 nnoremap <leader>S :split<cr>|                          " Split new window below.
+nnoremap <leader>D :set lazyredraw!<cr>|                " Redraw lines only when needed.
+nnoremap <leader>f :Files /Users/Eric/<cr>|             " FZF by file.
+nnoremap <leader>F :Files /|                            " FZF by file from /.
 nnoremap <leader>l `.|                                  " Jump to last edit.
 nnoremap <leader>L :call ToggleLines()<cr>|
 
