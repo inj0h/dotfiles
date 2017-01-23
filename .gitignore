@@ -6,6 +6,7 @@ tags
 # vim
 nvim/autoload/*
 nvim/bundle/*
+nvim/colors/*
 !nvim/bundle/gruvbox/
 !nvim/bundle/plug.sh
 !nvim/bundle/haskell.vim
