@@ -71,7 +71,7 @@ autocmd FileType vim setlocal textwidth=79 formatoptions+=t
 
 " Aesthetic
 " ------------------------------------------------------------------------------
-colorscheme cuevacafe
+colorscheme cueva
 
 
 " Functions
