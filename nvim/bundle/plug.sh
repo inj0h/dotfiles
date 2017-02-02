@@ -5,8 +5,7 @@ set -e
 # Variables.
 INSTALL=""
 UPDATE=""
-PLUGINS=(https://github.com/erikoelrojo/cueva.git
-         https://github.com/hdima/python-syntax
+PLUGINS=(https://github.com/hdima/python-syntax
          https://github.com/hynek/vim-python-pep8-indent
          https://github.com/itchyny/lightline.vim
          https://github.com/junegunn/fzf.vim
