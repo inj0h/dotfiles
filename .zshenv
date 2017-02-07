@@ -31,13 +31,10 @@ alias git_shove_config='./.bin/sh/git_shove_config.sh'                          
 alias git_up_subs='git submodule foreach git pull origin master'                # Update submodules.
 
 # Paths
-alias cellar='/usr/local/Cellar/'                                               # Homebrew CLI binaries.
-# Class paths (tmp).
-alias cap='~/Desktop/cs482-502/'
-alias ethics='~/Desktop/cs489-901/'
-alias geo='~/Desktop/ge202-503/'
-alias micro='~/Desktop/cs462-501/'
-alias music='~/Desktop/mu201-501/'
+if [ -f ~/.path_aliases ];
+then
+    source ~/.path_aliases
+fi
 
 # Scripts
 alias goto_safari='cd; cd .bin/appl/; osascript goto_safari.scpt'
@@ -51,9 +48,6 @@ alias mysqluser='/usr/local/Cellar/mysql/5.7.13/bin/mysql -u eric0112 -h localho
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 # ssh
-# TAMU
-alias compute='ssh -Y eric.chung@compute.cse.tamu.edu'                          # Compute Server.
-alias linux='ssh -Y eric.chung@linux.cse.tamu.edu'                              # Linux Server.
 # Et al
 if [ -f ~/.ssh_aliases ];
 then
