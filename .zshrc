@@ -119,6 +119,33 @@ unsetopt list_beep              # No bell on ambiguous completion.
 unsetopt rm_star_silent         # Ask for confirmation for `rm *' or `rm path/*'.
 # setxkbmap -option compose:ralt  # compose-key... shell doesn't seem to like this.
 
+
+# variables
+# ------------------------------------------------------------------------------
+# fzf colors
+export FZF_DEFAULT_OPTS='
+--color fg:252,bg:-1,hl:144,fg+:252,bg+:-1,hl+:228
+--color info:144,prompt:114,spinner:-1,pointer:114,marker:193'
+
+# fzf search
+export FZF_DEFAULT_COMMAND='ag --hidden --silent --ignore .git -f -g ""'
+
+
+# aliases
+# ------------------------------------------------------------------------------
+# source my aliases
+if [ -f ~/.my_aliases ];
+then
+    source ~/.my_aliases
+fi
+
+# ssh
+if [ -f ~/.ssh_aliases ];
+then
+    source ~/.ssh_aliases
+fi
+
+
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
