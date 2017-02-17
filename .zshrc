@@ -1,5 +1,9 @@
 # ~/.zshrc
 # ------------------------------------------------------------------------------
+
+
+# Prompt and colors
+# ------------------------------------------------------------------------------
 autoload -U colors zsh-mime-setup select-word-style
 colors                 # Colors.
 zsh-mime-setup         # Run everything as if it's an executable.
@@ -14,8 +18,7 @@ precmd() {  # Run before each prompt.
     vcs_info
 }
 
-# Prompt
-setopt PROMPT_SUBST     # Allow funky stuff in prompt.
+setopt PROMPT_SUBST     # Allow for a more custom prompt.
 
 PROMPT="%{$fg[yellow]%}[%{$reset_color%}% %B%{$fg[red]%}%n%{$reset_color%}%{$fg[yellow]%}]%{$reset_color%} %{$fg[yellow]%}%~ \$vcs_info_msg_0_
 %{$fg[yellow]%}> %{$reset_color%}"
@@ -41,9 +44,9 @@ export LSCOLORS=GxBxdxbxcxegedabagacad # ls colors.
 # by typing ^v and then type the key or key combination you want to use.
 # "man zshzle" for the list of available actions
 
-# A lot of stuff that I'm not quite sure of but used anyway.
+
+# Completion, etc.
 # ------------------------------------------------------------------------------
-# Completion
 autoload -U compinit
 compinit
 zmodload -i zsh/complist
@@ -120,7 +123,7 @@ unsetopt rm_star_silent         # Ask for confirmation for `rm *' or `rm path/*'
 # setxkbmap -option compose:ralt  # compose-key... shell doesn't seem to like this.
 
 
-# variables
+# Variables
 # ------------------------------------------------------------------------------
 # fzf colors
 export FZF_DEFAULT_OPTS='
@@ -131,9 +134,9 @@ export FZF_DEFAULT_OPTS='
 export FZF_DEFAULT_COMMAND='ag --hidden --silent --ignore .git -f -g ""'
 
 
-# aliases
+# Aliases
 # ------------------------------------------------------------------------------
-# source my aliases
+# Source my aliases.
 if [ -f ~/.my_aliases ];
 then
     source ~/.my_aliases
