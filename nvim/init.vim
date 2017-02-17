@@ -122,10 +122,8 @@ nnoremap <leader>2 @@|                                  " Replay key macro q.
 nnoremap <leader>@ @q|                                  " Play key macro q.
 nnoremap <leader>3 :!ctags -R .|                        " Make ctags in dir.
 nnoremap <leader>4 :call LintSpell()<cr>|               " Call function.
-nnoremap <leader>0 zz                                   " Recenter window.
 
 nnoremap <leader>Q :qall<cr>|                           " Quit if everything is saved.
-nnoremap <leader>w :!goto_safari<cr>|                   " Call script.
 nnoremap <leader>r :w<cr> :<c-p><cr>|                   " Write then redo prev command.
 nnoremap <leader>y 0wv$hy<cr>|                          " Yank a line without \n.
 nnoremap <leader>i 0i<cr><esc>k|                        " Insert line.
