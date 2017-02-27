@@ -1,6 +1,38 @@
 " General
 " ------------------------------------------------------------------------------
-set gui=nonavigation
-set hintchars="hjklasdfgyuiopqwertnmzxcvb"
+" Highlight settings
+highlight Hint font-family: monospace; font-size: 13px; font-weight: bold; text-transform: uppercase; color: black; background-color: #ffd058; border-color: ButtonShadow; border-width: 0px; border-style: solid; padding: 0px 1px 0px 1px;
+
+" Don't highlight areas
+highlight HintElem background-color: none; color: none;
+highlight HintActive background-color: none; color: none;
+
+" Completion = (search engines + keyword URLs) + (bookmarks) + (history)
 set complete=sbh
-highlight Hint font-family: monospace; font-size: 14px; font-weight: bold; text-transform: uppercase; color: white; background-color: black; border-color: ButtonShadow; border-width: 0px; border-style: solid; padding: 0px 1px 0px 1px;
+
+" Don't render nav bar but keep tabs.
+set gui=nonavigation
+
+" Hintchars = alpha
+set hintchars="hjklasdfgyuiopqwertnmzxcvb"
+
+" Don't ring the bell!
+" JavaScript for when it won't stop the ringing!
+set noerrorbells
+javascript liberator.beep = function() { return false; }
+
+
+" Keybindings
+" ------------------------------------------------------------------------------
+" None of these work with exiting hint search.
+" cmap <C-g> <Esc>
+" imap <C-g> <Esc>
+" noremap <C-g> <Esc>
+" nnoremap <C-g> <Esc>
+
+" Map command-mode from colon to semicolon.
+nnoremap ; :
+
+" ..And the other way around for colon.
+nnoremap : ;
+
