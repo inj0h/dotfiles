@@ -1,9 +1,9 @@
 " General
 " ------------------------------------------------------------------------------
-" Highlight settings
+" Highlight settings.
 highlight Hint font-family: monospace; font-size: 13px; font-weight: bold; text-transform: uppercase; color: black; background-color: #ffd058; border-color: ButtonShadow; border-width: 0px; border-style: solid; padding: 0px 1px 0px 1px;
 
-" Don't highlight areas
+" Don't highlight areas.
 highlight HintElem background-color: none; color: none;
 highlight HintActive background-color: none; color: none;
 
@@ -24,15 +24,10 @@ javascript liberator.beep = function() { return false; }
 
 " Keybindings
 " ------------------------------------------------------------------------------
-" None of these work with exiting hint search.
-" cmap <C-g> <Esc>
-" imap <C-g> <Esc>
-" noremap <C-g> <Esc>
-" nnoremap <C-g> <Esc>
+" Cannot remap <Esc>; use <C-[> instead.
 
 " Map command-mode from colon to semicolon.
 nnoremap ; :
 
 " ..And the other way around for colon.
 nnoremap : ;
-
