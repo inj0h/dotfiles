@@ -63,7 +63,7 @@ autocmd BufWritePre * %s/\s\+$//e
 autocmd FileType python setlocal textwidth=79 tabstop=4 fileformat=unix
 
 " Better word processing.
-autocmd FileType text setlocal wrap linebreak nolist spell
+autocmd FileType text setlocal textwidth=79 spell
 
 " For editing VimL.
 autocmd FileType vim setlocal textwidth=79 formatoptions+=t
