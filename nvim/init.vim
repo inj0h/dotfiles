@@ -101,6 +101,7 @@ inoremap jj <esc>|                                      " Rebind escape.
 nmap ; :|                                               " Rebind colon.
 nmap <c-a> 0|                                           " Rebind beginning of line.
 nmap <c-e> $|                                           " Rebind end of line.
+nmap d<c-e> d$|                                         " Delete to end of line.
 
 " Leader
 let mapleader = "\<space>"|                             " Bind leader to spacebar.
