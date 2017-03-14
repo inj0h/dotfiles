@@ -126,7 +126,7 @@ nnoremap <leader>4 :call LintSpell()<cr>|               " Call function.
 
 nnoremap <leader>Q :qall<cr>|                           " Quit if everything is saved.
 nnoremap <leader>r :w<cr> :<c-p><cr>|                   " Write then redo prev command.
-nnoremap <leader>y 0wv$hy<cr>|                          " Yank a line without \n.
+nnoremap <leader>y 0v$hy<cr>|                           " Yank a line without \n.
 nnoremap <leader>i 0i<cr><esc>k|                        " Insert line.
 nnoremap <leader>[ <c-t>|                               " Return from def ctag.
 nnoremap <leader>] <c-]>|                               " Goto function def ctag.
