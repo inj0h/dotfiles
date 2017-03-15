@@ -509,7 +509,7 @@
 	<key>HideScrollbar</key>
 	<false/>
 	<key>HideTab</key>
-	<false/>
+	<true/>
 	<key>HighlightTabLabels</key>
 	<true/>
 	<key>HotKeyBookmark</key>
@@ -583,17 +583,17 @@
 	<key>NSWindow Frame Preferences</key>
 	<string>199 395 606 456 0 0 1440 877 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
-	<string>2250 570 620 392 1920 280 1280 778 </string>
+	<string>650 500 620 392 0 0 1920 1058 </string>
 	<key>NSWindow Frame SessionsPreferences</key>
 	<string>424 198 606 456 0 0 1920 1057 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>0 257 796 473 0 0 1280 778 </string>
+	<string>165 429 796 473 0 0 1920 1058 </string>
 	<key>NSWindow Frame UKCrashReporter</key>
 	<string>99 293 592 584 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>1920 568 710 490 1920 280 1280 778 </string>
+	<string>960 5 960 1053 0 0 1920 1058 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
-	<string>1210 568 710 490 0 0 1920 1058 </string>
+	<string>0 5 640 773 0 0 1280 778 </string>
 	<key>NSWindow Frame iTerm Window 10</key>
 	<string>436 532 710 490 0 0 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 11</key>
@@ -607,7 +607,7 @@
 	<key>NSWindow Frame iTerm Window 15</key>
 	<string>541 417 710 490 0 0 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
-	<string>0 4 960 527 0 0 1920 1058 </string>
+	<string>960 4 960 526 0 0 1920 1058 </string>
 	<key>NSWindow Frame iTerm Window 3</key>
 	<string>2490 284 710 490 1920 280 1280 777 </string>
 	<key>NSWindow Frame iTerm Window 4</key>
@@ -2515,7 +2515,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2017-02-17T19:03:59Z</date>
+	<date>2017-03-14T01:12:08Z</date>
 	<key>SavePasteHistory</key>
 	<false/>
 	<key>Secure Input</key>
@@ -2567,7 +2567,7 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>3.0.14</string>
+	<string>3.0.15</string>
 	<key>kCPKSelectionViewPreferredModeKey</key>
 	<integer>0</integer>
 	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>
