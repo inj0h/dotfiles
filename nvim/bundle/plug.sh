@@ -14,8 +14,8 @@ PLUGINS=(https://github.com/erikoelrojo/cueva.git
          https://github.com/neovimhaskell/haskell-vim
          https://github.com/octol/vim-cpp-enhanced-highlight
          https://github.com/pangloss/vim-javascript
+         https://github.com/scrooloose/nerdtree.git
          https://github.com/sheerun/vim-polyglot.git
-         https://github.com/terryma/vim-multiple-cursors
          https://github.com/tpope/vim-fugitive
          https://github.com/tpope/vim-surround
          https://github.com/vim-scripts/SearchComplete)
