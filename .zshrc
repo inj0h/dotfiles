@@ -20,11 +20,12 @@ precmd() {  # Run before each prompt.
 
 setopt PROMPT_SUBST     # Allow for a more custom prompt.
 
-PROMPT="%{$fg[yellow]%}[%{$reset_color%}% %B%{$fg[red]%}%n%{$reset_color%}%{$fg[yellow]%}]%{$reset_color%} %{$fg[yellow]%}%~ \$vcs_info_msg_0_
+PROMPT="%{$fg[yellow]%}[%{$reset_color%}% %{$fg[red]%}%n%{$reset_color%}%{$fg[yellow]%}]%{$reset_color%} %{$fg[yellow]%}%~ \$vcs_info_msg_0_
 %{$fg[yellow]%}> %{$reset_color%}"
 
 export TERM=xterm-256color
-export LSCOLORS=GxBxdxbxcxegedabagacad # ls colors.
+#export LSCOLORS=dxcxdxgxbxegedabagacad # ls colors.
+export LSCOLORS=dxcxdxgxbx # ls colors.
 # Order of lscolors from left to right.
 # directory
 # symlink
