@@ -24,7 +24,6 @@ PROMPT="%{$fg[yellow]%}[%{$reset_color%}% %{$fg[red]%}%n%{$reset_color%}%{$fg[ye
 %{$fg[yellow]%}> %{$reset_color%}"
 
 export TERM=xterm-256color
-#export LSCOLORS=dxcxdxgxbxegedabagacad # ls colors.
 export LSCOLORS=dxcxdxgxbx # ls colors.
 # Order of lscolors from left to right.
 # directory
