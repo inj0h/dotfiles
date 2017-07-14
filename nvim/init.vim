@@ -7,15 +7,18 @@ filetype on                                             " Enable filetype variab
 filetype plugin on                                      " Enable plugins.
 filetype plugin indent on                               " Enable indent by plugin(s).
 
-let g:netrw_liststyle=3                                 " List files with vertical lines.
+"let g:netrw_liststyle=3                                 " List files with vertical lines.
 
 " Turn these on if using regular vim and not nvim.
 if !has('nvim')
     set autoindent                                      " Auto-indentation.
     set backspace=eol,start,indent                      " Enable backspace.
     set hlsearch                                        " Highlight search results.
+    set guioptions-=l                                   " Remove left GUI scrollbar.
+    set guioptions-=L                                   " Remove left GUI split scrollbar.
+    set guioptions-=r                                   " Remove right GUI scrollbar.
+    set guioptions-=R                                   " Remove right GUI split scrollbar.
     set laststatus=2                                    " Always show bottom status bar.
-    set mouse=a                                         " Enable mouse.
     set nocompatible                                    " Disable vi compatibility.
     set smarttab                                        " Whitespace/tab stuff.
     set t_Co=256                                        " Use 250 terminal colors.
@@ -27,13 +30,16 @@ set background=dark                                     " Goth background.
 set clipboard=unnamed                                   " Enable clipboard access.
 set cursorline                                          " Show current line.
 set expandtab                                           " Set tabs = spaces.
-set foldcolumn=1                                        " Whitespace indentation on left margin.
+set guicursor=n:blinkon1                                " Blink cursor.
+set foldcolumn=0                                        " Whitespace indentation on left margin.
 set formatoptions+=t                                    " Set textwidth for code but not comments.
 set history=100                                         " History log.
 set ignorecase                                          " Ignore casing when searching.
 set listchars=tab:>-,nbsp:_,trail:.                     " Make tabs + trailing spaces visible.
 set list                                                " ^.
+set mouse=a                                             " Enable mouse.
 set nofoldenable                                        " Disable line folding.
+set relativenumber
 set rtp+=/usr/local/opt/fzf                             " Set FZF plugin path.
 set ruler                                               " Show line+column at bottom right.
 set shell=zsh                                           " Shell = zsh.
@@ -54,7 +60,8 @@ set wildmode=list:longest,list                          " Tab completion.
 " Automatic Commands
 " ------------------------------------------------------------------------------
 " Async run Neomake upon write.
-autocmd! BufEnter,BufReadPost,BufWritePost * Neomake
+"autocmd! BufEnter,BufReadPost,BufWritePost * Neomake
+autocmd! BufWritePost * Neomake
 
 " Remove all trailing whitespace upon write.
 autocmd BufWritePre * %s/\s\+$//e
@@ -63,7 +70,8 @@ autocmd BufWritePre * %s/\s\+$//e
 autocmd FileType python setlocal textwidth=79 tabstop=4 fileformat=unix
 
 " Better word processing.
-autocmd FileType text setlocal textwidth=79 spell
+autocmd FileType text setlocal textwidth=80 spell
+autocmd BufWrite *.txt :normal ggVGgq`.zz
 
 " For editing VimL.
 autocmd FileType vim setlocal textwidth=79 formatoptions+=t
@@ -103,15 +111,17 @@ nmap <c-a> 0|                                           " Rebind beginning of li
 nmap <c-e> $|                                           " Rebind end of line.
 nmap d<c-e> d$|                                         " Delete to end of line.
 
+nmap <c-f> <c-f>M|
+nmap <c-b> <c-b>M|
+vmap <c-f> <c-f>M|
+vmap <c-b> <c-b>M|
+
 " Leader
 let mapleader = "\<space>"|                             " Bind leader to spacebar.
 
 " Leader General
 noremap <leader>- <c-b><bar>zz|                         " Page up.
 noremap <leader>= <c-f><bar>zz|                         " Page down.
-
-noremap <leader>j 10j<cr>|                              " Jump 10 lines down.
-noremap <leader>k 10k<cr>|                              " Jump 10 lines up.
 
 " Leader Normal
 nmap <leader>f /|                                       " Find regex, no nnoremap b/c SearchComplete.
@@ -120,7 +130,6 @@ nnoremap <leader>` :e $MYVIMRC<cr>|                     " Quick access to this f
 nnoremap <leader>1 :e . <cr>|                           " Open file tree.
 nnoremap <leader>! :e scp://|                           " Open remote file tree.
 nnoremap <leader>2 @@|                                  " Replay key macro q.
-nnoremap <leader>@ @q|                                  " Play key macro q.
 nnoremap <leader>3 :!ctags -R .|                        " Make ctags in dir.
 nnoremap <leader>4 :call LintSpell()<cr>|               " Call function.
 
@@ -165,9 +174,6 @@ let g:lightline = {
             \ 'right': [ [ ] ]
             \ },
             \ }
-
-" Multiple Cursors
-let g:multi_cursor_quit_key='q'
 
 
 " Language Support
