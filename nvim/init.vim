@@ -153,7 +153,7 @@ nnoremap <leader>i 0i<cr><esc>k|                        " Insert line
 nnoremap <leader>[ <c-t>|                               " Return from def ctag
 nnoremap <leader>] <c-]>|                               " Goto function def ctag
 
-nnoremap <leader>s :split<cr>|                          " Split new window below
+nnoremap <leader>S :split<cr>|                          " Split new window below
 nnoremap <leader>D :set lazyredraw!<cr>|                " Redraw lines only when needed
 nnoremap <leader>f :Files /Users/Eric/<cr>|             " FZF by file
 nnoremap <leader>F :Files /|                            " FZF by file from /
@@ -190,8 +190,9 @@ let g:lightline = {
 " NERDTree
 let NERDTreeShowHidden = 1
 let NERDTreeShowLineNumbers = 1
-let NERDTreeMapOpenInTab = 't'
-let g:NERDTreeWinSize=45
+let NERDTreeMapOpenInTab = 'T'
+let NERDTreeMapOpenInTabSilent = 't'
+let g:NERDTreeWinSize = 45
 
 
 " Language Support
