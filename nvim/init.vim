@@ -23,6 +23,11 @@ if !has('nvim')
     set wildmenu                                        " Tab completion
 endif
 
+" Enable truecolors only if term supports it!
+if $COLORTERM == 'truecolor'
+    set termguicolors
+endif
+
 set autoread                                            " Reads external file updates
 set background=dark                                     " Goth background
 set clipboard=unnamed                                   " Enable clipboard access
@@ -48,7 +53,6 @@ set spelllang=en_us                                     " Parse English
 set splitbelow                                          " Always split windows below
 set softtabstop=4                                       " Whitespace/tab stuff
 set tabstop=8                                           " Width of tab char in spaces
-set termguicolors                                       " Enable truecolors
 set textwidth=0                                         " Textwidth = window width
 set undolevels=500                                      " Extent of undo remembers
 set visualbell                                          " No beeping
