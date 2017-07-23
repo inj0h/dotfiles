@@ -585,7 +585,7 @@
 		<integer>1</integer>
 	</dict>
 	<key>NSWindow Frame NSColorPanel</key>
-	<string>-987 -141 228 302 -1920 -280 1920 1058 </string>
+	<string>430 328 228 297 0 0 1920 1058 </string>
 	<key>NSWindow Frame NSFontPanel</key>
 	<string>884 234 445 77 0 0 1920 1058 </string>
 	<key>NSWindow Frame Preferences</key>
@@ -595,13 +595,13 @@
 	<key>NSWindow Frame SessionsPreferences</key>
 	<string>424 198 606 456 0 0 1920 1057 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>-1214 107 796 473 -1920 -280 1920 1058 </string>
+	<string>61 425 918 381 0 0 1920 1058 </string>
 	<key>NSWindow Frame UKCrashReporter</key>
 	<string>99 293 592 584 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>-1920 251 960 527 -1920 -280 1920 1058 </string>
+	<string>960 5 960 1053 0 0 1920 1058 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
-	<string>-960 -275 960 1053 -1920 -280 1920 1058 </string>
+	<string>960 588 712 470 0 0 1920 1058 </string>
 	<key>NSWindow Frame iTerm Window 10</key>
 	<string>436 532 710 490 0 0 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 11</key>
@@ -615,7 +615,7 @@
 	<key>NSWindow Frame iTerm Window 15</key>
 	<string>541 417 710 490 0 0 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
-	<string>960 5 960 1053 0 0 1920 1058 </string>
+	<string>247 508 712 470 0 0 1920 1058 </string>
 	<key>NSWindow Frame iTerm Window 3</key>
 	<string>2490 284 710 490 1920 280 1280 777 </string>
 	<key>NSWindow Frame iTerm Window 4</key>
@@ -687,6 +687,19 @@
 				<key>Alpha Component</key>
 				<real>1</real>
 				<key>Blue Component</key>
+				<real>0.47265523672103882</real>
+				<key>Color Space</key>
+				<string>sRGB</string>
+				<key>Green Component</key>
+				<real>0.98835557699203491</real>
+				<key>Red Component</key>
+				<real>0.99953407049179077</real>
+			</dict>
+			<key>Ansi 12 Color</key>
+			<dict>
+				<key>Alpha Component</key>
+				<real>1</real>
+				<key>Blue Component</key>
 				<real>0.0</real>
 				<key>Color Space</key>
 				<string>sRGB</string>
@@ -694,19 +707,6 @@
 				<real>0.57810515165328979</real>
 				<key>Red Component</key>
 				<real>1</real>
-			</dict>
-			<key>Ansi 12 Color</key>
-			<dict>
-				<key>Alpha Component</key>
-				<real>1</real>
-				<key>Blue Component</key>
-				<real>1</real>
-				<key>Color Space</key>
-				<string>sRGB</string>
-				<key>Green Component</key>
-				<real>0.58980089426040649</real>
-				<key>Red Component</key>
-				<real>0.0</real>
 			</dict>
 			<key>Ansi 13 Color</key>
 			<dict>
@@ -778,13 +778,13 @@
 				<key>Alpha Component</key>
 				<real>1</real>
 				<key>Blue Component</key>
-				<real>1</real>
+				<real>0.0</real>
 				<key>Color Space</key>
 				<string>sRGB</string>
 				<key>Green Component</key>
-				<real>0.8382837176322937</real>
+				<real>0.57637232542037964</real>
 				<key>Red Component</key>
-				<real>0.46202266216278076</real>
+				<real>1</real>
 			</dict>
 			<key>Ansi 5 Color</key>
 			<dict>
@@ -2543,7 +2543,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2017-07-14T04:03:57Z</date>
+	<date>2017-07-23T02:18:11Z</date>
 	<key>SavePasteHistory</key>
 	<false/>
 	<key>Secure Input</key>
