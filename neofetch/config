@@ -13,23 +13,26 @@ print_info() {
     info title
     info underline
 
-    info "OS" distro
     info "Model" model
-    info "Kernel" kernel
-    info "Uptime" uptime
-    info "Packages" packages
-    info "Shell" shell
-    info "Resolution" resolution
-    info "DE" de
-    info "WM" wm
-    info "WM Theme" wm_theme
-    info "Theme" theme
-    info "Icons" icons
-    info "Terminal" term
-    info "Terminal Font" term_font
     info "CPU" cpu
     info "GPU" gpu
     info "Memory" memory
+    info line_break
+    info "OS" distro
+    info "Kernel" kernel
+    info "Shell" shell
+    info "DE" de
+    info "Terminal" term
+    info "Packages" packages
+    info line_break
+    info "Uptime" uptime
+
+    # info "Icons" icons
+    # info "Resolution" resolution
+    # info "Terminal Font" term_font
+    # info "Theme" theme
+    # info "WM" wm
+    # info "WM Theme" wm_theme
 
     # info "CPU Usage" cpu_usage
     # info "Disk" disk
@@ -340,7 +343,9 @@ birthday_format="+%a %d %b %Y %l:%M %p"
 # Example:
 # colors=(distro)      - Text is colored based on Distro colors.
 # colors=(4 6 1 8 8 6) - Text is colored in the order above.
-colors=(distro)
+# colors=(distro)
+# colors=(7 6 6 6) cyan
+colors=(7 2 2 2)
 
 
 # Text Options
