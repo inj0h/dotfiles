@@ -24,13 +24,20 @@ PROMPT="%{$fg[yellow]%}[%{$reset_color%}% %{$fg[red]%}%n%{$reset_color%}%{$fg[ye
 %{$fg[yellow]%}> %{$reset_color%}"
 
 export TERM=xterm-256color
-export LSCOLORS=dxcxdxgxbx # ls colors.
+export LSCOLORS=dxcxfxgxbxegedabagacad # ls colors.
 # Order of lscolors from left to right.
 # directory
 # symlink
 # socket
 # pipe
 # executable
+# block special
+# char special
+# exec w/ setuid bit set
+# exec w/ setgid bit set
+# dir writable to others w/ sticky bit
+# dir writable to others w/o sticky bit
+#
 # a = black
 # b = red
 # c = green
@@ -61,19 +68,19 @@ zstyle ':completion::complete:*' use-cache on               # Completion caching
 zstyle ':completion:*' cache-path ~/.zsh/cache              # Cache path.
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'   # Ignore case.
 zstyle ':completion:*' menu select=2                        # Menu if nb items > 2.
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}       # Colors!
+#zstyle ':completion:*' list-colors ${(s.:.)LSCOLORS}        # Colors!
 zstyle ':completion:*::::' completer _expand _complete _ignored _approximate # List of completors to use.
 
 # Sections Completion
 zstyle ':completion:*' verbose yes
-zstyle ':completion:*:descriptions' format $'\e[00;34m%d'
-zstyle ':completion:*:messages' format $'\e[00;31m%d'
+zstyle ':completion:*:descriptions' format $'\e[00;32m%d'   # Color = green (term).
+zstyle ':completion:*:messages' format $'\e[00;31m%d'       # Color = red (term).
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*:manuals' separate-sections true
 zstyle ':completion:*:processes' command 'ps -au$USER'
 zstyle ':completion:*:*:kill:*' menu yes select
 zstyle ':completion:*:kill:*' force-list always
-zstyle ':completion:*:*:kill:*:processes' list-colors "=(#b) #([0-9]#)*=29=34"
+zstyle ':completion:*:*:kill:*:processes' list-colors "=(#b) #([0-9]#)*=32=37"  # Color = green, white
 zstyle ':completion:*:*:killall:*' menu yes select
 zstyle ':completion:*:killall:*' force-list always
 zstyle ':completion:*' users $users
