@@ -80,7 +80,7 @@ zstyle ':completion:*:manuals' separate-sections true
 zstyle ':completion:*:processes' command 'ps -au$USER'
 zstyle ':completion:*:*:kill:*' menu yes select
 zstyle ':completion:*:kill:*' force-list always
-zstyle ':completion:*:*:kill:*:processes' list-colors "=(#b) #([0-9]#)*=32=37"  # Color = green, white
+zstyle ':completion:*:*:kill:*:processes' list-colors "=(#b) #([0-9]#)*=32=37"  # Color = green, white (term).
 zstyle ':completion:*:*:killall:*' menu yes select
 zstyle ':completion:*:killall:*' force-list always
 zstyle ':completion:*' users $users
