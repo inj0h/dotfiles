@@ -123,9 +123,14 @@ endfunc
 inoremap jj <esc>|                                      " Rebind escape
 
 nmap ; :|                                               " Rebind colon
+
 nmap <c-a> 0|                                           " Rebind beginning of line
 nmap <c-e> $|                                           " Rebind end of line
+vmap <c-a> 0|                                           " Rebind beginning of line (visual)
+vmap <c-e> $|                                           " Rebind end of line (visual)
+
 nmap d<c-e> d$|                                         " Delete to end of line
+vmap d<c-e> d$|                                         " Delete to end of line (visual)
 
 nmap <c-f> <c-f>M|
 nmap <c-b> <c-b>M|
@@ -136,8 +141,8 @@ vmap <c-b> <c-b>M|
 let mapleader = "\<space>"|                             " Bind leader to spacebar
 
 " Leader General
-noremap <leader>- <c-b><bar>zz|                         " Page up
-noremap <leader>= <c-f><bar>zz|                         " Page down
+noremap <leader>- <c-b><bar>M|                          " Page up
+noremap <leader>= <c-f><bar>M|                          " Page down
 
 " Leader Normal
 nmap <leader>f /|                                       " Find regex, no nnoremap b/c SearchComplete
@@ -165,8 +170,7 @@ nnoremap <leader>l `.|                                  " Jump to last edit
 nnoremap <leader>L :call ToggleLines()<cr>
 
 nnoremap <leader>c :%s/\s\+$//<cr>|                     " Delete all trailing whitespace in file
-nnoremap <leader>b :bnext <cr>|                         " Cycle buffers
-nnoremap <leader>B :buffers <cr>|                       " List buffer(s)
+nnoremap <leader>b :buffers <cr>|                       " List buffer(s)
 nnoremap <leader>/ :noh<cr>|                            " Undo find highlighting
 
 
@@ -174,22 +178,6 @@ nnoremap <leader>/ :noh<cr>|                            " Undo find highlighting
 " ------------------------------------------------------------------------------
 " FZF
 let g:fzf_layout = { 'up': '~33%' }
-
-" Lightline
-let g:lightline = {
-            \ 'colorscheme': 'wombat',
-            \ 'active' : {
-            \ 'left': [ ['paste' ],
-            \           [ 'readonly', 'filename', 'modified' ] ],
-            \ 'right': [ [ 'lineinfo' ],
-            \            [ 'percent' ],
-            \            [ 'fileformat', 'fileencoding', 'filetype' ] ] ,
-            \ },
-            \ 'tabline': {
-            \ 'left': [ [ 'tabs' ] ],
-            \ 'right': [ [ ] ]
-            \ },
-            \ }
 
 " NERDTree
 let NERDTreeShowHidden = 1
