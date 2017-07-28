@@ -186,6 +186,10 @@ let NERDTreeMapOpenInTab = 'T'
 let NERDTreeMapOpenInTabSilent = 't'
 let g:NERDTreeWinSize = 45
 
+" vim-airline
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_theme = 'onedark'
+
 
 " Language Support
 " ------------------------------------------------------------------------------
