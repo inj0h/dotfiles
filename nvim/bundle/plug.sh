@@ -8,7 +8,6 @@ UPDATE=""
 PLUGINS=(https://github.com/erikoelrojo/cueva.git
          https://github.com/hdima/python-syntax
          https://github.com/hynek/vim-python-pep8-indent
-         https://github.com/itchyny/lightline.vim
          https://github.com/junegunn/fzf.vim
          https://github.com/neomake/neomake
          https://github.com/neovimhaskell/haskell-vim
@@ -18,6 +17,7 @@ PLUGINS=(https://github.com/erikoelrojo/cueva.git
          https://github.com/sheerun/vim-polyglot.git
          https://github.com/tpope/vim-fugitive
          https://github.com/tpope/vim-surround
+         https://github.com/vim-airline/vim-airline.git
          https://github.com/vim-scripts/SearchComplete)
 
 # Parameters.
