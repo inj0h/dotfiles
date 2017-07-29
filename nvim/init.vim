@@ -188,7 +188,7 @@ let g:NERDTreeWinSize = 45
 
 " vim-airline
 let g:airline#extensions#tabline#enabled = 1
-let g:airline_theme = 'onedark'
+let g:airline_theme = 'cueva'
 
 
 " Language Support
