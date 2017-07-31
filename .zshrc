@@ -85,6 +85,7 @@ zstyle ':completion:*:*:killall:*' menu yes select
 zstyle ':completion:*:killall:*' force-list always
 zstyle ':completion:*' users $users
 zstyle ':completion:*' special-dirs true
+zstyle ':completion:*:(cd):*' ignored-patterns '.|..'       # Don't tab-comp ./ and ../ for cd
 
 # Generic Completion with '--help'
 compdef _gnu_generic gcc
