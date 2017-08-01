@@ -131,8 +131,9 @@ nmap <c-e> $|                                           " Rebind end of line
 vmap <c-a> 0|                                           " Rebind beginning of line (visual)
 vmap <c-e> $|                                           " Rebind end of line (visual)
 
-nmap d<c-e> d$|                                         " Delete to end of line
-vmap d<c-e> d$|                                         " Delete to end of line (visual)
+" BUG: These two bindings slow down 'd' in both normal and visual modes.
+"nmap d<c-e> d$|                                         " Delete to end of line
+"vmap d<c-e> d$|                                         " Delete to end of line (visual)
 
 nmap <c-f> <c-f>M|
 nmap <c-b> <c-b>M|
