@@ -73,7 +73,9 @@ autocmd! BufWritePost * Neomake
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 " Exit if NERDTree is the only open buffer.
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+autocmd bufenter *
+            \ if (winnr("$") == 1 && exists("b:NERDTree")
+            \ && b:NERDTree.isTabTree()) | q | endif
 
 
 " By FileType, et al
@@ -145,32 +147,27 @@ noremap <leader>- <c-b><bar>M|                          " Page up
 noremap <leader>= <c-f><bar>M|                          " Page down
 
 " Leader Normal
-nmap <leader>f /|                                       " Find regex, no nnoremap b/c SearchComplete
-
 nnoremap <leader>` :e $MYVIMRC<cr>|                     " Quick access to this file
 nnoremap <leader>1 :NERDTreeToggle<cr>|                 " Open file tree
-nnoremap <leader>! :e scp://|                           " Open remote file tree
 nnoremap <leader>2 @@|                                  " Replay key macro q
 nnoremap <leader>3 :!ctags -R .|                        " Make ctags in dir
 nnoremap <leader>4 :call LintSpell()<cr>|               " Call function
 
 nnoremap <leader>Q :qall<cr>|                           " Quit if everything is saved
 nnoremap <leader>w <c-w><c-w>|                          " Better window jumping
-nnoremap <leader>r :w<cr> :<c-p><cr>|                   " Write then redo prev command
 nnoremap <leader>y 0v$hy<cr>|                           " Yank a line without \n
 nnoremap <leader>i 0i<cr><esc>k|                        " Insert line
+nnoremap <leader>o :FZF <cr>|                           " FZF to search/open child file(s)
+nnoremap <leader>O :Files /Users/Eric/<cr>|             " FZF to search/open under home/
 nnoremap <leader>[ <c-t>|                               " Return from def ctag
 nnoremap <leader>] <c-]>|                               " Goto function def ctag
 
+nnoremap <leader>f :Ag <cr>|                            " FZF to search keywords in child file(s)
 nnoremap <leader>S :split<cr>|                          " Split new window below
-nnoremap <leader>D :set lazyredraw!<cr>|                " Redraw lines only when needed
-nnoremap <leader>f :Files /Users/Eric/<cr>|             " FZF by file
-nnoremap <leader>F :Files /|                            " FZF by file from /
-nnoremap <leader>l `.|                                  " Jump to last edit
+nnoremap <leader>l `.zz|                                " Jump to last edit and center
 nnoremap <leader>L :call ToggleLines()<cr>
 
-nnoremap <leader>c :%s/\s\+$//<cr>|                     " Delete all trailing whitespace in file
-nnoremap <leader>b :buffers <cr>|                       " List buffer(s)
+nnoremap <leader>b :Buffers <cr>|                       " List buffer(s) using FZF
 nnoremap <leader>/ :noh<cr>|                            " Undo find highlighting
 
 
