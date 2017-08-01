@@ -542,6 +542,8 @@
 	<string>7</string>
 	<key>NSColorPickerPreferredRGBEntryMode</key>
 	<integer>2</integer>
+	<key>NSColorPickerSlidersDefaults</key>
+	<string>1</string>
 	<key>NSNavLastRootDirectory</key>
 	<string>~/Desktop/dev/iterm/base16-iterm2-master</string>
 	<key>NSNavPanelExpandedSizeForOpenMode</key>
@@ -585,7 +587,7 @@
 		<integer>1</integer>
 	</dict>
 	<key>NSWindow Frame NSColorPanel</key>
-	<string>430 328 228 297 0 0 1920 1058 </string>
+	<string>430 256 228 297 0 0 1920 1058 </string>
 	<key>NSWindow Frame NSFontPanel</key>
 	<string>884 234 445 77 0 0 1920 1058 </string>
 	<key>NSWindow Frame Preferences</key>
@@ -595,13 +597,13 @@
 	<key>NSWindow Frame SessionsPreferences</key>
 	<string>424 198 606 456 0 0 1920 1057 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>61 425 918 381 0 0 1920 1058 </string>
+	<string>32 254 796 473 0 0 1280 778 </string>
 	<key>NSWindow Frame UKCrashReporter</key>
 	<string>99 293 592 584 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>960 5 960 1053 0 0 1920 1058 </string>
+	<string>960 531 960 527 0 0 1920 1058 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
-	<string>960 588 712 470 0 0 1920 1058 </string>
+	<string>320 308 712 470 0 0 1280 778 </string>
 	<key>NSWindow Frame iTerm Window 10</key>
 	<string>436 532 710 490 0 0 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 11</key>
@@ -1312,7 +1314,7 @@
 			<key>Normal Font</key>
 			<string>Menlo-Regular 11</string>
 			<key>Option Key Sends</key>
-			<integer>0</integer>
+			<integer>2</integer>
 			<key>Prompt Before Closing 2</key>
 			<integer>0</integer>
 			<key>Right Option Key Sends</key>
@@ -2543,7 +2545,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2017-07-23T02:18:11Z</date>
+	<date>2017-07-31T00:58:35Z</date>
 	<key>SavePasteHistory</key>
 	<false/>
 	<key>Secure Input</key>
