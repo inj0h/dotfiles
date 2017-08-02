@@ -31,11 +31,13 @@ endif
 set autoread                                            " Reads external file updates
 set background=dark                                     " Goth background
 set clipboard=unnamed                                   " Enable clipboard access
+set confirm                                             " Manage buffer state before exiting
 set cursorline                                          " Show current line
 set expandtab                                           " Set tabs = spaces
 set guicursor=n:blinkon1                                " Blink cursor
 set foldcolumn=0                                        " Whitespace indentation on left margin
 set formatoptions+=t                                    " Set textwidth for code but not comments
+set hidden                                              " Leave modded buffer
 set history=100                                         " History log
 set ignorecase                                          " Ignore casing when searching
 set listchars=tab:>-,nbsp:_,trail:.                     " Make tabs + trailing spaces visible
@@ -69,9 +71,6 @@ set wildmode=list:longest,list                          " Tab completion
 autocmd! BufWritePost * Neomake
 
 " NERDTree
-" Open by default when not specifying file(s)
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 " Exit if NERDTree is the only open buffer.
 autocmd bufenter *
             \ if (winnr("$") == 1 && exists("b:NERDTree")
@@ -155,20 +154,20 @@ nnoremap <leader>3 :!ctags -R .|                        " Make ctags in dir
 nnoremap <leader>4 :call LintSpell()<cr>|               " Call function
 
 nnoremap <leader>Q :qall<cr>|                           " Quit if everything is saved
-nnoremap <leader>w <c-w><c-w>|                          " Better window jumping
+nnoremap <leader>w :Buffers <cr>|                       " FZF to list buffer(s)
 nnoremap <leader>y 0v$hy<cr>|                           " Yank a line without \n
 nnoremap <leader>i 0i<cr><esc>k|                        " Insert line
 nnoremap <leader>o :FZF <cr>|                           " FZF to search/open child file(s)
-nnoremap <leader>O :Files /Users/Eric/<cr>|             " FZF to search/open under home/
+nnoremap <leader>O :Files /Users/Eric/<cr>|             " FZF to search/open " under home/
 nnoremap <leader>[ <c-t>|                               " Return from def ctag
 nnoremap <leader>] <c-]>|                               " Goto function def ctag
 
-nnoremap <leader>f :Ag <cr>|                            " FZF to search keywords in child file(s)
+nnoremap <leader>f :Ag <cr>|                            " FZF to search thru child file(s)
+nnoremap <leader>s <c-w><c-w>|                          " Faster window jumping
 nnoremap <leader>S :split<cr>|                          " Split new window below
 nnoremap <leader>l `.zz|                                " Jump to last edit and center
 nnoremap <leader>L :call ToggleLines()<cr>
 
-nnoremap <leader>b :Buffers <cr>|                       " List buffer(s) using FZF
 nnoremap <leader>/ :noh<cr>|                            " Undo find highlighting
 
 
@@ -180,8 +179,8 @@ let g:fzf_layout = { 'up': '~33%' }
 " NERDTree
 let NERDTreeShowHidden = 1
 let NERDTreeShowLineNumbers = 1
-let NERDTreeMapOpenInTab = 'T'
-let NERDTreeMapOpenInTabSilent = 't'
+let NERDTreeMapOpenInTab = ''|                          " Unbind?
+let NERDTreeMapOpenInTabSilent = ''|                    " Unbind?
 let g:NERDTreeWinSize = 45
 
 " vim-airline
