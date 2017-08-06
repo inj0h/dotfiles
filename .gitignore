@@ -12,3 +12,7 @@ nvim/colors/*
 nvim/*.swo
 nvim/*.swp
 nvim/*.netrwhist
+
+# emacs
+.emacs.d/elpa/*
+.emacs.d/auto-save-list/*
