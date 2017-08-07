@@ -50,18 +50,28 @@
       inhibit-startup-screen t
       make-backup-files nil)
 
-;; UI settings
-(blink-cursor-mode -1)
-(menu-bar-mode -1)
-(scroll-bar-mode -1)
-(tool-bar-mode -1)
-(setq show-paren-delay 0)
-(show-paren-mode 1)
-
 ;; I realize the danger.
 (setq ring-bell-function 'ignore)
 
 ;; Config modules
 (require 'init-fuzzy)
 (require 'init-vi)
+(require 'init-lang)
 (require 'init-theme)
+
+;; UI settings
+;; These are a bit of a mess right now...
+(blink-cursor-mode 1)
+(menu-bar-mode -1)
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
+(setq show-paren-delay 0)
+(show-paren-mode 1)
+(set-face-attribute 'default t :background "#32302f")
+(set-face-attribute 'fringe t :background "#32302f")
+(setq column-number-mode t)
+(set-cursor-color "#ff6666")
+(add-to-list 'default-frame-alist '(cursor-color . "ff6666"))
+(global-hl-line-mode t)
+(set-face-background hl-line-face "#393642")
+(add-to-list 'default-frame-alist '(font . "Menlo-11"))

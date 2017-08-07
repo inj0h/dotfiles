@@ -8,7 +8,7 @@
 
 
 (defun my-evil-settings ()
-  "Evil keybindings, etc."
+  "Vi keybindings, etc."
   (with-eval-after-load 'evil-maps
     (define-key evil-motion-state-map (kbd ";") 'evil-ex)
     (define-key evil-motion-state-map (kbd "C-e") 'evil-end-of-line)))
@@ -24,9 +24,9 @@
     "=" (kbd "\C-f\S-m")
     "w"  'helm-buffers-list
     "i" (lambda (n) (interactive "p") (evil-open-above n) (evil-force-normal-state))
+    "o"  'helm-find-files
     "s" 'other-window
     "S" 'split-window-below
-    "f"  'helm-find-files
     "l" 'goto-last-change
     "L" 'linum-relative-toggle))
 
