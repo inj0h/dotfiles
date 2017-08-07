@@ -1,4 +1,10 @@
-;; Testing
+;; ------------------------------------------------------------------------------
+;; Filename: init.el
+;; Maintainer: erikoelrojo
+;; License: n/a
+;; Comments: Elisp configuration file
+;; 
+;; ------------------------------------------------------------------------------
 
 
 ;; Package management
@@ -8,8 +14,7 @@
 (setq package-enable-at-startup nil)
 (add-to-list 'load-path (expand-file-name "elisp" user-emacs-directory))
 
-;; Also add all directories within "lisp"
-;; I use this for packages I'm actively working on, mostly.
+;; Add all directories within "elisp"
 (let ((files (directory-files-and-attributes "~/.emacs.d/elisp" t)))
   (dolist (file files)
     (let ((filename (car file))
@@ -22,6 +27,7 @@
 
 (add-to-list 'package-archives '("elpy" . "https://jorgenschaefer.github.io/packages/"))
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (add-to-list 'package-archives '("melpa-stable" ."http://stable.melpa.org/packages/"))
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
 
@@ -55,6 +61,7 @@
 ;; I realize the danger.
 (setq ring-bell-function 'ignore)
 
-;; Other stuff
-(require 'init-evil) ;; evil
-(require 'init-theme) ;; theme
+;; Config modules
+(require 'init-fuzzy)
+(require 'init-vi)
+(require 'init-theme)
