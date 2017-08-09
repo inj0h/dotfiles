@@ -18,10 +18,10 @@
 (let ((files (directory-files-and-attributes "~/.emacs.d/elisp" t)))
   (dolist (file files)
     (let ((filename (car file))
-          (dir (nth 1 file)))
+	  (dir (nth 1 file)))
       (when (and dir
-                 (not (string-suffix-p "." filename)))
-        (add-to-list 'load-path (car file))))))
+		 (not (string-suffix-p "." filename)))
+	(add-to-list 'load-path (car file))))))
 
 (add-to-list 'exec-path "/usr/local/bin")
 
@@ -55,6 +55,7 @@
 
 ;; Config modules
 (require 'init-fuzzy)
+(require 'init-lint)
 (require 'init-vi)
 (require 'init-lang)
 (require 'init-theme)
