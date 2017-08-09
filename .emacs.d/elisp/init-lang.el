@@ -25,8 +25,9 @@
 
   (use-package flycheck-swift3
     :ensure t
-    :config 
-    ))
+    :config
+    (with-eval-after-load 'flycheck
+      (add-hook 'flycheck-mode-hook #'flycheck-swift3-setup))))
 
 
 (provide 'init-lang)
