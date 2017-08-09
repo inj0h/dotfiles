@@ -7,11 +7,26 @@
 ;; ------------------------------------------------------------------------------
 
 
+;; aspell: supporting human languages.
+(setq ispell-program-name "/usr/local/bin/aspell")
+
+
 ;; Swift
 (use-package swift-mode 
   :ensure t
   :config
   )
+
+
+;; Flycheck linter
+(use-package flycheck 
+  :ensure t
+  :config
+
+  (use-package flycheck-swift3
+    :ensure t
+    :config 
+    ))
 
 
 (provide 'init-lang)

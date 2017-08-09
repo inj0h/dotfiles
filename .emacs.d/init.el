@@ -55,7 +55,6 @@
 
 ;; Config modules
 (require 'init-fuzzy)
-(require 'init-lint)
 (require 'init-vi)
 (require 'init-lang)
 (require 'init-theme)

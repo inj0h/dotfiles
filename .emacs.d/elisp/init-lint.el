@@ -7,13 +7,5 @@
 ;; ------------------------------------------------------------------------------
 
 
-;; For aspell
-(setq ispell-program-name "/usr/local/bin/aspell")
-
-(use-package flycheck 
-  :ensure t
-  :config
-  )
 
 
-(provide 'init-lint)
