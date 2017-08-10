@@ -75,3 +75,4 @@
 (global-hl-line-mode t)
 (set-face-background hl-line-face "#393642")
 (add-to-list 'default-frame-alist '(font . "Menlo-11"))
+(server-start)
