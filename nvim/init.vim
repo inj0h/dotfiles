@@ -157,7 +157,7 @@ nnoremap <leader>Q :qall<cr>|                           " Quit if everything is 
 nnoremap <leader>w :Buffers <cr>|                       " FZF to list buffer(s)
 nnoremap <leader>y 0v$hy<cr>|                           " Yank a line without \n
 nnoremap <leader>i 0i<cr><esc>k|                        " Insert line
-nnoremap <leader>o :FZF <cr>|                           " FZF to search/open child file(s)
+nnoremap <leader>o :Files <cr>|                         " FZF to search/open child file(s)
 nnoremap <leader>O :Files /Users/Eric/<cr>|             " FZF to search/open " under home/
 nnoremap <leader>[ <c-t>|                               " Return from def ctag
 nnoremap <leader>] <c-]>|                               " Goto function def ctag
