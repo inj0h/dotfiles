@@ -38,10 +38,10 @@
 
 
 (use-package linum-relative
-    :ensure t
-    :config
-    (global-linum-mode t)
-    (linum-relative-mode t))
+  :ensure t
+  :config
+  (global-linum-mode t)
+  (linum-relative-mode t))
 
 (use-package evil
   :ensure t

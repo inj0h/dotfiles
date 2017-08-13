@@ -3,7 +3,7 @@
 ;; Maintainer: erikoelrojo
 ;; License: n/a
 ;; Comments: Elisp configuration file
-;; 
+;;
 ;; ------------------------------------------------------------------------------
 
 
@@ -18,10 +18,10 @@
 (let ((files (directory-files-and-attributes "~/.emacs.d/elisp" t)))
   (dolist (file files)
     (let ((filename (car file))
-	  (dir (nth 1 file)))
+          (dir (nth 1 file)))
       (when (and dir
-		 (not (string-suffix-p "." filename)))
-	(add-to-list 'load-path (car file))))))
+                 (not (string-suffix-p "." filename)))
+        (add-to-list 'load-path (car file))))))
 
 (add-to-list 'exec-path "/usr/local/bin")
 
@@ -40,7 +40,7 @@
 (require 'diminish)
 (require 'bind-key)
 
-;; Dump all the custom-var-face into one file. 
+;; Dump all the custom-var-face into one file.
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file 'noerror)
 
@@ -76,3 +76,12 @@
 (set-face-background hl-line-face "#393642")
 (add-to-list 'default-frame-alist '(font . "Menlo-11"))
 (server-start)
+
+;; Tabs = spaces * 4
+(setq-default indent-tabs-mode nil)
+(setq c-basic-offset 4)
+(setq tab-stop-list (number-sequence 8 120 8))
+
+;; (require 'whitespace)
+;; (global-whitespace-mode)
+;; (set-face-attribute 'whitespace-space )
