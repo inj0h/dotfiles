@@ -18,3 +18,4 @@ nvim/*.netrwhist
 .emacs.d/elpa/*
 .emacs.d/games/*
 .emacs.d/network-security.data
+.emacs.d/recentf
