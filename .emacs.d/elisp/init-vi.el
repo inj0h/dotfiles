@@ -22,11 +22,13 @@
     "2" (kbd "@@")
     "-" (kbd "\C-b\S-m")
     "=" (kbd "\C-f\S-m")
-    "w"  'helm-buffers-list
+    "w" 'helm-buffers-list
     "i" (lambda (n) (interactive "p") (evil-open-above n) (evil-force-normal-state))
-    "o"  'helm-find-files
+    "o" 'helm-find-files
     "s" 'other-window
     "S" 'split-window-below
+    "f" 'helm-do-ag-buffers
+    "K" 'kill-this-buffer
     "l" 'goto-last-change
     "L" 'linum-relative-toggle
     "c" 'whitespace-mode))
@@ -43,6 +45,7 @@
   :config
   (global-linum-mode t)
   (linum-relative-mode t))
+
 
 (use-package evil
   :ensure t
