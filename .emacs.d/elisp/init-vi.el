@@ -3,7 +3,7 @@
 ;; Maintainer: erikoelrojo
 ;; License: n/a
 ;; Comments: Elisp vi configuration module
-;; 
+;;
 ;; ------------------------------------------------------------------------------
 
 
@@ -28,7 +28,8 @@
     "s" 'other-window
     "S" 'split-window-below
     "l" 'goto-last-change
-    "L" 'linum-relative-toggle))
+    "L" 'linum-relative-toggle
+    "c" 'whitespace-mode))
 
 
 (defun my-keychord-settings ()

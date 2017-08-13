@@ -82,6 +82,5 @@
 (setq c-basic-offset 4)
 (setq tab-stop-list (number-sequence 8 120 8))
 
-;; (require 'whitespace)
-;; (global-whitespace-mode)
-;; (set-face-attribute 'whitespace-space )
+;; Cleanup trailing whitespace, et al after write
+(add-hook 'after-save-hook 'whitespace-cleanup)
