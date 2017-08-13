@@ -83,6 +83,12 @@ autocmd bufenter *
 " Remove all trailing whitespace upon write
 autocmd BufWritePre * %s/\s\+$//e
 
+" func lang
+augroup rainbow_lisp
+    autocmd!
+    autocmd FileType lisp,clojure,scheme,haskell RainbowParentheses
+augroup END
+
 " pep8
 autocmd FileType python setlocal textwidth=79 tabstop=4 fileformat=unix
 
