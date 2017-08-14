@@ -83,7 +83,11 @@ autocmd bufenter *
 " Remove all trailing whitespace upon write
 autocmd BufWritePre * %s/\s\+$//e
 
-" func lang
+" Algol lang
+" Wrap curly braces and insert b/w
+autocmd FileType c,c++,java,swift inoremap {<tab> {<cr>}<esc>O
+
+" Func lang
 augroup rainbow_lisp
     autocmd!
     autocmd FileType lisp,clojure,scheme,haskell RainbowParentheses
