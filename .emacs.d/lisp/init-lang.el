@@ -11,14 +11,22 @@
 (setq ispell-program-name "/usr/local/bin/aspell")
 
 (defun my-rainbow-delimeters-settings ()
-  (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode))
+  (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
+  (add-hook 'haskell-mode-hook #'rainbow-delimiters-mode))
 
 
-;; Colored delimiters
+;; Colored delims
 (use-package rainbow-delimiters
   :ensure t
   :config
   (my-rainbow-delimeters-settings))
+
+
+;; Haskell
+(use-package haskell-mode
+  :ensure t
+  :config
+  )
 
 
 ;; Swift
@@ -38,6 +46,13 @@
     :config
     (with-eval-after-load 'flycheck
       (add-hook 'flycheck-mode-hook #'flycheck-swift3-setup))))
+
+
+;; Snippets
+(use-package yasnippet
+  :ensure t
+  :config
+  )
 
 
 (provide 'init-lang)
