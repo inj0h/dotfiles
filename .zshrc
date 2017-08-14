@@ -156,9 +156,9 @@ man() {
 # Aliases
 # ------------------------------------------------------------------------------
 # Source my aliases.
-if [ -f ~/.aliases_me ];
+if [ -f ~/.alias_me ];
 then
-    source ~/.aliases_me
+    source ~/.alias_me
 fi
 
 # ssh
