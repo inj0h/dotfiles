@@ -19,14 +19,12 @@
   ;; (setq header-line-format nil))
   )
 
-
 (defun my-helm-keybindings ()
   "Helm keybindings, etc."
   (define-key helm-map [tab] 'helm-execute-persistent-action) ; Must use [tab] syntax
   (define-key helm-map (kbd "C-j") 'helm-find-files-down-last-level)
   (define-key helm-map (kbd "C-k") 'helm-find-files-up-one-level)
   (define-key helm-map (kbd "C-o") 'helm-select-action)); <- o = option
-
 
 (use-package helm
   :ensure t
@@ -41,6 +39,5 @@
     :diminish
     :config
     ))
-
 
 (provide 'init-fuzzy)

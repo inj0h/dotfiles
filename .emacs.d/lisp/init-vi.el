@@ -13,7 +13,6 @@
     (define-key evil-motion-state-map (kbd ";") 'evil-ex)
     (define-key evil-motion-state-map (kbd "C-e") 'evil-end-of-line)))
 
-
 (defun my-evil-leader-settings ()
   "Configure evil leader."
   (evil-leader/set-leader "<SPC>")
@@ -33,19 +32,16 @@
     "L" 'linum-relative-toggle
     "c" 'whitespace-mode))
 
-
 (defun my-keychord-settings ()
   "Configure evil mode"
   (key-chord-define evil-insert-state-map "jj" 'evil-normal-state)
   (define-key evil-normal-state-map (kbd ":") 'execute-extended-command))
-
 
 (use-package linum-relative
   :ensure t
   :config
   (global-linum-mode t)
   (linum-relative-mode t))
-
 
 (use-package evil
   :ensure t
@@ -70,6 +66,5 @@
     :ensure t
     :config
     (global-evil-surround-mode)))
-
 
 (provide 'init-vi)

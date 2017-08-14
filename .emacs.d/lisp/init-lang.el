@@ -14,6 +14,14 @@
   (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
   (add-hook 'haskell-mode-hook #'rainbow-delimiters-mode))
 
+;; Pair 'em up
+(electric-pair-mode t)
+
+(defun my-algol-lang-settings ()
+  (setq electric-pair-pairs '((?\" . ?\")
+                              (?\( . ?\))
+                              (?\[ . ?\])
+                              (?\{ . ?\}))))
 
 ;; Colored delims
 (use-package rainbow-delimiters
@@ -21,20 +29,17 @@
   :config
   (my-rainbow-delimeters-settings))
 
-
 ;; Haskell
 (use-package haskell-mode
   :ensure t
   :config
   )
 
-
 ;; Swift
 (use-package swift-mode
   :ensure t
   :config
-  )
-
+  (add-hook 'swift-mode-hook #'my-algol-lang-settings))
 
 ;; Flycheck linter
 (use-package flycheck
@@ -47,12 +52,10 @@
     (with-eval-after-load 'flycheck
       (add-hook 'flycheck-mode-hook #'flycheck-swift3-setup))))
 
-
 ;; Snippets
 (use-package yasnippet
   :ensure t
   :config
   )
-
 
 (provide 'init-lang)

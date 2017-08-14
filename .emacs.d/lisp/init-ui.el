@@ -1,5 +1,5 @@
 ;; ------------------------------------------------------------------------------
-;; Filename: init-theme.el
+;; Filename: init-ui.el
 ;; Maintainer: erikoelrojo
 ;; License: n/a
 ;; Comments: Elisp UI configuration module
@@ -11,6 +11,5 @@
   :ensure t
   :config
   (load-theme 'monokai t))
-
 
 (provide 'init-ui)
