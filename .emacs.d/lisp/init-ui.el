@@ -13,4 +13,4 @@
   (load-theme 'monokai t))
 
 
-(provide 'init-theme)
+(provide 'init-ui)

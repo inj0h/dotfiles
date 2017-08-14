@@ -57,7 +57,7 @@
 (require 'init-fuzzy)
 (require 'init-vi)
 (require 'init-lang)
-(require 'init-theme)
+(require 'init-ui)
 
 ;; UI settings
 ;; These are a bit of a mess right now...
