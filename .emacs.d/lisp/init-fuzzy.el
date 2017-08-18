@@ -13,6 +13,7 @@
   (setq helm-completion-in-region-fuzzy-match t)
   (setq helm-idle-delay 0.0)
   (setq helm-input-idle-delay 0.01)
+  (setq helm-autoresize-max-height 40)
   (helm-autoresize-mode 1)
 
   ;;(defadvice helm-display-mode-line (after undisplay-header activate)

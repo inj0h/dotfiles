@@ -31,7 +31,7 @@
 (add-to-list 'package-archives '("melpa-stable" ."http://stable.melpa.org/packages/"))
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
 
-;; use-package
+;; Use use-package
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
@@ -44,43 +44,8 @@
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file 'noerror)
 
-;; Sane Defaults.
-;; I realize the danger.
-(setq auto-save-default nil
-      inhibit-startup-screen t
-      make-backup-files nil)
-
-;; I realize the danger.
-(setq ring-bell-function 'ignore)
-
 ;; Config modules
+(require 'init-ui)
 (require 'init-fuzzy)
 (require 'init-vi)
 (require 'init-lang)
-(require 'init-ui)
-
-;; UI settings
-;; These are a bit of a mess right now...
-(blink-cursor-mode 1)
-(menu-bar-mode -1)
-(scroll-bar-mode -1)
-(tool-bar-mode -1)
-(setq show-paren-delay 0)
-(show-paren-mode 1)
-(set-face-attribute 'default t :background "#32302f")
-(set-face-attribute 'fringe t :background "#32302f")
-(setq column-number-mode t)
-(set-cursor-color "#ff6666")
-(add-to-list 'default-frame-alist '(cursor-color . "ff6666"))
-(global-hl-line-mode t)
-(set-face-background hl-line-face "#393642")
-(add-to-list 'default-frame-alist '(font . "Menlo-11"))
-(server-start)
-
-;; Tabs = spaces * 4
-(setq-default indent-tabs-mode nil)
-(setq c-basic-offset 4)
-(setq tab-stop-list (number-sequence 8 120 8))
-
-;; Cleanup trailing whitespace, et al after write
-(add-hook 'after-save-hook 'whitespace-cleanup)

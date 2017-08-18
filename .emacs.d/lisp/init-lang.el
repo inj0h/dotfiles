@@ -29,18 +29,6 @@
   :config
   (my-rainbow-delimeters-settings))
 
-;; Haskell
-(use-package haskell-mode
-  :ensure t
-  :config
-  )
-
-;; Swift
-(use-package swift-mode
-  :ensure t
-  :config
-  (add-hook 'swift-mode-hook #'my-algol-lang-settings))
-
 ;; Flycheck linter
 (use-package flycheck
   :ensure t
@@ -51,6 +39,19 @@
     :config
     (with-eval-after-load 'flycheck
       (add-hook 'flycheck-mode-hook #'flycheck-swift3-setup))))
+
+;; Haskell
+(use-package haskell-mode
+  :ensure t
+  :config
+  )
+
+;; Swift
+(use-package swift-mode
+  :ensure t
+  :config
+  (add-hook 'swift-mode-hook #'my-algol-lang-settings)
+  (add-hook 'swift-mode-hook 'flycheck-mode))
 
 ;; Snippets
 (use-package yasnippet

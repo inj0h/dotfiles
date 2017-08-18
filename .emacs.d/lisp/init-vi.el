@@ -18,7 +18,7 @@
   (evil-leader/set-leader "<SPC>")
   (evil-leader/set-key
     "`" 'delete-other-windows
-    "2" (kbd "@@")
+    ;; "2" (kbd "@@") ; This keybinding doesn't quite work
     "-" (kbd "\C-b\S-m")
     "=" (kbd "\C-f\S-m")
     "w" 'helm-buffers-list
