@@ -1,7 +1,6 @@
 # ~/.zshrc
 # ------------------------------------------------------------------------------
 
-
 # Prompt and colors
 # ------------------------------------------------------------------------------
 autoload -U colors zsh-mime-setup select-word-style
@@ -20,8 +19,10 @@ precmd() {  # Run before each prompt.
 
 setopt PROMPT_SUBST     # Allow for a more custom prompt.
 
-PROMPT="%{$fg[yellow]%}[%{$reset_color%}% %{$fg[red]%}%n%{$reset_color%}%{$fg[yellow]%}]%{$reset_color%} %{$fg[yellow]%}%~ \$vcs_info_msg_0_
-%{$fg[yellow]%}> %{$reset_color%}"
+# PROMPT="%{$fg[yellow]%}[%{$reset_color%}% %{$fg[red]%}%n%{$reset_color%}%{$fg[yellow]%}]%{$reset_color%} %{$fg[yellow]%}%~ \$vcs_info_msg_0_
+# %{$fg[yellow]%}> %{$reset_color%}"
+PROMPT="%{$fg[green]%}[%{$reset_color%}% %{$fg[green]%}%n%{$reset_color%}%{$fg[green]%}]%{$reset_color%} %{$fg[white]%}%~ \$vcs_info_msg_0_
+%{$fg[green]%}$ %{$reset_color%}"
 
 export TERM=xterm-256color
 export LSCOLORS=dxcxfxgxbxegedabagacad # ls colors.
@@ -50,7 +51,6 @@ export LSCOLORS=dxcxfxgxbxegedabagacad # ls colors.
 # Lookup in /etc/termcap or /etc/terminfo else, you can get the right keycode
 # by typing ^v and then type the key or key combination you want to use.
 # "man zshzle" for the list of available actions
-
 
 # Completion, etc.
 # ------------------------------------------------------------------------------
@@ -128,7 +128,6 @@ unsetopt list_beep              # No bell on ambiguous completion.
 unsetopt rm_star_silent         # Ask for confirmation for `rm *' or `rm path/*'.
 # setxkbmap -option compose:ralt  # compose-key... shell doesn't seem to like this.
 
-
 # Variables
 # ------------------------------------------------------------------------------
 # fzf colors
@@ -152,7 +151,6 @@ man() {
         man "$@"
 }
 
-
 # Aliases
 # ------------------------------------------------------------------------------
 # Source my aliases.
@@ -166,7 +164,6 @@ if [ -f ~/.ssh_aliases ];
 then
     source ~/.ssh_aliases
 fi
-
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
