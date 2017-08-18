@@ -587,7 +587,7 @@
 		<integer>1</integer>
 	</dict>
 	<key>NSWindow Frame NSColorPanel</key>
-	<string>430 256 228 297 0 0 1920 1058 </string>
+	<string>430 184 228 297 0 0 1920 1058 </string>
 	<key>NSWindow Frame NSFontPanel</key>
 	<string>884 234 445 77 0 0 1920 1058 </string>
 	<key>NSWindow Frame Preferences</key>
@@ -597,13 +597,13 @@
 	<key>NSWindow Frame SessionsPreferences</key>
 	<string>424 198 606 456 0 0 1920 1057 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>32 254 796 473 0 0 1280 778 </string>
+	<string>296 348 796 473 0 0 1920 1058 </string>
 	<key>NSWindow Frame UKCrashReporter</key>
 	<string>99 293 592 584 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>960 531 960 527 0 0 1920 1058 </string>
+	<string>640 5 640 773 0 0 1280 778 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
-	<string>320 308 712 470 0 0 1280 778 </string>
+	<string>960 588 712 470 0 0 1920 1058 </string>
 	<key>NSWindow Frame iTerm Window 10</key>
 	<string>436 532 710 490 0 0 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 11</key>
@@ -617,7 +617,7 @@
 	<key>NSWindow Frame iTerm Window 15</key>
 	<string>541 417 710 490 0 0 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
-	<string>247 508 712 470 0 0 1920 1058 </string>
+	<string>0 531 960 527 0 0 1920 1058 </string>
 	<key>NSWindow Frame iTerm Window 3</key>
 	<string>2490 284 710 490 1920 280 1280 777 </string>
 	<key>NSWindow Frame iTerm Window 4</key>
@@ -845,11 +845,11 @@
 				<key>Alpha Component</key>
 				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.0</real>
+				<real>0.5733950138092041</real>
 				<key>Color Space</key>
 				<string>sRGB</string>
 				<key>Green Component</key>
-				<real>0.1491314172744751</real>
+				<real>0.18573886156082153</real>
 				<key>Red Component</key>
 				<real>1</real>
 			</dict>
@@ -2545,7 +2545,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2017-07-31T00:58:35Z</date>
+	<date>2017-08-17T22:06:27Z</date>
 	<key>SavePasteHistory</key>
 	<false/>
 	<key>Secure Input</key>
