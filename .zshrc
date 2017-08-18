@@ -1,4 +1,5 @@
 # ~/.zshrc
+# Note! Vim indentation broken!
 # ------------------------------------------------------------------------------
 
 # Prompt and colors
@@ -12,16 +13,16 @@ select-word-style bash # Ctrl+W on words.
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git svn hg
 zstyle ':vcs_info:*' check-for-changes true
-zstyle ':vcs_info:*' formats "%{$fg[yellow]%}%c%{$fg[green]%}%u%{$reset_color%} [%{$fg[red]%}%b%{$reset_color%}] %{$fg[yellow]%}%s%{$reset_color%}:%r"
+zstyle ':vcs_info:*' formats "%{$fg[green]%}%c%{$fg[red]%}%u%{$reset_color%}\
+ [%{$fg[green]%}%b%{$reset_color%}] %{$fg[yellow]%}%s%{$reset_color%}:%r"
+
 precmd() {  # Run before each prompt.
     vcs_info
 }
 
 setopt PROMPT_SUBST     # Allow for a more custom prompt.
 
-# PROMPT="%{$fg[yellow]%}[%{$reset_color%}% %{$fg[red]%}%n%{$reset_color%}%{$fg[yellow]%}]%{$reset_color%} %{$fg[yellow]%}%~ \$vcs_info_msg_0_
-# %{$fg[yellow]%}> %{$reset_color%}"
-PROMPT="%{$fg[green]%}[%{$reset_color%}% %{$fg[green]%}%n%{$reset_color%}%{$fg[green]%}]%{$reset_color%} %{$fg[white]%}%~ \$vcs_info_msg_0_
+PROMPT="[%{$fg[green]%}%n%{$reset_color%}] %{$fg[white]%}%~ \$vcs_info_msg_0_
 %{$fg[green]%}$ %{$reset_color%}"
 
 export TERM=xterm-256color
