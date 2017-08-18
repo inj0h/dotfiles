@@ -44,7 +44,8 @@
 (use-package haskell-mode
   :ensure t
   :config
-  )
+  ; Not sure if this hook does much atm.
+  (add-hook 'haskell-mode-hook 'flycheck-mode))
 
 ;; Swift
 (use-package swift-mode
