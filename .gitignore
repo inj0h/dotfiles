@@ -16,6 +16,7 @@ nvim/*.netrwhist
 # emacs
 .emacs.d/auto-save-list/*
 .emacs.d/elpa/*
+.emacs.d/eshell/*
 .emacs.d/games/*
 .emacs.d/network-security.data
 .emacs.d/recentf
