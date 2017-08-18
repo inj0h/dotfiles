@@ -60,7 +60,6 @@ set undolevels=500                                      " Extent of undo remembe
 set visualbell                                          " No beeping
 set wildmode=list:longest,list                          " Tab completion
 
-
 " Automatic Commands
 " ------------------------------------------------------------------------------
 " By Plugin
@@ -75,7 +74,6 @@ autocmd! BufWritePost * Neomake
 autocmd bufenter *
             \ if (winnr("$") == 1 && exists("b:NERDTree")
             \ && b:NERDTree.isTabTree()) | q | endif
-
 
 " By FileType, et al
 
@@ -103,11 +101,9 @@ autocmd BufWrite *.txt :normal ggVGgq`.zz
 " VimL
 autocmd FileType vim setlocal textwidth=79 formatoptions+=t
 
-
 " Aesthetic
 " ------------------------------------------------------------------------------
 colorscheme cueva
-
 
 " Functions
 " ------------------------------------------------------------------------------
@@ -126,7 +122,6 @@ endfunc
 function LintSpell()
     set spell!
 endfunc
-
 
 " Keybindings
 " ------------------------------------------------------------------------------
@@ -167,19 +162,18 @@ nnoremap <leader>Q :qall<cr>|                           " Quit if everything is 
 nnoremap <leader>w :Buffers <cr>|                       " FZF to list buffer(s)
 nnoremap <leader>y 0v$hy<cr>|                           " Yank a line without \n
 nnoremap <leader>i 0i<cr><esc>k|                        " Insert line
-nnoremap <leader>o :Lines <cr>|                         " FZF to search thru open buffers
-nnoremap <leader>O :Files <cr>|                         " FZF to search/open child file(s)
+nnoremap <leader>o :Files <cr>|                         " FZF to search/open child file(s)
+nnoremap <leader>O :Files |                             " FZF to search/open w/ given path
 nnoremap <leader>[ <c-t>|                               " Return from def ctag
 nnoremap <leader>] <c-]>|                               " Goto function def ctag
 
-nnoremap <leader>f :Ag <cr>|                            " FZF to search thru child file(s)
+nnoremap <leader>f :Lines <cr>|                         " FZF to search thru open buffers
 nnoremap <leader>s <c-w><c-w>|                          " Faster window jumping
 nnoremap <leader>S :split<cr>|                          " Split new window below
 nnoremap <leader>l `.zz|                                " Jump to last edit and center
 nnoremap <leader>L :call ToggleLines()<cr>
 
 nnoremap <leader>/ :noh<cr>|                            " Undo find highlighting
-
 
 " Plugin Settings
 " ------------------------------------------------------------------------------
@@ -196,7 +190,6 @@ let g:NERDTreeWinSize = 45
 " vim-airline
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_theme = 'cueva'
-
 
 " Language Support
 " ------------------------------------------------------------------------------
