@@ -16,12 +16,10 @@
 
 ;; Pair 'em up
 (electric-pair-mode t)
-
-(defun my-algol-lang-settings ()
-  (setq electric-pair-pairs '((?\" . ?\")
-                              (?\( . ?\))
-                              (?\[ . ?\])
-                              (?\{ . ?\}))))
+(setq electric-pair-pairs '((?\" . ?\")
+                            (?\( . ?\))
+                            (?\[ . ?\])
+                            (?\{ . ?\})))
 
 ;; Colored delims
 (use-package rainbow-delimiters
@@ -51,7 +49,6 @@
 (use-package swift-mode
   :ensure t
   :config
-  (add-hook 'swift-mode-hook #'my-algol-lang-settings)
   (add-hook 'swift-mode-hook 'flycheck-mode))
 
 ;; Snippets

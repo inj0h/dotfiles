@@ -23,12 +23,12 @@
 (tool-bar-mode -1)
 (setq show-paren-delay 0)
 (show-paren-mode 1)
-(set-face-attribute 'default t :background "#32302f" :foreground "#ebebeb")
-(set-face-attribute 'fringe t :background "#32302f")
-(set-face-attribute 'font-lock-comment-delimiter-face t :foreground "#736075")
-(set-face-attribute 'font-lock-comment-face t :foreground "#736075")
-(set-face-attribute 'show-paren-match t :foreground "#ccff66")
-(set-face-attribute 'show-paren-mismatch t :foreground "#ff2f92")
+(set-face-attribute 'default nil :background "#32302f" :foreground "#ebebeb")
+(set-face-attribute 'fringe nil :background "#32302f")
+(set-face-attribute 'font-lock-comment-delimiter-face nil :foreground "#736075")
+(set-face-attribute 'font-lock-comment-face nil :foreground "#736075")
+(set-face-attribute 'show-paren-match nil :foreground "#ccff66")
+(set-face-attribute 'show-paren-mismatch nil :foreground "#ff2f92")
 
 ;; Selection Highlighting
 (set-face-attribute 'region nil :background "#ccff66" :foreground "#333333")
@@ -41,6 +41,10 @@
 (add-to-list 'default-frame-alist '(font . "Menlo-11"))
 (server-start)
 
+;; Linum / relative linum stuff
+(setq linum-relative-current-symbol "->")
+(setq linum-relative-pulsp-offset 1)
+(setq linum-relative-format "%3s")
 ;; Tabs = spaces * 4
 (setq-default indent-tabs-mode nil)
 (setq c-basic-offset 4)
