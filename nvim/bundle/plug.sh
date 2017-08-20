@@ -9,12 +9,12 @@ PLUGINS=(https://github.com/erikoelrojo/cueva.git
          https://github.com/hdima/python-syntax
          https://github.com/hynek/vim-python-pep8-indent
          https://github.com/junegunn/fzf.vim
+         https://github.com/junegunn/rainbow_parentheses.vim.git
          https://github.com/keith/swift.vim.git
          https://github.com/neomake/neomake
          https://github.com/neovimhaskell/haskell-vim
          https://github.com/octol/vim-cpp-enhanced-highlight
          https://github.com/pangloss/vim-javascript
-         https://github.com/scrooloose/nerdtree.git
          https://github.com/sheerun/vim-polyglot.git
          https://github.com/tpope/vim-fugitive
          https://github.com/tpope/vim-surround
