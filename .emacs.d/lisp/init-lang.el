@@ -10,16 +10,21 @@
 ;; aspell: supporting human languages.
 (setq ispell-program-name "/usr/local/bin/aspell")
 
-(defun my-rainbow-delimeters-settings ()
-  (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
-  (add-hook 'haskell-mode-hook #'rainbow-delimiters-mode))
-
 ;; Pair 'em up
 (electric-pair-mode t)
 (setq electric-pair-pairs '((?\" . ?\")
                             (?\( . ?\))
                             (?\[ . ?\])
                             (?\{ . ?\})))
+
+(defun my-rainbow-delimeters-settings ()
+  (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
+  (add-hook 'haskell-mode-hook #'rainbow-delimiters-mode))
+
+(defun yas-enable-and-reload ()
+  "Enable yas-minor-mode for buffer and reload all snips"
+  (yas-minor-mode)
+  (yas-reload-all))
 
 ;; Colored delims
 (use-package rainbow-delimiters
@@ -42,18 +47,20 @@
 (use-package haskell-mode
   :ensure t
   :config
-  ; Not sure if this hook does much atm.
+  ;; Not sure if this hook does much atm.
   (add-hook 'haskell-mode-hook 'flycheck-mode))
 
 ;; Swift
 (use-package swift-mode
   :ensure t
   :config
-  (add-hook 'swift-mode-hook 'flycheck-mode))
+  (add-hook 'swift-mode-hook 'flycheck-mode)
+  (add-hook 'swift-mode-hook 'yas-enable-and-reload))
 
 ;; Snippets
 (use-package yasnippet
   :ensure t
+  :diminish yas-minor-mode
   :config
   )
 

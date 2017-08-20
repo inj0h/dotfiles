@@ -11,7 +11,8 @@
   "Vi keybindings, etc."
   (with-eval-after-load 'evil-maps
     (define-key evil-motion-state-map (kbd ";") 'evil-ex)
-    (define-key evil-motion-state-map (kbd "C-e") 'evil-end-of-line)))
+    (define-key evil-motion-state-map (kbd "C-e") 'evil-end-of-line)
+    (define-key evil-insert-state-map (kbd "TAB") 'yas-insert-snippet)))
 
 (defun my-evil-leader-settings ()
   "Configure evil leader."
@@ -27,6 +28,7 @@
     "s" 'other-window
     "S" 'split-window-below
     "f" 'helm-do-ag-buffers
+    "k" 'comment-dwim
     "K" 'kill-this-buffer
     "l" 'goto-last-change
     "L" 'linum-relative-toggle
@@ -36,12 +38,6 @@
   "Configure evil mode"
   (key-chord-define evil-insert-state-map "jj" 'evil-normal-state)
   (define-key evil-normal-state-map (kbd ":") 'execute-extended-command))
-
-(use-package linum-relative
-  :ensure t
-  :config
-  (global-linum-mode t)
-  (linum-relative-mode t))
 
 (use-package evil
   :ensure t
@@ -65,6 +61,11 @@
   (use-package evil-surround
     :ensure t
     :config
-    (global-evil-surround-mode)))
+    (global-evil-surround-mode))
+
+  (use-package evil-commentary
+    :ensure t
+    :config
+    (evil-commentary-mode)))
 
 (provide 'init-vi)

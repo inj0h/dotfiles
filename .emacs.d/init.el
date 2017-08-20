@@ -47,5 +47,5 @@
 ;; Config modules
 (require 'init-ui)
 (require 'init-fuzzy)
-(require 'init-vi)
 (require 'init-lang)
+(require 'init-vi)

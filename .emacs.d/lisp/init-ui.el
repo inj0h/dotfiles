@@ -39,12 +39,10 @@
 (global-hl-line-mode t)
 (set-face-background hl-line-face "#393642")
 (add-to-list 'default-frame-alist '(font . "Menlo-11"))
+(defalias 'yes-or-no-p 'y-or-n-p)
+(setq linum-format "  %d ") ; Space out gutter.
 (server-start)
 
-;; Linum / relative linum stuff
-(setq linum-relative-current-symbol "->")
-(setq linum-relative-pulsp-offset 1)
-(setq linum-relative-format "%3s")
 ;; Tabs = spaces * 4
 (setq-default indent-tabs-mode nil)
 (setq c-basic-offset 4)
@@ -68,6 +66,15 @@
 (global-set-key (kbd "s-=") 'text-scale-increase)
 (global-set-key (kbd "s--") 'text-scale-decrease)
 (global-set-key (kbd "s-0") 'text-scale-adjust)
+
+(use-package linum-relative
+  :ensure t
+  :config
+  (global-linum-mode t)
+  (linum-relative-mode t)
+  (setq linum-relative-current-symbol ">")
+  ;; Space out gutter.
+  (setq linum-relative-format " %3s "))
 
 (use-package monokai-theme
   :ensure t
