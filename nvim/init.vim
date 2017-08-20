@@ -44,7 +44,8 @@ set listchars=tab:>-,nbsp:_,trail:.                     " Make tabs + trailing s
 set list                                                " ^
 set mouse=a                                             " Enable mouse
 set nofoldenable                                        " Disable line folding
-set relativenumber
+set number                                              " Line numbers
+set relativenumber                                      " Relative line numbers (if both enabled use both)
 set rtp+=/usr/local/opt/fzf                             " Set FZF plugin path
 set ruler                                               " Show line+column at bottom right
 set shell=zsh                                           " Shell = zsh
@@ -68,12 +69,6 @@ set wildmode=list:longest,list                          " Tab completion
 " Async run Neomake upon write
 "autocmd! BufEnter,BufReadPost,BufWritePost * Neomake
 autocmd! BufWritePost * Neomake
-
-" NERDTree
-" Exit if NERDTree is the only open buffer.
-autocmd bufenter *
-            \ if (winnr("$") == 1 && exists("b:NERDTree")
-            \ && b:NERDTree.isTabTree()) | q | endif
 
 " By FileType, et al
 
@@ -109,12 +104,10 @@ colorscheme cueva
 " ------------------------------------------------------------------------------
 " Toggle line numbers
 function ToggleLines()
-    if(&relativenumber == 0)
-        set relativenumber!
-        set foldcolumn=0
+    if(&relativenumber == 1)
+        set norelativenumber
     else
-        set relativenumber!
-        set foldcolumn=1
+        set relativenumber
     endif
 endfunc
 
@@ -153,7 +146,6 @@ noremap <leader>= <c-f><bar>M|                          " Page down
 
 " Leader Normal
 nnoremap <leader>` :e $MYVIMRC<cr>|                     " Quick access to this file
-nnoremap <leader>1 :NERDTreeToggle<cr>|                 " Open file tree
 nnoremap <leader>2 @@|                                  " Replay key macro q
 nnoremap <leader>3 :!ctags -R .|                        " Make ctags in dir
 nnoremap <leader>4 :call LintSpell()<cr>|               " Call function
@@ -178,14 +170,7 @@ nnoremap <leader>/ :noh<cr>|                            " Undo find highlighting
 " Plugin Settings
 " ------------------------------------------------------------------------------
 " FZF
-let g:fzf_layout = { 'up': '~33%' }
-
-" NERDTree
-let NERDTreeShowHidden = 1
-let NERDTreeShowLineNumbers = 1
-let NERDTreeMapOpenInTab = ''|                          " Unbind?
-let NERDTreeMapOpenInTabSilent = ''|                    " Unbind?
-let g:NERDTreeWinSize = 45
+let g:fzf_layout = { 'up': '~40%' }
 
 " vim-airline
 let g:airline#extensions#tabline#enabled = 1
