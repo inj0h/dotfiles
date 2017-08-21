@@ -50,6 +50,15 @@
   ;; Not sure if this hook does much atm.
   (add-hook 'haskell-mode-hook 'flycheck-mode))
 
+;; Markdown
+(use-package markdown-mode
+  :ensure t
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode))
+  :config
+  (setq markdown-command "/usr/local/bin/pandoc")
+  (add-hook 'markdown-mode-hook 'flycheck-mode))
+
 ;; Swift
 (use-package swift-mode
   :ensure t
