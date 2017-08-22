@@ -10,13 +10,6 @@
 ;; aspell: supporting human languages.
 (setq ispell-program-name "/usr/local/bin/aspell")
 
-;; Pair 'em up
-(electric-pair-mode t)
-(setq electric-pair-pairs '((?\" . ?\")
-                            (?\( . ?\))
-                            (?\[ . ?\])
-                            (?\{ . ?\})))
-
 (defun my-rainbow-delimeters-settings ()
   (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
   (add-hook 'haskell-mode-hook #'rainbow-delimiters-mode))
