@@ -78,7 +78,7 @@ autocmd BufWritePre * %s/\s\+$//e
 
 " Algol lang
 " Wrap curly braces and insert b/w
-autocmd FileType c,c++,java,swift inoremap {<tab> {<cr>}<esc>O
+autocmd FileType c,c++,swift,javascript inoremap {<tab> {<cr>}<esc>O
 
 " Func lang
 augroup rainbow_lisp
