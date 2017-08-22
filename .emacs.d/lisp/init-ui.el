@@ -10,9 +10,9 @@
 ;; UI settings (these are a bit of a mess right now... not gonna lie)
 ;; Sane Defaults.
 ;; I realize the danger.
-(setq auto-save-default nil
-      inhibit-startup-screen t
-      make-backup-files nil)
+(setq auto-save-default nil)
+(setq inhibit-startup-screen t)
+(setq make-backup-files nil)
 
 ;; I realize the danger.
 (setq ring-bell-function 'ignore)
@@ -21,6 +21,7 @@
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
+(setq ns-pop-up-frames nil)
 (setq show-paren-delay 0)
 (show-paren-mode 1)
 (set-face-attribute 'default nil :background "#32302f" :foreground "#ebebeb")
@@ -38,7 +39,7 @@
 (add-to-list 'default-frame-alist '(cursor-color . "ffffff"))
 (global-hl-line-mode t)
 (set-face-background hl-line-face "#393642")
-(add-to-list 'default-frame-alist '(font . "Menlo-11"))
+(set-frame-font "Source Code Pro-12" nil t)
 (defalias 'yes-or-no-p 'y-or-n-p)
 (setq linum-format "  %d ") ; Space out gutter.
 (server-start)
