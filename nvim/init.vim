@@ -121,7 +121,8 @@ endfunc
 " Regular
 inoremap jj <esc>|                                      " Rebind escape
 
-nmap ; :|                                               " Rebind colon
+nnoremap ; :|                                           " Rebind colon
+nnoremap : ;|                                           " Rebind semicolon
 
 nmap <c-a> 0|                                           " Rebind beginning of line
 nmap <c-e> $|                                           " Rebind end of line

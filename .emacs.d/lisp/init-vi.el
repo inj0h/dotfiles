@@ -12,7 +12,8 @@
   (with-eval-after-load 'evil-maps
     (define-key evil-motion-state-map (kbd ";") 'evil-ex)
     (define-key evil-motion-state-map (kbd "C-e") 'evil-end-of-line)
-    (define-key evil-insert-state-map (kbd "TAB") 'yas-insert-snippet)))
+    (define-key evil-motion-state-map (kbd "s-e") 'eval-last-sexp)
+    (define-key evil-insert-state-map (kbd "C-y") 'yas-insert-snippet)))
 
 (defun my-evil-leader-settings ()
   "Configure evil leader."
