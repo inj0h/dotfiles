@@ -98,7 +98,11 @@ autocmd FileType vim setlocal textwidth=79 formatoptions+=t
 
 " Aesthetic
 " ------------------------------------------------------------------------------
-colorscheme cueva
+if $COLORTERM == 'truecolor'
+    colorscheme cueva
+else
+    colorscheme desert
+endif
 
 " Functions
 " ------------------------------------------------------------------------------
