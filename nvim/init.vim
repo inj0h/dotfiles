@@ -87,14 +87,14 @@ augroup rainbow_lisp
 augroup END
 
 " pep8
-autocmd FileType python setlocal textwidth=79 tabstop=4 fileformat=unix
+autocmd FileType python setlocal textwidth=80 tabstop=4 fileformat=unix
 
 " txt
 autocmd FileType text setlocal textwidth=80 spell
-autocmd BufWrite *.txt :normal ggVGgq`.zz
+" autocmd BufWrite *.txt :normal ggVGgq`.zz
 
 " VimL
-autocmd FileType vim setlocal textwidth=79 formatoptions+=t
+autocmd FileType vim setlocal textwidth=80 formatoptions+=t
 
 " Aesthetic
 " ------------------------------------------------------------------------------
