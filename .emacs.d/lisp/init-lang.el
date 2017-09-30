@@ -36,6 +36,9 @@
     (with-eval-after-load 'flycheck
       (add-hook 'flycheck-mode-hook #'flycheck-swift3-setup))))
 
+;; Emacs Lisp
+(add-hook 'emacs-lisp-mode-hook 'flyspell-prog-mode)
+
 ;; Haskell
 (use-package haskell-mode
   :ensure t
