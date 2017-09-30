@@ -38,6 +38,8 @@
 
 ;; Emacs Lisp
 (add-hook 'emacs-lisp-mode-hook 'flyspell-prog-mode)
+(add-hook 'emacs-lisp-mode-hook '(lambda() (set-fill-column 80)))
+(add-hook 'emacs-lisp-mode-hook 'turn-on-auto-fill)
 
 ;; Haskell
 (use-package haskell-mode
