@@ -10,7 +10,6 @@ PLUGINS=(https://github.com/erikoelrojo/cueva.git
          https://github.com/hynek/vim-python-pep8-indent
          https://github.com/junegunn/fzf.vim
          https://github.com/junegunn/rainbow_parentheses.vim.git
-         https://github.com/keith/swift.vim.git
          https://github.com/neomake/neomake
          https://github.com/neovimhaskell/haskell-vim
          https://github.com/octol/vim-cpp-enhanced-highlight
