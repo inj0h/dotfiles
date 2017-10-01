@@ -3,7 +3,7 @@
 # Welcome message
 printf "New session with $USER! \xf0\x9f\x8e\xb8  \n"
 
-# Set shell to zsh (MacOS doesn't default to this).
+# Source .zshrc for login shells
 if [ -f ~/.zshrc ]; then
     source ~/.zshrc
 fi

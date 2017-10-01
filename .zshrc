@@ -153,7 +153,7 @@ man() {
         man "$@"
 }
 
-# Aliases
+# Source files
 # ------------------------------------------------------------------------------
 # Source my aliases.
 if [ -f ~/.alias_me ];
@@ -165,6 +165,12 @@ fi
 if [ -f ~/.ssh_aliases ];
 then
     source ~/.ssh_aliases
+fi
+
+# Functions
+if [ -f ~/.zfunc ];
+then
+    source ~/.zfunc
 fi
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
