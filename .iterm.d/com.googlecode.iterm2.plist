@@ -607,9 +607,9 @@
 	<key>NSWindow Frame UKCrashReporter</key>
 	<string>99 293 592 584 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>307 245 841 509 0 0 1440 878 </string>
+	<string>184 83 1552 896 0 0 1920 1058 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
-	<string>242 123 795 536 0 0 1440 878 </string>
+	<string>0 0 960 1058 0 0 1920 1058 </string>
 	<key>NSWindow Frame iTerm Window 10</key>
 	<string>436 532 710 490 0 0 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 11</key>
@@ -1498,7 +1498,7 @@
 			<key>Visual Bell</key>
 			<true/>
 			<key>Window Type</key>
-			<integer>12</integer>
+			<integer>0</integer>
 			<key>Working Directory</key>
 			<string>/Users/Eric</string>
 		</dict>

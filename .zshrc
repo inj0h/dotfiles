@@ -13,7 +13,7 @@ select-word-style bash # Ctrl+W on words.
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git svn hg
 zstyle ':vcs_info:*' check-for-changes true
-zstyle ':vcs_info:*' formats "[%{$fg_bold[green]%}%s%{$reset_color%} %r]\
+zstyle ':vcs_info:*' formats "[%{$fg_bold[green]%}%s%{$reset_color%} %r\
  %{$fg_bold[magenta]%}-> %b%{$reset_color%}]\
  %{$fg_bold[yellow]%}%c%{$fg_bold[red]%}%u%{$reset_color%}"
 
