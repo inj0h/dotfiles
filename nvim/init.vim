@@ -34,14 +34,14 @@ set clipboard=unnamed                                   " Enable clipboard acces
 set confirm                                             " Manage buffer state before exiting
 set cursorline                                          " Show current line
 set expandtab                                           " Set tabs = spaces
-set guicursor=n:blinkon1                                " Blink cursor
 set foldcolumn=0                                        " Whitespace indentation on left margin
 set formatoptions+=t                                    " Set textwidth for code but not comments
+set guicursor=n:blinkon1                                " Blink cursor
 set hidden                                              " Leave modded buffer
 set history=100                                         " History log
 set ignorecase                                          " Ignore casing when searching
-set listchars=tab:>-,nbsp:_,trail:.                     " Make tabs + trailing spaces visible
 set list                                                " ^
+set listchars=tab:>-,nbsp:_,trail:.                     " Make tabs + trailing spaces visible
 set mouse=a                                             " Enable mouse
 set nofoldenable                                        " Disable line folding
 set number                                              " Line numbers
@@ -50,11 +50,12 @@ set rtp+=/usr/local/opt/fzf                             " Set FZF plugin path
 set ruler                                               " Show line+column at bottom right
 set shell=zsh                                           " Shell = zsh
 set shiftwidth=4                                        " Width of indent in spaces
+set shortmess+=I                                        " Disable splash screen
 set showcmd                                             " Show commands as typed
 set smartcase                                           " Specify casing in searching
+set softtabstop=4                                       " Whitespace/tab stuff
 set spelllang=en_us                                     " Parse English
 set splitbelow                                          " Always split windows below
-set softtabstop=4                                       " Whitespace/tab stuff
 set tabstop=8                                           " Width of tab char in spaces
 set textwidth=0                                         " Textwidth = window width
 set undolevels=500                                      " Extent of undo remembers
