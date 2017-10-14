@@ -28,6 +28,13 @@ if $COLORTERM == 'truecolor'
     set termguicolors
 endif
 
+" FZF kernel hiccups
+if system("uname") == "Darwin"
+    set rtp+=/usr/local/opt/fzf
+else
+    set rtp+=~/.fzf
+endif
+
 set autoread                                            " Reads external file updates
 set background=dark                                     " Goth background
 set clipboard=unnamed                                   " Enable clipboard access
@@ -46,7 +53,6 @@ set mouse=a                                             " Enable mouse
 set nofoldenable                                        " Disable line folding
 set number                                              " Line numbers
 set relativenumber                                      " Relative line numbers (if both enabled use both)
-set rtp+=/usr/local/opt/fzf                             " Set FZF plugin path
 set ruler                                               " Show line+column at bottom right
 set shell=zsh                                           " Shell = zsh
 set shiftwidth=4                                        " Width of indent in spaces
