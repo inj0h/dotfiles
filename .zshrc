@@ -140,6 +140,11 @@ export FZF_DEFAULT_OPTS='
 # fzf search
 export FZF_DEFAULT_COMMAND='ag --hidden --silent --ignore .git -f -g ""'
 
+# grep (w/ color)
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+
 # Colored man pages!
 man() {
     env \
@@ -156,9 +161,9 @@ man() {
 # Source files
 # ------------------------------------------------------------------------------
 # Source my aliases.
-if [ -f ~/.alias_me ];
+if [ -f ~/.alias.sh ];
 then
-    source ~/.alias_me
+    source ~/.alias.sh
 fi
 
 # ssh
