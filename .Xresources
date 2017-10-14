@@ -1,0 +1,31 @@
+! filename: .Xresources
+! note: n/a
+! ------------------------------------------------------------------------------
+
+! urxvt
+! --------------------------------------
+! (strong) defaults
+URxvt.buffered: true
+URxvt.cursorBlink: true
+URxvt.font: xft:inconsolata:size=12:antialias=true
+URxvt.loginShell: true
+URxvt.saveLines: 5000
+URxvt.scrollBar: false
+URxvt.termName: rxvt-unicode
+
+! colors
+#define base00 #32302f
+#define base01 #ebebeb
+#define base02 #fffc79
+
+URxvt.background: base00
+URxvt.foreground: base01
+URxvt.cursorColor:base02
+
+! plugins
+URxvt.perl-ext-common: resize-font
+
+! keybindings
+! URxvt.keysum.C-minus: resize-font:smaller
+! URxvt.keysum.C-plus: resize-font:bigger
+! URxvt.keysum.C-equal: resize-font:reset
