@@ -39,7 +39,7 @@
 (add-to-list 'default-frame-alist '(cursor-color . "ffffff"))
 (global-hl-line-mode t)
 (set-face-background hl-line-face "#393642")
-(set-frame-font "Source Code Pro-12" nil t)
+(set-frame-font "Inconsolata-12" nil t)
 (defalias 'yes-or-no-p 'y-or-n-p)
 (setq linum-format "  %d ") ; Space out gutter.
 (server-start)
