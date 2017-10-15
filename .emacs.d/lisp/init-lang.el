@@ -6,9 +6,11 @@
 ;;
 ;; ------------------------------------------------------------------------------
 
-
 ;; aspell: supporting human languages.
-(setq ispell-program-name "/usr/local/bin/aspell")
+(cond ((string-equal system-type "gnu/linux")
+       (setq ispell-program-name "/usr/bin/aspell"))
+      ((string-equal system-type "darwin")
+       (setq ispell-program-name "/usr/local/bin/aspell")))
 
 (defun my-rainbow-delimeters-settings ()
   (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
