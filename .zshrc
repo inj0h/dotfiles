@@ -132,6 +132,13 @@ unsetopt rm_star_silent         # Ask for confirmation for `rm *' or `rm path/*'
 
 # Variables
 # ------------------------------------------------------------------------------
+# Linux
+# Remap capslock to control.
+if [[ `uname` == 'Linux' ]]
+then
+    setxkbmap -option caps:ctrl_modifier
+fi
+
 # fzf colors
 export FZF_DEFAULT_OPTS='
 --color fg:252,bg:-1,hl:144,fg+:252,bg+:-1,hl+:228
