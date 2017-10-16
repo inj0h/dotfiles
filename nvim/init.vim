@@ -108,7 +108,7 @@ autocmd FileType vim setlocal textwidth=80 formatoptions+=t
 if $COLORTERM == 'truecolor'
     colorscheme cueva
 else
-    colorscheme desert
+    colorscheme SerialExperimentsLain
 endif
 
 " Functions
