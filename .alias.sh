@@ -1,11 +1,11 @@
 # *nix programs
 alias alg='alias | grep '
-alias ll='ls -1aF'
 alias llg='ls -1aF | grep '
-alias ls='ls -aF'
+alias ll='ls -1aF'
 alias lsg='ls -aF | grep '
-alias lv='ls -laF'
+alias ls='ls -aF'
 alias lvg='ls -laF | grep '
+alias lv='ls -laF'
 alias txa='tmux attach -t'
 alias txls='tmux ls'
 alias txn='tmux new -s'
@@ -19,16 +19,19 @@ then
 fi
 
 # git
-alias g='git'
 alias ga='git add'
 alias gb='git branch'
 alias gch='git checkout'
 alias gcm='git commit -m'
+alias gdc='git diff --cached'
 alias gd='git diff'
 alias gdl='git diff | less'
+alias g='git'
+alias gl='git log'
 alias gs='git status'
 alias gsh='git show'
 
+
 # Python
-alias py='python3'
 alias bpy='bpython3'
+alias py='python3'
