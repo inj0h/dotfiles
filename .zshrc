@@ -173,6 +173,12 @@ then
     source ~/.alias.sh
 fi
 
+# Source my paths.
+if [ -f ~/.path.sh ];
+then
+    source ~/.path.sh
+fi
+
 # ssh
 if [ -f ~/.ssh_aliases ];
 then
