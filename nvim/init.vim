@@ -37,7 +37,7 @@ endif
 
 set autoread                                            " Reads external file updates
 set background=dark                                     " Goth background
-set clipboard=unnamed                                   " Enable clipboard access
+set clipboard=unnamedplus                               " Enable clipboard access
 set confirm                                             " Manage buffer state before exiting
 set cursorline                                          " Show current line
 set expandtab                                           " Set tabs = spaces
