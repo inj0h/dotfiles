@@ -29,7 +29,7 @@ if $COLORTERM == 'truecolor'
 endif
 
 " FZF kernel hiccups
-if system("uname") == "Darwin"
+if system("uname -s") =~ "Darwin"
     set rtp+=/usr/local/opt/fzf
 else
     set rtp+=~/.fzf
