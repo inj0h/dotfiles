@@ -186,9 +186,9 @@ then
 fi
 
 # Functions
-if [ -f ~/.zfunc ];
+if [ -f ~/.zfunc.sh ];
 then
-    source ~/.zfunc
+    source ~/.zfunc.sh
 fi
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
