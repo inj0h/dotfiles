@@ -4,19 +4,19 @@
 tags
 
 # vim
-nvim/autoload/*
-nvim/bundle/*
-nvim/colors/*
-!nvim/bundle/plug.sh
-!nvim/bundle/haskell.vim
-nvim/*.swo
-nvim/*.swp
-nvim/*.netrwhist
+config/nvim/autoload/*
+config/nvim/bundle/*
+!config/nvim/bundle/haskell.vim
+!config/nvim/bundle/plug.sh
+config/nvim/colors/*
+*.netrwhist
+*.swo
+*.swp
 
 # emacs
-.emacs.d/auto-save-list/*
-.emacs.d/elpa/*
-.emacs.d/eshell/*
-.emacs.d/games/*
-.emacs.d/network-security.data
-.emacs.d/recentf
+config/.emacs.d/auto-save-list/*
+config/.emacs.d/elpa/*
+config/.emacs.d/eshell/*
+config/.emacs.d/games/*
+config/.emacs.d/network-security.data
+config/.emacs.d/recentf
