@@ -14,9 +14,9 @@ config/nvim/colors/*
 *.swp
 
 # emacs
-config/.emacs.d/auto-save-list/*
-config/.emacs.d/elpa/*
-config/.emacs.d/eshell/*
-config/.emacs.d/games/*
-config/.emacs.d/network-security.data
-config/.emacs.d/recentf
+config/emacs.d/auto-save-list/*
+config/emacs.d/elpa/*
+config/emacs.d/eshell/*
+config/emacs.d/games/*
+config/emacs.d/network-security.data
+config/emacs.d/recentf
