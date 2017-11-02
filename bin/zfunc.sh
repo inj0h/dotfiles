@@ -2,7 +2,7 @@
 # ------------------------------------------------------------------------------
 
 # cat then pipe to clipboard
-if [[ `uname` == 'Darwin' ]]
+if [ `uname` == 'Darwin' ]
 then
     function catc { cat $1 | pbcopy }
 else
@@ -13,7 +13,7 @@ fi
 function catl { cat $1 | less }
 
 # pipe from clipboard
-if [[ `uname` == 'Darwin' ]]
+if [ `uname` == 'Darwin' ]
 then
     function cpto { pbcopy > $1 }
 else

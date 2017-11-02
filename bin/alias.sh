@@ -1,5 +1,5 @@
 # *nix programs
-if [[ `uname -s` == 'Darwin' ]]
+if [ `uname -s` == 'Darwin' ]
 then
     alias alg='alias | grep '
     alias cat='gcat'
@@ -63,7 +63,7 @@ alias gsh='git show'
 alias gst='git stash'
 
 # gist
-if [[ `uname -s` == 'Linux' ]]
+if [ `uname -s` == 'Linux' ]
 then
     alias gist='gist-paste'
 fi
@@ -73,6 +73,9 @@ alias bpy='bpython3'
 alias py='python3'
 
 # macOS
-alias em='open -a Emacs'
-alias emacs='open -a Emacs'
-alias ted='open -a TextEdit'
+if [ `uname -s` == 'Darwin' ]
+then
+    alias em='open -a Emacs'
+    alias emacs='open -a Emacs'
+    alias ted='open -a TextEdit'
+fi
