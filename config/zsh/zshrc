@@ -178,27 +178,27 @@ then
 fi
 
 # Source my paths.
-if [ -f ~/.path.sh ];
+if [ -f ~/bin/path.sh ];
 then
-    source ~/.path.sh
+    source ~/bin/path.sh
 fi
 
 # Source my proxies.
-if [ -f ~/.proxy.sh ];
+if [ -f ~/bin/proxy.sh ];
 then
-    source ~/.proxy.sh
-fi
-
-# ssh
-if [ -f ~/.ssh_aliases ];
-then
-    source ~/.ssh_aliases
+    source ~/bin/proxy.sh
 fi
 
 # Functions
 if [ -f ~/bin/zfunc.sh ];
 then
     source ~/bin/zfunc.sh
+fi
+
+# What?
+if [ -f ~/bin/secret.sh ];
+then
+    source ~/bin/secret.sh
 fi
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
