@@ -27,6 +27,7 @@ PROMPT="[%{$fg_bold[green]%}%n%{$reset_color%}] %~ \$vcs_info_msg_0_
 %{$fg_bold[green]%}$ %{$reset_color%}"
 
 export TERM=xterm-256color
+export CLICOLOR=1
 export LSCOLORS=cxfxdxgxbxegedabagacad # ls colors.
 # Order of lscolors from left to right.
 # directory
@@ -132,6 +133,9 @@ unsetopt rm_star_silent         # Ask for confirmation for `rm *' or `rm path/*'
 
 # Variables
 # ------------------------------------------------------------------------------
+# Scripts, etc
+export PATH=$PATH:$HOME/bin
+
 # Linux
 # Remap capslock to control.
 if [[ `uname` == 'Linux' ]]
@@ -168,15 +172,21 @@ man() {
 # Source files
 # ------------------------------------------------------------------------------
 # Source my aliases.
-if [ -f ~/.alias.sh ];
+if [ -f ~/bin/alias.sh ];
 then
-    source ~/.alias.sh
+    source ~/bin/alias.sh
 fi
 
 # Source my paths.
 if [ -f ~/.path.sh ];
 then
     source ~/.path.sh
+fi
+
+# Source my proxies.
+if [ -f ~/.proxy.sh ];
+then
+    source ~/.proxy.sh
 fi
 
 # ssh
@@ -186,9 +196,9 @@ then
 fi
 
 # Functions
-if [ -f ~/.zfunc.sh ];
+if [ -f ~/bin/zfunc.sh ];
 then
-    source ~/.zfunc.sh
+    source ~/bin/zfunc.sh
 fi
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
