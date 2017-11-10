@@ -73,7 +73,7 @@
   :config
   (global-linum-mode t)
   (linum-relative-mode t)
-  (setq linum-relative-current-symbol ">")
+  (setq linum-relative-current-symbol "")
   ;; Space out gutter.
   (setq linum-relative-format " %3s "))
 
