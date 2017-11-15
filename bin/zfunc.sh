@@ -22,3 +22,6 @@ fi
 
 # pipe to less
 function pless { $1 | less }
+
+# git
+function gshove { git add -A . && git commit -m "Autoupdate." }
