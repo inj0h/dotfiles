@@ -55,7 +55,7 @@ set smartcase                           " Specify casing in searching
 set softtabstop=4                       " Whitespace/tab stuff
 set spelllang=en_us                     " Parse English
 set splitbelow                          " Always split windows below
-set tabstop=8                           " Width of tab char in spaces
+set tabstop=4                           " Width of tab char in spaces
 set textwidth=0                         " Textwidth = window width
 set undolevels=500                      " Extent of undo remembers
 set visualbell                          " No beeping
