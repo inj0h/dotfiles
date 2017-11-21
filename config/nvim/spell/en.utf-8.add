@@ -1,4 +1,5 @@
 AEM
+BitBucket
 Bitbucket
 Bluetooth
 CLI
@@ -18,6 +19,7 @@ Spotify
 TFS
 Thinkpad
 Ubuntu
+VMs
 WLS
 YouTube
 aem
@@ -51,13 +53,16 @@ java
 localhost
 mvn
 nvim
+onboard
 plugin
 quickstart
 repo
+repos
 src
 styleguide
 styleguides
 sudo
+teammates
 todo
 toolbar
 txt
