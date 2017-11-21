@@ -70,7 +70,9 @@ fi
 
 # lang
 alias bpy='bpython3'
+alias pip='pip'
 alias py='python3'
+alias python='python3'
 
 # macOS
 if [[ `uname -s` == 'Darwin' ]]
