@@ -69,8 +69,8 @@ then
 fi
 
 # lang
-alias bpy='bpython3'
-alias pip='pip'
+alias bpy='bpython; bpython3'
+alias pip='pip3'
 alias py='python3'
 alias python='python3'
 
