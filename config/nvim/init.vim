@@ -31,6 +31,7 @@ endif
 set autoread                            " Reads external file updates
 set background=dark                     " Goth background
 set clipboard=unnamedplus               " Enable clipboard access
+set colorcolumn=80                      " Mark column 80
 set confirm                             " Manage buffer state before exiting
 set cursorline                          " Show current line
 set expandtab                           " Set tabs = spaces
