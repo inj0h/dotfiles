@@ -129,22 +129,13 @@ endfunc
 " Regular
 inoremap jj <esc>|                          " Rebind escape
 
-nnoremap ; :|                               " Rebind colon
-nnoremap : ;|                               " Rebind semicolon
-
-nmap <c-a> 0|                               " Rebind beginning of line
 nmap <c-e> $|                               " Rebind end of line
-vmap <c-a> 0|                               " Rebind beginning of line (visual)
 vmap <c-e> $|                               " Rebind end of line (visual)
 
-" BUG: These two bindings slow down 'd' in both normal and visual modes.
-"nmap d<c-e> d$|                        " Delete to end of line
-"vmap d<c-e> d$|                        " Delete to end of line (visual)
-
-nmap <c-f> <c-f>M|
-nmap <c-b> <c-b>M|
-vmap <c-f> <c-f>M|
-vmap <c-b> <c-b>M|
+nmap <c-f> <c-f>M|                          " Center after page down.
+nmap <c-b> <c-b>M|                          " Center after page up.
+vmap <c-f> <c-f>M|                          " Center after page down.
+vmap <c-b> <c-b>M|                          " Center after page up.
 
 " Leader
 let mapleader = "\<space>"|                 " Bind leader to spacebar
