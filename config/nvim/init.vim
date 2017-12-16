@@ -106,6 +106,7 @@ if $COLORTERM == 'truecolor'
     colorscheme cueva
 else
     colorscheme SerialExperimentsLain
+    hi colorcolumn ctermfg=NONE ctermbg=236
 endif
 
 " Functions
