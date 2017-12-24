@@ -152,6 +152,8 @@ nnoremap <leader>` :e $MYVIMRC<cr>|         " Quick access to this file
 nnoremap <leader>2 @@|                      " Replay key macro q
 nnoremap <leader>3 :!ctags -R .|            " Make ctags in dir
 nnoremap <leader>4 :call LintSpell()<cr>|   " Call function
+nnoremap <leader>5 %|                       " Jump to matching delimeter
+vnoremap <leader>5 %|                       " Jump to matching delimeter
 
 nnoremap <leader>Q :qall<cr>|               " Quit if everything is saved
 nnoremap <leader>w :Buffers <cr>|           " FZF to list buffer(s)
