@@ -40,13 +40,13 @@ fi
 
 alias ff='fzf'
 alias nfet='neofetch'
-alias ov='vim'
 alias tx='tmux'
 alias txa='tmux attach -t'
 alias txls='tmux ls'
 alias txn='tmux new -s'
 alias u='cd ..'
 alias v='nvim'
+alias vi='nvim'
 
 # git
 alias g='git'
