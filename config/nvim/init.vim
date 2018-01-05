@@ -100,15 +100,6 @@ autocmd FileType text setlocal textwidth=80 spell
 " VimL
 autocmd FileType vim setlocal textwidth=80 formatoptions+=t
 
-" Aesthetic
-" ------------------------------------------------------------------------------
-if $COLORTERM == 'truecolor'
-    colorscheme cueva
-else
-    colorscheme SerialExperimentsLain
-    hi colorcolumn ctermfg=NONE ctermbg=236
-endif
-
 " Functions
 " ------------------------------------------------------------------------------
 " Toggle line numbers
@@ -172,10 +163,19 @@ nnoremap <leader>L :call ToggleLines()<cr>
 
 nnoremap <leader>/ :noh<cr>|                " Undo find highlighting
 
+" Aesthetic
+" ------------------------------------------------------------------------------
+if $COLORTERM == 'truecolor'
+    colorscheme cueva
+    let g:airline_theme = 'cueva'
+else
+    colorscheme SerialExperimentsLain
+    hi colorcolumn ctermfg=NONE ctermbg=236
+endif
+
 " Plugin Settings
 " ------------------------------------------------------------------------------
 " FZF
-" Kernel hiccups
 if system("uname -s") =~ "Darwin"
     set rtp+=/usr/local/opt/fzf
 else
@@ -186,7 +186,6 @@ let g:fzf_layout = { 'up': '~40%' }
 
 " vim-airline
 let g:airline#extensions#tabline#enabled = 1
-let g:airline_theme = 'cueva'
 
 " Language Support
 " ------------------------------------------------------------------------------
