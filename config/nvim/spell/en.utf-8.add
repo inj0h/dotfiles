@@ -1,6 +1,8 @@
 aem
 AEM
 al
+API
+APIs
 app
 apps
 autocomplete
@@ -17,6 +19,7 @@ CLI
 Clojure
 Clojurescript
 config
+crpyto
 crx
 CRXDE
 cueva
@@ -75,7 +78,9 @@ txt
 Ubuntu
 ui
 url
+URL
 urls
+URLs
 urxvt
 username
 usr

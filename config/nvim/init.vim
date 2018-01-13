@@ -122,6 +122,8 @@ endfunc
 inoremap jj <esc>|                          " Rebind escape
 nnoremap ; :|                               " Rebind colon
 nnoremap : ;|                               " Rebind semicolon
+vnoremap ; :|                               " Rebind colon
+vnoremap : ;|                               " Rebind semicolon
 
 nmap <c-e> $|                               " Rebind end of line
 vmap <c-e> $|                               " Rebind end of line (visual)
