@@ -15,9 +15,9 @@ function catl { cat $1 | less }
 # pipe from clipboard
 if [[ `uname` == 'Darwin' ]]
 then
-    function cpto { pbcopy > $1 }
+    function cp2 { pbcopy > $1 }
 else
-    function cpto { xsel -b > $1 }
+    function cp2 { xsel -b > $1 }
 fi
 
 # pipe to less

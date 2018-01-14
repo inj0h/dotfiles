@@ -26,7 +26,8 @@ setopt PROMPT_SUBST     # Allow for a more custom prompt.
 PROMPT="[%{$fg_bold[green]%}%n%{$reset_color%}] %~ \$vcs_info_msg_0_
 %{$fg_bold[green]%}$ %{$reset_color%}"
 
-export TERM=xterm-256color
+[ -z "$TMUX" ] && export TERM="xterm-256color"
+
 export CLICOLOR=1
 export LSCOLORS=cxfxdxgxbxegedabagacad # ls colors.
 # Order of lscolors from left to right.
