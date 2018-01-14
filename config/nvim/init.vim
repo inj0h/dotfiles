@@ -137,8 +137,8 @@ vmap <c-b> <c-b>M|                          " Center after page up.
 let mapleader = "\<space>"|                 " Bind leader to spacebar
 
 " Leader General
-noremap <leader>- <c-b><bar>M|              " Page up
-noremap <leader>= <c-f><bar>M|              " Page down
+noremap <leader>- <c-b>M|                   " Page up
+noremap <leader>= <c-f>M|                   " Page down
 
 " Leader Normal
 nnoremap <leader>` :e $MYVIMRC<cr>|         " Quick access to this file
