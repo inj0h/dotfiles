@@ -19,7 +19,7 @@ if !has('nvim')
     set laststatus=2                    " Always show bottom status bar
     set nocompatible                    " Disable vi compatibility
     set smarttab                        " Whitespace/tab stuff
-    set t_Co=256                        " Use 250 terminal colors
+    set t_Co=256                        " Use 256 terminal colors
     set wildmenu                        " Tab completion
 endif
 
