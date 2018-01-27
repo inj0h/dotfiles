@@ -1,7 +1,15 @@
-# gitignore
-# ------------------------------------------------------------------------------
+# filename:         gitignore
+# description:
+#                   A gitignore for this repository.
+# ---------------------------------------------------------------------------- #
+
 # ctags
 tags
+TAGS
+
+# system
+# macOS
+.DS_Store
 
 # vim
 config/nvim/autoload/*
