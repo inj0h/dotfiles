@@ -1,4 +1,11 @@
-# *nix programs
+#!/bin/bash
+#
+# filename:         alias.sh
+# description:
+#                   Useful aliases for a smooth CLI experience.
+# ---------------------------------------------------------------------------- #
+
+# coreutils
 if [[ `uname -s` == 'Darwin' ]]
 then
     alias alg='alias | grep '
@@ -13,13 +20,13 @@ then
     alias grep='grep --color'
     alias head='ghead'
     alias kill='gkill'
-    alias ll='ls -1a'
-    alias llg='ls -1a | grep'
+    alias ll='ls -1A'
+    alias llg='ls -1A | grep'
     alias ln='gln'
-    alias ls='ls -a'
-    alias lsg='ls -a | grep'
-    alias lv='ls -la'
-    alias lvg='ls -la | grep'
+    alias ls='ls -A'
+    alias lsg='ls -A | grep'
+    alias lv='ls -lA'
+    alias lvg='ls -lA | grep'
     alias mv='gmv'
     alias pwd='gpwd'
     alias shred='gshred'
@@ -30,12 +37,12 @@ then
     alias xargs='gxargs'
 else
     alias alg='alias | grep '
-    alias ll='ls -1aF'
-    alias llg='ls -1aF | grep '
-    alias ls='ls -aF'
-    alias lsg='ls -aF | grep '
-    alias lv='ls -laF'
-    alias lvg='ls -laF | grep '
+    alias ll='ls -1AF'
+    alias llg='ls -1AF | grep '
+    alias ls='ls -AF'
+    alias lsg='ls -AF | grep '
+    alias lv='ls -lAF'
+    alias lvg='ls -lAF | grep '
 fi
 
 alias ff='fzf'
@@ -66,6 +73,7 @@ alias gst='git stash'
 if [[ `uname -s` == 'Linux' ]]
 then
     alias gist='gist-paste'
+    alias gistp='gist-paste -p'
 fi
 
 # lang
