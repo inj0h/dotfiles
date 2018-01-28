@@ -1,45 +1,88 @@
 #!/bin/bash
-# Install and update Pathogen managed Vim plugins.
+#
+# filename:         plug.sh
+# description:
+#                   Install and update Pathogen-managed Vim plugins.
+# ---------------------------------------------------------------------------- #
+
 set -e
 
-# Variables.
-INSTALL=""
-UPDATE=""
-PLUGINS=(https://github.com/erikoelrojo/cueva.git
-         https://github.com/hdima/python-syntax
-         https://github.com/hynek/vim-python-pep8-indent
-         https://github.com/junegunn/fzf.vim
-         https://github.com/junegunn/rainbow_parentheses.vim.git
-         https://github.com/neomake/neomake
-         https://github.com/neovimhaskell/haskell-vim
-         https://github.com/octol/vim-cpp-enhanced-highlight
-         https://github.com/pangloss/vim-javascript
-         https://github.com/sheerun/vim-polyglot.git
-         https://github.com/tpope/vim-fugitive
-         https://github.com/tpope/vim-surround
-         https://github.com/vim-airline/vim-airline.git
-         https://github.com/vim-scripts/SearchComplete)
+# variables.
+# colors
+CLEAR='\033[0m'
+GREEN='\033[1;32m'
+RED='\033[1;31m'
 
-# Parameters.
-if [ "$1" == "" ];
-then
-    echo "Error. Command requires arguments!"
+# path
+DIR_VIM="$HOME/dotfiles/config/nvim/bundle"
+
+# functions
+greenp() {
+    echo -e ${GREEN}$1${CLEAR}
+    sleep 0.5
+}
+
+redp() {
+    echo -e ${RED}$1${CLEAR}
+    sleep 1
+}
+
+checksum() {
+    cat $(pwd)/plugins.txt | wc -l
+}
+
+# script
+redp "Screening directory..."
+
+# check path
+if [ $(pwd) != $DIR_VIM ]; then
+    redp "Error: running script on invalid path."
+    redp "Aborting..."
+    exit 1
 fi
 
-if [ "$1" == "install" ];
-then
-    echo "Installing plugins."
-    for i in "${PLUGINS[@]}"
-    do
-        git clone $i
-    done
+# check plugin file
+if [ ! -f $(pwd)/plugins.txt ]; then
+    redp "Error: no plugin file found."
+    redp "Aborting..."
+    exit 1
 fi
 
-if [ "$1" == "update" ];
-then
-    echo "Updating plugins."
-    for REPO in `ls | grep -v plug.sh`
-    do
-        (cd "$REPO"; git pull);
+# check input
+if [ "$1" == "" ]; then
+    redp "Error: arguments required."
+    redp "Aborting..."
+    exit 1
+fi
+
+# install
+if [ "$1" == "install" ]; then
+    if [ $(ls -A1 | grep -v "^plug" | wc -l) != 0 ]; then
+        redp "Error: dirty directory."
+        redp "Aborting..."
+        exit 1
+    fi
+    redp "Installing plugins..."
+
+    cat $(pwd)/plugins.txt | xargs -L1 git clone
+
+    redp "Validating checksum..."
+    greenp "$(ls -A1 | grep -v "^plug" | wc -l)/`checksum` plugins installed."
+fi
+
+# update
+if [ "$1" == "update" ]; then
+    if [ $(ls -A1 | grep -v "^plug" | wc -l) == 0 ]; then
+        redp "Error: no plugins installed."
+        redp "Aborting..."
+        exit 1
+    fi
+
+    redp "Updating plugins..."
+
+    for PACKAGE in $(ls -A1 | grep -v "^plug"); do
+        (cd $PACKAGE && git pull);
     done
+
+    greenp "Plugins updated."
 fi
