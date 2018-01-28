@@ -1,90 +1,94 @@
-" General
-" ------------------------------------------------------------------------------
-execute pathogen#infect()|              " Pathogen package manager
+" filename:         init.vim
+" description:
+"                   My personal (neo)vim settings.
+" ---------------------------------------------------------------------------- "
 
-syntax on                               " Enable syntax linting
-filetype on                             " Enable filetype variable
-filetype plugin on                      " Enable plugins
-filetype plugin indent on               " Enable indent by plugin(s)
+" general
+" ---------------------------------------------------------------------------- "
+execute pathogen#infect()|              " pathogen package manager
 
-" Turn these on if using regular vim and not nvim
+syntax on                               " enable syntax linting
+filetype on                             " enable filetype variable
+filetype plugin on                      " enable plugins
+filetype plugin indent on               " enable indent by plugin(s)
+
+" turn these on if using regular vim and not nvim
 if !has('nvim')
-    set autoindent                      " Auto-indentation
-    set backspace=eol,start,indent      " Enable backspace
-    set hlsearch                        " Highlight search results
-    set guioptions-=l                   " Remove left GUI scrollbar
-    set guioptions-=L                   " Remove left GUI split scrollbar
-    set guioptions-=r                   " Remove right GUI scrollbar
-    set guioptions-=R                   " Remove right GUI split scrollbar
-    set laststatus=2                    " Always show bottom status bar
-    set nocompatible                    " Disable vi compatibility
-    set smarttab                        " Whitespace/tab stuff
-    set t_Co=256                        " Use 256 terminal colors
-    set wildmenu                        " Tab completion
+    set autoindent                      " auto-indentation
+    set backspace=eol,start,indent      " enable backspace
+    set hlsearch                        " highlight search results
+    set guioptions-=l                   " remove left GUI scrollbar
+    set guioptions-=L                   " remove left GUI split scrollbar
+    set guioptions-=r                   " remove right GUI scrollbar
+    set guioptions-=R                   " remove right GUI split scrollbar
+    set laststatus=2                    " always show bottom status bar
+    set nocompatible                    " disable vi compatibility
+    set smarttab                        " whitespace/tab stuff
+    set t_Co=256                        " use 256 terminal colors
+    set wildmenu                        " tab completion
 endif
 
-" Enable truecolors only if term supports it!
 if $COLORTERM == 'truecolor'
     set termguicolors
 endif
 
-set autoread                            " Reads external file updates
-set background=dark                     " Goth background
-set clipboard=unnamedplus               " Enable clipboard access
-set colorcolumn=80                      " Mark column 80
-set confirm                             " Manage buffer state before exiting
-set cursorline                          " Show current line
-set expandtab                           " Set tabs = spaces
-set foldcolumn=0                        " Whitespace indentation on left margin
-set formatoptions+=t                    " Set textwidth for code; not comments
-set guicursor=n:blinkon1                " Blink cursor
-set hidden                              " Leave modded buffer
-set history=100                         " History log
-set ignorecase                          " Ignore casing when searching
+set autoread                            " reads external file updates
+set background=dark                     " default to goth background
+set clipboard=unnamedplus               " enable clipboard access
+set colorcolumn=80                      " mark column 80
+set confirm                             " manage buffer state before exiting
+set cursorline                          " show current line
+set expandtab                           " set tabs = spaces
+set foldcolumn=0                        " whitespace indentation on left margin
+set formatoptions+=t                    " set textwidth for code; not comments
+set guicursor=n:blinkon1                " blink cursor
+set hidden                              " leave modded buffer
+set history=100                         " history log
+set ignorecase                          " ignore casing when searching
 set list                                " ^
-set listchars=tab:>-,nbsp:_,trail:.     " Make tabs + trailing spaces visible
-set mouse=a                             " Enable mouse
-set nofoldenable                        " Disable line folding
-set number                              " Line numbers
-set relativenumber                      " Relative line numbers (turn both on!)
-set ruler                               " Show line+column at bottom right
-set shell=zsh                           " Shell = zsh
-set shiftwidth=4                        " Width of indent in spaces
-set shortmess+=I                        " Disable splash screen
-set showcmd                             " Show commands as typed
-set smartcase                           " Specify casing in searching
-set softtabstop=4                       " Whitespace/tab stuff
-set spelllang=en_us                     " Parse English
-set splitbelow                          " Always split windows below
-set tabstop=4                           " Width of tab char in spaces
-set textwidth=0                         " Textwidth = window width
-set undolevels=500                      " Extent of undo remembers
-set visualbell                          " No beeping
-set wildmode=list:longest,list          " Tab completion
+set listchars=tab:>-,nbsp:_,trail:.     " make tabs + trailing spaces visible
+set mouse=a                             " enable mouse
+set nofoldenable                        " disable line folding
+set number                              " line numbers
+set relativenumber                      " relative line numbers (turn both on!)
+set ruler                               " show line+column at bottom right
+set shell=zsh                           " shell = zsh
+set shiftwidth=4                        " width of indent in spaces
+set shortmess+=I                        " disable splash screen
+set showcmd                             " show commands as typed
+set smartcase                           " specify casing in searching
+set softtabstop=4                       " whitespace/tab stuff
+set spelllang=en_us                     " parse English
+set splitbelow                          " always split windows below
+set tabstop=4                           " width of tab char in spaces
+set textwidth=0                         " textwidth = window width
+set undolevels=500                      " extent of undo remembers
+set visualbell                          " no beeping
+set wildmode=list:longest,list          " tab completion
 
-" Automatic Commands
-" ------------------------------------------------------------------------------
-" By Plugin
+" automatic commands
+" ---------------------------------------------------------------------------- "
+" by plugin
 
-" Neomake
-" Async run Neomake upon write
+" neomake
+" async run neomake upon write
 "autocmd! BufEnter,BufReadPost,BufWritePost * Neomake
 autocmd! BufWritePost * Neomake
 
-" By FileType, et al
+" by filetype, et al
 
-" General
-" Remove all trailing whitespace upon write
+" general
+" remove all trailing whitespace upon write
 autocmd BufWritePre * %s/\s\+$//e
 
-" Algol lang
-" Wrap curly braces and insert b/w
+" algol lang
+" wrap curly braces and insert b/w
 autocmd FileType c,c++,swift,javascript inoremap {<tab> {<cr>}<esc>O
 
 " frontend
 autocmd FileType html,css,scss setlocal noexpandtab
 
-" Func lang
+" func lang
 augroup rainbow_lisp
     autocmd!
     autocmd FileType lisp,clojure,scheme,haskell RainbowParentheses
@@ -97,12 +101,27 @@ autocmd FileType python setlocal textwidth=80 tabstop=4 fileformat=unix
 autocmd FileType text setlocal textwidth=80 spell
 " autocmd BufWrite *.txt :normal ggVGgq`.zz
 
-" VimL
+" viml
 autocmd FileType vim setlocal textwidth=80 formatoptions+=t
 
-" Functions
-" ------------------------------------------------------------------------------
-" Toggle line numbers
+" functions
+" ---------------------------------------------------------------------------- "
+function ToggleBG()
+    if(&background == "dark")
+        set background=light
+    else
+        set background=dark
+    endif
+endfunc
+
+function ToggleLazy()
+    if(&lazyredraw == 0)
+        set lazyredraw
+    else
+        set nolazyredraw
+    endif
+endfunc
+
 function ToggleLines()
     if(&relativenumber == 1)
         set norelativenumber
@@ -111,73 +130,74 @@ function ToggleLines()
     endif
 endfunc
 
-" Enable spell linter (en_us)
 function LintSpell()
     set spell!
 endfunc
 
-" Keybindings
-" ------------------------------------------------------------------------------
-" Regular
-inoremap jj <esc>|                          " Rebind escape
-nnoremap ; :|                               " Rebind colon
-nnoremap : ;|                               " Rebind semicolon
-vnoremap ; :|                               " Rebind colon
-vnoremap : ;|                               " Rebind semicolon
+" keybindings
+" ---------------------------------------------------------------------------- "
+" regular
+inoremap jj <esc>|                          " rebind escape
+nnoremap ; :|                               " rebind colon
+nnoremap : ;|                               " rebind semicolon
+vnoremap ; :|                               " rebind colon
+vnoremap : ;|                               " rebind semicolon
 
-nmap <c-e> $|                               " Rebind end of line
-vmap <c-e> $|                               " Rebind end of line (visual)
+nmap <c-e> $|                               " rebind end of line
+vmap <c-e> $|                               " rebind end of line (visual)
 
-nmap <c-f> <c-f>M|                          " Center after page down.
-nmap <c-b> <c-b>M|                          " Center after page up.
-vmap <c-f> <c-f>M|                          " Center after page down.
-vmap <c-b> <c-b>M|                          " Center after page up.
+nmap <c-f> <c-f>M|                          " center after page down.
+nmap <c-b> <c-b>M|                          " center after page up.
+vmap <c-f> <c-f>M|                          " center after page down.
+vmap <c-b> <c-b>M|                          " center after page up.
 
-" Leader
-let mapleader = "\<space>"|                 " Bind leader to spacebar
+" leader
+let mapleader = "\<Space>"|                 " bind leader to spacebar
 
-" Leader General
-noremap <leader>- <c-b>M|                   " Page up
-noremap <leader>= <c-f>M|                   " Page down
+" leader general
+noremap <leader>- <c-b>M|                   " page up
+noremap <leader>= <c-f>M|                   " page down
 
-" Leader Normal
-nnoremap <leader>` :e $MYVIMRC<cr>|         " Quick access to this file
-nnoremap <leader>2 @@|                      " Replay key macro q
-nnoremap <leader>3 :!ctags -R .|            " Make ctags in dir
-nnoremap <leader>4 :call LintSpell()<cr>|   " Call function
-nnoremap <leader>5 %|                       " Jump to matching delimeter
-vnoremap <leader>5 %|                       " Jump to matching delimeter
+" leader normal
+nnoremap <leader>` :e $MYVIMRC<cr>|         " quick access to this file
+nnoremap <leader>2 @@|                      " replay key macro q
+nnoremap <leader>3 :!ctags -R .|            " make ctags in dir
+nnoremap <leader>4 :call LintSpell()<cr>|   " call function
+nnoremap <leader>5 %|                       " jump to matching delimeter
+nnoremap <leader>7 :call ToggleLazy()<cr>|
 
-nnoremap <leader>Q :qall<cr>|               " Quit if everything is saved
-nnoremap <leader>w :Buffers <cr>|           " FZF to list buffer(s)
-nnoremap <leader>y 0v$hy<cr>|               " Yank a line without \n
-nnoremap <leader>i 0i<cr><esc>k|            " Insert line
-nnoremap <leader>o :Files <cr>|             " FZF to search/open child file(s)
-nnoremap <leader>O :Files |                 " FZF to search/open w/ given path
-nnoremap <leader>[ <c-t>|                   " Return from def ctag
-nnoremap <leader>] <c-]>|                   " Goto function def ctag
+nnoremap <leader>Q :qall<cr>|               " quit if everything is saved
+nnoremap <leader>w :Buffers <cr>|           " fzf list buffer(s)
+nnoremap <leader>y 0v$hy<cr>|               " yank a line without \n
+nnoremap <leader>i 0i<cr><esc>k|            " insert line
+nnoremap <leader>o :Files <cr>|             " fzf search/open child file(s)
+nnoremap <leader>O :Files |                 " fzf search/open w/ given path
+nnoremap <leader>[ <c-t>|                   " return from def ctag
+nnoremap <leader>] <c-]>|                   " goto function def ctag
 
-nnoremap <leader>f :Lines <cr>|             " FZF to search thru open buffers
-nnoremap <leader>s <c-w><c-w>|              " Faster window jumping
-nnoremap <leader>S :split<cr>|              " Split new window below
-nnoremap <leader>l `.zz|                    " Jump to last edit and center
-nnoremap <leader>L :call ToggleLines()<cr>
+nnoremap <leader>f :Lines <cr>|             " fzf search thru open buffers
+nnoremap <leader>s <c-w><c-w>|              " faster window jumping
+nnoremap <leader>S :split<cr>|              " split new window below
+nnoremap <leader>l `.zz|                    " jump to last edit and center
+nnoremap <leader>L :call ToggleLines()<cr>|
 
-nnoremap <leader>/ :noh<cr>|                " Undo find highlighting
+nnoremap <leader>c :call ToggleBG()<cr>|
+nnoremap <leader>/ :noh<cr>|                " undo find highlighting
 
-" Aesthetic
-" ------------------------------------------------------------------------------
-if $COLORTERM == 'truecolor'
-    colorscheme cueva
-    let g:airline_theme = 'cueva'
-else
-    colorscheme SerialExperimentsLain
-    hi colorcolumn ctermfg=NONE ctermbg=236
+" aesthetic
+" ---------------------------------------------------------------------------- "
+if system("uname -s") =~ "Linux"
+    colorscheme solarized
 endif
 
-" Plugin Settings
-" ------------------------------------------------------------------------------
-" FZF
+if system("uname -s") =~ "Darwin"
+    colorscheme cueva
+    let g:airline_theme = 'cueva'
+endif
+
+" plugin settings
+" ---------------------------------------------------------------------------- "
+" fzf
 if system("uname -s") =~ "Darwin"
     set rtp+=/usr/local/opt/fzf
 else
@@ -189,10 +209,10 @@ let g:fzf_layout = { 'up': '~40%' }
 " vim-airline
 let g:airline#extensions#tabline#enabled = 1
 
-" Language Support
-" ------------------------------------------------------------------------------
-" Haskell
+" language settings
+" ---------------------------------------------------------------------------- "
+" haskell
 let g:haskell_classic_highlighting = 1
 
-" Python
-let python_highlight_all = 1                " Better python syntax highlighting.
+" python
+let python_highlight_all = 1                " better python syntax highlighting.
