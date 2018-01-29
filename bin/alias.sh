@@ -36,13 +36,13 @@ then
     alias uniq='guniq'
     alias xargs='gxargs'
 else
-    alias alg='alias | grep '
-    alias ll='ls -1AF'
-    alias llg='ls -1AF | grep '
-    alias ls='ls -AF'
-    alias lsg='ls -AF | grep '
-    alias lv='ls -lAF'
-    alias lvg='ls -lAF | grep '
+    alias alg='alias | grep'
+    alias ll='ls -1A --color'
+    alias llg='ls -1A --color | grep'
+    alias ls='ls -A --color'
+    alias lsg='ls -A --color | grep'
+    alias lv='ls -lA --color'
+    alias lvg='ls -lA --color| grep'
 fi
 
 alias ff='fzf'
