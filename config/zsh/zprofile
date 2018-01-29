@@ -1,9 +1,16 @@
-# ~/.zprofile
-# ------------------------------------------------------------------------------
-# Welcome message
+# filename:         zprofile
+# description:
+#                   My personal profile for zshell.
+# ---------------------------------------------------------------------------- #
+
+# exports
+export VISUAL=vim
+export EDITOR="$VISUAL"
+
+# welcome message
 printf "New session with $USER!\n"
 
-# Source .zshrc for login shells
+# source .zshrc for login shells
 if [ -f ~/.zshrc ]; then
     source ~/.zshrc
 fi

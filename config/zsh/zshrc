@@ -145,6 +145,9 @@ unsetopt rm_star_silent         # Ask for confirmation for `rm *' or `rm path/*'
 
 # Variables
 # ---------------------------------------------------------------------------- #
+# heresy
+set -o emacs
+
 # Scripts, etc
 export PATH=$PATH:$HOME/bin
 
