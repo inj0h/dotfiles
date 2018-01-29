@@ -7,7 +7,7 @@
 ! solarized colors                     !
 ! ------------------------------------ !
 
-! Ethan Schoonover's solarized colorscheme.
+! Ethan Schoonover solarized colorscheme.
 ! cf github.com/solarized/xresources
 
 #define S_base03        #002b36
@@ -82,9 +82,11 @@ URxvt.scrollBar: false
 URxvt.termName: rxvt-unicode
 
 ! plugins
+! resize-font, cf github.com/simmel/urxvt-resize-font
 URxvt.perl-ext-common: resize-font
 
 ! keybindings
-! URxvt.keysum.C-minus: resize-font:smaller
-! URxvt.keysum.C-plus: resize-font:bigger
-! URxvt.keysum.C-equal: resize-font:reset
+URxvt.keysum.C-minus:     resize-font:smaller
+URxvt.keysum.C-plus:      resize-font:bigger
+URxvt.keysum.C-equal:     resize-font:reset
+URxvt.keysum.C-question:  resize-font:show
