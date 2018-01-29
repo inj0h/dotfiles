@@ -1,9 +1,13 @@
-# ~/.zfunc
-# ------------------------------------------------------------------------------
+#!/bin/bash
+#
+# filename:         zfunc.sh
+# description:
+#                   Useful functions for a smooth CLI experience.
+#
+# ---------------------------------------------------------------------------- #
 
 # cat then pipe to clipboard
-if [[ `uname` == 'Darwin' ]]
-then
+if [[ `uname` == 'Darwin' ]]; then
     function catc { cat $1 | pbcopy }
 else
     function catc { cat $1 | xclip -selection clipboard }
@@ -13,8 +17,7 @@ fi
 function catl { cat $1 | less }
 
 # pipe from clipboard
-if [[ `uname` == 'Darwin' ]]
-then
+if [[ `uname` == 'Darwin' ]]; then
     function cp2 { pbcopy > $1 }
 else
     function cp2 { xsel -b > $1 }
