@@ -345,7 +345,7 @@ birthday_format="+%a %d %b %Y %l:%M %p"
 # colors=(4 6 1 8 8 6) - Text is colored in the order above.
 # colors=(distro)
 # colors=(7 6 6 6) cyan
-colors=(7 2 2 2)
+colors=(3 7 3 3 3 6)
 
 
 # Text Options

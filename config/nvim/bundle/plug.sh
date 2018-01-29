@@ -3,11 +3,12 @@
 # filename:         plug.sh
 # description:
 #                   Install and update Pathogen-managed Vim plugins.
+#
 # ---------------------------------------------------------------------------- #
 
 set -e
 
-# variables.
+# variables
 # colors
 CLEAR='\033[0m'
 GREEN='\033[1;32m'

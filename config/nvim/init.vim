@@ -1,6 +1,7 @@
 " filename:         init.vim
 " description:
-"                   My personal (neo)vim settings.
+"                   Personal (neo)vim settings.
+"
 " ---------------------------------------------------------------------------- "
 
 " general

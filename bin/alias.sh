@@ -3,6 +3,7 @@
 # filename:         alias.sh
 # description:
 #                   Useful aliases for a smooth CLI experience.
+#
 # ---------------------------------------------------------------------------- #
 
 # coreutils

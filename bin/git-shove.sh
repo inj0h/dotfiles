@@ -4,6 +4,7 @@
 # description:
 #                   Add and commit changes. Pollute commit log. Force push.
 #                   Take care to only use this script when in a pinch.
+#
 # ---------------------------------------------------------------------------- #
 
 set -e
