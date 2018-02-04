@@ -21,13 +21,13 @@ then
     alias grep='grep --color'
     alias head='ghead'
     alias kill='gkill'
-    alias ll='ls -1A'
     alias llg='ls -1A | grep'
+    alias ll='ls -1A'
     alias ln='gln'
-    alias ls='ls -A'
     alias lsg='ls -A | grep'
-    alias lv='ls -lA'
+    alias ls='ls -A'
     alias lvg='ls -lA | grep'
+    alias lv='ls -lA'
     alias mv='gmv'
     alias pwd='gpwd'
     alias shred='gshred'
@@ -38,23 +38,23 @@ then
     alias xargs='gxargs'
 else
     alias alg='alias | grep'
-    alias ll='ls -1A --color'
     alias llg='ls -1A --color | grep'
-    alias ls='ls -A --color'
+    alias ll='ls -1A --color'
     alias lsg='ls -A --color | grep'
-    alias lv='ls -lA --color'
+    alias ls='ls -A --color'
     alias lvg='ls -lA --color| grep'
+    alias lv='ls -lA --color'
 fi
 
 alias ff='fzf'
 alias nfet='neofetch'
-alias tx='tmux'
 alias txa='tmux attach -t'
 alias txls='tmux ls'
 alias txn='tmux new -s'
+alias tx='tmux'
 alias u='cd ..'
-alias v='nvim'
 alias vi='nvim'
+alias v='nvim'
 
 # git
 alias g='git'
@@ -88,7 +88,7 @@ alias python='python3'
 # macOS
 if [[ `uname -s` == 'Darwin' ]]
 then
-    alias em='open -a Emacs'
     alias emacs='open -a Emacs'
+    alias em='open -a Emacs'
     alias ted='open -a TextEdit'
 fi
