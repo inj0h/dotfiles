@@ -189,6 +189,8 @@ nnoremap <leader>/ :noh<cr>|                " undo find highlighting
 " ---------------------------------------------------------------------------- "
 if system("uname -s") =~ "Linux"
     colorscheme solarized
+    highlight Normal ctermbg=none|          " enable transparency
+    highlight NonText ctermbg=none|         " ^
 endif
 
 if system("uname -s") =~ "Darwin"
