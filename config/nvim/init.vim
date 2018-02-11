@@ -86,11 +86,16 @@ autocmd BufWritePre * %s/\s\+$//e
 " wrap curly braces and insert b/w
 autocmd FileType c,c++,swift,javascript inoremap {<tab> {<cr>}<esc>O
 
+augroup rainbow_algol
+    autocmd!
+    autocmd FileType c,cpp,rust,javascript RainbowParentheses
+augroup END
+
 " frontend
 autocmd FileType html,css,scss setlocal noexpandtab
 
 " func lang
-augroup rainbow_lisp
+augroup rainbow_func
     autocmd!
     autocmd FileType lisp,clojure,scheme,haskell RainbowParentheses
 augroup END
