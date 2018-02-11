@@ -7,22 +7,28 @@
 " general
 " ---------------------------------------------------------------------------- "
 call plug#begin('~/.vim/plugged')
-Plug 'git@github.com:altercation/vim-colors-solarized.git'
-Plug 'git@github.com:erikorojo/cueva.git'
-Plug 'git@github.com:hdima/python-syntax'
-Plug 'git@github.com:hynek/vim-python-pep8-indent'
-Plug 'git@github.com:junegunn/fzf.vim'
-Plug 'git@github.com:junegunn/rainbow_parentheses.vim.git'
-Plug 'git@github.com:KeitaNakamura/neodark.vim.git'
-Plug 'git@github.com:neomake/neomake'
-Plug 'git@github.com:neovimhaskell/haskell-vim'
-Plug 'git@github.com:octol/vim-cpp-enhanced-highlight'
-Plug 'git@github.com:pangloss/vim-javascript'
-Plug 'git@github.com:sheerun/vim-polyglot.git'
-Plug 'git@github.com:tpope/vim-fugitive'
-Plug 'git@github.com:tpope/vim-surround'
-Plug 'git@github.com:vim-airline/vim-airline.git'
-Plug 'git@github.com:vim-scripts/SearchComplete'
+Plug 'altercation/vim-colors-solarized'
+Plug 'erikorojo/cueva'
+Plug 'hdima/python-syntax'
+Plug 'hynek/vim-python-pep8-indent'
+Plug 'junegunn/fzf.vim'
+Plug 'junegunn/rainbow_parentheses.vim'
+Plug 'KeitaNakamura/neodark.vim'
+Plug 'neomake/neomake'
+Plug 'neovimhaskell/haskell-vim'
+Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'pangloss/vim-javascript'
+Plug 'sheerun/vim-polyglot'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-scripts/SearchComplete'
+
+if has('nvim')
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+endif
+let g:deoplete#enable_at_startup = 1
+
 call plug#end()
 
 syntax on                               " enable syntax linting
