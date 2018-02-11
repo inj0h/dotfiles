@@ -6,7 +6,24 @@
 
 " general
 " ---------------------------------------------------------------------------- "
-execute pathogen#infect()|              " pathogen package manager
+call plug#begin('~/.vim/plugged')
+Plug 'git@github.com:altercation/vim-colors-solarized.git'
+Plug 'git@github.com:erikorojo/cueva.git'
+Plug 'git@github.com:hdima/python-syntax'
+Plug 'git@github.com:hynek/vim-python-pep8-indent'
+Plug 'git@github.com:junegunn/fzf.vim'
+Plug 'git@github.com:junegunn/rainbow_parentheses.vim.git'
+Plug 'git@github.com:KeitaNakamura/neodark.vim.git'
+Plug 'git@github.com:neomake/neomake'
+Plug 'git@github.com:neovimhaskell/haskell-vim'
+Plug 'git@github.com:octol/vim-cpp-enhanced-highlight'
+Plug 'git@github.com:pangloss/vim-javascript'
+Plug 'git@github.com:sheerun/vim-polyglot.git'
+Plug 'git@github.com:tpope/vim-fugitive'
+Plug 'git@github.com:tpope/vim-surround'
+Plug 'git@github.com:vim-airline/vim-airline.git'
+Plug 'git@github.com:vim-scripts/SearchComplete'
+call plug#end()
 
 syntax on                               " enable syntax linting
 filetype on                             " enable filetype variable
@@ -25,12 +42,7 @@ if !has('nvim')
     set laststatus=2                    " always show bottom status bar
     set nocompatible                    " disable vi compatibility
     set smarttab                        " whitespace/tab stuff
-    set t_Co=256                        " use 256 terminal colors
     set wildmenu                        " tab completion
-endif
-
-if $COLORTERM == 'truecolor'
-    set termguicolors
 endif
 
 set autoread                            " reads external file updates
@@ -192,6 +204,12 @@ nnoremap <leader>/ :noh<cr>|                " undo find highlighting
 
 " aesthetic
 " ---------------------------------------------------------------------------- "
+if $COLORTERM == 'truecolor'
+    set termguicolors                       " 24-bit-pretty
+else
+    set t_Co=256                            " not-as-pretty
+endif
+
 if system("uname -s") =~ "Linux"
     colorscheme solarized
     highlight Normal ctermbg=none|          " enable transparency
@@ -199,8 +217,10 @@ if system("uname -s") =~ "Linux"
 endif
 
 if system("uname -s") =~ "Darwin"
-    colorscheme cueva
-    let g:airline_theme = 'cueva'
+    let g:neodark#terminal_transparent = 1 " default: 0
+    let g:neodark#background = '#202020'
+    let g:airline_theme = 'neodark'
+    colorscheme neodark
 endif
 
 " plugin settings
