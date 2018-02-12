@@ -22,11 +22,3 @@ config/nvim/spell/*
 *.netrwhist
 *.swo
 *.swp
-
-# emacs
-config/emacs.d/auto-save-list/*
-config/emacs.d/elpa/*
-config/emacs.d/eshell/*
-config/emacs.d/games/*
-config/emacs.d/network-security.data
-config/emacs.d/recentf
