@@ -6,7 +6,7 @@
 
 " general
 " ---------------------------------------------------------------------------- "
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.config/nvim/plugged')
 Plug 'altercation/vim-colors-solarized'
 Plug 'erikorojo/cueva'
 Plug 'hdima/python-syntax'
