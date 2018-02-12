@@ -11,6 +11,7 @@ Plug 'altercation/vim-colors-solarized'
 Plug 'erikorojo/cueva'
 Plug 'hdima/python-syntax'
 Plug 'hynek/vim-python-pep8-indent'
+Plug 'junegunn/fzf.vim', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'KeitaNakamura/neodark.vim'
@@ -88,6 +89,10 @@ set wildmode=list:longest,list          " tab completion
 " automatic commands
 " ---------------------------------------------------------------------------- "
 " by plugin
+
+" deoplete
+" disable for prose
+autocmd FileType text,tex let b:deoplete_disable_auto_complete = 1
 
 " neomake
 " async run neomake upon write

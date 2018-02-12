@@ -164,7 +164,7 @@ export FZF_DEFAULT_OPTS='
 --color info:144,prompt:114,spinner:-1,pointer:114,marker:193'
 
 # fzf search
-export FZF_DEFAULT_COMMAND='ag --hidden --silent --ignore .git -f -g ""'
+export FZF_DEFAULT_COMMAND='rg --hidden --silent --ignore .git -f -g ""'
 
 # grep (w/ color)
 alias grep='grep --color=auto'
