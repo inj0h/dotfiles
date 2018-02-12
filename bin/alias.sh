@@ -77,14 +77,6 @@ then
     alias gistp='gist-paste -p'
 fi
 
-# lang
-alias bpy='bpython; bpython3'
-alias pip='pip3'
-alias py2='python2.7'
-alias py='python3'
-alias python2='python2.7'
-alias python='python3'
-
 # macOS
 if [[ `uname -s` == 'Darwin' ]]
 then
