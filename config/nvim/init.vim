@@ -92,7 +92,7 @@ set wildmode=list:longest,list          " tab completion
 
 " deoplete
 " disable for prose
-autocmd FileType text,tex let b:deoplete_disable_auto_complete = 1
+autocmd FileType text,tex,markdown let b:deoplete_disable_auto_complete = 1
 
 " neomake
 " async run neomake upon write
@@ -118,6 +118,8 @@ augroup END
 autocmd FileType html,css,scss setlocal noexpandtab
 
 " func lang
+autocmd FileType haskell setlocal expandtab tabstop=8 shiftwidth=4
+
 augroup rainbow_func
     autocmd!
     autocmd FileType lisp,clojure,scheme,haskell RainbowParentheses
@@ -218,7 +220,7 @@ nnoremap <leader>/ :noh<cr>|                " undo find highlighting
 if $COLORTERM == 'truecolor'
     set termguicolors                       " 24-bit-pretty
 else
-    set t_Co=256                            " not-as-pretty
+    set t_Co=256                            " ironic-pretty
 endif
 
 if system("uname -s") =~ "Linux"
