@@ -32,7 +32,7 @@
 	<true/>
 	<key>Custom Color Presets</key>
 	<dict>
-		<key>my_colors</key>
+		<key>cueva</key>
 		<dict>
 			<key>Ansi 0 Color</key>
 			<dict>
@@ -247,13 +247,13 @@
 				<key>Alpha Component</key>
 				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.18431371450424194</real>
+				<real>0.12549020349979401</real>
 				<key>Color Space</key>
 				<string>sRGB</string>
 				<key>Green Component</key>
-				<real>0.18823531270027161</real>
+				<real>0.12549020349979401</real>
 				<key>Red Component</key>
-				<real>0.19607841968536377</real>
+				<real>0.12549020349979401</real>
 			</dict>
 			<key>Badge Color</key>
 			<dict>
@@ -542,9 +542,17 @@
 	<true/>
 	<key>MaxVertically</key>
 	<false/>
+	<key>NSColorPanelMode</key>
+	<string>6</string>
+	<key>NSColorPickerPreferredRGBEntryMode</key>
+	<integer>2</integer>
+	<key>NSColorPickerSlidersDefaults</key>
+	<string>1</string>
 	<key>NSNavLastRootDirectory</key>
 	<string>~/dotfiles/config/iterm.d</string>
 	<key>NSNavPanelExpandedSizeForOpenMode</key>
+	<string>{712, 448}</string>
+	<key>NSNavPanelExpandedSizeForSaveMode</key>
 	<string>{712, 448}</string>
 	<key>NSQuotedKeystrokeBinding</key>
 	<string></string>
@@ -556,8 +564,8 @@
 	<false/>
 	<key>NSSplitView Subview Frames NSColorPanelSplitView</key>
 	<array>
-		<string>0.000000, 0.000000, 224.000000, 263.000000, NO, NO</string>
-		<string>0.000000, 264.000000, 224.000000, 43.000000, NO, NO</string>
+		<string>0.000000, 0.000000, 228.000000, 263.000000, NO, NO</string>
+		<string>0.000000, 264.000000, 228.000000, 43.000000, NO, NO</string>
 	</array>
 	<key>NSTableView Columns v2 KeyBingingTable</key>
 	<data>
@@ -588,13 +596,17 @@
 		<integer>1</integer>
 	</dict>
 	<key>NSWindow Frame NSColorPanel</key>
-	<string>0 142 224 244 0 0 1440 878 </string>
+	<string>534 307 228 280 0 0 1440 878 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
-	<string>410 379 620 392 0 0 1440 877 </string>
+	<string>410 380 620 392 0 0 1440 878 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>270 374 918 381 0 0 1440 878 </string>
+	<string>54 366 796 473 0 0 1440 878 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>659 181 781 697 0 0 1440 878 </string>
+	<string>185 64 1113 814 0 0 1440 878 </string>
+	<key>NSWindow Frame iTerm Window 1</key>
+	<string>720 65 720 813 0 0 1440 878 </string>
+	<key>NSWindow Frame iTerm Window 2</key>
+	<string>0 65 720 813 0 0 1440 878 </string>
 	<key>NeverWarnAboutShortLivedSessions_CE6185F8-73F7-45C0-A2E1-0B8AAC2A428D</key>
 	<true/>
 	<key>NeverWarnAboutShortLivedSessions_CE6185F8-73F7-45C0-A2E1-0B8AAC2A428D_selection</key>
@@ -825,13 +837,13 @@
 				<key>Alpha Component</key>
 				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.18431371450424194</real>
+				<real>0.12549020349979401</real>
 				<key>Color Space</key>
 				<string>sRGB</string>
 				<key>Green Component</key>
-				<real>0.18823531270027161</real>
+				<real>0.12549020349979401</real>
 				<key>Red Component</key>
-				<real>0.19607841968536377</real>
+				<real>0.12549020349979401</real>
 			</dict>
 			<key>Background Image Is Tiled</key>
 			<false/>
@@ -2344,6 +2356,8 @@
 	<true/>
 	<key>NoSyncInstallationId</key>
 	<string>02A524B3-76E8-4289-B039-4E799A3C9E22</string>
+	<key>NoSyncPermissionToShowTip</key>
+	<false/>
 	<key>NoSyncTimeOfFirstLaunchOfVersionWithTip</key>
 	<real>540005538.75086296</real>
 	<key>OnlyWhenMoreTabs</key>
@@ -2416,7 +2430,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2018-02-11T01:39:57Z</date>
+	<date>2018-02-18T03:04:52Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>SavePasteHistory</key>
