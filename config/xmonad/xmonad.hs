@@ -38,5 +38,6 @@ main = do
                     , ppTitle = xmobarColor "green" "" . shorten 50
                     }
         , startupHook = myStartupHook
+        , modMask = mod4Mask
         , terminal    = "gnome-terminal"
         }
