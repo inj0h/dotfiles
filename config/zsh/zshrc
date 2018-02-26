@@ -202,8 +202,8 @@ if [ -f ~/bin/proxy.sh ]; then
 fi
 
 # Functions
-if [ -f ~/bin/zfunc.sh ]; then
-    source ~/bin/zfunc.sh
+if [ -f ~/bin/zfunctions.sh ]; then
+    source ~/bin/zfunctions.sh
 fi
 
 # What?
