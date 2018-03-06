@@ -169,18 +169,19 @@ endfunc
 " ---------------------------------------------------------------------------- "
 " regular
 inoremap jj <esc>|                          " rebind escape
+
 nnoremap ; :|                               " rebind colon
 nnoremap : ;|                               " rebind semicolon
+nnoremap <c-e> $|                           " rebind end of line
+nnoremap <c-f> <c-f>M|                      " center after page down.
+nnoremap <c-b> <c-b>M|                      " center after page up.
+
 vnoremap ; :|                               " rebind colon
 vnoremap : ;|                               " rebind semicolon
-
-nmap <c-e> $|                               " rebind end of line
-vmap <c-e> $|                               " rebind end of line (visual)
-
-nmap <c-f> <c-f>M|                          " center after page down.
-nmap <c-b> <c-b>M|                          " center after page up.
-vmap <c-f> <c-f>M|                          " center after page down.
-vmap <c-b> <c-b>M|                          " center after page up.
+vnoremap <c-e> $|                           " rebind end of line (visual)
+vnoremap <c-f> <c-f>M|                      " center after page down.
+vnoremap <c-b> <c-b>M|                      " center after page up.
+vnoremap // y/<c-r>"<cr>|                   " search visual selection.
 
 " leader
 let mapleader = "\<Space>"|                 " bind leader to spacebar
