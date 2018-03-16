@@ -248,6 +248,14 @@ endif
 
 let g:fzf_layout = { 'up': '~40%' }
 
+" rainbow_parentheses
+let g:rainbow#max_level = 16
+let g:rainbow#pairs = [
+                       \['(', ')'],
+                       \['[', ']'],
+                       \['{', '}'],
+                     \]
+
 " vim-airline
 let g:airline#extensions#tabline#enabled = 1
 
