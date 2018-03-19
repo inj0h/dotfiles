@@ -17,7 +17,7 @@ pandoc
 python3
 readline
 reattach-to-user-namespace
-the_silver_searcher
+ripgrep
 tmux
 tree
 vim
