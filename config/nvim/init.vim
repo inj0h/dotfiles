@@ -14,14 +14,15 @@ Plug 'hynek/vim-python-pep8-indent'
 Plug 'junegunn/fzf.vim', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/rainbow_parentheses.vim'
-Plug 'KeitaNakamura/neodark.vim'
 Plug 'neomake/neomake'
 Plug 'neovimhaskell/haskell-vim'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'pangloss/vim-javascript'
 Plug 'sheerun/vim-polyglot'
+Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-vividchalk'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-scripts/SearchComplete'
 
@@ -70,7 +71,6 @@ set listchars=tab:>-,nbsp:_,trail:.     " make tabs + trailing spaces visible
 set mouse=a                             " enable mouse
 set nofoldenable                        " disable line folding
 set number                              " line numbers
-set relativenumber                      " relative line numbers (turn both on!)
 set ruler                               " show line+column at bottom right
 set shell=zsh                           " shell = zsh
 set shiftwidth=4                        " width of indent in spaces
@@ -88,7 +88,10 @@ set wildmode=list:longest,list          " tab completion
 
 " automatic commands
 " ---------------------------------------------------------------------------- "
+
+""""""""""""
 " by plugin
+""""""""""""
 
 " deoplete
 " disable for prose
@@ -99,7 +102,9 @@ autocmd FileType text,tex,markdown let b:deoplete_disable_auto_complete = 1
 "autocmd! BufEnter,BufReadPost,BufWritePost * Neomake
 autocmd! BufWritePost * Neomake
 
+"""""""""""""""""""""
 " by filetype, et al
+"""""""""""""""""""""
 
 " general
 " remove all trailing whitespace upon write
@@ -137,14 +142,6 @@ autocmd FileType vim setlocal textwidth=80 formatoptions+=t
 
 " functions
 " ---------------------------------------------------------------------------- "
-function ToggleBG()
-    if(&background == "dark")
-        set background=light
-    else
-        set background=dark
-    endif
-endfunc
-
 function ToggleLazy()
     if(&lazyredraw == 0)
         set lazyredraw
@@ -213,7 +210,6 @@ nnoremap <leader>S :split<cr>|              " split new window below
 nnoremap <leader>l `.zz|                    " jump to last edit and center
 nnoremap <leader>L :call ToggleLines()<cr>|
 
-nnoremap <leader>c :call ToggleBG()<cr>|
 nnoremap <leader>/ :noh<cr>|                " undo find highlighting
 
 " aesthetic
@@ -231,10 +227,7 @@ if system("uname -s") =~ "Linux"
 endif
 
 if system("uname -s") =~ "Darwin"
-    let g:neodark#terminal_transparent = 1 " default: 0
-    let g:neodark#background = '#202020'
-    let g:airline_theme = 'neodark'
-    colorscheme neodark
+    colorscheme vividchalk
 endif
 
 " plugin settings
@@ -258,6 +251,9 @@ let g:rainbow#pairs = [
 
 " vim-airline
 let g:airline#extensions#tabline#enabled = 1
+if g:colors_name == "cueva"
+    let g:airline_theme = "cueva"
+endif
 
 " language settings
 " ---------------------------------------------------------------------------- "
