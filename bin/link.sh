@@ -60,22 +60,22 @@ redp() {
     sleep 1
 }
 
+link_file() {
+    if [ "$3" == "dot" ]; then
+        ln -shfv "$1" "$2"/."`basename $1`"
+    else
+        ln -shfv "$1" "$2"/"`basename $1`"
+    fi
+}
+
 link_files() {
     for file in $1/*; do
         if [ "$3" == "dot" ]; then
-            ln -sfv $file $2/.`basename $file`
+            ln -shfv "$file" "$2"/."`basename $file`"
         else
-            ln -sfv $file $2/`basename $file`
+            ln -shfv "$file" "$2"/"`basename $file`"
         fi
     done
-}
-
-link_dir() {
-    if [ "$3" == "dot" ]; then
-        ln -sfv $1 $2/.`basename $1`
-    else
-        ln -sfv $1 $2/`basename $1`
-    fi
 }
 
 #########
@@ -91,6 +91,8 @@ if [ ! -d $HOME/dotfiles ]; then
     exit 1
 fi
 
+greenp "Done."
+
 redp "Configuring shared *nix files..."
 
 link_files $ZSH $HOME "dot"
@@ -98,8 +100,8 @@ link_files $TMUX $HOME "dot"
 
 redp "Configuring shared *nix directories..."
 
-link_dir $NVIM $HOME/.config "dot"
-link_dir $NEOFETCH $HOME/.config "dot"
+link_file $NVIM $HOME/.config
+link_file $NEOFETCH $HOME/.config
 
 greenp "Done."
 
@@ -109,7 +111,7 @@ if [[ `uname -s` == 'Linux' ]]; then
 elif [[ `uname -s` == 'Darwin' ]]; then
     redp "Darwin kernel detected...\nConfiguring..."
 
-    link_dir $ITERM $HOME
+    link_file $ITERM $HOME
 else
     redp "Could not find a supported kernel.\nAborting..."
 
