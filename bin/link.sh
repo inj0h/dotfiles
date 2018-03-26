@@ -91,7 +91,18 @@ redp "Screening directory..."
 if [ ! -d $HOME/dotfiles ]; then
     redp "Error: dotfiles not found."
     redp "Aborting..."
+
     exit 1
+fi
+
+# check for ~/bin
+if [ ! -d $HOME/bin ]; then
+    redp "Error: ~/bin not found."
+    redp "Creating..."
+
+    mkdir $HOME/bin
+
+    greenp "Done."
 fi
 
 greenp "Done."
@@ -102,6 +113,7 @@ if [[ `uname -s` == 'Linux' ]]; then
     LNFLAGS="-sTfv"
 
     # shared nix
+    link_files $LNFLAGS $BIN $HOME/bin
     link_files $LNFLAGS $ZSH $HOME "dot"
     link_files $LNFLAGS $TMUX $HOME "dot"
     link_file $LNFLAGS $NVIM $HOME/.config
@@ -117,6 +129,7 @@ elif [[ `uname -s` == 'Darwin' ]]; then
     LNFLAGS="-shfv"
 
     # shared nix
+    link_files $LNFLAGS $BIN $HOME/bin
     link_files $LNFLAGS $ZSH $HOME "dot"
     link_files $LNFLAGS $TMUX $HOME "dot"
     link_file $LNFLAGS $NVIM $HOME/.config
