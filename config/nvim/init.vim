@@ -7,7 +7,6 @@
 " general
 " ---------------------------------------------------------------------------- "
 call plug#begin('~/.config/nvim/plugged')
-Plug 'altercation/vim-colors-solarized'
 Plug 'erikorojo/cueva'
 Plug 'hdima/python-syntax'
 Plug 'hynek/vim-python-pep8-indent'
@@ -218,12 +217,6 @@ if $COLORTERM == 'truecolor'
     set termguicolors                       " 24-bit-pretty
 else
     set t_Co=256                            " ironic-pretty
-endif
-
-if system("uname -s") =~ "Linux"
-    colorscheme solarized
-    highlight Normal ctermbg=none|          " enable transparency
-    highlight NonText ctermbg=none|         " ^
 endif
 
 if system("uname -s") =~ "Darwin"
