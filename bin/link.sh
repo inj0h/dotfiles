@@ -12,6 +12,8 @@ set -e
 # variables
 ############
 
+LNFLAGS=''
+
 # colors
 CLEAR='\033[0m'
 GREEN='\033[1;32m'
@@ -26,7 +28,6 @@ CONFIG="$DOTFILES/config"
 ######
 # nix
 ######
-
 ZSH="$CONFIG/zsh"
 TMUX="$CONFIG/tmux"
 NVIM="$CONFIG/nvim"
@@ -35,7 +36,6 @@ NEOFETCH="$CONFIG/neofetch"
 ########
 # linux
 ########
-
 REDSHIFT="$CONFIG/redshift"
 XORG="$CONFIG/xorg"
 XMONAD="$CONFIG/xmonad"
@@ -43,7 +43,6 @@ XMONAD="$CONFIG/xmonad"
 #########
 # darwin
 #########
-
 ITERM="$CONFIG/iterm.d"
 
 ############
@@ -60,38 +59,24 @@ redp() {
     sleep 1
 }
 
+# Excuse the faux type inferences.
+
+# $flags -> $path -> $path -> [char] -> null
 link_file() {
-    if [ "$3" == "dot" ]; then
-        ln -sTfv "$1" "$2"/."`basename $1`"
+    if [ "$4" == "dot" ]; then
+        ln $1 "$2" "$3"/."`basename $2`"
     else
-        ln -sTfv "$1" "$2"/"`basename $1`"
+        ln $1  "$2" "$3"/"`basename $2`"
     fi
 }
 
+# $flags -> $path -> $path -> [char] -> null
 link_files() {
-    for file in $1/*; do
-        if [ "$3" == "dot" ]; then
-            ln -sTfv "$file" "$2"/."`basename $file`"
+    for file in $2/*; do
+        if [ "$4" == "dot" ]; then
+            ln $1 "$file" "$3"/."`basename $file`"
         else
-            ln -sTfv "$file" "$2"/"`basename $file`"
-        fi
-    done
-}
-
-link_file_darwin() {
-    if [ "$3" == "dot" ]; then
-        ln -shfv "$1" "$2"/."`basename $1`"
-    else
-        ln -shfv "$1" "$2"/"`basename $1`"
-    fi
-}
-
-link_files_darwin() {
-    for file in $1/*; do
-        if [ "$3" == "dot" ]; then
-            ln -shfv "$file" "$2"/."`basename $file`"
-        else
-            ln -shfv "$file" "$2"/"`basename $file`"
+            ln $1 "$file" "$3"/"`basename $file`"
         fi
     done
 }
@@ -114,27 +99,31 @@ greenp "Done."
 if [[ `uname -s` == 'Linux' ]]; then
     redp "Linux kernel detected...\nConfiguring..."
 
+    LNFLAGS="-sTfv"
+
     # shared nix
-    link_files $ZSH $HOME "dot"
-    link_files $TMUX $HOME "dot"
-    link_file $NVIM $HOME/.config
-    link_file $NEOFETCH $HOME/.config
+    link_files $LNFLAGS $ZSH $HOME "dot"
+    link_files $LNFLAGS $TMUX $HOME "dot"
+    link_file $LNFLAGS $NVIM $HOME/.config
+    link_file $LNFLAGS $NEOFETCH $HOME/.config
 
     # linux
-    link_files $XORG $HOME "dot"
-    link_files $REDSHIFT $HOME/.config
+    link_files $LNFLAGS $XORG $HOME "dot"
+    link_files $LNFLAGS $REDSHIFT $HOME/.config
 
 elif [[ `uname -s` == 'Darwin' ]]; then
     redp "Darwin kernel detected...\nConfiguring..."
 
+    LNFLAGS="-shfv"
+
     # shared nix
-    link_files_darwin $ZSH $HOME "dot"
-    link_files_darwin $TMUX $HOME "dot"
-    link_file_darwin $NVIM $HOME/.config
-    link_file_darwin $NEOFETCH $HOME/.config
+    link_files $LNFLAGS $ZSH $HOME "dot"
+    link_files $LNFLAGS $TMUX $HOME "dot"
+    link_file $LNFLAGS $NVIM $HOME/.config
+    link_file $LNFLAGS $NEOFETCH $HOME/.config
 
     # darwin
-    link_file_darwin $ITERM $HOME
+    link_file $LNFLAGS $ITERM $HOME
 
 else
     redp "Could not find a supported kernel.\nAborting..."
