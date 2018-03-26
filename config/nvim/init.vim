@@ -219,8 +219,10 @@ else
     set t_Co=256                            " ironic-pretty
 endif
 
-if system("uname -s") =~ "Darwin"
-    colorscheme vividchalk
+colorscheme vividchalk
+
+if g:colors_name == "vividchalk"
+    hi MatchParen ctermfg=none ctermbg=34 guifg=none guibg=#9933CC
 endif
 
 " plugin settings
