@@ -2,10 +2,10 @@
 " description:
 "                   Personal (neo)vim settings.
 "
-" ---------------------------------------------------------------------------- "
+" ------------------------------------------------------------------------------
 
 " general
-" ---------------------------------------------------------------------------- "
+" ------------------------------------------------------------------------------
 call plug#begin('~/.config/nvim/plugged')
 Plug 'erikorojo/cueva'
 Plug 'hdima/python-syntax'
@@ -86,7 +86,7 @@ set visualbell                          " no beeping
 set wildmode=list:longest,list          " tab completion
 
 " automatic commands
-" ---------------------------------------------------------------------------- "
+" ------------------------------------------------------------------------------
 
 """"""""""""
 " by plugin
@@ -140,7 +140,7 @@ autocmd FileType text setlocal textwidth=80 spell
 autocmd FileType vim setlocal textwidth=80 formatoptions+=t
 
 " functions
-" ---------------------------------------------------------------------------- "
+" ------------------------------------------------------------------------------
 function ToggleLazy()
     if(&lazyredraw == 0)
         set lazyredraw
@@ -162,7 +162,7 @@ function LintSpell()
 endfunc
 
 " keybindings
-" ---------------------------------------------------------------------------- "
+" ------------------------------------------------------------------------------
 " regular
 inoremap jj <esc>|                          " rebind escape
 
@@ -212,7 +212,7 @@ nnoremap <leader>L :call ToggleLines()<cr>|
 nnoremap <leader>/ :noh<cr>|                " undo find highlighting
 
 " aesthetic
-" ---------------------------------------------------------------------------- "
+" ------------------------------------------------------------------------------
 if $COLORTERM == 'truecolor'
     set termguicolors                       " 24-bit-pretty
 else
@@ -224,7 +224,7 @@ if system("uname -s") =~ "Darwin"
 endif
 
 " plugin settings
-" ---------------------------------------------------------------------------- "
+" ------------------------------------------------------------------------------
 " fzf
 if system("uname -s") =~ "Darwin"
     set rtp+=/usr/local/opt/fzf
@@ -249,7 +249,7 @@ if g:colors_name == "cueva"
 endif
 
 " language settings
-" ---------------------------------------------------------------------------- "
+" ------------------------------------------------------------------------------
 " haskell
 let g:haskell_classic_highlighting = 1
 

@@ -2,14 +2,14 @@
 # description:
 #                   Personal zshell settings (a bit of a mess atm).
 #
-# ---------------------------------------------------------------------------- #
+# ------------------------------------------------------------------------------
 
 # ~/.zshrc
 # Note! Vim indentation broken!
-# ---------------------------------------------------------------------------- #
+# ------------------------------------------------------------------------------
 
 # Prompt and colors
-# ---------------------------------------------------------------------------- #
+# ------------------------------------------------------------------------------
 autoload -U colors zsh-mime-setup select-word-style
 colors                 # Colors.
 zsh-mime-setup         # Run everything as if it's an executable.
@@ -69,7 +69,7 @@ fi
 # "man zshzle" for the list of available actions
 
 # Completion, etc.
-# ---------------------------------------------------------------------------- #
+# ------------------------------------------------------------------------------
 autoload -U compinit
 compinit
 zmodload -i zsh/complist
@@ -145,7 +145,7 @@ unsetopt rm_star_silent         # Ask for confirmation for `rm *' or `rm path/*'
 # setxkbmap -option compose:ralt  # compose-key... shell doesn't seem to like this.
 
 # Variables
-# ---------------------------------------------------------------------------- #
+# ------------------------------------------------------------------------------
 # heresy
 set -o emacs
 
@@ -185,7 +185,7 @@ man() {
 }
 
 # Source files
-# ---------------------------------------------------------------------------- #
+# ------------------------------------------------------------------------------
 # Source my aliases.
 if [ -f ~/bin/alias.sh ]; then
     source ~/bin/alias.sh

@@ -4,7 +4,7 @@
 # description:
 #                   Useful functions for a smooth CLI experience.
 #
-# ---------------------------------------------------------------------------- #
+# ------------------------------------------------------------------------------
 
 # cat then pipe to clipboard
 if [[ `uname` == 'Darwin' ]]; then
