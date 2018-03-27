@@ -21,29 +21,7 @@ RED='\033[1;31m'
 
 # paths
 DOTFILES="$HOME/dotfiles"
-
 BIN="$DOTFILES/bin"
-CONFIG="$DOTFILES/config"
-
-######
-# nix
-######
-ZSH="$CONFIG/zsh"
-TMUX="$CONFIG/tmux"
-NVIM="$CONFIG/nvim"
-NEOFETCH="$CONFIG/neofetch"
-
-########
-# linux
-########
-REDSHIFT="$CONFIG/redshift"
-XORG="$CONFIG/xorg"
-XMONAD="$CONFIG/xmonad"
-
-#########
-# darwin
-#########
-ITERM="$CONFIG/iterm.d"
 
 ############
 # functions
@@ -59,24 +37,14 @@ redp() {
     sleep 1
 }
 
-# Excuse the faux type inferences.
-
-# $flags -> $path -> $path -> [char] -> null
-link_file() {
-    if [ "$4" == "dot" ]; then
-        ln $1 "$2" "$3"/."`basename $2`"
-    else
-        ln $1  "$2" "$3"/"`basename $2`"
-    fi
-}
-
-# $flags -> $path -> $path -> [char] -> null
-link_files() {
-    for file in $2/*; do
+# Excuse the pathetic faux type inferences.
+# $flag -> $regex -> $path -> [char] -> null
+link() {
+    for file in $DOTFILES/$2; do
         if [ "$4" == "dot" ]; then
-            ln $1 "$file" "$3"/."`basename $file`"
+            ln $1 $file $3/.`basename $file`
         else
-            ln $1 "$file" "$3"/"`basename $file`"
+            ln $1 $file $3/`basename $file`
         fi
     done
 }
@@ -107,42 +75,35 @@ fi
 
 greenp "Done."
 
-if [[ `uname -s` == 'Linux' ]]; then
-    redp "Linux kernel detected...\nConfiguring..."
+# specific nix
+redp "`uname -s` kernel detected."
+redp "Linking files specific to system..."
 
-    LNFLAGS="-sTfv"
-
-    # shared nix
-    link_files $LNFLAGS $BIN $HOME/bin
-    link_files $LNFLAGS $ZSH $HOME "dot"
-    link_files $LNFLAGS $TMUX $HOME "dot"
-    link_file $LNFLAGS $NVIM $HOME/.config
-    link_file $LNFLAGS $NEOFETCH $HOME/.config
-
-    # linux
-    link_files $LNFLAGS $XORG $HOME "dot"
-    link_files $LNFLAGS $REDSHIFT $HOME/.config
-
-elif [[ `uname -s` == 'Darwin' ]]; then
-    redp "Darwin kernel detected...\nConfiguring..."
-
+if [[ `uname -s` == 'Darwin' ]]; then
+    # darwin
     LNFLAGS="-shfv"
 
-    # shared nix
-    link_files $LNFLAGS $BIN $HOME/bin
-    link_files $LNFLAGS $ZSH $HOME "dot"
-    link_files $LNFLAGS $TMUX $HOME "dot"
-    link_file $LNFLAGS $NVIM $HOME/.config
-    link_file $LNFLAGS $NEOFETCH $HOME/.config
+    link $LNFLAGS "iterm*" $HOME
 
-    # darwin
-    link_file $LNFLAGS $ITERM $HOME
+elif [[ `uname -s` == 'Linux' ]]; then
+    # linux
+    LNFLAGS="-sTfv"
 
-else
-    redp "Could not find a supported kernel.\nAborting..."
+    link $LNFLAGS "X*" $HOME dot
+    link $LNFLAGS "redshift*" $HOME/.config
 
-    exit 1
 fi
 
 greenp "Done."
-greenp "Installation complete."
+
+# shared nix
+redp "Linking shared *nix files..."
+
+link $LNFLAGS "bin" $HOME/bin
+link $LNFLAGS "z*" $HOME dot
+link $LNFLAGS "tmux*" $HOME dot
+link $LNFLAGS "nvim" $HOME/.config
+link $LNFLAGS "neofet*" $HOME/.config
+
+greenp "Done."
+greenp "All dotfiles linked. Have a nice day."
