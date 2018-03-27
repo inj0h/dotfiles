@@ -21,6 +21,7 @@ crpyto
 crx
 CRXDE
 cueva
+darwin
 deoplete
 dev
 diff
@@ -38,10 +39,11 @@ Garageband
 haskell
 hotkey
 hotkeys
-i3
 i.e.
+i3
 iMovie
 ip
+iterm
 java
 javascript
 JS
@@ -56,6 +58,7 @@ meetups
 mvn
 MX
 Neo
+neofetch
 nvim
 onboard
 plugin
@@ -63,6 +66,7 @@ plugins
 purescript
 quickstart
 REPL
+repo
 repo
 repos
 solarized
@@ -99,6 +103,7 @@ xml
 xmobar
 xmodmap
 xmonad
+xorg
 Xresources
 youtube
 yubico

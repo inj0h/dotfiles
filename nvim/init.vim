@@ -180,7 +180,7 @@ vnoremap <c-b> <c-b>M|                      " center after page up.
 vnoremap // y/<c-r>"<cr>|                   " search visual selection.
 
 " leader
-let mapleader = "\<Space>"|                 " bind leader to spacebar
+let mapleader = "\<space>"|                 " bind leader to spacebar
 
 " leader general
 noremap <leader>- <c-b>M|                   " page up
