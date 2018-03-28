@@ -4,9 +4,9 @@
 "
 " ------------------------------------------------------------------------------
 
-" general
+" plugins
 " ------------------------------------------------------------------------------
-call plug#begin('~/.config/nvim/plugged')
+call plug#begin('~/.config/nvim/plugs')
 Plug 'erikorojo/cueva'
 Plug 'hdima/python-syntax'
 Plug 'hynek/vim-python-pep8-indent'
@@ -32,6 +32,8 @@ let g:deoplete#enable_at_startup = 1
 
 call plug#end()
 
+" general
+" ------------------------------------------------------------------------------
 syntax on                               " enable syntax linting
 filetype on                             " enable filetype variable
 filetype plugin on                      " enable plugins
