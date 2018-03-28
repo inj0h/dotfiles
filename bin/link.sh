@@ -99,7 +99,7 @@ greenp "Done."
 # shared nix
 redp "Linking shared *nix files..."
 
-link $LNFLAGS "bin" $HOME/bin
+link $LNFLAGS "bin/*" $HOME/bin
 link $LNFLAGS "z*" $HOME dot
 link $LNFLAGS "tmux*" $HOME dot
 link $LNFLAGS "nvim" $HOME/.config
