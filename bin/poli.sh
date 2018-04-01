@@ -42,9 +42,19 @@ pless() {
 # git
 ######
 
+gbv() {
+    # view git branches in (neo)vim
+    git branch | nvim -R -
+}
+
 gitshove() {
     # when push comes to shove
     git add -A . && git commit -m "Autoupdate."
+}
+
+glv() {
+    # view git log in (neo)vim
+    git log | nvim -R -
 }
 
 mustache() {
