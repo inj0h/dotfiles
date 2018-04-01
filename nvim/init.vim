@@ -146,8 +146,10 @@ autocmd FileType vim setlocal textwidth=80 formatoptions+=t
 function ToggleLazy()
     if(&lazyredraw == 0)
         set lazyredraw
+        set cursorline!
     else
         set nolazyredraw
+        set cursorline
     endif
 endfunc
 
