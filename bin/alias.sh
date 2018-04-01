@@ -7,8 +7,7 @@
 # ------------------------------------------------------------------------------
 
 # coreutils
-if [[ `uname -s` == 'Darwin' ]]
-then
+if [[ `uname -s` == 'Darwin' ]]; then
     alias alg='alias | grep '
     alias cat='gcat'
     alias chmod='gchmod'
@@ -21,13 +20,13 @@ then
     alias grep='grep --color'
     alias head='ghead'
     alias kill='gkill'
-    alias llg='ls -1A | grep'
+    alias l='ls -A'
+    alias lg='ls -A | grep'
     alias ll='ls -1A'
+    alias llg='ls -1A | grep'
     alias ln='gln'
-    alias lsg='ls -A | grep'
-    alias ls='ls -A'
-    alias lvg='ls -lA | grep'
     alias lv='ls -lA'
+    alias lvg='ls -lA | grep'
     alias mv='gmv'
     alias pwd='gpwd'
     alias shred='gshred'
@@ -38,12 +37,12 @@ then
     alias xargs='gxargs'
 else
     alias alg='alias | grep'
-    alias llg='ls -1A --color | grep'
+    alias l='ls -A --color'
+    alias lg='ls -A --color | grep'
     alias ll='ls -1A --color'
-    alias lsg='ls -A --color | grep'
-    alias ls='ls -A --color'
-    alias lvg='ls -lA --color| grep'
+    alias llg='ls -1A --color | grep'
     alias lv='ls -lA --color'
+    alias lvg='ls -lA --color| grep'
 fi
 
 alias ff='fzf'
@@ -71,15 +70,13 @@ alias gsh='git show'
 alias gst='git stash'
 
 # gist
-if [[ `uname -s` == 'Linux' ]]
-then
+if [[ `uname -s` == 'Linux' ]]; then
     alias gist='gist-paste'
     alias gistp='gist-paste -p'
 fi
 
 # macOS
-if [[ `uname -s` == 'Darwin' ]]
-then
+if [[ `uname -s` == 'Darwin' ]]; then
     alias emacs='open -a Emacs'
     alias em='open -a Emacs'
     alias ted='open -a TextEdit'
