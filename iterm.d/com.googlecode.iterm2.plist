@@ -600,15 +600,15 @@
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>650 515 620 392 0 0 1920 1058 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>880 606 928 394 0 0 1920 1058 </string>
+	<string>651 214 918 512 0 0 1920 1058 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>0 65 1920 993 0 0 1920 1058 </string>
+	<string>960 65 960 331 0 0 1920 1058 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
-	<string>1056 65 864 993 0 0 1920 1058 </string>
+	<string>0 65 1920 993 0 0 1920 1058 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
-	<string>720 64 720 407 0 0 1440 878 </string>
+	<string>960 65 960 993 0 0 1920 1058 </string>
 	<key>NSWindow Frame iTerm Window 3</key>
-	<string>1056 65 864 993 0 0 1920 1058 </string>
+	<string>960 64 960 497 0 0 1920 1058 </string>
 	<key>NSWindow Frame iTerm Window 4</key>
 	<string>1056 64 864 249 0 0 1920 1058 </string>
 	<key>NSWindow Frame iTerm Window 5</key>
@@ -1291,7 +1291,7 @@
 			<key>Mouse Reporting</key>
 			<true/>
 			<key>Name</key>
-			<string>erikoelrojo</string>
+			<string>erikorojo</string>
 			<key>Non Ascii Font</key>
 			<string>Monaco 12</string>
 			<key>Non-ASCII Anti Aliased</key>
@@ -1459,7 +1459,7 @@
 			<key>Terminal Type</key>
 			<string>xterm-256color</string>
 			<key>Transparency</key>
-			<real>0.0036762373096446703</real>
+			<real>0.036744527284263966</real>
 			<key>Triggers</key>
 			<array/>
 			<key>Unlimited Scrollback</key>
@@ -2440,11 +2440,13 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2018-03-30T19:09:22Z</date>
+	<date>2018-04-01T02:21:15Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>SavePasteHistory</key>
 	<false/>
+	<key>Secure Input</key>
+	<true/>
 	<key>ShowBookmarkName</key>
 	<false/>
 	<key>ShowPaneTitles</key>
@@ -2452,7 +2454,7 @@
 	<key>SmartPlacement</key>
 	<false/>
 	<key>SplitPaneDimmingAmount</key>
-	<real>0.19756860977564103</real>
+	<real>0.29986979166666666</real>
 	<key>StretchTabsToFillBar</key>
 	<true/>
 	<key>SwitchTabModifier</key>
@@ -2460,7 +2462,7 @@
 	<key>SwitchWindowModifier</key>
 	<integer>6</integer>
 	<key>TabStyle</key>
-	<integer>1</integer>
+	<integer>0</integer>
 	<key>TabViewType</key>
 	<integer>0</integer>
 	<key>ThreeFingerEmulates</key>
@@ -2472,7 +2474,7 @@
 	<key>URLHandlersByGuid</key>
 	<dict/>
 	<key>UseBorder</key>
-	<true/>
+	<false/>
 	<key>UseCompactLabel</key>
 	<true/>
 	<key>UseLionStyleFullscreen</key>
