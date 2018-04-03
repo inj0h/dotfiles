@@ -37,31 +37,7 @@ PROMPT="[%{$fg[green]%}%n%{$reset_color%}] %~ \$vcs_info_msg_0_
 export CLICOLOR=1
 
 # LSCOLORS
-if [[ `uname -s` == 'Linux' ]]; then
-    export LS_COLORS='fi=00;00:di=00;32:ln=00;35:ex=00;31:so=00;34:pi=00;33'
-else
-    export LSCOLORS=cxfxdxgxbxegedabagacad
-    # Order of lscolors from left to right.
-    # directory
-    # symlink
-    # socket
-    # pipe
-    # executable
-    # block special
-    # char special
-    # exec w/ setuid bit set
-    # exec w/ setgid bit set
-    # dir writable to others w/ sticky bit
-    # dir writable to others w/o sticky bit
-    #
-    # a = black
-    # b = red
-    # c = green
-    # d = yellow
-    # e = blue
-    # f = magenta
-    # g = cyan
-fi
+export LS_COLORS='fi=00;00:di=00;32:ln=00;35:ex=00;31:so=00;34:pi=00;33'
 
 # Keybindings
 # Lookup in /etc/termcap or /etc/terminfo else, you can get the right keycode
