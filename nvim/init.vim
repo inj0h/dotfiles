@@ -23,7 +23,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-vividchalk'
 Plug 'vim-airline/vim-airline'
-Plug 'vim-scripts/SearchComplete'
 
 if has('nvim')
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
