@@ -226,6 +226,11 @@ colorscheme vividchalk
 
 if g:colors_name == "vividchalk"
     hi MatchParen ctermfg=none ctermbg=34 guifg=none guibg=#9933CC
+
+    if system("uname -s") =~ "Linux"
+        hi CursorLine term=bold cterm=bold
+        hi LineNr ctermbg=235 guibg=#333333
+    endif
 endif
 
 " plugin settings
