@@ -2,9 +2,8 @@
 #
 # filename:         link.sh
 # description:
-#                   Link my *nix configuration files.
+#                   Link *nix configuration files.
 #
-# ------------------------------------------------------------------------------
 
 set -e
 
@@ -57,16 +56,14 @@ redp "Screening directory..."
 
 # check for cloned repo
 if [ ! -d $HOME/dotfiles ]; then
-    redp "Error: dotfiles not found."
-    redp "Aborting..."
+    redp "Error: dotfiles not found.\nAborting..."
 
     exit 1
 fi
 
 # check for ~/bin
 if [ ! -d $HOME/bin ]; then
-    redp "Error: ~/bin not found."
-    redp "Creating..."
+    redp "Error: ~/bin not found.\nCreating..."
 
     mkdir $HOME/bin
 
@@ -76,8 +73,7 @@ fi
 greenp "Done."
 
 # specific nix
-redp "`uname -s` kernel detected."
-redp "Linking files specific to system..."
+redp "`uname -s` kernel detected.\nLinking files specific to system..."
 
 if [[ `uname -s` == 'Darwin' ]]; then
     # darwin
@@ -93,7 +89,6 @@ elif [[ `uname -s` == 'Linux' ]]; then
     link $LNFLAGS "xmobar*" $HOME && mv -f $HOME/xmobar.hs $HOME/.xmobarrc
     link $LNFLAGS "xmonad*" $HOME/.xmonad
     link $LNFLAGS "redshift*" $HOME/.config
-
 fi
 
 greenp "Done."
@@ -107,5 +102,4 @@ link $LNFLAGS "tmux*" $HOME dot
 link $LNFLAGS "nvim" $HOME/.config
 link $LNFLAGS "neofet*" $HOME/.config
 
-greenp "Done."
-greenp "All dotfiles linked. Have a nice day."
+greenp "Done.\nAll dotfiles linked. Have a nice day."
