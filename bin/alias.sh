@@ -4,7 +4,6 @@
 # description:
 #                   Useful aliases for a smooth CLI experience.
 #
-# ------------------------------------------------------------------------------
 
 # coreutils
 if [[ `uname -s` == 'Darwin' ]]; then

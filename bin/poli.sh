@@ -4,7 +4,6 @@
 # description:
 #                   Useful functions for a "polish"ed CLI experience.
 #
-# ------------------------------------------------------------------------------
 
 ################
 # specific *nix

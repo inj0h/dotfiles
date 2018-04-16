@@ -5,7 +5,6 @@
 #                   Enable gtk key theme (system keybindings). Tested on gtk-3.0
 #                   on Ubuntu 16.04.
 #
-# ------------------------------------------------------------------------------
 
 GTK_SETTINGS="$HOME/.config/gtk-3.0/settings.ini"
 OS="Ubuntu"

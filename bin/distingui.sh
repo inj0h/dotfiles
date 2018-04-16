@@ -4,7 +4,6 @@
 # description:
 #                   Useful functions for "distinguish"ing I/O devices on Linux.
 #
-# ------------------------------------------------------------------------------
 
 if [[ `uname` == 'Linux' ]]; then
     touchpad() {

@@ -2,7 +2,6 @@
 # description:
 #                   Personal profile for zshell.
 #
-# ------------------------------------------------------------------------------
 
 # exports
 export VISUAL=vim
