@@ -2,10 +2,11 @@
 " description:
 "                   Personal (neo)vim settings.
 "
-" ------------------------------------------------------------------------------
 
+""""""""""
 " plugins
-" ------------------------------------------------------------------------------
+""""""""""
+
 call plug#begin('~/.config/nvim/plugs')
 Plug 'erikorojo/cueva'
 Plug 'hdima/python-syntax'
@@ -31,8 +32,10 @@ let g:deoplete#enable_at_startup = 1
 
 call plug#end()
 
+""""""""""
 " general
-" ------------------------------------------------------------------------------
+""""""""""
+
 syntax on                               " enable syntax linting
 filetype on                             " enable filetype variable
 filetype plugin on                      " enable plugins
@@ -67,7 +70,7 @@ set hidden                              " leave modded buffer
 set history=100                         " history log
 set ignorecase                          " ignore casing when searching
 set list                                " ^
-set listchars=tab:>-,nbsp:_,trail:.     " make tabs + trailing spaces visible
+set listchars=tab:\\_,nbsp:_,trail:.    " make tabs + trailing spaces visible
 set mouse=a                             " enable mouse
 set nofoldenable                        " disable line folding
 set number                              " line numbers
@@ -86,8 +89,9 @@ set undolevels=500                      " extent of undo remembers
 set visualbell                          " no beeping
 set wildmode=list:longest,list          " tab completion
 
+"""""""""""""""""""""
 " automatic commands
-" ------------------------------------------------------------------------------
+"""""""""""""""""""""
 
 """"""""""""
 " by plugin
@@ -140,8 +144,10 @@ autocmd FileType text setlocal textwidth=80 spell
 " viml
 autocmd FileType vim setlocal textwidth=80 formatoptions+=t
 
+""""""""""""
 " functions
-" ------------------------------------------------------------------------------
+""""""""""""
+
 function ToggleLazy()
     if(&lazyredraw == 0)
         set lazyredraw
@@ -164,8 +170,10 @@ function LintSpell()
     set spell!
 endfunc
 
+""""""""""""""
 " keybindings
-" ------------------------------------------------------------------------------
+""""""""""""""
+
 " regular
 inoremap jj <esc>|                          " rebind escape
 
@@ -214,8 +222,10 @@ nnoremap <leader>L :call ToggleLines()<cr>|
 
 nnoremap <leader>/ :noh<cr>|                " undo find highlighting
 
+""""""""""""
 " aesthetic
-" ------------------------------------------------------------------------------
+""""""""""""
+
 if $COLORTERM == 'truecolor'
     set termguicolors                       " 24-bit-pretty
 else
@@ -233,8 +243,10 @@ if g:colors_name == "vividchalk"
     endif
 endif
 
+""""""""""""""""""
 " plugin settings
-" ------------------------------------------------------------------------------
+""""""""""""""""""
+
 " fzf
 if system("uname -s") =~ "Darwin"
     set rtp+=/usr/local/opt/fzf
@@ -258,8 +270,10 @@ if g:colors_name == "cueva"
     let g:airline_theme = "cueva"
 endif
 
+""""""""""""""""""""
 " language settings
-" ------------------------------------------------------------------------------
+""""""""""""""""""""
+
 " haskell
 let g:haskell_classic_highlighting = 1
 
