@@ -59,12 +59,16 @@ alias v='nvim'
 alias g='git'
 alias ga='git add'
 alias gb='git branch'
+alias gc='git commit'
 alias gch='git checkout'
+alias gchp='git checkout -p'
 alias gcm='git commit -m'
 alias gd='git diff'
 alias gdc='git diff --cached'
 alias gdl='git diff | less'
+alias gdn='git diff --name-only'
 alias gl='git log'
+alias gr='cd $(git rev-parse --show-toplevel)'
 alias gs='git status'
 alias gsh='git show'
 alias gst='git stash'
@@ -73,11 +77,4 @@ alias gst='git stash'
 if [[ `uname -s` == 'Linux' ]]; then
     alias gist='gist-paste'
     alias gistp='gist-paste -p'
-fi
-
-# macOS
-if [[ `uname -s` == 'Darwin' ]]; then
-    alias emacs='open -a Emacs'
-    alias em='open -a Emacs'
-    alias ted='open -a TextEdit'
 fi
