@@ -7,34 +7,23 @@
 
 set -e
 
+if [ -f $HOME/dotfiles/bin/lib.sh ]; then
+    echo "Dependencies found. Proceeding..."
+    source $HOME/dotfiles/bin/lib.sh
+else
+    echo "Error: could not find dependent script(s)."
+    exit 1
+fi
+
 ############
 # variables
 ############
 
 LNFLAGS=''
 
-# colors
-CLEAR='\033[0m'
-GREEN='\033[1;32m'
-RED='\033[1;31m'
-
-# paths
-DOTFILES="$HOME/dotfiles"
-BIN="$DOTFILES/bin"
-
 ############
 # functions
 ############
-
-greenp() {
-    echo -e ${GREEN}$1${CLEAR}
-    sleep 0.5
-}
-
-redp() {
-    echo -e ${RED}$1${CLEAR}
-    sleep 1
-}
 
 # Excuse the pathetic faux type inferences.
 # $flag -> $regex -> $path -> [char] -> null
