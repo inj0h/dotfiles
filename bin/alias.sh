@@ -45,16 +45,6 @@ else
     alias lvg='ls -lA --color --group-directories-first | grep'
 fi
 
-alias ff='fzf'
-alias nfet='neofetch'
-alias txa='tmux attach -t'
-alias txls='tmux ls'
-alias txn='tmux new -s'
-alias tx='tmux'
-alias u='cd ..'
-alias vi='nvim'
-alias v='nvim'
-
 # git
 alias g='git'
 alias ga='git add'
@@ -78,3 +68,17 @@ if [[ `uname -s` == 'Linux' ]]; then
     alias gist='gist-paste'
     alias gistp='gist-paste -p'
 fi
+
+# (neo)vim
+alias vf='nvim $(fuss)'
+alias vi='nvim'
+alias v='nvim'
+
+# etc
+alias ff='fzf'
+alias nfet='neofetch'
+alias txa='tmux attach -t'
+alias txls='tmux ls'
+alias txn='tmux new -s'
+alias tx='tmux'
+alias u='cd ..'
