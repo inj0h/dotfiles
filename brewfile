@@ -15,7 +15,7 @@ nginx
 node
 openssl
 pandoc
-python3
+python
 readline
 reattach-to-user-namespace
 ripgrep
