@@ -1,0 +1,7 @@
+*.lib
+*.tag
+build
+node_modules
+target
+GTAGS
+TAGS

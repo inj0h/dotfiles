@@ -89,6 +89,7 @@ link $LNFLAGS "bin/*" $HOME/bin
 link $LNFLAGS "z*" $HOME dot
 link $LNFLAGS "tmux*" $HOME dot
 link $LNFLAGS "nvim" $HOME/.config
+link $LNFLAGS "rg_ignore" $HOME/.config dot
 link $LNFLAGS "neofet*" $HOME/.config
 
 greenp "Done.\nAll dotfiles linked. Have a nice day."

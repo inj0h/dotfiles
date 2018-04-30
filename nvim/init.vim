@@ -254,6 +254,11 @@ else
     set rtp+=~/.fzf
 endif
 
+let $FZF_DEFAULT_COMMAND = '
+            \ rg --files --hidden --follow
+            \ -g "!{.git,node_modules}/*" 2> /dev/null
+            \ --ignore-file ~/.config/.rg_ignore '
+
 let g:fzf_layout = { 'up': '~40%' }
 
 " rainbow_parentheses
