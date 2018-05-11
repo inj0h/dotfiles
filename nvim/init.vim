@@ -175,7 +175,7 @@ endfunc
 """"""""""""""
 
 " regular
-inoremap jj <esc>|                          " rebind escape
+inoremap hh <esc>|                          " rebind escape
 
 nnoremap ; :|                               " rebind colon
 nnoremap : ;|                               " rebind semicolon
@@ -204,23 +204,23 @@ nnoremap <leader>3 :!ctags -R .|            " make ctags in dir
 nnoremap <leader>4 :call LintSpell()<cr>|   " call function
 nnoremap <leader>5 %|                       " jump to matching delimeter
 nnoremap <leader>7 :call ToggleLazy()<cr>|
-
-nnoremap <leader>Q :qall<cr>|               " quit if everything is saved
-nnoremap <leader>w :Buffers <cr>|           " fzf list buffer(s)
-nnoremap <leader>y 0v$hy<cr>|               " yank a line without \n
-nnoremap <leader>i 0i<cr><esc>k|            " insert line
-nnoremap <leader>o :Files <cr>|             " fzf search/open child file(s)
-nnoremap <leader>O :Files |                 " fzf search/open w/ given path
 nnoremap <leader>[ <c-t>|                   " return from def ctag
 nnoremap <leader>] <c-]>|                   " goto function def ctag
 
+nnoremap <leader>y 0v$hy<cr>|               " yank a line without \n
 nnoremap <leader>f :Lines <cr>|             " fzf search thru open buffers
-nnoremap <leader>s <c-w><c-w>|              " faster window jumping
-nnoremap <leader>S :split<cr>|              " split new window below
 nnoremap <leader>l `.zz|                    " jump to last edit and center
 nnoremap <leader>L :call ToggleLines()<cr>|
-
 nnoremap <leader>/ :noh<cr>|                " undo find highlighting
+
+nnoremap <leader>o :Files <cr>|             " fzf search/open child file(s)
+nnoremap <leader>O :Files |                 " fzf search/open w/ given path
+nnoremap <leader>i 0i<cr><esc>k|            " insert line
+nnoremap <leader>s <c-w><c-w>|              " faster window jumping
+nnoremap <leader>S :split<cr>|              " split new window below
+
+nnoremap <leader>Q :qall<cr>|               " quit if everything is saved
+nnoremap <leader>w :Buffers <cr>|           " fzf list buffer(s)
 
 """"""""""""
 " aesthetic
