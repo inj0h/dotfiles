@@ -255,7 +255,7 @@ else
 endif
 
 let $FZF_DEFAULT_COMMAND = '
-            \ rg --files --hidden --follow
+            \ rg --files --hidden --follow --no-ignore-vcs
             \ -g "!{.git,node_modules}/*" 2> /dev/null
             \ --ignore-file ~/.config/.rg_ignore '
 
