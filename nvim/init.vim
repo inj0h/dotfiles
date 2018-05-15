@@ -270,7 +270,6 @@ let g:rainbow#pairs = [
                      \]
 
 " vim-airline
-let g:airline#extensions#tabline#enabled = 1
 if g:colors_name == "cueva"
     let g:airline_theme = "cueva"
 endif
