@@ -5,9 +5,9 @@
 #                   Useful functions for a "polish"ed CLI experience.
 #
 
-################
+# --------------
 # specific *nix
-################
+# --------------
 
 if [[ `uname` == 'Darwin' ]]; then
     catc() {
@@ -23,9 +23,9 @@ elif [[ `uname -s` == 'Linux' ]]; then
 
 fi
 
-##############
+# ------------
 # shared *nix
-##############
+# ------------
 
 catl() {
     # cat then pipe to less
@@ -37,9 +37,9 @@ pless() {
     $1 | less
 }
 
-######
+# ----
 # git
-######
+# ----
 
 gbv() {
     # view git branches in (neo)vim
@@ -61,9 +61,9 @@ mustache() {
     git stash save $1
 }
 
-######
+# ----
 # etc
-######
+# ----
 
 fuss() {
     # Now filtered. Find responsibly.

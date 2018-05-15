@@ -2,14 +2,11 @@
 # description:
 #                   Personal zshell settings (a bit of a mess atm).
 #
-# ------------------------------------------------------------------------------
 
-# ~/.zshrc
-# Note! Vim indentation broken!
-# ------------------------------------------------------------------------------
-
+# ------------------
 # Prompt and colors
-# ------------------------------------------------------------------------------
+# ------------------
+
 autoload -U colors zsh-mime-setup select-word-style
 colors                 # Colors.
 zsh-mime-setup         # Run everything as if it's an executable.
@@ -39,13 +36,18 @@ export CLICOLOR=1
 # LSCOLORS
 export LS_COLORS='fi=00;00:di=00;32:ln=00;35:ex=00;31:so=00;34:pi=00;33'
 
+# ------------
 # Keybindings
+# ------------
+
 # Lookup in /etc/termcap or /etc/terminfo else, you can get the right keycode
 # by typing ^v and then type the key or key combination you want to use.
 # "man zshzle" for the list of available actions
 
+# -----------------
 # Completion, etc.
-# ------------------------------------------------------------------------------
+# -----------------
+
 autoload -U compinit
 compinit
 zmodload -i zsh/complist
@@ -120,8 +122,10 @@ unsetopt list_beep              # No bell on ambiguous completion.
 unsetopt rm_star_silent         # Ask for confirmation for `rm *' or `rm path/*'.
 # setxkbmap -option compose:ralt  # compose-key... shell doesn't seem to like this.
 
+# ----------
 # Variables
-# ------------------------------------------------------------------------------
+# ----------
+
 # heresy
 set -o emacs
 
@@ -160,8 +164,10 @@ man() {
         man "$@"
 }
 
+# -------------
 # Source files
-# ------------------------------------------------------------------------------
+# -------------
+
 # Source my aliases.
 if [ -f ~/bin/alias.sh ]; then
     source ~/bin/alias.sh

@@ -1,15 +1,18 @@
 # filename:         gitignore
 # description:
 #                   A gitignore for this repository.
-# ------------------------------------------------------------------------------
+#
 
-# ctags
-tags
-TAGS
-
+# -------
 # system
+# -------
+
 # macOS
 .DS_Store
+
+# -------
+# editor
+# -------
 
 # (neo)vim
 nvim
@@ -18,3 +21,11 @@ nvim
 *.netrwhist
 *.swo
 *.swp
+
+# -------
+# etc
+# -------
+
+# tags
+tags
+TAGS

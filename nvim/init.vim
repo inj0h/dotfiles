@@ -3,9 +3,9 @@
 "                   Personal (neo)vim settings.
 "
 
-""""""""""
+" --------
 " plugins
-""""""""""
+" --------
 
 call plug#begin('~/.config/nvim/plugs')
 Plug 'erikorojo/cueva'
@@ -32,9 +32,9 @@ let g:deoplete#enable_at_startup = 1
 
 call plug#end()
 
-""""""""""
+" --------
 " general
-""""""""""
+" --------
 
 syntax on                               " enable syntax linting
 filetype on                             " enable filetype variable
@@ -89,13 +89,13 @@ set undolevels=500                      " extent of undo remembers
 set visualbell                          " no beeping
 set wildmode=list:longest,list          " tab completion
 
-"""""""""""""""""""""
+" -------------------
 " automatic commands
-"""""""""""""""""""""
+" -------------------
 
-""""""""""""
+" ----------
 " by plugin
-""""""""""""
+" ----------
 
 " deoplete
 " disable for prose
@@ -106,9 +106,9 @@ autocmd FileType text,tex,markdown let b:deoplete_disable_auto_complete = 1
 "autocmd! BufEnter,BufReadPost,BufWritePost * Neomake
 autocmd! BufWritePost * Neomake
 
-"""""""""""""""""""""
+" -------------------
 " by filetype, et al
-"""""""""""""""""""""
+" -------------------
 
 " general
 " remove all trailing whitespace upon write
@@ -144,9 +144,9 @@ autocmd FileType text setlocal textwidth=80 spell
 " viml
 autocmd FileType vim setlocal textwidth=80 formatoptions+=t
 
-""""""""""""
+" ----------
 " functions
-""""""""""""
+" ----------
 
 function ToggleLazy()
     if(&lazyredraw == 0)
@@ -170,9 +170,9 @@ function LintSpell()
     set spell!
 endfunc
 
-""""""""""""""
+" ------------
 " keybindings
-""""""""""""""
+" ------------
 
 " regular
 inoremap hh <esc>|                          " rebind escape
@@ -222,9 +222,9 @@ nnoremap <leader>S :split<cr>|              " split new window below
 nnoremap <leader>Q :qall<cr>|               " quit if everything is saved
 nnoremap <leader>w :Buffers <cr>|           " fzf list buffer(s)
 
-""""""""""""
+" ----------
 " aesthetic
-""""""""""""
+" ----------
 
 if $COLORTERM == 'truecolor'
     set termguicolors                       " 24-bit-pretty
@@ -243,9 +243,9 @@ if g:colors_name == "vividchalk"
     endif
 endif
 
-""""""""""""""""""
+" ----------------
 " plugin settings
-""""""""""""""""""
+" ----------------
 
 " fzf
 if system("uname -s") =~ "Darwin"
@@ -274,9 +274,9 @@ if g:colors_name == "cueva"
     let g:airline_theme = "cueva"
 endif
 
-""""""""""""""""""""
+" ------------------
 " language settings
-""""""""""""""""""""
+" ------------------
 
 " haskell
 let g:haskell_classic_highlighting = 1

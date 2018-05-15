@@ -15,15 +15,15 @@ else
     exit 1
 fi
 
-############
+# ----------
 # variables
-############
+# ----------
 
 LNFLAGS=''
 
-############
+# ----------
 # functions
-############
+# ----------
 
 # Excuse the pathetic faux type inferences.
 # $flag -> $regex -> $path -> [char] -> null
@@ -37,9 +37,9 @@ link() {
     done
 }
 
-#########
+# -------
 # script
-#########
+# -------
 
 redp "Screening directory..."
 

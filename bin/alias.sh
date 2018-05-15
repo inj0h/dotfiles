@@ -5,7 +5,10 @@
 #                   Useful aliases for a smooth CLI experience.
 #
 
+# ----------
 # coreutils
+# ----------
+
 if [[ `uname -s` == 'Darwin' ]]; then
     alias alg='alias | grep '
     alias cat='gcat'
@@ -45,7 +48,10 @@ else
     alias lvg='ls -lA --color --group-directories-first | grep'
 fi
 
+# ----
 # git
+# ----
+
 alias g='git'
 alias ga='git add'
 alias gb='git branch'
@@ -69,12 +75,18 @@ if [[ `uname -s` == 'Linux' ]]; then
     alias gistp='gist-paste -p'
 fi
 
+# ---------
 # (neo)vim
+# ---------
+
 alias vf='nvim $(fuss)'
 alias vi='nvim'
 alias v='nvim'
 
+# ----
 # etc
+# ----
+
 alias ff='fzf'
 alias nfet='neofetch'
 alias txa='tmux attach -t'
