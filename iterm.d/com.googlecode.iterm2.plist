@@ -598,15 +598,15 @@
 	<key>NSWindow Frame NSColorPanel</key>
 	<string>745 206 228 280 0 0 1920 1058 </string>
 	<key>NSWindow Frame NSFontPanel</key>
-	<string>897 421 445 103 0 0 1920 1058 </string>
+	<string>390 388 445 77 0 0 1440 878 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>650 515 620 392 0 0 1920 1058 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>613 258 918 452 0 0 1920 1058 </string>
+	<string>122 332 918 492 0 0 1440 878 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>0 71 960 987 0 0 1920 1058 </string>
+	<string>720 70 720 404 0 0 1440 878 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
-	<string>1056 71 864 987 0 0 1920 1058 </string>
+	<string>720 71 720 807 0 0 1440 878 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
 	<string>0 70 1008 808 0 0 1440 878 </string>
 	<key>NSWindow Frame iTerm Window 3</key>
@@ -978,7 +978,7 @@
 			<key>Hide After Opening</key>
 			<false/>
 			<key>Horizontal Spacing</key>
-			<real>1.0306381777108433</real>
+			<real>1</real>
 			<key>Idle Code</key>
 			<integer>0</integer>
 			<key>Initial Text</key>
@@ -1299,7 +1299,7 @@
 			<key>Non-ASCII Anti Aliased</key>
 			<true/>
 			<key>Normal Font</key>
-			<string>Menlo-Regular 10</string>
+			<string>Menlo-Regular 11</string>
 			<key>Option Key Sends</key>
 			<integer>2</integer>
 			<key>Prompt Before Closing 2</key>
@@ -2446,7 +2446,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2018-05-13T05:15:35Z</date>
+	<date>2018-05-28T22:49:18Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>SavePasteHistory</key>
@@ -2460,7 +2460,7 @@
 	<key>SmartPlacement</key>
 	<false/>
 	<key>SplitPaneDimmingAmount</key>
-	<real>0.29986979166666666</real>
+	<real>0.14544771634615386</real>
 	<key>StretchTabsToFillBar</key>
 	<true/>
 	<key>SwitchTabModifier</key>
