@@ -43,7 +43,7 @@ pless() {
 
 gbv() {
     # view git branches in (neo)vim
-    git branch | nvim -R -
+    git branch | nvim -RM -
 }
 
 gitshove() {
@@ -53,7 +53,7 @@ gitshove() {
 
 glv() {
     # view git log in (neo)vim
-    git log | nvim -R -
+    git log | nvim -RM -
 }
 
 mustache() {
