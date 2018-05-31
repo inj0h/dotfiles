@@ -8,11 +8,13 @@
 " --------
 
 call plug#begin('~/.config/nvim/plugs')
+
 Plug 'erikorojo/cueva'
 Plug 'hdima/python-syntax'
 Plug 'hynek/vim-python-pep8-indent'
-Plug 'junegunn/fzf.vim', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+Plug 'junegunn/fzf.vim', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/goyo.vim'
 Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'neomake/neomake'
 Plug 'neovimhaskell/haskell-vim'
@@ -36,58 +38,55 @@ call plug#end()
 " general
 " --------
 
-syntax on                               " enable syntax linting
-filetype on                             " enable filetype variable
-filetype plugin on                      " enable plugins
-filetype plugin indent on               " enable indent by plugin(s)
+syntax on
+filetype on
+filetype plugin on
+filetype plugin indent on
 
 " turn these on if using regular vim and not nvim
 if !has('nvim')
-    set autoindent                      " auto-indentation
-    set backspace=eol,start,indent      " enable backspace
-    set hlsearch                        " highlight search results
-    set guioptions-=l                   " remove left GUI scrollbar
-    set guioptions-=L                   " remove left GUI split scrollbar
-    set guioptions-=r                   " remove right GUI scrollbar
-    set guioptions-=R                   " remove right GUI split scrollbar
-    set laststatus=2                    " always show bottom status bar
-    set nocompatible                    " disable vi compatibility
-    set smarttab                        " whitespace/tab stuff
-    set wildmenu                        " tab completion
+    set autoindent
+    set backspace=eol,start,indent
+    set guioptions-=l guioptions-=L guioptions-=r guioptions-=R
+    set hlsearch
+    set laststatus=2
+    set nocompatible
+    set smarttab
+    set wildmenu
 endif
 
-set autoread                            " reads external file updates
-set background=dark                     " default to goth background
-set clipboard=unnamedplus               " enable clipboard access
-set colorcolumn=80                      " mark column 80
-set confirm                             " manage buffer state before exiting
-set cursorline                          " show current line
-set expandtab                           " set tabs = spaces
-set foldcolumn=0                        " whitespace indentation on left margin
-set formatoptions+=t                    " set textwidth for code; not comments
-set guicursor=n:blinkon1                " blink cursor
-set hidden                              " leave modded buffer
-set history=100                         " history log
-set ignorecase                          " ignore casing when searching
-set list                                " ^
-set listchars=tab:\\_,nbsp:_,trail:.    " make tabs + trailing spaces visible
-set mouse=a                             " enable mouse
-set nofoldenable                        " disable line folding
-set number                              " line numbers
-set ruler                               " show line+column at bottom right
-set shell=zsh                           " shell = zsh
-set shiftwidth=4                        " width of indent in spaces
-set shortmess+=I                        " disable splash screen
-set showcmd                             " show commands as typed
-set smartcase                           " specify casing in searching
-set softtabstop=4                       " whitespace/tab stuff
-set spelllang=en_us                     " parse English
-set splitbelow                          " always split windows below
-set tabstop=4                           " width of tab char in spaces
-set textwidth=0                         " textwidth = window width
-set undolevels=500                      " extent of undo remembers
-set visualbell                          " no beeping
-set wildmode=list:longest,list          " tab completion
+set autoread
+set background=dark
+set clipboard=unnamedplus
+set colorcolumn=80
+set confirm
+set cursorline
+set expandtab
+set foldcolumn=0
+set formatoptions+=t
+set guicursor=n:blinkon1
+set hidden
+set history=100
+set ignorecase
+set list
+set listchars=tab:\\_,nbsp:_,trail:.
+set mouse=a
+set nofoldenable
+set number
+set ruler
+set shell=zsh
+set shiftwidth=4
+set shortmess+=I
+set showcmd
+set smartcase
+set softtabstop=4
+set spelllang=en_us
+set splitbelow
+set tabstop=4
+set textwidth=0
+set undolevels=500
+set visualbell
+set wildmode=list:longest,list
 
 " -------------------
 " automatic commands
