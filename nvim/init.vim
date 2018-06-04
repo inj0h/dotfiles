@@ -12,8 +12,8 @@ call plug#begin('~/.config/nvim/plugs')
 Plug 'erikorojo/cueva'
 Plug 'hdima/python-syntax'
 Plug 'hynek/vim-python-pep8-indent'
-Plug 'junegunn/fzf.vim'
 Plug 'junegunn/fzf.vim', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'neomake/neomake'
