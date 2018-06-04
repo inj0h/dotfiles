@@ -1,4 +1,4 @@
 htop
-rg
+rg --classic
 spotify
 tree
