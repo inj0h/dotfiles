@@ -98,12 +98,12 @@ set wildmode=list:longest,list
 
 " deoplete
 " disable for prose
-autocmd FileType text,tex,markdown let b:deoplete_disable_auto_complete = 1
+au FileType text,tex,markdown let b:deoplete_disable_auto_complete = 1
 
 " neomake
 " async run neomake upon write
-"autocmd! BufEnter,BufReadPost,BufWritePost * Neomake
-autocmd! BufWritePost * Neomake
+"au! BufEnter,BufReadPost,BufWritePost * Neomake
+au! BufWritePost * Neomake
 
 " -------------------
 " by filetype, et al
@@ -111,37 +111,37 @@ autocmd! BufWritePost * Neomake
 
 " general
 " remove all trailing whitespace upon write
-autocmd BufWritePre * %s/\s\+$//e
+au BufWritePre * %s/\s\+$//e
 
 " algol lang
 " wrap curly braces and insert b/w
-autocmd FileType c,c++,swift,javascript inoremap {<tab> {<cr>}<esc>O
+au FileType c,c++,swift,javascript inoremap {<tab> {<cr>}<esc>O
 
-augroup rainbow_algol
-    autocmd!
-    autocmd FileType c,cpp,rust,javascript RainbowParentheses
-augroup END
+aug rainbow_algol
+    au!
+    au FileType c,cpp,rust,javascript RainbowParentheses
+aug END
 
 " frontend
-autocmd FileType html,css,scss setlocal noexpandtab
+au FileType html,css,scss setlocal noexpandtab
 
 " func lang
-autocmd FileType haskell setlocal expandtab tabstop=8 shiftwidth=4
+au FileType haskell setlocal expandtab tabstop=8 shiftwidth=4
 
-augroup rainbow_func
-    autocmd!
-    autocmd FileType lisp,clojure,scheme,haskell RainbowParentheses
-augroup END
+aug rainbow_func
+    au!
+    au FileType lisp,clojure,scheme,haskell RainbowParentheses
+aug END
 
 " pep8
-autocmd FileType python setlocal textwidth=80 tabstop=4 fileformat=unix
+au FileType python setlocal textwidth=80 tabstop=4 fileformat=unix
 
 " txt
-autocmd FileType text setlocal textwidth=80 spell
-" autocmd BufWrite *.txt :normal ggVGgq`.zz
+au FileType text setlocal textwidth=80 spell
+" au BufWrite *.txt :normal ggVGgq`.zz
 
 " viml
-autocmd FileType vim setlocal textwidth=80 formatoptions+=t
+au FileType vim setlocal textwidth=80 formatoptions+=t
 
 " ----------
 " functions
