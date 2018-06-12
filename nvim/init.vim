@@ -98,7 +98,7 @@ set wildmode=list:longest,list
 
 " deoplete
 " disable for prose
-au FileType text,tex,markdown let b:deoplete_disable_auto_complete = 1
+au FileType text call deoplete#custom#option('auto_complete', v:false)
 
 " neomake
 " async run neomake upon write
