@@ -75,8 +75,6 @@ elif [[ `uname -s` == 'Linux' ]]; then
     LNFLAGS="-sTfv"
 
     link $LNFLAGS "X*" $HOME dot
-    link $LNFLAGS "xmobar*" $HOME && mv -f $HOME/xmobar.hs $HOME/.xmobarrc
-    link $LNFLAGS "xmonad*" $HOME/.xmonad
     link $LNFLAGS "redshift*" $HOME/.config
 fi
 
