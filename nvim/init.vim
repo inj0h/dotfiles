@@ -3,9 +3,9 @@
 "                   Personal (neo)vim settings.
 "
 
-" --------
+"
 " plugins
-" --------
+"
 
 call plug#begin('~/.config/nvim/plugs')
 
@@ -34,9 +34,9 @@ let g:deoplete#enable_at_startup = 1
 
 call plug#end()
 
-" --------
+"
 " general
-" --------
+"
 
 syntax on
 filetype on
@@ -88,13 +88,13 @@ set undolevels=500
 set visualbell
 set wildmode=list:longest,list
 
-" -------------------
+"
 " automatic commands
-" -------------------
+"
 
-" ----------
+"
 " by plugin
-" ----------
+"
 
 " deoplete
 " disable for prose
@@ -105,9 +105,9 @@ au FileType text call deoplete#custom#option('auto_complete', v:false)
 "au! BufEnter,BufReadPost,BufWritePost * Neomake
 au! BufWritePost * Neomake
 
-" -------------------
+"
 " by filetype, et al
-" -------------------
+"
 
 " general
 " remove all trailing whitespace upon write
@@ -143,9 +143,9 @@ au FileType text setlocal textwidth=80 spell
 " viml
 au FileType vim setlocal textwidth=80 formatoptions+=t
 
-" ----------
+"
 " functions
-" ----------
+"
 
 function ToggleLazy()
     if(&lazyredraw == 0)
@@ -169,9 +169,9 @@ function LintSpell()
     set spell!
 endfunc
 
-" ------------
+"
 " keybindings
-" ------------
+"
 
 " regular
 inoremap hh <esc>|                          " rebind escape
@@ -221,9 +221,9 @@ nnoremap <leader>S :split<cr>|              " split new window below
 nnoremap <leader>Q :qall<cr>|               " quit if everything is saved
 nnoremap <leader>w :Buffers <cr>|           " fzf list buffer(s)
 
-" ----------
+"
 " aesthetic
-" ----------
+"
 
 if $COLORTERM == 'truecolor'
     set termguicolors                       " 24-bit-pretty
@@ -242,9 +242,9 @@ if g:colors_name == "vividchalk"
     endif
 endif
 
-" ----------------
+"
 " plugin settings
-" ----------------
+"
 
 " fzf
 if system("uname -s") =~ "Darwin"
@@ -273,9 +273,9 @@ if g:colors_name == "cueva"
     let g:airline_theme = "cueva"
 endif
 
-" ------------------
+"
 " language settings
-" ------------------
+"
 
 " haskell
 let g:haskell_classic_highlighting = 1

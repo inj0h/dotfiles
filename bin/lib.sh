@@ -5,9 +5,9 @@
 #                   Don't reinvent the wheel. Put commonly used stuff here.
 #
 
-# ----------
+#
 # variables
-# ----------
+#
 
 # paths
 DOTFILES="$HOME/dotfiles"
@@ -18,9 +18,9 @@ CLEAR='\033[0m'
 GREEN='\033[1;32m'
 RED='\033[1;31m'
 
-# ----------
+#
 # functions
-# ----------
+#
 
 greenp() {
     echo -e ${GREEN}$1${CLEAR}
