@@ -216,9 +216,7 @@ nnoremap <leader>o :Files <cr>|             " fzf search/open child file(s)
 nnoremap <leader>O :Files |                 " fzf search/open w/ given path
 nnoremap <leader>i 0i<cr><esc>k|            " insert line
 nnoremap <leader>s <c-w><c-w>|              " faster window jumping
-nnoremap <leader>S :split<cr>|              " split new window below
 
-nnoremap <leader>Q :qall<cr>|               " quit if everything is saved
 nnoremap <leader>w :Buffers <cr>|           " fzf list buffer(s)
 
 "
