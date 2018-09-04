@@ -138,7 +138,6 @@ au FileType python setlocal textwidth=80 tabstop=4 fileformat=unix
 
 " txt
 au FileType text setlocal textwidth=80 spell
-" au BufWrite *.txt :normal ggVGgq`.zz
 
 " viml
 au FileType vim setlocal textwidth=80 formatoptions+=t
