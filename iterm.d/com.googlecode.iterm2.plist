@@ -598,17 +598,17 @@
 	<key>NSWindow Frame NSColorPanel</key>
 	<string>745 206 228 280 0 0 1920 1058 </string>
 	<key>NSWindow Frame NSFontPanel</key>
-	<string>390 388 445 77 0 0 1440 878 </string>
+	<string>327 107 445 77 0 0 1440 878 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
-	<string>650 515 620 392 0 0 1920 1058 </string>
+	<string>410 383 620 392 0 0 1440 878 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>122 332 918 492 0 0 1440 878 </string>
+	<string>343 321 918 485 0 0 1440 878 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>720 70 720 404 0 0 1440 878 </string>
+	<string>439 213 810 571 0 0 1440 878 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
-	<string>720 71 720 807 0 0 1440 878 </string>
+	<string>640 423 640 355 0 0 1280 778 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
-	<string>0 70 1008 808 0 0 1440 878 </string>
+	<string>640 69 640 709 0 0 1280 778 </string>
 	<key>NSWindow Frame iTerm Window 3</key>
 	<string>0 65 960 993 0 0 1920 1058 </string>
 	<key>NSWindow Frame iTerm Window 4</key>
@@ -1299,7 +1299,7 @@
 			<key>Non-ASCII Anti Aliased</key>
 			<true/>
 			<key>Normal Font</key>
-			<string>Menlo-Regular 11</string>
+			<string>Menlo-Regular 13</string>
 			<key>Option Key Sends</key>
 			<integer>2</integer>
 			<key>Prompt Before Closing 2</key>
@@ -2446,7 +2446,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2018-05-28T22:49:18Z</date>
+	<date>2018-08-27T05:27:54Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>SavePasteHistory</key>
@@ -2500,7 +2500,7 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>3.1.6beta5</string>
+	<string>3.2.1beta2</string>
 	<key>kCPKSelectionViewPreferredModeKey</key>
 	<integer>7</integer>
 	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>
