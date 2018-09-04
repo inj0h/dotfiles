@@ -133,6 +133,9 @@ aug rainbow_func
     au FileType lisp,clojure,scheme,haskell RainbowParentheses
 aug END
 
+" git commits
+au FileType gitcommit setlocal textwidth=72 spell
+
 " pep8
 au FileType python setlocal textwidth=80 tabstop=4 fileformat=unix
 
