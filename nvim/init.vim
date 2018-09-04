@@ -69,7 +69,7 @@ set hidden
 set history=100
 set ignorecase
 set list
-set listchars=tab:\\_,nbsp:_,trail:.
+set listchars=tab:>\ ,nbsp:_,trail:.
 set mouse=a
 set nofoldenable
 set number
