@@ -231,7 +231,7 @@ else
     set t_Co=256                            " ironic-pretty
 endif
 
-colorscheme vividchalk
+colorscheme cueva
 
 if g:colors_name == "vividchalk"
     hi MatchParen ctermfg=none ctermbg=34 guifg=none guibg=#9933CC
