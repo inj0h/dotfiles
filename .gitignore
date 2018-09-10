@@ -1,17 +1,17 @@
-# filename:         gitignore
-# description:
+# Filename:         gitignore
+# Description:
 #                   A gitignore for this repository.
 #
 
 #
-# system
+# System
 #
 
 # macOS
 .DS_Store
 
 #
-# editor
+# Editor
 #
 
 # Emacs
@@ -29,9 +29,9 @@ nvim
 *.swp
 
 #
-# etc
+# Etc
 #
 
-# tags
+# Tags
 tags
 TAGS
