@@ -1,12 +1,12 @@
 #!/bin/bash
 #
-# filename:         alias.sh
-# description:
+# Filename:         alias.sh
+# Description:
 #                   Useful aliases for a smooth CLI experience.
 #
 
 #
-# coreutils
+# Coreutils
 #
 
 if [[ `uname -s` == 'Darwin' ]]; then
@@ -49,7 +49,7 @@ else
 fi
 
 #
-# git
+# Git
 #
 
 alias g='git'
@@ -65,20 +65,21 @@ alias gdc='git diff --cached'
 alias gdn='git diff --name-only'
 alias gdv='git diff | nvim -MR -'
 alias gl='git log'
+alias glf='git log --follow --'
 alias glv='git log | nvim -MR -'
 alias gr='cd $(git rev-parse --show-toplevel)'
 alias gs='git status'
 alias gsh='git show'
 alias gst='git stash'
 
-# gist
+# Gist
 if [[ `uname -s` == 'Linux' ]]; then
     alias gist='gist-paste'
     alias gistp='gist-paste -p'
 fi
 
 #
-# (neo)vim
+# (Neo)vim
 #
 
 alias vf='nvim $(fuss)'
@@ -86,7 +87,7 @@ alias vi='nvim'
 alias v='nvim'
 
 #
-# etc
+# Etc
 #
 
 alias ff='fzf'
