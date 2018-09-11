@@ -86,6 +86,7 @@ redp "Linking shared *nix files..."
 link $LNFLAGS "bin/*" $HOME/bin
 link $LNFLAGS "z*" $HOME dot
 link $LNFLAGS "tmux*" $HOME dot
+link $LNFLAGS "emacs.d" $HOME dot
 link $LNFLAGS "nvim" $HOME/.config
 link $LNFLAGS "rgignore" $HOME/.config dot
 link $LNFLAGS "neofet*" $HOME/.config
