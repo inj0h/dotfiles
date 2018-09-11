@@ -80,6 +80,15 @@ if [[ `uname -s` == 'Linux' ]]; then
 fi
 
 #
+# Emacs
+#
+
+if [[ `uname -s` == 'Darwin' ]]; then
+    alias em='open -a Emacs'
+    alias emacs='open -a Emacs'
+fi
+
+#
 # (Neo)vim
 #
 
