@@ -35,12 +35,6 @@
     "L" 'linum-relative-toggle
     "c" 'whitespace-mode))
 
-(defun my-keychord-settings ()
-  "Configure evil mode"
-  (key-chord-define evil-insert-state-map "hh" 'evil-normal-state)
-  (key-chord-define evil-insert-state-map "hh" 'evil-force-normal-state)
-  (define-key evil-normal-state-map (kbd ":") 'execute-extended-command))
-
 (use-package evil
   :ensure t
   :config
