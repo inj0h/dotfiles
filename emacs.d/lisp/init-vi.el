@@ -1,11 +1,8 @@
-;; ------------------------------------------------------------------------------
 ;; Filename: init-vi.el
-;; Maintainer: erikoelrojo
+;; Maintainer: erikorojo
 ;; License: n/a
 ;; Comments: Elisp vi configuration module
 ;;
-;; ------------------------------------------------------------------------------
-
 
 (defun my-evil-settings ()
   "Vi keybindings, etc."
@@ -24,7 +21,10 @@
     "-" (kbd "\C-b\S-m")
     "=" (kbd "\C-f\S-m")
     "w" 'helm-buffers-list
-    "i" (lambda (n) (interactive "p") (evil-open-above n) (evil-force-normal-state))
+    "i" (lambda (n)
+          (interactive "p")
+          (evil-open-above n)
+          (evil-force-normal-state))
     "o" 'helm-find-files
     "s" 'other-window
     "S" 'split-window-below
@@ -37,21 +37,25 @@
 
 (defun my-keychord-settings ()
   "Configure evil mode"
-  (key-chord-define evil-insert-state-map "jj" 'evil-normal-state)
+  (key-chord-define evil-insert-state-map "hh" 'evil-normal-state)
+  (key-chord-define evil-insert-state-map "hh" 'evil-force-normal-state)
   (define-key evil-normal-state-map (kbd ":") 'execute-extended-command))
 
 (use-package evil
   :ensure t
   :config
   (evil-mode 1)
+  (setq evil-in-single-undo t)
+  (setq evil-undo-list-pointer t)
+  (setq evil-want-fine-undo t)
   (my-evil-settings)
 
-  (use-package key-chord
+  (use-package evil-escape
     :ensure t
     :config
-    (key-chord-mode 1)
-    (setq key-chord-two-keys-delay 0.5)
-    (my-keychord-settings))
+    (evil-escape-mode t)
+    (setq-default evil-escape-key-sequence "hh")
+    (setq-default evil-escape-delay 0.25))
 
   (use-package evil-leader
     :ensure t

@@ -1,11 +1,8 @@
-;; ------------------------------------------------------------------------------
 ;; Filename: init-fuzzy.el
-;; Maintainer: erikoelrojo
+;; Maintainer: erikorojo
 ;; License: n/a
 ;; Comments: Elisp (mostly) helm configuration module
 ;;
-;; ------------------------------------------------------------------------------
-
 
 (defun my-helm-settings ()
   "General helm settings."
@@ -22,10 +19,14 @@
 
 (defun my-helm-keybindings ()
   "Helm keybindings, etc."
-  (define-key helm-map [tab] 'helm-execute-persistent-action) ; Must use [tab] syntax
+  (define-key helm-map [tab] 'helm-execute-persistent-action)
   (define-key helm-map (kbd "C-j") 'helm-find-files-down-last-level)
   (define-key helm-map (kbd "C-k") 'helm-find-files-up-one-level)
-  (define-key helm-map (kbd "C-o") 'helm-select-action)); <- o = option
+  (define-key helm-map (kbd "C-o") 'helm-select-action))
+
+;; Completion, etc.
+(global-company-mode t)
+(setq company-idle-delay 0)
 
 (use-package helm
   :ensure t

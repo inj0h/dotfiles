@@ -1,11 +1,8 @@
-;; ------------------------------------------------------------------------------
 ;; Filename: init.el
-;; Maintainer: erikoelrojo
+;; Maintainer: erikorojo
 ;; License: n/a
 ;; Comments: Elisp configuration file
 ;;
-;; ------------------------------------------------------------------------------
-
 
 ;; Package management
 (package-initialize)
@@ -25,11 +22,15 @@
 
 (add-to-list 'exec-path "/usr/local/bin")
 
-(add-to-list 'package-archives '("elpy" . "https://jorgenschaefer.github.io/packages/"))
-(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-(add-to-list 'package-archives '("melpa-stable" ."http://stable.melpa.org/packages/"))
-(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
+;; Package repositories
+(add-to-list
+ 'package-archives '("elpy" . "https://jorgenschaefer.github.io/packages/"))
+(add-to-list
+ 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+(add-to-list
+ 'package-archives '("melpa-stable" ."http://stable.melpa.org/packages/"))
+(add-to-list
+ 'package-archives '("org" . "http://orgmode.org/elpa/"))
 
 ;; Use use-package
 (unless (package-installed-p 'use-package)
@@ -40,11 +41,11 @@
 (require 'diminish)
 (require 'bind-key)
 
-;; Dump all the custom-var-face into one file.
+;; Dump all the custom-var-face s*** here.
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file 'noerror)
 
-;; Config modules
+;; Source separate configuration modules
 (require 'init-ui)
 (require 'init-fuzzy)
 (require 'init-lang)

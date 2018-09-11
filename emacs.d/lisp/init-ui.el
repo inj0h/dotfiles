@@ -1,11 +1,8 @@
-;; ------------------------------------------------------------------------------
 ;; Filename: init-ui.el
-;; Maintainer: erikoelrojo
+;; Maintainer: erikorojo
 ;; License: n/a
 ;; Comments: Elisp UI configuration module
 ;;
-;; ------------------------------------------------------------------------------
-
 
 ;; UI settings (these are a bit of a mess right now... not gonna lie)
 ;; Sane Defaults.
@@ -31,6 +28,9 @@
 (set-face-attribute 'show-paren-match nil :foreground "#ccff66")
 (set-face-attribute 'show-paren-mismatch nil :foreground "#ff2f92")
 
+;; Window management
+(add-hook 'find-file-hook 'delete-other-windows)
+
 ;; Selection Highlighting
 (set-face-attribute 'region nil :background "#ccff66" :foreground "#333333")
 
@@ -39,10 +39,9 @@
 (add-to-list 'default-frame-alist '(cursor-color . "ffffff"))
 (global-hl-line-mode t)
 (set-face-background hl-line-face "#393642")
-(set-frame-font "Inconsolata-14" nil t)
+(set-frame-font "Inconsolata-16" nil t)
 (defalias 'yes-or-no-p 'y-or-n-p)
 (setq linum-format "  %d ") ; Space out gutter.
-(server-start)
 
 ;; Tabs = spaces * 4
 (setq-default indent-tabs-mode nil)
@@ -51,6 +50,14 @@
 
 ;; Cleanup trailing whitespace, et al after write
 (add-hook 'after-save-hook 'whitespace-cleanup)
+
+;; Column indicator
+
+(defun my-fci-settings ()
+  "Use fci for these modes."
+  (add-hook 'emacs-lisp-mode-hook 'fci-mode)
+  (add-hook 'sh-mode-hook 'fci-mode)
+  (add-hook 'text-mode-hook 'fci-mode))
 
 ;; Smooth scrolling.
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))
@@ -81,5 +88,12 @@
   :ensure t
   :config
   (load-theme 'monokai t))
+
+(use-package fill-column-indicator
+  :ensure t
+  :config
+  (my-fci-settings)
+  (setq fci-rule-column 79)
+  (setq column-number-indicator-zero-based nil))
 
 (provide 'init-ui)

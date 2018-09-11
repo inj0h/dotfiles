@@ -1,10 +1,8 @@
-;; ------------------------------------------------------------------------------
 ;; Filename: init-lang.el
-;; Maintainer: erikoelrojo
+;; Maintainer: erikorojo
 ;; License: n/a
 ;; Comments: Elisp language configuration module
 ;;
-;; ------------------------------------------------------------------------------
 
 ;; aspell: supporting human languages.
 (cond ((string-equal system-type "gnu/linux")
