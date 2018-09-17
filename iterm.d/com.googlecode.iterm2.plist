@@ -386,6 +386,8 @@
 	<false/>
 	<key>DisableWindowSizeSnap</key>
 	<true/>
+	<key>EnableDivisionView</key>
+	<false/>
 	<key>EnableProxyIcon</key>
 	<false/>
 	<key>EnableRendezvous</key>
@@ -533,7 +535,7 @@
 	<key>IRMemory</key>
 	<integer>4</integer>
 	<key>JobName</key>
-	<true/>
+	<false/>
 	<key>LeftCommand</key>
 	<integer>7</integer>
 	<key>LeftOption</key>
@@ -574,7 +576,7 @@
 	gAKACoAN0xAJChEVGVdOUy5rZXlzoxITFIADgASABaMWFxiABoAHgAiACVpJZGVudGlm
 	aWVyVVdpZHRoVkhpZGRlblEwI0BowAAAAAAACNIhIiMkWiRjbGFzc25hbWVYJGNsYXNz
 	ZXNcTlNEaWN0aW9uYXJ5oiMlWE5TT2JqZWN00xAJCicrGaMSExSAA4AEgAWjLC0YgAuA
-	DIAIgAlRMSNAdKGdsi0OVtIhIjM0Xk5TTXV0YWJsZUFycmF5ozM1JVdOU0FycmF5XxAP
+	DIAIgAlRMSNAc7Gdsi0OVtIhIjM0Xk5TTXV0YWJsZUFycmF5ozM1JVdOU0FycmF5XxAP
 	TlNLZXllZEFyY2hpdmVy0Tg5VUFycmF5gAEACAARABoAIwAtADIANwBGAEwAUQBcAGMA
 	ZgBoAGoAbABzAHsAfwCBAIMAhQCJAIsAjQCPAJEAnACiAKkAqwC0ALUAugDFAM4A2wDe
 	AOcA7gDyAPQA9gD4APwA/gEAAQIBBAEGAQ8BFAEjAScBLwFBAUQBSgAAAAAAAAIBAAAA
@@ -602,11 +604,11 @@
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>410 383 620 392 0 0 1440 878 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>343 321 918 485 0 0 1440 878 </string>
+	<string>453 306 796 486 0 0 1440 878 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>439 213 810 571 0 0 1440 878 </string>
+	<string>0 75 1440 803 0 0 1440 878 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
-	<string>640 423 640 355 0 0 1280 778 </string>
+	<string>630 307 810 571 0 0 1440 878 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
 	<string>640 69 640 709 0 0 1280 778 </string>
 	<key>NSWindow Frame iTerm Window 3</key>
@@ -2446,7 +2448,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2018-08-27T05:27:54Z</date>
+	<date>2018-09-16T12:20:28Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>SavePasteHistory</key>
@@ -2454,7 +2456,7 @@
 	<key>Secure Input</key>
 	<true/>
 	<key>ShowBookmarkName</key>
-	<false/>
+	<true/>
 	<key>ShowPaneTitles</key>
 	<false/>
 	<key>SmartPlacement</key>
@@ -2468,6 +2470,8 @@
 	<key>SwitchWindowModifier</key>
 	<integer>6</integer>
 	<key>TabStyle</key>
+	<integer>0</integer>
+	<key>TabStyleWithAutomaticOption</key>
 	<integer>0</integer>
 	<key>TabViewType</key>
 	<integer>0</integer>
@@ -2490,7 +2494,7 @@
 	<key>WebKitStandardFont</key>
 	<string>.AppleSystemUIFont</string>
 	<key>WindowNumber</key>
-	<true/>
+	<false/>
 	<key>WindowStyle</key>
 	<integer>0</integer>
 	<key>WordCharacters</key>
@@ -2500,7 +2504,7 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>3.2.1beta2</string>
+	<string>3.2.1beta3</string>
 	<key>kCPKSelectionViewPreferredModeKey</key>
 	<integer>7</integer>
 	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>
