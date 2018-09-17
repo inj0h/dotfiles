@@ -62,7 +62,7 @@ set colorcolumn=80
 set confirm
 set cursorline
 set expandtab
-set foldcolumn=0
+set foldcolumn=1
 set formatoptions+=t
 set guicursor=n:blinkon1
 set hidden
@@ -72,7 +72,6 @@ set list
 set listchars=tab:>\ ,nbsp:_,trail:.
 set mouse=a
 set nofoldenable
-set number
 set ruler
 set shell=zsh
 set shiftwidth=4
@@ -160,10 +159,15 @@ function ToggleLazy()
 endfunc
 
 function ToggleLines()
-    if(&relativenumber == 1)
-        set norelativenumber
-    else
+    if(&number == 0 && &relativenumber == 0)
+        set number
+        set foldcolumn=0
+    elseif(&number == 1 && &relativenumber == 0)
         set relativenumber
+    else
+        set norelativenumber
+        set nonumber
+        set foldcolumn=1
     endif
 endfunc
 
