@@ -78,11 +78,7 @@
 (use-package linum-relative
   :ensure t
   :config
-  (global-linum-mode t)
-  (linum-relative-mode t)
-  (setq linum-relative-current-symbol "")
-  ;; Space out gutter.
-  (setq linum-relative-format " %3s "))
+  (setq linum-relative-current-symbol ""))
 
 (use-package monokai-theme
   :ensure t

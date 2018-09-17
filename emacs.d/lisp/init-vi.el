@@ -12,6 +12,21 @@
     (define-key evil-motion-state-map (kbd "s-e") 'eval-last-sexp)
     (define-key evil-insert-state-map (kbd "C-y") 'yas-insert-snippet)))
 
+(defun my-toggle-linenumbers ()
+  "Toggle between regular/relative/no line numbers. Assume Emacs defaults to no
+   line numbers."
+  (interactive)
+  (cond ((and (not (bound-and-true-p linum-mode))
+              (not (bound-and-true-p linum-relative-mode)))
+         (linum-mode))
+        ((and (bound-and-true-p linum-mode)
+              (not (bound-and-true-p linum-relative-mode)))
+         (linum-relative-mode))
+        ((and (bound-and-true-p linum-mode)
+              (bound-and-true-p linum-relative-mode))
+         (setq linum-relative-mode nil)
+         (linum-relative-off))))
+
 (defun my-evil-leader-settings ()
   "Configure evil leader."
   (evil-leader/set-leader "<SPC>")
