@@ -29,12 +29,7 @@
 (use-package flycheck
   :ensure t
   :config
-
-  (use-package flycheck-swift3
-    :ensure t
-    :config
-    (with-eval-after-load 'flycheck
-      (add-hook 'flycheck-mode-hook #'flycheck-swift3-setup))))
+  )
 
 ;; Emacs Lisp
 (add-hook 'emacs-lisp-mode-hook 'flyspell-prog-mode)
@@ -56,13 +51,6 @@
   :config
   (setq markdown-command "/usr/local/bin/pandoc")
   (add-hook 'markdown-mode-hook 'flycheck-mode))
-
-;; Swift
-(use-package swift-mode
-  :ensure t
-  :config
-  (add-hook 'swift-mode-hook 'flycheck-mode)
-  (add-hook 'swift-mode-hook 'yas-enable-and-reload))
 
 ;; Snippets
 (use-package yasnippet
