@@ -24,10 +24,6 @@
   (define-key helm-map (kbd "C-k") 'helm-find-files-up-one-level)
   (define-key helm-map (kbd "C-o") 'helm-select-action))
 
-;; Completion, etc.
-(global-company-mode t)
-(setq company-idle-delay 0)
-
 (use-package helm
   :ensure t
   :diminish helm-mode
@@ -40,5 +36,11 @@
     :ensure t
     :config
     ))
+
+(use-package company
+  :ensure t
+  :init (global-company-mode)
+  :config
+  (setq company-idle-delay 0))
 
 (provide 'init-fuzzy)
