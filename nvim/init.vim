@@ -213,7 +213,7 @@ nnoremap <leader>[ <c-t>|                   " return from def ctag
 nnoremap <leader>] <c-]>|                   " goto function def ctag
 
 nnoremap <leader>y 0v$hy<cr>|               " yank a line without \n
-nnoremap <leader>f :Lines <cr>|             " fzf search thru open buffers
+nnoremap <leader>r :Rg <cr>|                " fzf + rg search in all buffers
 nnoremap <leader>l `.zz|                    " jump to last edit and center
 nnoremap <leader>L :call ToggleLines()<cr>|
 nnoremap <leader>/ :noh<cr>|                " undo find highlighting
