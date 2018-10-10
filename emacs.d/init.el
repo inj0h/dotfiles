@@ -4,14 +4,14 @@
 ;; Comments: Elisp configuration file
 ;;
 
-;; Package management
+;; Manage Lisp files and packages
 (package-initialize)
 
 (require 'package)
 (setq package-enable-at-startup nil)
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
-;; Add all directories within "lisp"
+;; Add all Lisp files
 (let ((files (directory-files-and-attributes "~/.emacs.d/lisp" t)))
   (dolist (file files)
     (let ((filename (car file))
@@ -21,18 +21,15 @@
         (add-to-list 'load-path (car file))))))
 
 (add-to-list 'exec-path "/usr/local/bin")
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 
-;; Package repositories
-(add-to-list
- 'package-archives '("elpy" . "https://jorgenschaefer.github.io/packages/"))
-(add-to-list
- 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
-(add-to-list
- 'package-archives '("melpa-stable" ."http://stable.melpa.org/packages/"))
-(add-to-list
- 'package-archives '("org" . "http://orgmode.org/elpa/"))
+;; Warning!
+;; At the time of writing this comment, use-package and its dependencies,
+;; bind-key and diminish, might break when downloading from Melpa.
+;;
+;; If that problem comes up, just use Melpa stable to install them.
+;;
 
-;; Use use-package
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
