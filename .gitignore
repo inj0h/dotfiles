@@ -8,32 +8,33 @@
 #
 
 # macOS
-.DS_Store
+**.DS_Store
 
 #
 # Editor
 #
 
 # Emacs
-emacs.d/*
-!emacs.d/init.el
-!emacs.d/lisp/
-!emacs.d/snippets/
-*.dat
-*.data
+**.\#*
+**.dat
+**.data
+**/emacs.d/*
+!/emacs.d/init.el
+!/emacs.d/lisp/
+!/emacs.d/snippets/
 
-# (Neo)vim
-nvim/*
-!nvim/init.vim
-!nvim/spell/en.utf-8.add
-*.netrwhist
-*.swo
-*.swp
+# Neo/Vim
+**.netrwhist
+**.swo
+**.swp
+**/nvim/*
+!/nvim/init.vim
+!/nvim/spell/en.utf-8.add
 
 #
 # Etc
 #
 
 # Tags
-tags
-TAGS
+**tags
+**TAGS
