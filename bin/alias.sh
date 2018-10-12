@@ -97,6 +97,8 @@ alias vf='nvim $(fuss)'
 # Etc
 #
 alias ff='fzf'
+alias fid='gfind . -type d -iname'
+alias fif='gfind . -type f -iname'
 alias nfet='neofetch'
 alias tx='tmux'
 alias txa='tmux attach -t'
