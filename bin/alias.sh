@@ -8,7 +8,6 @@
 #
 # Coreutils
 #
-
 if [[ `uname -s` == 'Darwin' ]]; then
     alias alg='alias | grep '
     alias cat='gcat'
@@ -51,7 +50,6 @@ fi
 #
 # Git
 #
-
 alias g='git'
 alias ga='git add'
 alias gb='git branch'
@@ -83,28 +81,25 @@ fi
 #
 # Emacs
 #
-
 if [[ `uname -s` == 'Darwin' ]]; then
     alias em='open -a Emacs'
     alias emacs='open -a Emacs'
 fi
 
 #
-# (Neo)vim
+# Neo/Vim
 #
-
-alias vf='nvim $(fuss)'
-alias vi='nvim'
 alias v='nvim'
+alias vi='nvim'
+alias vf='nvim $(fuss)'
 
 #
 # Etc
 #
-
 alias ff='fzf'
 alias nfet='neofetch'
+alias tx='tmux'
 alias txa='tmux attach -t'
 alias txls='tmux ls'
 alias txn='tmux new -s'
-alias tx='tmux'
 alias u='cd ..'
