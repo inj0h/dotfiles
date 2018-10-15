@@ -53,7 +53,7 @@
                     :foreground my-color-black-charcoal)
 
 (setq column-number-mode t)
-(add-to-list 'default-frame-alist '(cursor-color . "ffffff"))
+(add-to-list 'default-frame-alist '(cursor-color . "#ff2f92"))
 (global-hl-line-mode t)
 (set-face-background hl-line-face my-color-gray-gengar)
 (set-frame-font "Inconsolata-16" nil t)
@@ -64,6 +64,8 @@
 (setq-default indent-tabs-mode nil)
 (setq c-basic-offset 4)
 (setq tab-stop-list (number-sequence 8 120 8))
+(setq tab-width 4)
+(setq backward-delete-char-untabify-method 'hungry)
 
 ;; Cleanup trailing whitespace, et al after write
 (add-hook 'after-save-hook 'whitespace-cleanup)

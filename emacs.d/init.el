@@ -21,7 +21,7 @@
         (add-to-list 'load-path (car file))))))
 
 (add-to-list 'exec-path "/usr/local/bin")
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 
 ;; Warning!
 ;; At the time of writing this comment, use-package and its dependencies,
