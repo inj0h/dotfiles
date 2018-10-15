@@ -8,39 +8,6 @@
 #
 # specific *nix
 #
-
-if [[ `uname` == 'Darwin' ]]; then
-    catc() {
-        # copy to clipboard
-        cat $1 | pbcopy
-    }
-
-elif [[ `uname -s` == 'Linux' ]]; then
-    catc() {
-        # copy to clipboard
-        cat $1 | xclip -selection clipboard
-    }
-
-fi
-
-#
-# shared *nix
-#
-
-catl() {
-    # cat then pipe to less
-    cat $1 | less -r
-}
-
-pless() {
-    # pipe to less
-    $1 | less
-}
-
-#
-# git
-#
-
 gbv() {
     # view git branches in (neo)vim
     git branch | nvim -RM -
@@ -54,11 +21,6 @@ gitshove() {
 glv() {
     # view git log in (neo)vim
     git log | nvim -RM -
-}
-
-mustache() {
-    # when we must stash
-    git stash save $1
 }
 
 #
