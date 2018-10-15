@@ -1,27 +1,25 @@
 #!/bin/bash
 #
-# filename:         lib.sh
-# description:
+# Filename:         lib.sh
+# Description:
 #                   Don't reinvent the wheel. Put commonly used stuff here.
 #
 
 #
-# variables
+# Variables
 #
-
-# paths
+# Paths
 DOTFILES="$HOME/dotfiles"
 BIN="$DOTFILES/bin"
 
-# colors
+# Colors
 CLEAR='\033[0m'
 GREEN='\033[1;32m'
 RED='\033[1;31m'
 
 #
-# functions
+# Functions
 #
-
 greenp() {
     echo -e ${GREEN}$1${CLEAR}
     sleep 0.5

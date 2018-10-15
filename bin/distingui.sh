@@ -1,13 +1,13 @@
 #!/bin/bash
 #
-# filename:         distingui.sh
-# description:
-#                   Useful functions for "distinguish"ing I/O devices on Linux.
+# Filename:         distingui.sh
+# Description:
+#                   Useful functions for "distinguish"ing IO devices on Linux.
 #
 
 if [[ `uname` == 'Linux' ]]; then
     touchpad() {
-        # toggle your touchpad
+        # Toggle your touchpad
         TOUCHPAD=`xinput list | grep TouchPad | cut -f 2 | cut -c 4-`
 
         if [ $1 == "on" ]; then

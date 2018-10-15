@@ -1,34 +1,33 @@
 #!/bin/bash
 #
-# filename:         poli.sh
-# description:
+# Filename:         poli.sh
+# Description:
 #                   Useful functions for a "polish"ed CLI experience.
 #
 
 #
-# specific *nix
+# Git
 #
 gbv() {
-    # view git branches in (neo)vim
+    # View git branches in NeoVim.
     git branch | nvim -RM -
 }
 
 gitshove() {
-    # when push comes to shove
+    # Push when it comes to shove.
     git add -A . && git commit -m "Autoupdate."
 }
 
 glv() {
-    # view git log in (neo)vim
+    # View git log in NeoVim.
     git log | nvim -RM -
 }
 
 #
-# etc
+# Etc
 #
-
 fuss() {
-    # Now filtered. Find responsibly.
+    # Only seems to work on Linux for some reason.
     FUSS=""
 
     for arg in $@; do
@@ -49,7 +48,7 @@ fuss() {
 # sdcv
 if type sdcv >/dev/null 2>&1; then
     dic() {
-        # lookup definition and pipe to less
+        # Lookup definition and pipe to less.
         sdcv -n --color $1 | less -r
     }
 fi

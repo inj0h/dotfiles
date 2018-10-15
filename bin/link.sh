@@ -1,7 +1,7 @@
 #!/bin/bash
 #
-# filename:         link.sh
-# description:
+# Filename:         link.sh
+# Description:
 #                   Link *nix configuration files.
 #
 
@@ -16,16 +16,14 @@ else
 fi
 
 #
-# variables
+# Variables
 #
-
 LNFLAGS=''
 
 #
-# functions
+# Functions
 #
-
-# Excuse the pathetic faux type inferences.
+# Excuse the pathetic faux types.
 # $flag -> $regex -> $path -> [char] -> null
 link() {
     for file in $DOTFILES/$2; do
@@ -38,19 +36,18 @@ link() {
 }
 
 #
-# script
+# Script
 #
-
 redp "Screening directory..."
 
-# check for cloned repo
+# Check for cloned repo
 if [ ! -d $HOME/dotfiles ]; then
     redp "Error: dotfiles not found.\nAborting..."
 
     exit 1
 fi
 
-# check for ~/bin
+# Check for ~/bin
 if [ ! -d $HOME/bin ]; then
     redp "Error: ~/bin not found.\nCreating..."
 
@@ -61,17 +58,15 @@ fi
 
 greenp "Done."
 
-# specific nix
+# Specific Nix
 redp "`uname -s` kernel detected.\nLinking files specific to system..."
 
 if [[ `uname -s` == 'Darwin' ]]; then
-    # darwin
     LNFLAGS="-shfv"
 
     link $LNFLAGS "iterm*" $HOME
 
 elif [[ `uname -s` == 'Linux' ]]; then
-    # linux
     LNFLAGS="-sTfv"
 
     link $LNFLAGS "X*" $HOME dot
@@ -80,7 +75,7 @@ fi
 
 greenp "Done."
 
-# shared nix
+# Shared Nix
 redp "Linking shared *nix files..."
 
 link $LNFLAGS "bin/*" $HOME/bin
