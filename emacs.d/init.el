@@ -10,16 +10,6 @@
 (require 'package)
 (setq package-enable-at-startup nil)
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
-
-;; Add all Lisp files
-(let ((files (directory-files-and-attributes "~/.emacs.d/lisp" t)))
-  (dolist (file files)
-    (let ((filename (car file))
-          (dir (nth 1 file)))
-      (when (and dir
-                 (not (string-suffix-p "." filename)))
-        (add-to-list 'load-path (car file))))))
-
 (add-to-list 'exec-path "/usr/local/bin")
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 

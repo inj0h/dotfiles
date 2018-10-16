@@ -39,7 +39,7 @@
 (use-package flycheck
   :ensure t
   :config
-  )
+  (add-hook 'text-mode-hook 'flyspell-mode))
 
 ;; Haskell
 (use-package haskell-mode
