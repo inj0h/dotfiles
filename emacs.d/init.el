@@ -34,6 +34,6 @@
 
 ;; Source separate configuration modules
 (require 'init-ui)
-(require 'init-fuzzy)
-(require 'init-lang)
 (require 'init-vi)
+(require 'init-search-and-completion)
+(require 'init-lang)

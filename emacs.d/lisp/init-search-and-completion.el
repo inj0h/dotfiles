@@ -1,4 +1,4 @@
-;; Filename: init-fuzzy.el
+;; Filename: init-search-and-completion.el
 ;; Maintainer: erikorojo
 ;; License: n/a
 ;; Comments: Elisp (mostly) helm configuration module
@@ -20,9 +20,20 @@
 (defun my-helm-keybindings ()
   "Helm keybindings, etc."
   (define-key helm-map [tab] 'helm-execute-persistent-action)
-  (define-key helm-map (kbd "C-j") 'helm-find-files-down-last-level)
-  (define-key helm-map (kbd "C-k") 'helm-find-files-up-one-level)
   (define-key helm-map (kbd "C-o") 'helm-select-action))
+
+(use-package company
+  :ensure t
+  :init (global-company-mode)
+  :config
+  (setq company-idle-delay 0))
+
+(use-package projectile
+  :ensure t
+  :init
+  (setq projectile-completion-system 'helm)
+  :config
+  )
 
 (use-package helm
   :ensure t
@@ -32,15 +43,10 @@
   (my-helm-settings)
   (my-helm-keybindings)
 
-  (use-package helm-ag
+  (use-package helm-rg
     :ensure t
+    :diminish
     :config
-    ))
+      ))
 
-(use-package company
-  :ensure t
-  :init (global-company-mode)
-  :config
-  (setq company-idle-delay 0))
-
-(provide 'init-fuzzy)
+(provide 'init-search-and-completion)
