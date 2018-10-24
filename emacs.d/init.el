@@ -262,7 +262,7 @@
   :init
   (setq projectile-completion-system 'helm)
   :config
-  )
+  (projectile-mode +1))
 
 (use-package helm
   :ensure t
@@ -272,11 +272,10 @@
   (my-helm-settings)
   (my-helm-keybindings)
 
-  (use-package helm-rg
+  (use-package helm-projectile
     :ensure t
-    :diminish
     :config
-      ))
+    ))
 
 ;;
 ;; End Search and Completion configuration
