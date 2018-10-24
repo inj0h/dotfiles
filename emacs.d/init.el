@@ -172,23 +172,28 @@
          (linum-relative-off))))
 
 (defun my-evil-leader-settings ()
-  "Configure evil leader."
+  "Configure evil leader-based keybindings."
   (evil-leader/set-leader "<SPC>")
   (evil-leader/set-key
     "`" 'delete-other-windows
     "2" (kbd "@@")
-    "w" 'helm-buffers-list
-    "i" (lambda (n) (interactive "p")
-          (evil-open-above n) (evil-force-normal-state))
-    "o" 'helm-find-files
-    "s" 'other-window
-    "S" 'split-window-below
+    "pa" 'projectile-add-known-project
+    "ps" 'projectile-switch-project
     "f" 'helm-do-ag-buffers
-    "k" 'comment-dwim
-    "K" 'kill-this-buffer
+    "/" 'whitespace-mode
     "l" 'goto-last-change
     "L" 'my-toggle-linenumbers
-    "c" 'whitespace-mode))
+    "o" 'helm-find-files
+    "ho" 'helm-projectile-find-file
+    "hO" 'helm-projectile-find-other-file
+    "hr" 'helm-recentf
+    "hw" 'helm-projectile-switch-to-buffer
+    "s" 'other-window
+    "S" 'split-window-below
+    "ms" 'magit-status
+    "mbp" 'magit-blame-popup
+    "mbq" 'magit-blame-quit
+    "w" 'helm-buffers-list))
 
 (use-package evil
   :ensure t
