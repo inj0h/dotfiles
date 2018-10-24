@@ -104,9 +104,16 @@
 
 (defun my-fci-settings ()
   "Use fci for these modes."
+  (add-hook 'css-mode-hook 'fci-mode)
   (add-hook 'emacs-lisp-mode-hook 'fci-mode)
+  (add-hook 'haskell-mode-hook 'fci-mode)
+  (add-hook 'html-mode-hook 'fci-mode)
+  (add-hook 'javascript-mode-hook 'fci-mode)
+  (add-hook 'python-mode-hook 'fci-mode)
+  (add-hook 'scss-mode-hook 'fci-mode)
   (add-hook 'sh-mode-hook 'fci-mode)
-  (add-hook 'text-mode-hook 'fci-mode))
+  (add-hook 'text-mode-hook 'fci-mode)
+  (add-hook 'web-mode-hook 'fci-mode))
 
 ;; Smooth scrolling.
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))
@@ -239,7 +246,7 @@
   (setq helm-completion-in-region-fuzzy-match t)
   (setq helm-idle-delay 0.0)
   (setq helm-input-idle-delay 0.01)
-  (setq helm-autoresize-max-height 40)
+  (setq helm-autoresize-max-height 60)
   (helm-autoresize-mode 1)
 
   ;;(defadvice helm-display-mode-line (after undisplay-header activate)
