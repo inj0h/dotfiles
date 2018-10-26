@@ -225,19 +225,16 @@ nnoremap <leader>7 :call ToggleLazy()<cr>|
 nnoremap <leader>[ <c-t>|                   " return from def ctag
 nnoremap <leader>] <c-]>|                   " goto function def ctag
 
-nnoremap <leader>y 0v$hy<cr>|               " yank a line without \n
 nnoremap <leader>c :call ToggleClip()<cr>
 nnoremap <leader>r :Rg <cr>|                " fzf + rg search in all buffers
 nnoremap <leader>l `.zz|                    " jump to last edit and center
 nnoremap <leader>L :call ToggleLines()<cr>
-nnoremap <leader>/ :noh<cr>|                " undo find highlighting
 
-nnoremap <leader>o :Files <cr>|             " fzf search/open child file(s)
-nnoremap <leader>O :Files |                 " fzf search/open w/ given path
-nnoremap <leader>i 0i<cr><esc>k|            " insert line
+nnoremap <leader>ol :b# <cr>|               " switch to last buffer
+nnoremap <leader>oo :Files <cr>|            " fzf search/open child file(s)
+nnoremap <leader>ow :Buffers <cr>|          " fzf search/open buffer(s)
+nnoremap <leader>hn :noh<cr>|               " undo find highlighting
 nnoremap <leader>s <c-w><c-w>|              " faster window jumping
-
-nnoremap <leader>w :Buffers <cr>|           " fzf list buffer(s)
 
 "
 " aesthetic
