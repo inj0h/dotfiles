@@ -1,20 +1,22 @@
-*.lib
-*.netrwhist
-*.swo
-*.swp
+**.lib
+**.netrwhist
+**.swo
+**.swp
 
-*.tag
-GTAGS
-TAGS
+**.tag
+**GTAGS
+**TAGS
 
-build
-target
+**/build/**
+**/target/**
 
-.git
+**/.git/**
 
-nvim/*
+**/nvim/**
 !nvim/init.vim
 !nvim/plugs
 !nvim/spell/en.utf-8.add
 
-node_modules
+**/node_modules/**
+
+**/.stack-work/**
