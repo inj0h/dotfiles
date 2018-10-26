@@ -57,7 +57,6 @@ endif
 
 set autoread
 set background=dark
-set clipboard=unnamedplus
 set colorcolumn=80
 set confirm
 set cursorline
@@ -86,6 +85,12 @@ set textwidth=0
 set undolevels=500
 set visualbell
 set wildmode=list:longest,list
+
+if (system("uname -s") =~ "Darwin")
+    set clipboard=
+else
+    set clipboard=unnamedplus
+endif
 
 "
 " automatic commands
@@ -147,6 +152,14 @@ au FileType vim setlocal textwidth=80 formatoptions+=t
 "
 " functions
 "
+
+function ToggleClip()
+    if(&clipboard == '')
+        set clipboard=unnamed
+    else
+        set clipboard=
+    endif
+endfunc
 
 function ToggleLazy()
     if(&lazyredraw == 0)
@@ -213,9 +226,10 @@ nnoremap <leader>[ <c-t>|                   " return from def ctag
 nnoremap <leader>] <c-]>|                   " goto function def ctag
 
 nnoremap <leader>y 0v$hy<cr>|               " yank a line without \n
+nnoremap <leader>c :call ToggleClip()<cr>
 nnoremap <leader>r :Rg <cr>|                " fzf + rg search in all buffers
 nnoremap <leader>l `.zz|                    " jump to last edit and center
-nnoremap <leader>L :call ToggleLines()<cr>|
+nnoremap <leader>L :call ToggleLines()<cr>
 nnoremap <leader>/ :noh<cr>|                " undo find highlighting
 
 nnoremap <leader>o :Files <cr>|             " fzf search/open child file(s)
