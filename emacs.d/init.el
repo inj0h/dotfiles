@@ -195,11 +195,12 @@
     "/" 'whitespace-mode
     "l" 'goto-last-change
     "L" 'my-toggle-linenumbers
-    "o" 'helm-find-files
-    "ho" 'helm-projectile-find-file
-    "hO" 'helm-projectile-find-other-file
-    "hr" 'helm-recentf
-    "hw" 'helm-projectile-switch-to-buffer
+    "ohh" 'helm-projectile-find-file
+    "oho" 'helm-projectile-find-other-file
+    "ohw" 'helm-projectile-switch-to-buffer
+    "oo" 'helm-find-files
+    "or" 'helm-recentf
+    "ow" 'helm-buffers-list
     "s" 'other-window
     "S" 'split-window-below
     "ka" 'which-key-show-keymap
@@ -208,8 +209,7 @@
     "kq" 'which-key-abort
     "ms" 'magit-status
     "mbp" 'magit-blame-popup
-    "mbq" 'magit-blame-quit
-    "w" 'helm-buffers-list))
+    "mbq" 'magit-blame-quit))
 
 (use-package evil
   :ensure t
