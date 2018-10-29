@@ -131,6 +131,11 @@
 (global-set-key (kbd "s--") 'text-scale-decrease)
 (global-set-key (kbd "s-0") 'text-scale-adjust)
 
+(use-package which-key
+  :ensure t
+  :config
+  (setq which-key-mode t))
+
 (use-package linum-relative
   :ensure t
   :config
@@ -197,6 +202,10 @@
     "hw" 'helm-projectile-switch-to-buffer
     "s" 'other-window
     "S" 'split-window-below
+    "ka" 'which-key-show-keymap
+    "kma" 'which-key-show-major-mode
+    "kmi" 'which-key-show-minor-mode-keymap
+    "kq" 'which-key-abort
     "ms" 'magit-status
     "mbp" 'magit-blame-popup
     "mbq" 'magit-blame-quit
