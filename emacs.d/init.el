@@ -108,7 +108,7 @@
   (add-hook 'emacs-lisp-mode-hook 'fci-mode)
   (add-hook 'haskell-mode-hook 'fci-mode)
   (add-hook 'html-mode-hook 'fci-mode)
-  (add-hook 'javascript-mode-hook 'fci-mode)
+  (add-hook 'js-mode-hook 'fci-mode)
   (add-hook 'python-mode-hook 'fci-mode)
   (add-hook 'scss-mode-hook 'fci-mode)
   (add-hook 'sh-mode-hook 'fci-mode)
