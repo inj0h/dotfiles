@@ -84,6 +84,5 @@ link $LNFLAGS "tmux*" $HOME dot
 link $LNFLAGS "emacs.d" $HOME dot
 link $LNFLAGS "nvim" $HOME/.config
 link $LNFLAGS "rgignore" $HOME/.config dot
-link $LNFLAGS "neofet*" $HOME/.config
 
 greenp "Done.\nAll dotfiles linked. Have a nice day."
