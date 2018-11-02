@@ -19,6 +19,10 @@
 ;; If that problem comes up, just use Melpa stable to install them.
 ;;
 
+;; Load local-only settings file if it exists on disk, and don't throw a warning
+;; if it doesn't.
+(load "~/dotfiles/emacs.d/local-settings" 1)
+
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
