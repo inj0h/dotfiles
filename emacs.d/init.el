@@ -87,6 +87,7 @@
                     :foreground my-color-black-charcoal)
 
 (setq column-number-mode t)
+(setq-default fill-column 80)
 (add-to-list 'default-frame-alist '(cursor-color . "#ff2f92"))
 (global-hl-line-mode t)
 (set-face-background hl-line-face my-color-gray-gengar)
@@ -327,6 +328,10 @@
 (add-hook 'emacs-lisp-mode-hook 'flyspell-prog-mode)
 (add-hook 'emacs-lisp-mode-hook '(lambda() (set-fill-column 80)))
 (add-hook 'emacs-lisp-mode-hook 'turn-on-auto-fill)
+
+;; Text
+(add-hook 'text-mode-hook '(lambda() (set-fill-column 80)))
+(add-hook 'text-mode-hook 'turn-on-auto-fill)
 
 ;; Colored delims
 (use-package rainbow-delimiters
