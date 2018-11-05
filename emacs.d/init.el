@@ -314,7 +314,7 @@
   (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
   (add-hook 'haskell-mode-hook #'rainbow-delimiters-mode)
   (add-hook 'html-mode-hook #'rainbow-delimiters-mode)
-  (add-hook 'javascript-mode-hook #'rainbow-delimiters-mode)
+  (add-hook 'js-mode-hook #'rainbow-delimiters-mode)
   (add-hook 'scss-mode-hook #'rainbow-delimiters-mode)
   (add-hook 'web-mode-hook #'rainbow-delimiters-mode))
 
