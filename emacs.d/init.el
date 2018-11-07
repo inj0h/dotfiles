@@ -18,6 +18,8 @@
 ;;
 ;; If that problem comes up, just use Melpa stable to install them.
 ;;
+;; (add-to-list 'package-archives
+;;              '("melpa stable" . "https://stable.melpa.org/packages/") t)
 
 ;; Load local-only settings file if it exists on disk, and don't throw a warning
 ;; if it doesn't.
