@@ -222,9 +222,7 @@
   :ensure t
   :config
   (evil-mode 1)
-  (setq evil-in-single-undo t)
-  (setq evil-undo-list-pointer t)
-  (setq evil-want-fine-undo t)
+  (setq evil-want-fine-undo "No")
   (my-evil-settings)
 
   (use-package evil-escape
