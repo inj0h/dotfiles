@@ -9,7 +9,6 @@ gist
 git
 grep
 htop
-neovim
 nginx
 node
 openssl
@@ -20,7 +19,6 @@ reattach-to-user-namespace
 ripgrep
 tmux
 tree
-vim
 wget
 youtube-dl
 zsh

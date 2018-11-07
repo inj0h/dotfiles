@@ -53,7 +53,6 @@ fi
 alias g='git'
 alias ga='git add'
 alias gb='git branch'
-alias gbv='git branch | nvim -MR -'
 alias gc='git commit'
 alias gch='git checkout'
 alias gchp='git checkout -p'
@@ -61,11 +60,9 @@ alias gcm='git commit -m'
 alias gd='git diff'
 alias gdc='git diff --cached'
 alias gdn='git diff --name-only'
-alias gdv='git diff | nvim -MR -'
 alias gl='git log'
 alias gla='git log --author='
 alias glf='git log --follow --'
-alias glv='git log | nvim -MR -'
 alias groot='cd $(git rev-parse --show-toplevel)'
 alias gs='git status'
 alias gsh='git show'
@@ -85,13 +82,6 @@ if [[ `uname -s` == 'Darwin' ]]; then
     alias em='open -a Emacs'
     alias emacs='open -a Emacs'
 fi
-
-#
-# Neo/Vim
-#
-alias v='nvim'
-alias vi='nvim'
-alias vf='nvim $(fuss)'
 
 #
 # Etc

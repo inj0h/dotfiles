@@ -6,24 +6,6 @@
 #
 
 #
-# Git
-#
-gbv() {
-    # View git branches in NeoVim.
-    git branch | nvim -RM -
-}
-
-gitshove() {
-    # Push when it comes to shove.
-    git add -A . && git commit -m "Autoupdate."
-}
-
-glv() {
-    # View git log in NeoVim.
-    git log | nvim -RM -
-}
-
-#
 # Etc
 #
 fuss() {
