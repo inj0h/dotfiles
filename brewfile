@@ -1,5 +1,4 @@
 aspell
-calcurse
 coreutils
 ctags
 ffmpeg
@@ -10,7 +9,6 @@ git
 grep
 htop
 nginx
-node
 openssl
 pandoc
 python

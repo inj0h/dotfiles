@@ -1,6 +1,7 @@
 audacity
 caffeine
 compton
+emacs
 ffmpeg
 gist
 git
@@ -13,6 +14,4 @@ sdcv
 suckless-tools
 texlive
 tmux
-xmobar
-xmonad
 youtube-dl
