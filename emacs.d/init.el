@@ -376,3 +376,9 @@
 ;;
 ;; End Language configuration
 ;;
+
+;; Load local-only settings file after reading the main init file, i.e. useful
+;; when you need to override variables, etc.
+;;
+;; Don't throw a warning if it doesn't exist on disk.
+(load "~/dotfiles/emacs.d/local-settings-post-init" 1)
