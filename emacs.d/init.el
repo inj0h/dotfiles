@@ -222,7 +222,6 @@
   :ensure t
   :config
   (evil-mode 1)
-  (setq evil-want-fine-undo "No")
   (my-evil-settings)
 
   (use-package evil-escape
