@@ -247,7 +247,12 @@
   (use-package evil-commentary
     :ensure t
     :config
-    (evil-commentary-mode)))
+    (evil-commentary-mode))
+
+  (use-package evil-magit
+    :ensure t
+    :config
+    ))
 
 ;;
 ;; End Evil configuration
