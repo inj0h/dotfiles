@@ -64,8 +64,10 @@
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
-(setq ns-pop-up-frames nil)
-(setq show-paren-delay 0)
+(setq frame-title-format nil
+      ns-pop-up-frames nil
+      ns-use-proxy-icon nil
+      show-paren-delay 0)
 (show-paren-mode 1)
 (set-face-attribute 'default nil
                     :background my-color-gray-slate
