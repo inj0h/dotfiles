@@ -136,9 +136,13 @@
 (add-to-list 'default-frame-alist '(alpha . (100 . 95)))
 
 ;; Keybindings
+;; General
 (global-set-key (kbd "s-=") 'text-scale-increase)
 (global-set-key (kbd "s--") 'text-scale-decrease)
 (global-set-key (kbd "s-0") 'text-scale-adjust)
+
+;; Helm
+(global-set-key (kbd "M-x") 'helm-M-x)
 
 (use-package which-key
   :ensure t
@@ -282,7 +286,12 @@
   :ensure t
   :init (global-company-mode)
   :config
-  (setq company-idle-delay 0))
+  (setq company-idle-delay 0)
+  (with-eval-after-load 'company
+    (define-key company-active-map (kbd "M-n") nil)
+    (define-key company-active-map (kbd "M-p") nil)
+    (define-key company-active-map (kbd "C-n") #'company-select-next)
+    (define-key company-active-map (kbd "C-p") #'company-select-previous)))
 
 (use-package projectile
   :ensure t
