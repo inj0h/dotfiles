@@ -369,6 +369,8 @@
   (setq markdown-command "/usr/local/bin/pandoc")
   (add-hook 'markdown-mode-hook 'flycheck-mode))
 
+(use-package gitignore-mode :ensure t)
+
 (use-package web-mode
   :ensure t
   :config
