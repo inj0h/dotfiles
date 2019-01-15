@@ -318,7 +318,7 @@
       ((string-equal system-type "darwin")
        (setq ispell-program-name "/usr/local/bin/aspell")))
 
-(defun my-rainbow-delimeters-settings ()
+(defun my-rainbow-delimeters-hooks ()
   (add-hook 'css-mode-hook #'rainbow-delimiters-mode)
   (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
   (add-hook 'haskell-mode-hook #'rainbow-delimiters-mode)
@@ -345,7 +345,7 @@
 (use-package rainbow-delimiters
   :ensure t
   :config
-  (my-rainbow-delimeters-settings))
+  (my-rainbow-delimeters-hooks))
 
 ;; Flycheck linter
 (use-package flycheck
