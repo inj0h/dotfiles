@@ -12,15 +12,6 @@
 (add-to-list 'exec-path "/usr/local/bin")
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 
-;; Warning!
-;; At the time of writing this comment, use-package and its dependencies,
-;; bind-key and diminish, might break when downloading from Melpa.
-;;
-;; If that problem comes up, just use Melpa stable to install them.
-;;
-;; (add-to-list 'package-archives
-;;              '("melpa stable" . "https://stable.melpa.org/packages/") t)
-
 ;; Load local-only settings file if it exists on disk, and don't throw a warning
 ;; if it doesn't.
 (load "~/dotfiles/emacs.d/local-settings" 1)
@@ -30,8 +21,10 @@
   (package-install 'use-package))
 (eval-when-compile
   (require 'use-package))
-(require 'diminish)
-(require 'bind-key)
+
+;; Before getting the other things (at least for now).
+(use-package diminish :ensure t)
+(use-package bind-key :ensure t)
 
 ;; Dump all the custom-var-face s*** here.
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
