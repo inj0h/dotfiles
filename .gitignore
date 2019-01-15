@@ -19,6 +19,7 @@
 **.dat
 **.data
 **/emacs.d/*
+!/emacs.d/custom.el
 !/emacs.d/init.el
 !/emacs.d/snippets/
 
