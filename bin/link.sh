@@ -64,8 +64,6 @@ redp "`uname -s` kernel detected.\nLinking files specific to system..."
 if [[ `uname -s` == 'Darwin' ]]; then
     LNFLAGS="-shfv"
 
-    link $LNFLAGS "iterm*" $HOME
-
 elif [[ `uname -s` == 'Linux' ]]; then
     LNFLAGS="-sTfv"
 
