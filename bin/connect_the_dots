@@ -7,9 +7,9 @@
 
 set -e
 
-if [ -f $HOME/dotfiles/bin/lib.sh ]; then
+if [ -f $HOME/dotfiles/bin/lib ]; then
     echo "Dependencies found. Proceeding..."
-    source $HOME/dotfiles/bin/lib.sh
+    source $HOME/dotfiles/bin/lib
 else
     echo "Error: could not find dependent script(s)."
     exit 1

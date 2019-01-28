@@ -169,28 +169,28 @@ man() {
 # -------------
 
 # Source my aliases.
-if [ -f ~/bin/alias.sh ]; then
-    source ~/bin/alias.sh
+if [ -f ~/bin/alias ]; then
+    source ~/bin/alias
 fi
 
 # Source my paths.
-if [ -f ~/bin/path.sh ]; then
-    source ~/bin/path.sh
+if [ -f ~/bin/path ]; then
+    source ~/bin/path
 fi
 
 # Source my proxies.
-if [ -f ~/bin/proxy.sh ]; then
-    source ~/bin/proxy.sh
+if [ -f ~/bin/proxy ]; then
+    source ~/bin/proxy
 fi
 
 # Functions
-if [ -f ~/bin/zfunctions.sh ]; then
-    source ~/bin/zfunctions.sh
+if [ -f ~/bin/zfunctions ]; then
+    source ~/bin/zfunctions
 fi
 
 # What?
-if [ -f ~/bin/secret.sh ]; then
-    source ~/bin/secret.sh
+if [ -f ~/bin/secret ]; then
+    source ~/bin/secret
 fi
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
