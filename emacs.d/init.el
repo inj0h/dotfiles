@@ -142,11 +142,6 @@
   :config
   (setq which-key-mode t))
 
-(use-package linum-relative
-  :ensure t
-  :config
-  (setq linum-relative-current-symbol ""))
-
 (use-package monokai-theme
   :ensure t
   :config
@@ -174,21 +169,6 @@
     (define-key evil-motion-state-map (kbd "s-e") 'eval-last-sexp)
     (define-key evil-insert-state-map (kbd "C-y") 'yas-insert-snippet)))
 
-(defun my-toggle-linenumbers ()
-  "Toggle between regular/relative/no line numbers. Assume Emacs defaults to no
-   line numbers."
-  (interactive)
-  (cond ((and (not (bound-and-true-p linum-mode))
-              (not (bound-and-true-p linum-relative-mode)))
-         (linum-mode))
-        ((and (bound-and-true-p linum-mode)
-              (not (bound-and-true-p linum-relative-mode)))
-         (linum-relative-mode))
-        ((and (bound-and-true-p linum-mode)
-              (bound-and-true-p linum-relative-mode))
-         (setq linum-relative-mode nil)
-         (linum-relative-off))))
-
 (defun my-evil-leader-settings ()
   "Configure evil leader-based keybindings."
   (evil-leader/set-leader "<SPC>")
@@ -200,7 +180,7 @@
     "f" 'helm-do-ag-buffers
     "/" 'whitespace-mode
     "l" 'goto-last-change
-    "L" 'my-toggle-linenumbers
+    "L" 'linum-mode
     "ohh" 'helm-projectile-find-file
     "oho" 'helm-projectile-find-other-file
     "ohw" 'helm-projectile-switch-to-buffer
