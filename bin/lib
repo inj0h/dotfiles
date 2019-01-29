@@ -20,11 +20,26 @@ RED='\033[1;31m'
 #
 # Functions
 #
+# Excuse these pathetic fake types.
+#
+# String -> Maybe Directory
+dir_make() {
+    if [ ! -d $1 ]; then
+        echo "Creating $1..."
+        mkdir $1
+        greenp "Done."
+    else
+        redp "Directory $1 already exists!"
+    fi
+}
+
+# String -> String
 greenp() {
     echo -e ${GREEN}$1${CLEAR}
     sleep 0.5
 }
 
+# String -> String
 redp() {
     echo -e ${RED}$1${CLEAR}
     sleep 1
