@@ -87,8 +87,6 @@ fi
 # Etc
 #
 alias ff='fzf'
-alias fid='gfind . -type d -iname'
-alias fif='gfind . -type f -iname'
 alias tx='tmux'
 alias txa='tmux attach -t'
 alias txls='tmux ls'
