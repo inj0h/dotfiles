@@ -1,0 +1,41 @@
+#!/bin/bash
+#
+# Filename:    init
+# Description: Shambolic script for setting up new systems.
+#
+
+set -e
+
+#
+# Dependencies
+#
+if [ -f $HOME/dotfiles/bin/lib ]; then
+    echo "Dependencies found. Proceeding..."
+    source $HOME/dotfiles/bin/lib
+else
+    echo "Error: could not find dependent script(s)."
+    exit 1
+fi
+
+#
+# Variables
+#
+MYROOM="$HOME/room"
+DIRECTORIES=(dev doc etc img music video)
+
+#
+# Script
+#
+echo "Creating directories..."
+dir_make $MYROOM
+
+for directory in "${DIRECTORIES[@]}"; do
+    dir_make $MYROOM/$directory
+done
+
+if command -v tree 2>/dev/null; then
+    greenp "Printing tree..."
+    tree -aL 1 $MYROOM
+fi
+
+greenp "All directories created. Have a nice day."
