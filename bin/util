@@ -1,8 +1,7 @@
 #!/bin/bash
 #
-# Filename:         poli.sh
-# Description:
-#                   Useful functions for a "polish"ed CLI experience.
+# Filename:    util
+# Description: Useful? utility functions.
 #
 
 #

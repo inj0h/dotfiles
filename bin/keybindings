@@ -1,9 +1,7 @@
 #!/bin/bash
 #
-# Filename:         gtk_keys.sh
-# Description:
-#                   Enable gtk key theme (system keybindings).
-#                   Tested on gtk-3.0 on Ubuntu 16.04.
+# Filename:    keybindings
+# Description: Manage keybindings on Linux.
 #
 
 GTK_SETTINGS="$HOME/.config/gtk-3.0/settings.ini"

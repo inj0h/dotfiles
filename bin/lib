@@ -1,8 +1,7 @@
 #!/bin/bash
 #
-# Filename:         lib.sh
-# Description:
-#                   Don't reinvent the wheel. Put commonly used stuff here.
+# Filename:    lib
+# Description: Don't reinvent the wheel. Just put them here.
 #
 
 #

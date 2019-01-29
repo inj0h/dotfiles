@@ -1,8 +1,7 @@
 #!/bin/bash
 #
-# Filename:         distingui.sh
-# Description:
-#                   Useful functions for "distinguish"ing IO devices on Linux.
+# Filename:    hardware
+# Description: Manage IO devices on Linux.
 #
 
 if [[ `uname` == 'Linux' ]]; then
