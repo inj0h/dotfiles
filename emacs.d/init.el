@@ -166,7 +166,6 @@
     (define-key evil-motion-state-map (kbd ";") 'evil-ex)
     (define-key evil-motion-state-map (kbd ":") 'evil-repeat-find-char)
     (define-key evil-motion-state-map (kbd "C-e") 'evil-end-of-line)
-    (define-key evil-motion-state-map (kbd "s-e") 'eval-last-sexp)
     (define-key evil-insert-state-map (kbd "C-y") 'yas-insert-snippet)))
 
 (defun my-evil-leader-settings ()
@@ -316,6 +315,9 @@
 (add-hook 'emacs-lisp-mode-hook 'flyspell-prog-mode)
 (add-hook 'emacs-lisp-mode-hook '(lambda() (set-fill-column 80)))
 (add-hook 'emacs-lisp-mode-hook 'turn-on-auto-fill)
+(add-hook 'emacs-lisp-mode-hook
+          '(lambda ()
+             (local-set-key (kbd "s-e") 'eval-last-sexp)))
 
 ;; Text
 (add-hook 'text-mode-hook '(lambda() (set-fill-column 80)))
