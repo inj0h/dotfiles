@@ -140,7 +140,9 @@
 (use-package which-key
   :ensure t
   :config
-  (setq which-key-mode t))
+  (which-key-mode)
+  (setq which-key-idle-delay 0.1)
+  (setq which-key-sort-order 'which-key-key-order-alpha))
 
 (use-package monokai-theme
   :ensure t
@@ -189,9 +191,9 @@
     "s" 'other-window
     "S" 'split-window-below
     "ka" 'which-key-show-keymap
+    "kk" 'which-key-abort
     "kma" 'which-key-show-major-mode
     "kmi" 'which-key-show-minor-mode-keymap
-    "kq" 'which-key-abort
     "ms" 'magit-status
     "mbp" 'magit-blame-popup
     "mbq" 'magit-blame-quit))
