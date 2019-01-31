@@ -43,16 +43,6 @@
 ;; I realize the danger.
 (setq ring-bell-function 'ignore)
 
-;; Colors
-(setq my-color-black-charcoal "#333333"
-      my-color-gray-gengar "#393642"
-      my-color-gray-slate "#32302f"
-      my-color-green-betelgeuse "#ccff66"
-      my-color-pink-palahniuk "#ff2f92"
-      my-color-violet-lemony "#736075"
-      my-color-white-apple "#ffffff"
-      my-color-white-ivory "#ebebeb")
-
 (blink-cursor-mode 1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
@@ -62,32 +52,13 @@
       ns-use-proxy-icon nil
       show-paren-delay 0)
 (show-paren-mode 1)
-(set-face-attribute 'default nil
-                    :background my-color-gray-slate
-                    :foreground my-color-white-ivory)
-(set-face-attribute 'fringe nil :background my-color-gray-slate)
-(set-face-attribute 'font-lock-comment-delimiter-face nil
-                    :foreground my-color-violet-lemony)
-(set-face-attribute 'font-lock-comment-face nil
-                    :foreground my-color-violet-lemony)
-(set-face-attribute 'show-paren-match nil
-                    :foreground my-color-green-betelgeuse)
-(set-face-attribute 'show-paren-mismatch nil
-                    :foreground my-color-pink-palahniuk)
 
 ;; Window management.
 (add-hook 'find-file-hook 'delete-other-windows)
 
-;; Selection Highlighting
-(set-face-attribute 'region nil
-                    :background my-color-green-betelgeuse
-                    :foreground my-color-black-charcoal)
-
 (setq column-number-mode t)
 (setq-default fill-column 80)
-(add-to-list 'default-frame-alist '(cursor-color . "#ff2f92"))
 (global-hl-line-mode t)
-(set-face-background hl-line-face my-color-gray-gengar)
 (set-frame-font "Inconsolata-16" nil t)
 (defalias 'yes-or-no-p 'y-or-n-p)
 (setq linum-format "  %d ") ; Space out gutter.
@@ -144,10 +115,10 @@
   (setq which-key-idle-delay 0.1)
   (setq which-key-sort-order 'which-key-key-order-alpha))
 
-(use-package monokai-theme
+(use-package abyss-theme
   :ensure t
   :config
-  (load-theme 'monokai t))
+  (load-theme 'abyss t))
 
 (use-package fill-column-indicator
   :ensure t
