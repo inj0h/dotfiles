@@ -277,6 +277,7 @@
   (add-hook 'html-mode-hook #'rainbow-delimiters-mode)
   (add-hook 'js-mode-hook #'rainbow-delimiters-mode)
   (add-hook 'scss-mode-hook #'rainbow-delimiters-mode)
+  (add-hook 'sh-mode-hook #'rainbow-delimiters-mode)
   (add-hook 'web-mode-hook #'rainbow-delimiters-mode))
 
 (defun yas-enable-and-reload ()
