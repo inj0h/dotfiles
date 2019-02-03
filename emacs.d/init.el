@@ -163,9 +163,13 @@
     "kk" 'which-key-abort
     "kma" 'which-key-show-major-mode
     "kmi" 'which-key-show-minor-mode-keymap
-    "ms" 'magit-status
-    "mbp" 'magit-blame-popup
-    "mbq" 'magit-blame-quit))
+    "mb" 'magit-branch-popup
+    "mlc" 'magit-blame-copy-hash
+    "mlp" 'magit-blame-popup
+    "mlq" 'magit-blame-quit
+    "mpa" 'magit-pull-from-upstream
+    "mpb" 'magit-push-current-to-upstream
+    "ms" 'magit-status))
 
 (use-package evil
   :ensure t
