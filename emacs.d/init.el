@@ -1,7 +1,5 @@
-;; Filename: init.el
-;; Maintainer: erikorojo
-;; License: n/a
-;; Comments: Elisp configuration file
+;; Filename:    init.el
+;; Description: Main Emacs Lisp configuration file.
 ;;
 
 ;; Manage Lisp files and packages
