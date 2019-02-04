@@ -5,10 +5,10 @@
 #
 
 #
-# Coreutils
+# Coreutils, GNU stuff for Mac, Etc
 #
 if [[ `uname -s` == 'Darwin' ]]; then
-    alias alg='alias | grep '
+    alias alg='alias | ggrep '
     alias cat='gcat'
     alias chmod='gchmod'
     alias chown='gchown'
@@ -17,17 +17,13 @@ if [[ `uname -s` == 'Darwin' ]]; then
     alias cut='gcut'
     alias echo='gecho'
     alias find='gfind'
-    alias grep='grep --color'
+    alias grep='ggrep --color'
     alias head='ghead'
     alias kill='gkill'
-    alias l='gls -A --color --group-directories-first'
-    alias lg='gls -A --color --group-directories-first | grep'
-    alias ll='gls -1A --color --group-directories-first'
-    alias llg='gls -1A --color --group-directories-first | grep'
+    alias l='gls -lA --color --group-directories-first'
+    alias lg='gls -lA --color --group-directories-first | ggrep'
     alias ln='gln'
     alias ls='gls'
-    alias lv='gls -lA --color --group-directories-first'
-    alias lvg='gls -lA --color --group-directories-first | grep'
     alias mv='gmv'
     alias pwd='gpwd'
     alias shred='gshred'
@@ -38,12 +34,8 @@ if [[ `uname -s` == 'Darwin' ]]; then
     alias xargs='gxargs'
 else
     alias alg='alias | grep'
-    alias l='ls -A --color --group-directories-first'
-    alias lg='ls -A --color --group-directories-first | grep'
-    alias ll='ls -1A --color --group-directories-first'
-    alias llg='ls -1A --color --group-directories-first | grep'
-    alias lv='ls -lA --color --group-directories-first'
-    alias lvg='ls -lA --color --group-directories-first | grep'
+    alias l='ls -lA --color --group-directories-first'
+    alias lg='ls -lA --color --group-directories-first | grep'
 fi
 
 #
@@ -83,11 +75,17 @@ if [[ `uname -s` == 'Darwin' ]]; then
 fi
 
 #
+# Tmux
+#
+alias tx='tmux'
+alias txa='tmux attach -t'
+alias txka='tmux kill-server'
+alias txks='tmux kill-session -t'
+alias txls='tmux ls'
+alias txn='tmux new -s'
+
+#
 # Etc
 #
 alias ff='fzf'
-alias tx='tmux'
-alias txa='tmux attach -t'
-alias txls='tmux ls'
-alias txn='tmux new -s'
 alias u='cd ..'
