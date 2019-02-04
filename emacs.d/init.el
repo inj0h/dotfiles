@@ -295,8 +295,8 @@
           '(lambda () (local-set-key (kbd "s-e") 'eval-last-sexp)))
 
 ;; Markdown
-(add-hook 'gfm-mode-hook 'turn-off-auto-fill)
-(add-hook 'gfm-mode-hook 'turn-off-fci-mode)
+(add-hook 'markdown-mode-hook 'turn-off-auto-fill)
+(add-hook 'markdown-mode-hook 'turn-off-fci-mode)
 
 ;; Text
 (add-hook 'text-mode-hook '(lambda () (set-fill-column 80)))
