@@ -12,7 +12,7 @@
 
 ;; Load local-only settings file if it exists on disk, and don't throw a warning
 ;; if it doesn't.
-(load "~/dotfiles/emacs.d/local-settings" 1)
+(load "~/dotfiles/emacs.d/settings-local-load-pre" 1)
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -352,4 +352,4 @@
 ;; when you need to override variables, etc.
 ;;
 ;; Don't throw a warning if it doesn't exist on disk.
-(load "~/dotfiles/emacs.d/local-settings-post-init" 1)
+(load "~/dotfiles/emacs.d/settings-local-load-post" 1)
