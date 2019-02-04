@@ -94,8 +94,8 @@
       scroll-step 1)
 
 ;; Window Transparency (#active, #inactive)
-(set-frame-parameter (selected-frame) 'alpha '(100 . 95))
-(add-to-list 'default-frame-alist '(alpha . (100 . 95)))
+(set-frame-parameter (selected-frame) 'alpha '(100 . 90))
+(add-to-list 'default-frame-alist '(alpha . (100 . 90)))
 
 ;; Keybindings
 ;; General
@@ -110,7 +110,7 @@
   :ensure t
   :config
   (which-key-mode)
-  (setq which-key-idle-delay 0.1)
+  (setq which-key-idle-delay 0.2)
   (setq which-key-sort-order 'which-key-key-order-alpha))
 
 (use-package abyss-theme
@@ -122,7 +122,7 @@
   :ensure t
   :config
   (my-fci-settings)
-  (setq fci-rule-column 79)
+  (setq fci-rule-column 79) ; Because fci counts starting at 0. Ugh.
   (setq column-number-indicator-zero-based nil))
 
 ;;
@@ -289,18 +289,17 @@
 
 ;; Emacs Lisp
 (add-hook 'emacs-lisp-mode-hook 'flyspell-prog-mode)
-(add-hook 'emacs-lisp-mode-hook '(lambda() (set-fill-column 80)))
+(add-hook 'emacs-lisp-mode-hook '(lambda () (set-fill-column 80)))
 (add-hook 'emacs-lisp-mode-hook 'turn-on-auto-fill)
 (add-hook 'emacs-lisp-mode-hook
-          '(lambda ()
-             (local-set-key (kbd "s-e") 'eval-last-sexp)))
+          '(lambda () (local-set-key (kbd "s-e") 'eval-last-sexp)))
 
 ;; Markdown
 (add-hook 'gfm-mode-hook 'turn-off-auto-fill)
 (add-hook 'gfm-mode-hook 'turn-off-fci-mode)
 
 ;; Text
-(add-hook 'text-mode-hook '(lambda() (set-fill-column 80)))
+(add-hook 'text-mode-hook '(lambda () (set-fill-column 80)))
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 
 ;; Colored delims
