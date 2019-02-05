@@ -57,9 +57,13 @@
 (setq column-number-mode t)
 (setq-default fill-column 80)
 (global-hl-line-mode t)
-(set-frame-font "Inconsolata-16" nil t)
 (defalias 'yes-or-no-p 'y-or-n-p)
 (setq linum-format "  %d ") ; Space out gutter.
+
+;; Font stuff
+(if (eq system-type 'gnu/linux)
+    (set-frame-font "Inconsolata-16" nil t)
+  (set-frame-font "Menlo-15" nil t))
 
 ;; Tabs = spaces * 4
 (setq-default indent-tabs-mode nil)
