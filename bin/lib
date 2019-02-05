@@ -22,7 +22,7 @@ RED='\033[1;31m'
 # Excuse these pathetic fake types.
 #
 # String -> Maybe Directory
-dir_make() {
+dir_make () {
     if [ ! -d $1 ]; then
         echo "Creating $1..."
         mkdir $1
@@ -33,13 +33,13 @@ dir_make() {
 }
 
 # String -> String
-greenp() {
+greenp () {
     echo -e ${GREEN}$1${CLEAR}
     sleep 0.5
 }
 
 # String -> String
-redp() {
+redp () {
     echo -e ${RED}$1${CLEAR}
     sleep 1
 }
