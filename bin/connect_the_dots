@@ -76,7 +76,6 @@ greenp "Done."
 redp "Linking shared *nix files..."
 
 link $LNFLAGS "bin/*" $HOME/bin
-link $LNFLAGS "z*" $HOME dot
 link $LNFLAGS "tmux*" $HOME dot
 link $LNFLAGS "emacs.d" $HOME dot
 link $LNFLAGS "rgignore" $HOME/.config dot
