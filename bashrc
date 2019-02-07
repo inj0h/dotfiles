@@ -21,8 +21,8 @@ shopt -s histappend
 #
 # Bash prompt colors (Bash CLear|GReen|Red)
 BCL="\[\033[0m\]"
-BGR="\[\033[0;32m\]"
-BRD="\[\033[0;31m\]"
+BGR="\[\033[1;32m\]"
+BRD="\[\033[1;31m\]"
 
 # Git
 GIT_STAT_CLEAN="nothing to commit, working tree clean"
