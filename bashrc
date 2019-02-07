@@ -19,14 +19,8 @@ shopt -s histappend
 #
 # Variables
 #
-# Bash prompt colors (Bash CLear|GReen|Red)
-BCL="\[\033[0m\]"
-BGR="\[\033[1;32m\]"
-BRD="\[\033[1;31m\]"
-
-# Git
-GIT_STAT_CLEAN="nothing to commit, working tree clean"
-GIT_SIGIL_DIRTY="X"
+# Paths
+MY_CONFIG_PATH="$HOME/dotfiles/bash.d/"
 
 # History
 # (Stolen from Ubuntu default)
@@ -34,24 +28,11 @@ GIT_SIGIL_DIRTY="X"
 HISTCONTROL=ignoreboth
 HISTSIZE=10000
 
-# Paths
-MY_CONFIG_PATH="$HOME/dotfiles/bash.d/"
-
 #
 # Functions
 #
-# parse_git_dirty :: String -> String
-function parse_git_dirty {
-    [[ $(git status 2> /dev/null | tail -n1) != "$GIT_STAT_CLEAN" &&
-           $(git status 2> /dev/null | tail -n1) != "" ]] &&
-        echo "$GIT_SIGIL_DIRTY"
-}
-
-# parse_git_branch :: String -> String
-function parse_git_branch {
-    git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/[\1]/"
-}
-
+# Excuse these pathetic fake types.
+#
 # load_file :: String -> File
 function load_file {
     if [ -f $1 ]; then
@@ -59,10 +40,11 @@ function load_file {
     fi
 }
 
-# Prompt
-export PS1="$BGR\u$BCL \w \$(parse_git_branch) $BRD\$(parse_git_dirty)$BCL\n$BGR\$$BCL "
-
+# Load all them configs.
 load_file "$MY_CONFIG_PATH"alias.bash
 load_file "$MY_CONFIG_PATH"hardware.bash
 load_file "$MY_CONFIG_PATH"keybindings.bash
 load_file "$MY_CONFIG_PATH"lib.bash
+
+# Prompt
+export PS1="$BGR\u$BCL \w \$(parse_git_branch) $BRD\$(parse_git_dirty)$BCL\n$BGR\$$BCL "
