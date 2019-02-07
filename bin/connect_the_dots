@@ -55,8 +55,8 @@ if [[ `uname -s` == 'Darwin' ]]; then
 elif [[ `uname -s` == 'Linux' ]]; then
     LNFLAGS="-sTfv"
 
-    link $LNFLAGS "X*" $HOME dot
-    link $LNFLAGS "redshift*" $HOME/.config
+    dot_connect $LNFLAGS "X*" $HOME dot
+    dot_connect $LNFLAGS "redshift*" $HOME/.config
 fi
 
 print_green "Done."
