@@ -3,7 +3,6 @@ coreutils
 ctags
 ffmpeg
 findutils
-fzf
 gist
 git
 grep

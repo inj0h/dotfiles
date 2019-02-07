@@ -85,5 +85,4 @@ alias txn='tmux new -s'
 #
 # Etc
 #
-alias ff='fzf'
 alias u='cd ..'
