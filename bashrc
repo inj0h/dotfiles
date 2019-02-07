@@ -33,18 +33,16 @@ HISTSIZE=10000
 #
 # Excuse these pathetic fake types.
 #
-# load_file :: String -> File
-function load_file {
-    if [ -f $1 ]; then
-        source $1
-    fi
+# file_load :: String -> File
+function file_load {
+    [ -f $1 ] && source $1
 }
 
 # Load all them configs.
-load_file "$MY_CONFIG_PATH"alias.bash
-load_file "$MY_CONFIG_PATH"hardware.bash
-load_file "$MY_CONFIG_PATH"keybindings.bash
-load_file "$MY_CONFIG_PATH"lib.bash
+file_load "$MY_CONFIG_PATH"alias.bash
+file_load "$MY_CONFIG_PATH"hardware.bash
+file_load "$MY_CONFIG_PATH"keybindings.bash
+file_load "$MY_CONFIG_PATH"lib.bash
 
 # Prompt
 export PS1="$SH_GREEN\u$SH_CLEAR \w \$(git_parse_branch) $SH_RED\$(git_parse_dirty)$SH_CLEAR\n$SH_GREEN\$$SH_CLEAR "
