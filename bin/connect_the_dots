@@ -28,13 +28,6 @@ LNFLAGS=''
 #
 print_red "Screening directory..."
 
-# Check for cloned repo
-if [ ! -d $HOME/dotfiles ]; then
-    print_red "Error: dotfiles not found.\nAborting..."
-
-    exit 1
-fi
-
 # Check for ~/bin
 if [ ! -d $HOME/bin ]; then
     print_red "Error: ~/bin not found.\nCreating..."
@@ -54,8 +47,6 @@ if [[ `uname -s` == 'Darwin' ]]; then
 
 elif [[ `uname -s` == 'Linux' ]]; then
     LNFLAGS="-sTfv"
-
-    dot_connect $LNFLAGS "X*" $HOME dot
     dot_connect $LNFLAGS "redshift*" $HOME/.config
 fi
 
