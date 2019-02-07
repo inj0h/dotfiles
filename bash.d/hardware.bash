@@ -1,6 +1,4 @@
-#!/bin/bash
-#
-# Filename:    hardware
+# Filename:    hardware.bash
 # Description: Manage IO devices on Linux.
 #
 

@@ -1,6 +1,4 @@
-#!/bin/bash
-#
-# Filename:    keybindings
+# Filename:    keybindings.bash
 # Description: Manage keybindings on Linux.
 #
 

@@ -1,7 +1,5 @@
-#!/bin/bash
-#
-# Filename:    lib
-# Description: Don't reinvent the wheel. Just put them here.
+# Filename:    lib.bash
+# Description: Don't reinvent the wheel. Just put the wheels here.
 #
 
 #

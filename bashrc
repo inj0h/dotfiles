@@ -35,7 +35,7 @@ HISTCONTROL=ignoreboth
 HISTSIZE=10000
 
 # Paths
-MY_CONFIG_PATH="$HOME/bin/"
+MY_CONFIG_PATH="$HOME/dotfiles/bash.d/"
 
 #
 # Functions
@@ -62,7 +62,7 @@ function load_file {
 # Prompt
 export PS1="$BGR\u$BCL \w \$(parse_git_branch) $BRD\$(parse_git_dirty)$BCL\n$BGR\$$BCL "
 
-load_file "$MY_CONFIG_PATH"alias
-load_file "$MY_CONFIG_PATH"hardware
-load_file "$MY_CONFIG_PATH"keybindings
-load_file "$MY_CONFIG_PATH"lib
+load_file "$MY_CONFIG_PATH"alias.bash
+load_file "$MY_CONFIG_PATH"hardware.bash
+load_file "$MY_CONFIG_PATH"keybindings.bash
+load_file "$MY_CONFIG_PATH"lib.bash
