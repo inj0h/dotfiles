@@ -34,9 +34,9 @@ GIT_SIGIL_DIRTY="X"
 
 # History
 # (Stolen from Ubuntu default)
+# HISTCONTROL :: Don't put duplicate lines or lines starting with space in the history.
 HISTCONTROL=ignoreboth
-HISTFILESIZE=2000
-HISTSIZE=1000
+HISTSIZE=10000
 
 #
 # Functions
