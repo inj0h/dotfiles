@@ -24,10 +24,6 @@ BCL="\[\033[0m\]"
 BGR="\[\033[0;32m\]"
 BRD="\[\033[0;31m\]"
 
-# Config filenames
-MY_CONFIG=(alias hardware keybindings lib)
-MY_CONFIG_PATH="$HOME/bin/"
-
 # Git
 GIT_STAT_CLEAN="nothing to commit, working tree clean"
 GIT_SIGIL_DIRTY="X"
@@ -37,6 +33,9 @@ GIT_SIGIL_DIRTY="X"
 # HISTCONTROL :: Don't put duplicate lines or lines starting with space in the history.
 HISTCONTROL=ignoreboth
 HISTSIZE=10000
+
+# Paths
+MY_CONFIG_PATH="$HOME/bin/"
 
 #
 # Functions
@@ -53,12 +52,17 @@ function parse_git_branch {
     git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/[\1]/"
 }
 
+# load_file :: String -> File
+function load_file {
+    if [ -f $1 ]; then
+        source $1
+    fi
+}
+
 # Prompt
 export PS1="$BGR\u$BCL \w \$(parse_git_branch) $BRD\$(parse_git_dirty)$BCL\n$BGR\$$BCL "
 
-# Load all the configs!
-for config in "${MY_CONFIG[@]}"; do
-    if [ -f "$MY_CONFIG_PATH$config" ]; then
-        source $config
-    fi
-done
+load_file "$MY_CONFIG_PATH"alias
+load_file "$MY_CONFIG_PATH"hardware
+load_file "$MY_CONFIG_PATH"keybindings
+load_file "$MY_CONFIG_PATH"lib
