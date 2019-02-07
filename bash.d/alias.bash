@@ -31,9 +31,9 @@ if [[ `uname -s` == 'Darwin' ]]; then
     alias uniq='guniq'
     alias xargs='gxargs'
 else
-    alias alg='alias | grep'
+    alias alg='alias | grep --color'
     alias l='ls -lA --color --group-directories-first'
-    alias lg='ls -lA --color --group-directories-first | grep'
+    alias lg='ls -lA --color --group-directories-first | grep --color'
 fi
 
 #
