@@ -1,6 +1,4 @@
-#!/bin/bash
-#
-# Filename:    alias
+# Filename:    alias.bash
 # Description: Useful aliases for a smooth CLI experience.
 #
 

@@ -9,9 +9,9 @@ set -e
 #
 # Dependencies
 #
-if [ -f $HOME/dotfiles/bin/lib ]; then
+if [ -f $HOME/dotfiles/bash.d/lib.bash ]; then
     echo "Dependencies found. Proceeding..."
-    source $HOME/dotfiles/bin/lib
+    source $HOME/dotfiles/bash.d/lib.bash
 else
     echo "Error: could not find dependent script(s)."
     exit 1
@@ -34,8 +34,8 @@ for directory in "${DIRECTORIES[@]}"; do
 done
 
 if command -v tree 2>/dev/null; then
-    greenp "Printing tree..."
+    print_green "Printing tree..."
     tree -aL 1 $MYROOM
 fi
 
-greenp "All directories created. Have a nice day."
+print_green "All directories created. Have a nice day."
