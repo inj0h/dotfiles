@@ -20,22 +20,8 @@ fi
 #
 # Variables
 #
+DOTFILES="$HOME/dotfiles/"
 LNFLAGS=''
-
-#
-# Functions
-#
-# Excuse the pathetic faux types.
-# $flag -> $regex -> $path -> [char] -> null
-link() {
-    for file in $DOTFILES/$2; do
-        if [ "$4" == "dot" ]; then
-            ln $1 $file $3/.`basename $file`
-        else
-            ln $1 $file $3/`basename $file`
-        fi
-    done
-}
 
 #
 # Script
@@ -78,10 +64,10 @@ print_green "Done."
 # Shared Nix
 print_red "Linking shared *nix files..."
 
-link $LNFLAGS "bash*" $HOME dot
-link $LNFLAGS "bin/*" $HOME/bin
-link $LNFLAGS "emacs.d" $HOME dot
-link $LNFLAGS "rgignore" $HOME/.config dot
-link $LNFLAGS "tmux*" $HOME dot
+dot_connect $LNFLAGS $DOTFILES"bash*" $HOME dot
+dot_connect $LNFLAGS $DOTFILES"bin/*" $HOME/bin
+dot_connect $LNFLAGS $DOTFILES"emacs.d" $HOME dot
+dot_connect $LNFLAGS $DOTFILES"rgignore" $HOME/.config dot
+dot_connect $LNFLAGS $DOTFILES"tmux*" $HOME dot
 
 print_green "Done.\nAll dotfiles linked. Have a nice day."
