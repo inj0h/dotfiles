@@ -47,4 +47,4 @@ load_file "$MY_CONFIG_PATH"keybindings.bash
 load_file "$MY_CONFIG_PATH"lib.bash
 
 # Prompt
-export PS1="$BGR\u$BCL \w \$(parse_git_branch) $BRD\$(parse_git_dirty)$BCL\n$BGR\$$BCL "
+export PS1="$BGR\u$BCL \w \$(git_parse_branch) $BRD\$(git_parse_dirty)$BCL\n$BGR\$$BCL "

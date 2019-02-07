@@ -40,28 +40,28 @@ link() {
 #
 # Script
 #
-redp "Screening directory..."
+print_red "Screening directory..."
 
 # Check for cloned repo
 if [ ! -d $HOME/dotfiles ]; then
-    redp "Error: dotfiles not found.\nAborting..."
+    print_red "Error: dotfiles not found.\nAborting..."
 
     exit 1
 fi
 
 # Check for ~/bin
 if [ ! -d $HOME/bin ]; then
-    redp "Error: ~/bin not found.\nCreating..."
+    print_red "Error: ~/bin not found.\nCreating..."
 
     mkdir $HOME/bin
 
-    greenp "Done."
+    print_green "Done."
 fi
 
-greenp "Done."
+print_green "Done."
 
 # Specific Nix
-redp "`uname -s` kernel detected.\nLinking files specific to system..."
+print_red "`uname -s` kernel detected.\nLinking files specific to system..."
 
 if [[ `uname -s` == 'Darwin' ]]; then
     LNFLAGS="-shfv"
@@ -73,10 +73,10 @@ elif [[ `uname -s` == 'Linux' ]]; then
     link $LNFLAGS "redshift*" $HOME/.config
 fi
 
-greenp "Done."
+print_green "Done."
 
 # Shared Nix
-redp "Linking shared *nix files..."
+print_red "Linking shared *nix files..."
 
 link $LNFLAGS "bash*" $HOME dot
 link $LNFLAGS "bin/*" $HOME/bin
@@ -84,4 +84,4 @@ link $LNFLAGS "emacs.d" $HOME dot
 link $LNFLAGS "rgignore" $HOME/.config dot
 link $LNFLAGS "tmux*" $HOME dot
 
-greenp "Done.\nAll dotfiles linked. Have a nice day."
+print_green "Done.\nAll dotfiles linked. Have a nice day."

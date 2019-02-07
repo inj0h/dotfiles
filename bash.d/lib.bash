@@ -39,26 +39,26 @@ function dir_make {
     fi
 }
 
-# greenp :: String -> String
-function greenp {
+# print_green :: String -> String
+function print_green {
     echo -e ${GREEN}$1${CLEAR}
     sleep 0.5
 }
 
-# redp :: String -> String
-function redp {
+# print_red :: String -> String
+function print_red {
     echo -e ${RED}$1${CLEAR}
     sleep 1
 }
 
-# parse_git_dirty :: String -> String
-function parse_git_dirty {
+# git_parse_dirty :: String -> String
+function git_parse_dirty {
     [[ $(git status 2> /dev/null | tail -n1) != "$GIT_STAT_CLEAN" &&
            $(git status 2> /dev/null | tail -n1) != "" ]] &&
         echo "$GIT_SIGIL_DIRTY"
 }
 
-# parse_git_branch :: String -> String
-function parse_git_branch {
+# git_parse_branch :: String -> String
+function git_parse_branch {
     git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/[\1]/"
 }
