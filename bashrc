@@ -20,7 +20,7 @@ shopt -s histappend
 # Variables
 #
 # Paths
-MY_CONFIG_PATH="$HOME/dotfiles/bash.d/"
+MY_CONFIG_PATH="$HOME/dotfiles/lib"
 
 # History
 # (Stolen from Ubuntu default)
@@ -39,10 +39,10 @@ function file_load {
 }
 
 # Load all them configs.
-file_load "$MY_CONFIG_PATH"alias.bash
-file_load "$MY_CONFIG_PATH"hardware.bash
-file_load "$MY_CONFIG_PATH"keybindings.bash
-file_load "$MY_CONFIG_PATH"lib.bash
+file_load "$MY_CONFIG_PATH"/alias.bash
+file_load "$MY_CONFIG_PATH"/hardware.bash
+file_load "$MY_CONFIG_PATH"/keybindings.bash
+file_load "$MY_CONFIG_PATH"/lib.bash
 
 # Prompt
 export PS1="$SH_GREEN\u$SH_CLEAR \w \$(git_parse_branch) $SH_RED\$(git_parse_dirty)$SH_CLEAR\n$SH_GREEN\$$SH_CLEAR "

@@ -9,9 +9,9 @@ set -e
 #
 # Dependencies
 #
-if [ -f $HOME/dotfiles/bash.d/lib.bash ]; then
+if [ -f $HOME/dotfiles/lib/lib.bash ]; then
     echo "Dependencies found. Proceeding..."
-    source $HOME/dotfiles/bash.d/lib.bash
+    source $HOME/dotfiles/lib/lib.bash
 else
     echo "Error: could not find dependent script(s)."
     exit 1
