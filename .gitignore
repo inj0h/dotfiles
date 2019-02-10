@@ -2,27 +2,41 @@
 # Description: A gitignore for this repository (duh).
 #
 
-#
-# System
-#
-# Mac
-**.DS_Store
+# Ignore everything!
+*
 
-#
-# Editor
-#
-# Emacs
-**.\#*
-**.dat
-**.data
-**/emacs.d/*
+# ..Except the whitelist!
+!.gitignore
+!bash_profile
+!bashrc
+!gnome_terminal_profile.d
+!mac_gnome.terminal
+!readme.md
+!redshift.conf
+!rgignore
+!tmux.conf
+
+!/bin/
+/bin/**
+!/bin/connect_the_dots
+!/bin/init
+
+!/emacs.d/
+/emacs.d/**
 !/emacs.d/custom.el
 !/emacs.d/init.el
 !/emacs.d/snippets/
 
-#
-# Etc
-#
-# Tags
-**tags
-**TAGS
+!/lib/
+/lib/**
+!/lib/alias.bash
+!/lib/hardware.bash
+!/lib/keybindings.bash
+!/lib/lib.bash
+
+!/packages
+/packages/**
+!/packages/brew
+!/packages/brewcask
+!/packages/debian
+!/packages/snap
