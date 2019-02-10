@@ -150,6 +150,9 @@
     "/" 'whitespace-mode
     "l" 'goto-last-change
     "L" 'linum-mode
+    "on" 'counsel-find-file
+    "oo" 'ivy-switch-buffer
+    "ow" 'counsel-projectile-find-file
     "s" 'other-window
     "S" 'split-window-below
     "ka" 'which-key-show-keymap
