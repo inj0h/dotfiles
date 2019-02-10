@@ -106,9 +106,6 @@
 (global-set-key (kbd "s--") 'text-scale-decrease)
 (global-set-key (kbd "s-0") 'text-scale-adjust)
 
-;; Helm
-(global-set-key (kbd "M-x") 'helm-M-x)
-
 (use-package which-key
   :ensure t
   :config
@@ -150,16 +147,12 @@
     "2" (kbd "@@")
     "pa" 'projectile-add-known-project
     "ps" 'projectile-switch-project
-    "f" 'helm-do-ag-buffers
     "/" 'whitespace-mode
     "l" 'goto-last-change
     "L" 'linum-mode
-    "ohh" 'helm-projectile-find-file
-    "oho" 'helm-projectile-find-other-file
-    "ohw" 'helm-projectile-switch-to-buffer
-    "oo" 'helm-find-files
-    "or" 'helm-recentf
-    "ow" 'helm-buffers-list
+    "on" 'counsel-find-file
+    "oo" 'ivy-switch-buffer
+    "ow" 'counsel-projectile-find-file
     "s" 'other-window
     "S" 'split-window-below
     "ka" 'which-key-show-keymap
@@ -213,24 +206,20 @@
 ;;
 ;; Start Search and Completion configuration
 ;;
+(use-package ivy
+  :ensure t
+  :diminish (ivy-mode . "")
+  :config
+  (setq ivy-height 15)
+  (setq ivy-initial-inputs-alist nil)
+  (ivy-mode 1))
 
-(defun my-helm-settings ()
-  "General helm settings."
-  (setq helm-mode-fuzzy-match t)
-  (setq helm-completion-in-region-fuzzy-match t)
-  (setq helm-idle-delay 0.0)
-  (setq helm-input-idle-delay 0.01)
-  (setq helm-autoresize-max-height 60)
-  (helm-autoresize-mode 1)
-
-  ;;(defadvice helm-display-mode-line (after undisplay-header activate)
-  ;; (setq header-line-format nil))
-  )
-
-(defun my-helm-keybindings ()
-  "Helm keybindings, etc."
-  (define-key helm-map [tab] 'helm-execute-persistent-action)
-  (define-key helm-map (kbd "C-o") 'helm-select-action))
+(use-package counsel
+  :after ivy
+  :bind
+  ("C-h f" . counsel-describe-function)
+  ("C-h v" . counsel-describe-variable)
+  ("M-x" . counsel-M-x))
 
 (use-package company
   :ensure t
@@ -245,23 +234,9 @@
 
 (use-package projectile
   :ensure t
-  :init
-  (setq projectile-completion-system 'helm)
+  :init (setq projectile-completion-system 'ivy)
   :config
   (projectile-mode +1))
-
-(use-package helm
-  :ensure t
-  :diminish helm-mode
-  :config
-  (helm-mode 1)
-  (my-helm-settings)
-  (my-helm-keybindings)
-
-  (use-package helm-projectile
-    :ensure t
-    :config
-    ))
 
 ;;
 ;; End Search and Completion configuration
