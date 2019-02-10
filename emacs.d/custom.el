@@ -5,7 +5,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (abyss-theme benchmark-init rjsx-mode evil-mc which-key rg helm-rg helm-projectile projectile evil-collection web-mode evil-magit magit gitconfig-mode gitignore-mode evil-commentary evil-surround evil-leader evil-escape evil yasnippet markdown-mode haskell-mode flycheck rainbow-delimiters company helm-ag helm fill-column-indicator monokai-theme linum-relative use-package))))
+    (yasnippet web-mode gitignore-mode markdown-mode haskell-mode flycheck rainbow-delimiters counsel-projectile projectile company counsel ivy evil-magit evil-commentary evil-surround evil-leader evil-escape evil fill-column-indicator abyss-theme which-key diminish use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
