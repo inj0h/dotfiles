@@ -203,6 +203,21 @@
 ;;
 ;; Start Search and Completion configuration
 ;;
+(use-package ivy
+  :ensure t
+  :diminish (ivy-mode . "")
+  :config
+  (setq ivy-height 15)
+  (setq ivy-initial-inputs-alist nil)
+  (ivy-mode 1))
+
+(use-package counsel
+  :after ivy
+  :bind
+  ("C-h f" . counsel-describe-function)
+  ("C-h v" . counsel-describe-variable)
+  ("M-x" . counsel-M-x))
+
 (use-package company
   :ensure t
   :init (global-company-mode)
@@ -216,7 +231,7 @@
 
 (use-package projectile
   :ensure t
-  :init
+  :init (setq projectile-completion-system 'ivy)
   :config
   (projectile-mode +1))
 
