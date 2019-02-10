@@ -215,6 +215,7 @@
   (ivy-mode 1))
 
 (use-package counsel
+  :ensure t
   :after ivy
   :bind
   ("C-h f" . counsel-describe-function)
@@ -236,7 +237,11 @@
   :ensure t
   :init (setq projectile-completion-system 'ivy)
   :config
-  (projectile-mode +1))
+  (projectile-mode +1)
+
+  (use-package counsel-projectile
+    :ensure t
+    :after projectile))
 
 ;;
 ;; End Search and Completion configuration
