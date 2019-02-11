@@ -34,9 +34,9 @@
 ;; UI settings (these are a bit of a mess right now... not gonna lie)
 ;; Sane Defaults.
 ;; I realize the danger.
-(setq auto-save-default nil)
-(setq inhibit-startup-screen t)
-(setq make-backup-files nil)
+(setq auto-save-default nil
+      inhibit-startup-screen t
+      make-backup-files nil)
 
 ;; I realize the danger.
 (setq ring-bell-function 'ignore)
@@ -78,16 +78,16 @@
 
 (defun my-fci-settings ()
   "Use fci for these modes."
-  (add-hook 'css-mode-hook 'fci-mode)
+  (add-hook 'css-mode-hook        'fci-mode)
   (add-hook 'emacs-lisp-mode-hook 'fci-mode)
-  (add-hook 'haskell-mode-hook 'fci-mode)
-  (add-hook 'html-mode-hook 'fci-mode)
-  (add-hook 'js-mode-hook 'fci-mode)
-  (add-hook 'python-mode-hook 'fci-mode)
-  (add-hook 'scss-mode-hook 'fci-mode)
-  (add-hook 'sh-mode-hook 'fci-mode)
-  (add-hook 'text-mode-hook 'fci-mode)
-  (add-hook 'web-mode-hook 'fci-mode))
+  (add-hook 'haskell-mode-hook    'fci-mode)
+  (add-hook 'html-mode-hook       'fci-mode)
+  (add-hook 'js-mode-hook         'fci-mode)
+  (add-hook 'python-mode-hook     'fci-mode)
+  (add-hook 'scss-mode-hook       'fci-mode)
+  (add-hook 'sh-mode-hook         'fci-mode)
+  (add-hook 'text-mode-hook       'fci-mode)
+  (add-hook 'web-mode-hook        'fci-mode))
 
 ;; Smooth scrolling.
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))
@@ -134,8 +134,8 @@
 (defun my-evil-settings ()
   "Vi keybindings, etc."
   (with-eval-after-load 'evil-maps
-    (define-key evil-motion-state-map (kbd ";") 'evil-ex)
-    (define-key evil-motion-state-map (kbd ":") 'evil-repeat-find-char)
+    (define-key evil-motion-state-map (kbd ";")   'evil-ex)
+    (define-key evil-motion-state-map (kbd ":")   'evil-repeat-find-char)
     (define-key evil-motion-state-map (kbd "C-e") 'evil-end-of-line)
     (define-key evil-insert-state-map (kbd "C-y") 'yas-insert-snippet)))
 
@@ -224,7 +224,7 @@
   :bind
   ("C-h f" . counsel-describe-function)
   ("C-h v" . counsel-describe-variable)
-  ("M-x" . counsel-M-x))
+  ("M-x"   . counsel-M-x))
 
 (use-package company
   :ensure t
@@ -260,14 +260,14 @@
        (setq ispell-program-name "/usr/local/bin/aspell")))
 
 (defun my-rainbow-delimeters-hooks ()
-  (add-hook 'css-mode-hook #'rainbow-delimiters-mode)
+  (add-hook 'css-mode-hook        #'rainbow-delimiters-mode)
   (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
-  (add-hook 'haskell-mode-hook #'rainbow-delimiters-mode)
-  (add-hook 'html-mode-hook #'rainbow-delimiters-mode)
-  (add-hook 'js-mode-hook #'rainbow-delimiters-mode)
-  (add-hook 'scss-mode-hook #'rainbow-delimiters-mode)
-  (add-hook 'sh-mode-hook #'rainbow-delimiters-mode)
-  (add-hook 'web-mode-hook #'rainbow-delimiters-mode))
+  (add-hook 'haskell-mode-hook    #'rainbow-delimiters-mode)
+  (add-hook 'html-mode-hook       #'rainbow-delimiters-mode)
+  (add-hook 'js-mode-hook         #'rainbow-delimiters-mode)
+  (add-hook 'scss-mode-hook       #'rainbow-delimiters-mode)
+  (add-hook 'sh-mode-hook         #'rainbow-delimiters-mode)
+  (add-hook 'web-mode-hook        #'rainbow-delimiters-mode))
 
 (defun yas-enable-and-reload ()
   "Enable yas-minor-mode for buffer and reload all snips"
@@ -278,8 +278,8 @@
 (add-hook 'emacs-lisp-mode-hook 'flyspell-prog-mode)
 (add-hook 'emacs-lisp-mode-hook '(lambda () (set-fill-column 80)))
 (add-hook 'emacs-lisp-mode-hook 'turn-on-auto-fill)
-(add-hook 'emacs-lisp-mode-hook
-          '(lambda () (local-set-key (kbd "s-e") 'eval-last-sexp)))
+(add-hook 'emacs-lisp-mode-hook '(lambda ()
+                                   (local-set-key (kbd "s-e") 'eval-last-sexp)))
 
 ;; Markdown
 (add-hook 'markdown-mode-hook 'turn-off-auto-fill)
