@@ -210,7 +210,7 @@
   :ensure t
   :diminish (ivy-mode . "")
   :config
-  (setq ivy-height 15)
+  (setq ivy-height 10)
   (setq ivy-initial-inputs-alist nil)
   (ivy-mode 1))
 
