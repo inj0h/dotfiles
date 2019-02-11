@@ -143,31 +143,33 @@
   "Configure evil leader-based keybindings."
   (evil-leader/set-leader "<SPC>")
   (evil-leader/set-key
-    "`" 'delete-other-windows
-    "2" (kbd "@@")
-    "pa" 'projectile-add-known-project
-    "ps" 'projectile-switch-project
-    "lc" 'count-lines
-    "ls" 'sort-lines
-    "lw" 'whitespace-mode
-    "L" 'linum-mode
-    "on" 'counsel-find-file
-    "oo" 'ivy-switch-buffer
-    "ow" 'counsel-projectile-find-file
-    "sg" 'counsel-rg
-    "sl" 'goto-last-change
-    "ka" 'which-key-show-keymap
-    "kk" 'which-key-abort
+    "`"   'delete-other-windows
+    "2"   (kbd "@@")
+    "pa"  'projectile-add-known-project
+    "ps"  'projectile-switch-project
+    "gb"  'magit-branch-popup
+    "glc" 'magit-blame-copy-hash
+    "glp" 'magit-blame-popup
+    "glq" 'magit-blame-quit
+    "gpa" 'magit-pull-from-upstream
+    "gpb" 'magit-push-current-to-upstream
+    "gs"  'magit-status
+    "lc"  'count-lines
+    "lk"  'counsel-yank-pop
+    "ls"  'sort-lines
+    "lw"  'whitespace-mode
+    "L"   'linum-mode
+    "on"  'counsel-find-file
+    "oo"  'ivy-switch-buffer
+    "ow"  'counsel-projectile-find-file
+    "dn"  'woman
+    "sg"  'counsel-rg
+    "sl"  'goto-last-change
+    "ka"  'which-key-show-keymap
+    "kk"  'which-key-abort
     "kma" 'which-key-show-major-mode
     "kmi" 'which-key-show-minor-mode-keymap
-    "mb" 'magit-branch-popup
-    "mlc" 'magit-blame-copy-hash
-    "mlp" 'magit-blame-popup
-    "mlq" 'magit-blame-quit
-    "mpa" 'magit-pull-from-upstream
-    "mpb" 'magit-push-current-to-upstream
-    "ms" 'magit-status
-    "w" 'other-window))
+    "w"   'other-window))
 
 (use-package evil
   :ensure t
