@@ -147,14 +147,15 @@
     "2" (kbd "@@")
     "pa" 'projectile-add-known-project
     "ps" 'projectile-switch-project
-    "/" 'whitespace-mode
-    "l" 'goto-last-change
+    "lc" 'count-lines
+    "ls" 'sort-lines
+    "lw" 'whitespace-mode
     "L" 'linum-mode
     "on" 'counsel-find-file
     "oo" 'ivy-switch-buffer
     "ow" 'counsel-projectile-find-file
-    "s" 'other-window
-    "S" 'split-window-below
+    "sg" 'counsel-rg
+    "sl" 'goto-last-change
     "ka" 'which-key-show-keymap
     "kk" 'which-key-abort
     "kma" 'which-key-show-major-mode
@@ -165,7 +166,8 @@
     "mlq" 'magit-blame-quit
     "mpa" 'magit-pull-from-upstream
     "mpb" 'magit-push-current-to-upstream
-    "ms" 'magit-status))
+    "ms" 'magit-status
+    "w" 'other-window))
 
 (use-package evil
   :ensure t
