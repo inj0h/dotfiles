@@ -67,10 +67,7 @@ fi
 #
 # Emacs
 #
-if [[ `uname -s` == 'Darwin' ]]; then
-    alias em='open -a Emacs'
-    alias emacs='open -a Emacs'
-fi
+alias em='emacsclient'
 
 #
 # Tmux
@@ -79,7 +76,7 @@ alias tx='tmux'
 alias txa='tmux attach -t'
 alias txka='tmux kill-server'
 alias txks='tmux kill-session -t'
-alias txls='tmux ls'
+alias txl='tmux ls'
 alias txn='tmux new -s'
 
 #
