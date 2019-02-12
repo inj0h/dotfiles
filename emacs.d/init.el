@@ -154,17 +154,19 @@
     "gpa" 'magit-pull-from-upstream
     "gpb" 'magit-push-current-to-upstream
     "gs"  'magit-status
-    "lc"  'count-lines
+    "lc"  'count-words-region
     "lk"  'counsel-yank-pop
     "ls"  'sort-lines
     "lw"  'whitespace-mode
     "L"   'linum-mode
+    "ol"  'evil-switch-to-windows-last-buffer
     "on"  'counsel-find-file
     "oo"  'ivy-switch-buffer
     "ow"  'counsel-projectile-find-file
     "dn"  'woman
     "sg"  'counsel-rg
     "sl"  'goto-last-change
+    "sr"  'query-replace
     "ka"  'which-key-show-keymap
     "kk"  'which-key-abort
     "kma" 'which-key-show-major-mode
