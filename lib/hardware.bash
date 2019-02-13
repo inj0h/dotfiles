@@ -3,9 +3,13 @@
 #
 
 if [[ `uname` == 'Linux' ]]; then
-    touchpad() {
-        # Toggle your touchpad
+    # touchpad :: String -> Maybe Interrupt
+    function touchpad {
         TOUCHPAD=`xinput list | grep TouchPad | cut -f 2 | cut -c 4-`
+
+        [ "$#" -ne 1 ] &&
+            echo "Error: please input either \`on\` or \`off\`." &&
+            return
 
         if [ $1 == "on" ]; then
             xinput --enable $TOUCHPAD
@@ -16,5 +20,4 @@ if [[ `uname` == 'Linux' ]]; then
             return
         fi
     }
-
 fi
