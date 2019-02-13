@@ -26,21 +26,21 @@ LNFLAGS=''
 #
 # Script
 #
-print_red "Screening directory..."
+echo_red "Screening directory..."
 
 # Check for ~/bin
 if [ ! -d $HOME/bin ]; then
-    print_red "Error: ~/bin not found.\nCreating..."
+    echo_red "Error: ~/bin not found.\nCreating..."
 
     mkdir $HOME/bin
 
-    print_green "Done."
+    echo_green "Done."
 fi
 
-print_green "Done."
+echo_green "Done."
 
 # Specific Nix
-print_red "`uname -s` kernel detected.\nLinking files specific to system..."
+echo_red "`uname -s` kernel detected.\nLinking files specific to system..."
 
 if [[ `uname -s` == 'Darwin' ]]; then
     LNFLAGS="-shfv"
@@ -49,14 +49,14 @@ elif [[ `uname -s` == 'Linux' ]]; then
     dot_connect $LNFLAGS "redshift*" $HOME/.config
 fi
 
-print_green "Done."
+echo_green "Done."
 
 # Shared Nix
-print_red "Linking shared *nix files..."
+echo_red "Linking shared *nix files..."
 
 dot_connect $LNFLAGS $DOTFILES"bash*"    $HOME         dot
 dot_connect $LNFLAGS $DOTFILES"emacs.d"  $HOME         dot
 dot_connect $LNFLAGS $DOTFILES"rgignore" $HOME/.config dot
 dot_connect $LNFLAGS $DOTFILES"tmux*"    $HOME         dot
 
-print_green "Done.\nAll dotfiles linked. Have a nice day."
+echo_green "Done.\nAll dotfiles linked. Have a nice day."

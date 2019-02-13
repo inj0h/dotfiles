@@ -34,8 +34,8 @@ for directory in "${DIRECTORIES[@]}"; do
 done
 
 if command -v tree 2>/dev/null; then
-    print_green "Printing tree..."
+    echo_green "Printing tree..."
     tree -aL 1 $MYROOM
 fi
 
-print_green "All directories created. Have a nice day."
+echo_green "All directories created. Have a nice day."

@@ -9,9 +9,9 @@
 SH_CLEAR="\[\033[0m\]"
 SH_GREEN="\[\033[1;32m\]"
 SH_RED="\[\033[1;31m\]"
-PRINT_CLEAR='\033[0m'
-PRINT_GREEN='\033[1;32m'
-PRINT_RED='\033[1;31m'
+ECHO_CLEAR='\033[0m'
+ECHO_GREEN='\033[1;32m'
+ECHO_RED='\033[1;31m'
 
 # Git
 GIT_STAT_CLEAN="nothing to commit, working tree clean"
@@ -56,14 +56,14 @@ function git_parse_branch {
     git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/[\1]/"
 }
 
-# print_green :: String -> String
-function print_green {
-    echo -e ${PRINT_GREEN}$1${PRINT_CLEAR}
+# echo_green :: String -> String
+function echo_green {
+    echo -e ${ECHO_GREEN}$1${ECHO_CLEAR}
     sleep 0.5
 }
 
-# print_red :: String -> String
-function print_red {
-    echo -e ${PRINT_RED}$1${PRINT_CLEAR}
+# echo_red :: String -> String
+function echo_red {
+    echo -e ${ECHO_RED}$1${ECHO_CLEAR}
     sleep 1
 }
