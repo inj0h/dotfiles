@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Filename:    init
-# Description: Shambolic script for setting up new systems.
+# Description: Dead simple script for setting up directories on new systems.
 #
 
 set -e
@@ -20,22 +20,24 @@ fi
 #
 # Variables
 #
-MYROOM="$HOME/room"
-DIRECTORIES=(dev doc etc img music video)
+MYROOM="$HOME/my_room"
 
 #
 # Script
 #
 echo "Creating directories..."
+
 dir_make $MYROOM
+dir_make $MYROOM/dev
+dir_make $MYROOM/doc
+dir_make $MYROOM/etc
+dir_make $MYROOM/img
+dir_make $MYROOM/music
+dir_make $MYROOM/video
 
-for directory in "${DIRECTORIES[@]}"; do
-    dir_make $MYROOM/$directory
-done
+echo "All directories created."
 
-if command -v tree 2>/dev/null; then
-    echo_green "Printing tree..."
-    tree -aL 1 $MYROOM
-fi
+command -v tree > /dev/null && echo_green "Printing tree..." &&
+    tree -aCL 1 $MYROOM
 
-echo_green "All directories created. Have a nice day."
+echo "Have a nice day."

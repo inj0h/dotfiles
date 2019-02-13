@@ -24,13 +24,7 @@ GIT_SIGIL_DIRTY="X"
 #
 # dir_make :: String -> Maybe Directory
 function dir_make {
-    if [ ! -d $1 ]; then
-        echo "Creating $1..."
-        mkdir $1
-        greenp "Done."
-    else
-        redp "Directory $1 already exists!"
-    fi
+    [ "$#" -eq 1 ] && [ ! -d $1 ] && mkdir -v $1
 }
 
 # dot_connect :: String -> String -> String -> String -> SymbolicLink
