@@ -27,7 +27,7 @@ function dir_make {
     [ "$#" -eq 1 ] && [ ! -d $1 ] && mkdir -v $1
 }
 
-# dot_connect :: String -> String -> String -> String -> SymbolicLink
+# dot_connect :: String -> [String] -> String -> String -> SymbolicLink
 function dot_connect {
     for file in $2; do
         if [ "$4" == "dot" ]; then
