@@ -209,8 +209,10 @@
   :ensure t
   :diminish (ivy-mode . "")
   :config
-  (setq ivy-height 10)
-  (setq ivy-initial-inputs-alist nil)
+  (setq ivy-height 10
+        ivy-initial-inputs-alist nil
+        ivy-use-virtual-buffers t
+        ivy-re-builders-alist '((t . ivy--regex-fuzzy)))
   (ivy-mode 1))
 
 (use-package counsel
@@ -220,6 +222,11 @@
   ("C-h f" . counsel-describe-function)
   ("C-h v" . counsel-describe-variable)
   ("M-x"   . counsel-M-x))
+
+(use-package flx
+  :ensure t
+  :config
+  )
 
 (use-package company
   :ensure t
