@@ -74,21 +74,6 @@
 ;; Cleanup trailing whitespace, et al after write
 (add-hook 'after-save-hook 'whitespace-cleanup)
 
-;; Column indicator
-
-(defun my-fci-settings ()
-  "Use fci for these modes."
-  (add-hook 'css-mode-hook        'fci-mode)
-  (add-hook 'emacs-lisp-mode-hook 'fci-mode)
-  (add-hook 'haskell-mode-hook    'fci-mode)
-  (add-hook 'html-mode-hook       'fci-mode)
-  (add-hook 'js-mode-hook         'fci-mode)
-  (add-hook 'python-mode-hook     'fci-mode)
-  (add-hook 'scss-mode-hook       'fci-mode)
-  (add-hook 'sh-mode-hook         'fci-mode)
-  (add-hook 'text-mode-hook       'fci-mode)
-  (add-hook 'web-mode-hook        'fci-mode))
-
 ;; Smooth scrolling.
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))
       mouse-wheel-progressive-speed nil
@@ -121,7 +106,6 @@
 (use-package fill-column-indicator
   :ensure t
   :config
-  (my-fci-settings)
   (setq fci-rule-column 79) ; Because fci counts starting at 0. Ugh.
   (setq column-number-indicator-zero-based nil))
 
@@ -293,7 +277,6 @@
 
 ;; Markdown
 (add-hook 'markdown-mode-hook 'turn-off-auto-fill)
-(add-hook 'markdown-mode-hook 'turn-off-fci-mode)
 
 ;; Text
 (add-hook 'text-mode-hook '(lambda () (set-fill-column 80)))
