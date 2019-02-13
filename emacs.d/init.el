@@ -146,24 +146,32 @@
     "`"   'delete-other-windows
     "2"   (kbd "@@")
     "pa"  'projectile-add-known-project
+    "pd"  'projectile-remove-known-project
     "ps"  'projectile-switch-project
     "gb"  'magit-branch-popup
+    "glb" 'magit-blame
     "glc" 'magit-blame-copy-hash
     "glp" 'magit-blame-popup
     "glq" 'magit-blame-quit
-    "gpa" 'magit-pull-from-upstream
-    "gpb" 'magit-push-current-to-upstream
     "gs"  'magit-status
+    "gul" 'magit-pull-from-upstream
+    "guu" 'magit-push-current-to-upstream
+    "lb"  'fci-mode
     "lc"  'count-words-region
     "lk"  'counsel-yank-pop
+    "ll"   'linum-mode
     "ls"  'sort-lines
     "lw"  'whitespace-mode
-    "L"   'linum-mode
     "ol"  'evil-switch-to-windows-last-buffer
     "on"  'counsel-find-file
     "oo"  'ivy-switch-buffer
     "ow"  'counsel-projectile-find-file
+    "eb"  'eval-buffer
+    "el"  'eval-last-sexp
+    "er"  'revert-buffer
+    "df"  'counsel-describe-function
     "dn"  'woman
+    "dv"  'counsel-describe-variable
     "sg"  'counsel-rg
     "sl"  'goto-last-change
     "sr"  'query-replace
