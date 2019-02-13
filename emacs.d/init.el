@@ -149,6 +149,7 @@
     "ol"  'evil-switch-to-windows-last-buffer
     "on"  'counsel-find-file
     "oo"  'ivy-switch-buffer
+    "or"  'counsel-recentf
     "ow"  'counsel-projectile-find-file
     "eb"  'eval-buffer
     "el"  'eval-last-sexp
