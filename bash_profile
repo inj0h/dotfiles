@@ -13,5 +13,5 @@ printf "New session with $USER!\n"
 
 # Load the config!
 if [ -f ~/.bashrc ]; then
-    source ~/.bashrc
+    . ~/.bashrc
 fi

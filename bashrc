@@ -35,7 +35,7 @@ HISTSIZE=10000
 #
 # file_load :: String -> File
 function file_load {
-    [ -f $1 ] && source $1
+    [ -f $1 ] && . $1
 }
 
 # Load all them configs.
