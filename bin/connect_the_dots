@@ -9,9 +9,9 @@ set -e
 #
 # Dependencies
 #
-if [ -f $HOME/dotfiles/lib/lib.bash ]; then
+if [ -f ~/dotfiles/lib/lib.bash ]; then
     echo "Dependencies found. Proceeding..."
-    source $HOME/dotfiles/lib/lib.bash
+    . ~/dotfiles/lib/lib.bash
 else
     echo "Error: could not find dependent script(s)."
     exit 1
@@ -20,7 +20,7 @@ fi
 #
 # Variables
 #
-DOTFILES="$HOME/dotfiles/"
+DOTFILES="$HOME/dotfiles"
 LNFLAGS=''
 
 #
@@ -29,13 +29,10 @@ LNFLAGS=''
 echo_red "Screening directory..."
 
 # Check for ~/bin
-if [ ! -d $HOME/bin ]; then
-    echo_red "Error: ~/bin not found.\nCreating..."
-
-    mkdir $HOME/bin
-
+[ ! -d ~/bin ] &&
+    echo_red "Error: ~/bin not found.\nCreating..." &&
+    mkdir ~/bin &&
     echo_green "Done."
-fi
 
 echo_green "Done."
 
@@ -46,7 +43,7 @@ if [[ `uname -s` == 'Darwin' ]]; then
     LNFLAGS="-shfv"
 elif [[ `uname -s` == 'Linux' ]]; then
     LNFLAGS="-sTfv"
-    dot_connect $LNFLAGS "redshift*" $HOME/.config
+    dot_connect $LNFLAGS "redshift*" ~/.config
 fi
 
 echo_green "Done."
@@ -54,9 +51,9 @@ echo_green "Done."
 # Shared Nix
 echo_red "Linking shared *nix files..."
 
-dot_connect $LNFLAGS $DOTFILES"bash*"    $HOME         dot
-dot_connect $LNFLAGS $DOTFILES"emacs.d"  $HOME         dot
-dot_connect $LNFLAGS $DOTFILES"rgignore" $HOME/.config dot
-dot_connect $LNFLAGS $DOTFILES"tmux*"    $HOME         dot
+dot_connect $LNFLAGS $DOTFILES/"bash*"    ~         dot
+dot_connect $LNFLAGS $DOTFILES/"emacs.d"  ~         dot
+dot_connect $LNFLAGS $DOTFILES/"rgignore" ~/.config dot
+dot_connect $LNFLAGS $DOTFILES/"tmux*"    ~         dot
 
 echo_green "Done.\nAll dotfiles linked. Have a nice day."
