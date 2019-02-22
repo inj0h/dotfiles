@@ -51,9 +51,10 @@ echo_green "Done."
 # Shared Nix
 echo_red "Linking shared *nix files..."
 
-dot_connect $LNFLAGS $DOTFILES/"bash*"    ~         dot
-dot_connect $LNFLAGS $DOTFILES/"emacs.d"  ~         dot
-dot_connect $LNFLAGS $DOTFILES/"rgignore" ~/.config dot
-dot_connect $LNFLAGS $DOTFILES/"tmux*"    ~         dot
+dot_connect $LNFLAGS $DOTFILES/"bash*"     ~             dot
+dot_connect $LNFLAGS $DOTFILES/"dircolors" ~/.dir_colors
+dot_connect $LNFLAGS $DOTFILES/"emacs.d"   ~             dot
+dot_connect $LNFLAGS $DOTFILES/"rgignore"  ~/.config     dot
+dot_connect $LNFLAGS $DOTFILES/"tmux*"     ~             dot
 
 echo_green "Done.\nAll dotfiles linked. Have a nice day."

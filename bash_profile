@@ -11,7 +11,6 @@ export EDITOR="$VISUAL"
 # Welcome Message
 printf "New session with $USER!\n"
 
-# Load the config!
-if [ -f ~/.bashrc ]; then
-    . ~/.bashrc
-fi
+# Load the configs!
+[ -f ~/.bashrc ] && . ~/.bashrc
+[ -f ~/.dir_colors/dircolors ] && eval `dircolors ~/.dir_colors/dircolors`
