@@ -45,4 +45,4 @@ file_load "$MY_CONFIG_PATH"/keybindings.bash
 file_load "$MY_CONFIG_PATH"/lib.bash
 
 # Prompt
-export PS1="$SH_GREEN\u$SH_CLEAR \w \$(git_parse_branch) $SH_RED\$(git_parse_dirty)$SH_CLEAR\n$SH_GREEN\$$SH_CLEAR "
+export PS1="$SH_GREEN\u$SH_CLEAR -> \$(pwd -P) \$(git_parse_branch) $SH_RED\$(git_parse_dirty)$SH_CLEAR\n$SH_GREEN\$$SH_CLEAR "
