@@ -90,9 +90,10 @@
 
 ;; Keybindings
 ;; General
-(global-set-key (kbd "s-=") 'text-scale-increase)
-(global-set-key (kbd "s--") 'text-scale-decrease)
-(global-set-key (kbd "s-0") 'text-scale-adjust)
+
+;; Scale text.
+(global-set-key (kbd "s-+") 'text-scale-increase)
+(global-set-key (kbd "s-=") '(lambda () (interactive) (text-scale-adjust 0)))
 
 (use-package which-key
   :ensure t
