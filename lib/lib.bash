@@ -6,16 +6,16 @@
 # Variables
 #
 # Colors
-SH_CLEAR="\[\033[0m\]"
-SH_GREEN="\[\033[1;32m\]"
-SH_RED="\[\033[1;31m\]"
-ECHO_CLEAR='\033[0m'
-ECHO_GREEN='\033[1;32m'
-ECHO_RED='\033[1;31m'
+sh_clear="\[\033[0m\]"
+sh_green="\[\033[1;32m\]"
+sh_red="\[\033[1;31m\]"
+echo_clear='\033[0m'
+echo_green='\033[1;32m'
+echo_red='\033[1;31m'
 
 # Git
-GIT_STAT_CLEAN="nothing to commit, working tree clean"
-GIT_SIGIL_DIRTY="X"
+git_stat_clean="nothing to commit, working tree clean"
+git_sigil_dirty="X"
 
 #
 # Functions
@@ -40,9 +40,9 @@ function dot_connect {
 
 # git_parse_dirty :: String -> String
 function git_parse_dirty {
-    [[ $(git status 2> /dev/null | tail -n1) != "$GIT_STAT_CLEAN" &&
+    [[ $(git status 2> /dev/null | tail -n1) != "$git_stat_clean" &&
            $(git status 2> /dev/null | tail -n1) != "" ]] &&
-        echo "$GIT_SIGIL_DIRTY"
+        echo "$git_sigil_dirty"
 }
 
 # git_parse_branch :: String -> String
@@ -52,12 +52,12 @@ function git_parse_branch {
 
 # echo_green :: String -> String
 function echo_green {
-    echo -e ${ECHO_GREEN}$1${ECHO_CLEAR}
+    echo -e ${echo_green}$1${echo_clear}
     sleep 0.5
 }
 
 # echo_red :: String -> String
 function echo_red {
-    echo -e ${ECHO_RED}$1${ECHO_CLEAR}
+    echo -e ${echo_red}$1${echo_clear}
     sleep 1
 }
