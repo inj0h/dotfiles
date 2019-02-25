@@ -216,20 +216,21 @@
         ivy-initial-inputs-alist nil
         ivy-use-virtual-buffers t
         ivy-re-builders-alist '((t . ivy--regex-fuzzy)))
-  (ivy-mode 1))
+  (ivy-mode 1)
 
-(use-package counsel
-  :ensure t
-  :after ivy
-  :bind
-  ("C-h f" . counsel-describe-function)
-  ("C-h v" . counsel-describe-variable)
-  ("M-x"   . counsel-M-x))
+  (use-package counsel
+    :ensure t
+    :after ivy
+    :bind
+    ("C-h f" . counsel-describe-function)
+    ("C-h v" . counsel-describe-variable)
+    ("M-x"   . counsel-M-x))
 
-(use-package flx
-  :ensure t
-  :config
-  )
+  (use-package flx
+    :ensure t)
+
+  (use-package smex
+    :ensure t))
 
 (use-package company
   :ensure t
