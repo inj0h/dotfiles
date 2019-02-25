@@ -85,6 +85,9 @@
 (set-frame-parameter (selected-frame) 'alpha '(100 . 90))
 (add-to-list 'default-frame-alist '(alpha . (100 . 90)))
 
+;; Minibuffer settings
+(add-hook 'minibuffer-setup-hook '(lambda () (setq truncate-lines nil)))
+
 ;; Keybindings
 ;; General
 (global-set-key (kbd "s-=") 'text-scale-increase)
