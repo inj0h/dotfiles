@@ -146,7 +146,7 @@
     "lb"  'fci-mode
     "lc"  'count-words-region
     "lk"  'counsel-yank-pop
-    "ll"   'linum-mode
+    "ll"  'linum-mode
     "ls"  'sort-lines
     "lw"  'whitespace-mode
     "ol"  'evil-switch-to-windows-last-buffer
