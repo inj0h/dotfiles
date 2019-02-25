@@ -160,6 +160,8 @@
     "df"  'counsel-describe-function
     "dn"  'woman
     "dv"  'counsel-describe-variable
+    "nn"  'deadgrep
+    "nt"  'deadgrep-visit-result
     "sg"  'counsel-rg
     "sl"  'goto-last-change
     "sr"  'query-replace
@@ -231,6 +233,9 @@
 
   (use-package smex
     :ensure t))
+
+(use-package deadgrep
+  :ensure t)
 
 (use-package company
   :ensure t
