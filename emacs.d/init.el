@@ -136,10 +136,10 @@
     "pa"  'projectile-add-known-project
     "pd"  'projectile-remove-known-project
     "ps"  'projectile-switch-project
-    "gb"  'magit-branch-popup
+    "gb"  'magit-branch
     "glb" 'magit-blame
     "glc" 'magit-blame-copy-hash
-    "glp" 'magit-blame-popup
+    "glg" 'magit-show-commit
     "glq" 'magit-blame-quit
     "gs"  'magit-status
     "gul" 'magit-pull-from-upstream
