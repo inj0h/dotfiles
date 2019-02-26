@@ -182,7 +182,7 @@
     :ensure t
     :config
     (evil-escape-mode t)
-    (setq-default evil-escape-key-sequence "hh")
+    (setq-default evil-escape-key-sequence "tt")
     (setq-default evil-escape-delay 0.25))
 
   (use-package evil-leader
