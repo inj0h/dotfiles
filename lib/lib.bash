@@ -52,6 +52,12 @@ function git_parse_dirty {
         echo "$git_sigil_dirty"
 }
 
+# git_parse_repo :: Exit -> String -> String
+function git_parse_repo {
+    git_status_check &&
+        basename $(git rev-parse --show-toplevel)
+}
+
 # git_status_check :: String -> Exit
 function git_status_check {
     git rev-parse --is-inside-work-tree > /dev/null 2>&1
