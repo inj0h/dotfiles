@@ -63,6 +63,12 @@ function git_status_check {
     git rev-parse --is-inside-work-tree > /dev/null 2>&1
 }
 
+# git_status_display :: Exit -> String -> String -> String
+function git_status_display {
+    git_status_check &&
+        echo "[$(git_parse_repo) -> $(git_parse_branch)]"
+}
+
 # echo_green :: String -> String
 function echo_green {
     echo -e ${echo_green}$1${echo_clear}
