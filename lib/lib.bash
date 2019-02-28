@@ -43,10 +43,11 @@ function git_parse_branch {
     git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1/"
 }
 
-# git_parse_dirty :: String -> String
+# git_parse_dirty :: Exit -> Exit -> Exit -> String
 function git_parse_dirty {
-    [[ $(git status 2> /dev/null | tail -n1) != "$git_stat_clean" &&
-           $(git status 2> /dev/null | tail -n1) != "" ]] &&
+    git rev-parse --is-inside-work-tree > /dev/null 2>&1 &&
+        git status 2> /dev/null | tail -n1 | grep "$git_stat_clean" > /dev/null 2>&1
+    [ $? = 1 ] &&
         echo "$git_sigil_dirty"
 }
 
