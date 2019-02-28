@@ -38,16 +38,16 @@ function dot_connect {
     done
 }
 
+# git_parse_branch :: String -> String
+function git_parse_branch {
+    git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1/"
+}
+
 # git_parse_dirty :: String -> String
 function git_parse_dirty {
     [[ $(git status 2> /dev/null | tail -n1) != "$git_stat_clean" &&
            $(git status 2> /dev/null | tail -n1) != "" ]] &&
         echo "$git_sigil_dirty"
-}
-
-# git_parse_branch :: String -> String
-function git_parse_branch {
-    git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/[\1]/"
 }
 
 # echo_green :: String -> String
