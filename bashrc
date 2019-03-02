@@ -45,7 +45,7 @@ file_load "$my_config_path"/keybindings.bash
 file_load "$my_config_path"/lib.bash
 
 # Prompt
-export PS1="$sh_green\u$sh_clear -> \$(pwd -P) \$(git_status_display) $sh_red\$(git_parse_dirty)$sh_clear\n$sh_green\$$sh_clear "
+export PS1="$sh_cyan\u -> \$(pwd -P)$sh_clear $sh_blue\$(git_status_display)$sh_clear $sh_red\$(git_parse_dirty)$sh_clear\n$sh_green\$$sh_clear "
 
 # Completion
 if [[ `uname -s` == 'Linux' ]]; then

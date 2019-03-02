@@ -6,9 +6,13 @@
 # Variables
 #
 # Colors
+sh_blue="\[\033[0;34m\]"
 sh_clear="\[\033[0m\]"
-sh_green="\[\033[1;32m\]"
-sh_red="\[\033[1;31m\]"
+sh_cyan="\[\033[0;36m\]"
+sh_green="\[\033[0;32m\]"
+sh_purple="\[\033[0;35m\]"
+sh_red="\[\033[0;31m\]"
+
 echo_clear='\033[0m'
 echo_green='\033[1;32m'
 echo_red='\033[1;31m'
