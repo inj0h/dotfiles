@@ -328,6 +328,14 @@
   (setq markdown-command "/usr/local/bin/pandoc")
   (add-hook 'markdown-mode-hook 'flycheck-mode))
 
+;; Git
+(use-package git-commit
+  :ensure t
+  :config
+  (setq git-commit-summary-max-length 50
+        fci-rule-column 71)
+  (add-hook 'git-commit-mode-hook '(lambda () (set-fill-column 72))))
+
 (use-package gitignore-mode :ensure t)
 
 (use-package web-mode
