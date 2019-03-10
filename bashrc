@@ -47,7 +47,13 @@ file_load "$my_config_path"/lib.bash
 # Prompt
 export PS1="$sh_cyan\u -> \$(pwd -P)$sh_clear $sh_blue\$(git_status_display)$sh_clear $sh_red\$(git_parse_dirty)$sh_clear\n$sh_green\$$sh_clear "
 
+#
+# Externalities
+#
 # Completion
 if [[ `uname -s` == 'Linux' ]]; then
     . /etc/profile.d/bash_completion.sh
 fi
+
+# FZF
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
