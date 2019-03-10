@@ -1,8 +1,11 @@
 aspell
+bash
+bash-completion
 coreutils
 ctags
 ffmpeg
 findutils
+fzf
 gist
 git
 grep
@@ -11,7 +14,6 @@ nginx
 openssl
 pandoc
 readline
-reattach-to-user-namespace
 ripgrep
 tmux
 tree
