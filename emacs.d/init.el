@@ -182,8 +182,9 @@
     :ensure t
     :config
     (evil-escape-mode t)
-    (setq-default evil-escape-key-sequence ",.")
-    (setq-default evil-escape-delay 0.25))
+    (setq-default evil-escape-key-sequence "hh"
+                  evil-escape-excluded-states '(normal visual emacs motion)
+                  evil-escape-delay 0.2))
 
   (use-package evil-leader
     :ensure t
