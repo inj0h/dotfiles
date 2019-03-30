@@ -58,7 +58,7 @@
 (setq-default fill-column 80)
 (global-hl-line-mode t)
 (defalias 'yes-or-no-p 'y-or-n-p)
-(setq linum-format "  %d ") ; Space out gutter.
+(setq display-line-numbers-grow-only t)
 
 ;; Font stuff
 (if (eq system-type 'gnu/linux)
@@ -147,7 +147,7 @@
     "lb"  'fci-mode
     "lc"  'count-words-region
     "lk"  'counsel-yank-pop
-    "ll"  'linum-mode
+    "ll"  'display-line-numbers-mode
     "ls"  'sort-lines
     "lw"  'whitespace-mode
     "ol"  'evil-switch-to-windows-last-buffer
