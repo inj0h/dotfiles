@@ -150,6 +150,7 @@
     "ll"  'display-line-numbers-mode
     "ls"  'sort-lines
     "lw"  'whitespace-mode
+    "/p"  'me/kill-filepath
     "ol"  'evil-switch-to-windows-last-buffer
     "on"  'counsel-find-file
     "oo"  'ivy-switch-buffer
@@ -343,6 +344,17 @@
   :ensure t
   :config
   )
+
+;; Utility Functions
+(defun me/kill-filepath ()
+  "Copy the current buffer filename with path to clipboard."
+  (interactive)
+  (let ((filepath (if (equal major-mode 'dired-mode)
+                      default-directory
+                    (buffer-file-name))))
+    (when filepath
+      (kill-new filepath)
+      (message "Copied buffer filepath '%s' to clipboard." filepath))))
 
 ;; Snippets
 (use-package yasnippet
