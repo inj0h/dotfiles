@@ -19,7 +19,6 @@ echo_red='\033[1;31m'
 
 # Git
 git_stat_clean="nothing to commit, working tree clean"
-git_sigil_dirty="X"
 
 #
 # Functions
@@ -45,15 +44,16 @@ function dot_connect {
 # git_parse_branch :: Exit -> String -> String
 function git_parse_branch {
     git_status_check &&
-        git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1/"
+        git branch --no-color 2> /dev/null |
+            sed -e '/^[^*]/d' -e "s/* \(.*\)/\1/"
 }
 
 # git_parse_dirty :: Exit -> Exit -> Exit -> String
 function git_parse_dirty {
     git_status_check &&
-        git status 2> /dev/null | tail -n1 | grep "$git_stat_clean" > /dev/null 2>&1
-    [ $? = 1 ] &&
-        echo "$git_sigil_dirty"
+        git status 2> /dev/null |
+                       tail -n1 | grep "$git_stat_clean" > /dev/null 2>&1
+    [ $? = 1 ] && u_x
 }
 
 # git_parse_repo :: Exit -> String -> String
@@ -70,7 +70,7 @@ function git_status_check {
 # git_status_display :: Exit -> String -> String -> String
 function git_status_display {
     git_status_check &&
-        echo "[$(git_parse_repo) -> $(git_parse_branch)]"
+        echo "[$(git_parse_repo) $(u_arrow_ltr) $(git_parse_branch)]"
 }
 
 # echo_green :: String -> String
@@ -83,4 +83,19 @@ function echo_green {
 function echo_red {
     echo -e ${echo_red}$1${echo_clear}
     sleep 1
+}
+
+# u_arrow_ltr :: String -> String
+function u_arrow_ltr {
+    printf "\u21fe"
+}
+
+# u_lambda :: String -> String
+function u_lambda {
+    printf "\u03bb"
+}
+
+# u_x { :: String -> String
+function u_x {
+    printf "\u2717"
 }
