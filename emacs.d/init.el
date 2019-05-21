@@ -62,7 +62,7 @@
 
 ;; Font stuff
 (if (eq system-type 'gnu/linux)
-    (set-frame-font "Inconsolata-16" nil t)
+    (set-frame-font "Inconsolata-17" nil t)
   (set-frame-font "Menlo-16" nil t))
 
 ;; Tabs = spaces * 4
