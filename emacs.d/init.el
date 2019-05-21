@@ -272,7 +272,7 @@
 ;;
 ;; End Search and Completion configuration
 ;;
-;; Start Language configuration
+;; Start Language and Mode configuration
 ;;
 
 ;; Support Human Languages... or at least English.
@@ -296,16 +296,6 @@
   (yas-minor-mode)
   (yas-reload-all))
 
-;; Emacs Lisp
-(add-hook 'emacs-lisp-mode-hook 'flyspell-prog-mode)
-(add-hook 'emacs-lisp-mode-hook '(lambda () (set-fill-column 80)))
-(add-hook 'emacs-lisp-mode-hook 'turn-on-auto-fill)
-(add-hook 'emacs-lisp-mode-hook '(lambda ()
-                                   (local-set-key (kbd "s-e") 'eval-last-sexp)))
-
-;; Markdown
-(add-hook 'markdown-mode-hook 'turn-off-auto-fill)
-
 ;; Text
 (add-hook 'text-mode-hook '(lambda () (set-fill-column 80)))
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
@@ -322,21 +312,19 @@
   :config
   (add-hook 'text-mode-hook 'flyspell-mode))
 
+;; Emacs Lisp
+(add-hook 'emacs-lisp-mode-hook 'flyspell-prog-mode)
+(add-hook 'emacs-lisp-mode-hook '(lambda () (set-fill-column 80)))
+(add-hook 'emacs-lisp-mode-hook 'turn-on-auto-fill)
+(add-hook 'emacs-lisp-mode-hook '(lambda ()
+                                   (local-set-key (kbd "s-e") 'eval-last-sexp)))
+
 ;; Haskell
 (use-package haskell-mode
   :ensure t
   :config
   ;; Not sure if this hook does much atm.
   (add-hook 'haskell-mode-hook 'flycheck-mode))
-
-;; Markdown
-(use-package markdown-mode
-  :ensure t
-  :commands (markdown-mode gfm-mode)
-  :mode (("README\\.md\\'" . gfm-mode))
-  :config
-  (setq markdown-command "/usr/local/bin/pandoc")
-  (add-hook 'markdown-mode-hook 'flycheck-mode))
 
 ;; Git
 (use-package git-commit
@@ -348,6 +336,25 @@
 
 (use-package gitignore-mode :ensure t)
 
+;; Markdown
+(use-package markdown-mode
+  :ensure t
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode))
+  :config
+  (cond ((string-equal system-type "gnu/linux")
+         (setq markdown-command "/usr/bin/pandoc"))
+        ((string-equal system-type "darwin")
+         (setq markdown-command "/usr/local/bin/pandoc")))
+
+  (add-hook 'markdown-mode-hook 'flycheck-mode)
+  (add-hook 'markdown-mode-hook 'turn-off-auto-fill))
+
+;; Shell
+(add-to-list 'auto-mode-alist '("bash_profile" . sh-mode))
+(add-to-list 'auto-mode-alist '("bashrc" . sh-mode))
+
+;; Etc
 (use-package web-mode
   :ensure t
   :config
