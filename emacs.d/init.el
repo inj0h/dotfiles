@@ -206,7 +206,8 @@
   (use-package evil-magit
     :ensure t
     :config
-    ))
+    (add-hook 'magit-status-mode-hook
+              '(lambda () (setq magit-diff-refine-hunk t)))))
 
 ;;
 ;; End Evil configuration
