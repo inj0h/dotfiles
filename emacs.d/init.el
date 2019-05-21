@@ -24,6 +24,13 @@
 (use-package diminish :ensure t)
 (use-package bind-key :ensure t)
 
+;; Mac load path shenanigans.
+(use-package exec-path-from-shell
+  :ensure t
+  :config
+  (when (string-equal system-type "darwin")
+    (exec-path-form-shell-initialize)))
+
 ;; Dump all the custom-var-face s*** here.
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file 'noerror)
