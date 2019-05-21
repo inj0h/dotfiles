@@ -336,7 +336,7 @@
   :ensure t
   :config
   (setq git-commit-summary-max-length 50)
-  (add-hook 'git-commit-mode-hook '(lambda () (setq fci-rule-column 71)))
+  (add-hook 'git-commit-mode-hook '(lambda () (setq-local fci-rule-column 71)))
   (add-hook 'git-commit-mode-hook '(lambda () (set-fill-column 72))))
 
 (use-package gitignore-mode :ensure t)
