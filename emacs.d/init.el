@@ -29,7 +29,7 @@
   :ensure t
   :config
   (when (string-equal system-type "darwin")
-    (exec-path-form-shell-initialize)))
+    (exec-path-from-shell-initialize)))
 
 ;; Dump all the custom-var-face s*** here.
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
@@ -225,7 +225,7 @@
   :ensure t
   :diminish (ivy-mode . "")
   :config
-  (setq ivy-height 10
+  (setq ivy-height 20
         ivy-initial-inputs-alist nil
         ivy-use-virtual-buffers t
         ivy-re-builders-alist '((t . ivy--regex-fuzzy)))
@@ -237,7 +237,13 @@
     :bind
     ("C-h f" . counsel-describe-function)
     ("C-h v" . counsel-describe-variable)
-    ("M-x"   . counsel-M-x))
+    ("M-x"   . counsel-M-x)
+    :config
+    (setq-default counsel-rg-base-command "rg -S \
+                                              --hidden \
+                                              --no-heading \
+                                              --line-number \
+                                              --color never %s"))
 
   (use-package flx
     :ensure t)
@@ -253,6 +259,7 @@
   :init (global-company-mode)
   :config
   (setq company-idle-delay 0)
+  (setq-default company-dabbrev-downcase nil)
   (with-eval-after-load 'company
     (define-key company-active-map (kbd "M-n") nil)
     (define-key company-active-map (kbd "M-p") nil)
@@ -347,8 +354,15 @@
         ((string-equal system-type "darwin")
          (setq markdown-command "/usr/local/bin/pandoc")))
 
+  (add-hook 'markdown-mode-hook '(lambda () (setq-local truncate-lines t)))
   (add-hook 'markdown-mode-hook 'flycheck-mode)
   (add-hook 'markdown-mode-hook 'turn-off-auto-fill))
+
+;; Org
+(use-package org-bullets
+  :ensure t
+  :config
+  (add-hook 'org-mode-hook 'org-bullets-mode))
 
 ;; Shell
 (add-to-list 'auto-mode-alist '("bash_profile" . sh-mode))
