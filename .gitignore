@@ -7,7 +7,6 @@
 
 # ..Except the whitelist!
 !.gitignore
-!aspell.en.pws
 !bash_profile
 !bashrc
 !dircolors
