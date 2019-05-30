@@ -61,8 +61,9 @@
 ;; Window management.
 (add-hook 'find-file-hook 'delete-other-windows)
 
-(setq column-number-mode t)
-(setq-default fill-column 80)
+(setq column-number-mode t
+      my/default-column-limit 80)
+(setq-default fill-column my/default-column-limit)
 (global-hl-line-mode t)
 (defalias 'yes-or-no-p 'y-or-n-p)
 (setq display-line-numbers-grow-only t)
@@ -114,12 +115,6 @@
   :config
   (load-theme 'abyss t))
 
-(use-package fill-column-indicator
-  :ensure t
-  :config
-  (setq fci-rule-column 79) ; Because fci counts starting at 0. Ugh.
-  (setq column-number-indicator-zero-based nil))
-
 ;;
 ;; End UI configuration
 ;;
@@ -137,6 +132,7 @@
 (defun my-evil-leader-settings ()
   "Configure evil leader-based keybindings."
   (evil-leader/set-leader "<SPC>")
+
   (evil-leader/set-key
     "`"   'delete-other-windows
     "2"   (kbd "@@")
@@ -151,7 +147,6 @@
     "gs"  'magit-status
     "gul" 'magit-pull-from-upstream
     "guu" 'magit-push-current-to-upstream
-    "lb"  'fci-mode
     "lc"  'count-words-region
     "lk"  'counsel-yank-pop
     "ll"  'display-line-numbers-mode
@@ -169,16 +164,22 @@
     "df"  'counsel-describe-function
     "dn"  'woman
     "dv"  'counsel-describe-variable
+    "ng"  'counsel-rg
+    "nl"  'goto-last-change
     "nn"  'deadgrep
-    "nt"  'deadgrep-visit-result
-    "sg"  'counsel-rg
-    "sl"  'goto-last-change
-    "sr"  'query-replace
+    "nr"  'query-replace
+    "nt"  'swiper
     "ka"  'which-key-show-keymap
     "kk"  'which-key-abort
     "kma" 'which-key-show-major-mode
     "kmi" 'which-key-show-minor-mode-keymap
-    "w"   'other-window))
+    "w"   'other-window)
+
+  (evil-leader/set-key-for-mode 'deadgrep-mode
+    "nn" 'deadgrep-visit-result-other-window)
+
+  (evil-leader/set-key-for-mode 'org-mode
+    "ls" 'org-sort-entries))
 
 (use-package evil
   :ensure t
@@ -304,7 +305,8 @@
   (yas-reload-all))
 
 ;; Text
-(add-hook 'text-mode-hook '(lambda () (set-fill-column 80)))
+(add-hook 'text-mode-hook
+          '(lambda () (set-fill-column my/default-column-limit)))
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 
 ;; Colored delims
@@ -321,7 +323,8 @@
 
 ;; Emacs Lisp
 (add-hook 'emacs-lisp-mode-hook 'flyspell-prog-mode)
-(add-hook 'emacs-lisp-mode-hook '(lambda () (set-fill-column 80)))
+(add-hook 'emacs-lisp-mode-hook
+          '(lambda () (set-fill-column my/default-column-limit)))
 (add-hook 'emacs-lisp-mode-hook 'turn-on-auto-fill)
 (add-hook 'emacs-lisp-mode-hook '(lambda ()
                                    (local-set-key (kbd "s-e") 'eval-last-sexp)))
@@ -337,9 +340,16 @@
 (use-package git-commit
   :ensure t
   :config
-  (setq git-commit-summary-max-length 50)
-  (add-hook 'git-commit-mode-hook '(lambda () (setq-local fci-rule-column 71)))
-  (add-hook 'git-commit-mode-hook '(lambda () (set-fill-column 72))))
+  (setq git-commit-summary-max-length 50
+        my/git-commit-mode-column-limit 72)
+
+  (add-hook 'git-commit-mode-hook
+            '(lambda ()
+               (setq-local whitespace-line-column
+                           my/git-commit-mode-column-limit)))
+  (add-hook 'git-commit-mode-hook
+            '(lambda () (set-fill-column my/git-commit-mode-column-limit)))
+  (add-hook 'git-commit-mode-hook '(lambda () (turn-on-auto-fill))))
 
 (use-package gitignore-mode :ensure t)
 
