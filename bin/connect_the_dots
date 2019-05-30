@@ -1,7 +1,7 @@
 #!/bin/bash
 #
-# Filename:    connect_the_dots
-# Description: Softly link all *nix configuration files.
+# Filename: connect_the_dots
+# Note:     Softly link all *nix configuration files.
 #
 
 set -e

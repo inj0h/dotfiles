@@ -1,5 +1,5 @@
-# Filename:    bash_profile
-# Description: Just your average bash_profile.
+# Filename: bash_profile
+# Note:     Just your average bash_profile.
 #
 
 #

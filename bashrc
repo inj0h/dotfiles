@@ -1,5 +1,5 @@
-# Filename:    bashrc
-# Description: A good enough bashrc for most *nix users.
+# Filename: bashrc
+# Note:     A good enough bashrc for most *nix users.
 #
 
 #

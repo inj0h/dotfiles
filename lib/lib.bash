@@ -1,5 +1,5 @@
-# Filename:    lib.bash
-# Description: Don't reinvent the wheel. Just put the wheels here.
+# Filename: lib.bash
+# Note:     Don't reinvent the wheel. Just put the wheels here.
 #
 
 #

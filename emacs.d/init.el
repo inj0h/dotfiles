@@ -1,5 +1,5 @@
-;; Filename:    init.el
-;; Description: Main Emacs Lisp configuration file.
+;; Filename: init.el
+;; Note:     Main Emacs Lisp configuration file.
 ;;
 
 ;; Manage Lisp files and packages

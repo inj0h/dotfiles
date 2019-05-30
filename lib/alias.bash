@@ -1,5 +1,5 @@
-# Filename:    alias.bash
-# Description: Useful aliases for a smooth CLI experience.
+# Filename: alias.bash
+# Note:     Useful aliases for a smooth CLI experience.
 #
 
 #

@@ -1,5 +1,5 @@
-# Filename:    hardware.bash
-# Description: Manage IO devices on Linux.
+# Filename: hardware.bash
+# Note:     Manage IO devices on Linux.
 #
 
 if [[ `uname` == 'Linux' ]]; then
