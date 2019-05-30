@@ -80,6 +80,18 @@ alias txl='tmux ls'
 alias txn='tmux new -s'
 
 #
+# Utilities
+#
+# Find
+if [[ `uname -s` == 'Darwin' ]]; then
+    alias fd='gfind . -type d -iname'
+    alias ff='gfind . -type f -iname'
+else
+    alias fd='find . -type d -iname'
+    alias ff='find . -type f -iname'
+fi
+
+#
 # Etc
 #
 alias u='cd ..'
