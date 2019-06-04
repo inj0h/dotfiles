@@ -63,6 +63,7 @@
 
 (setq column-number-mode t
       my/default-column-limit 80)
+(setq-default column-number-indicator-zero-based nil)
 (setq-default fill-column my/default-column-limit)
 (global-hl-line-mode t)
 (defalias 'yes-or-no-p 'y-or-n-p)
