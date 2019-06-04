@@ -70,7 +70,7 @@ function git_status_check {
 # git_status_display :: Exit -> String -> String -> String
 function git_status_display {
     git_status_check &&
-        echo "[$(git_parse_repo) $(u_arrow_ltr) $(git_parse_branch)]"
+        echo "$(git_parse_repo) $(u_arrow_ltr) $(git_parse_branch)"
 }
 
 # echo_green :: String -> String
