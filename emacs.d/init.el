@@ -81,7 +81,7 @@
 (setq backward-delete-char-untabify-method 'hungry)
 
 ;; Cleanup trailing whitespace, et al after write
-(add-hook 'after-save-hook 'whitespace-cleanup)
+(add-hook 'before-save-hook 'whitespace-cleanup)
 
 ;; Smooth scrolling.
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))
