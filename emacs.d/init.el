@@ -370,10 +370,16 @@
   (add-hook 'markdown-mode-hook 'turn-off-auto-fill))
 
 ;; Org
-(use-package org-bullets
-  :ensure t
+(use-package org
   :config
-  (add-hook 'org-mode-hook 'org-bullets-mode))
+  (setq org-src-fontify-natively t
+        org-src-tab-acts-natively t)
+  (add-to-list 'org-src-lang-modes '("haskell". haskell))
+
+  (use-package org-bullets
+    :ensure t
+    :config
+    (add-hook 'org-mode-hook 'org-bullets-mode)))
 
 ;; Shell
 (add-to-list 'auto-mode-alist '("bash_profile" . sh-mode))
