@@ -46,16 +46,3 @@ file_load "$my_config_path"/lib.bash
 
 # Prompt
 export PS1="$sh_green\u$sh_clear $sh_cyan\$(pwd -P)$sh_clear $sh_blue\$(git_status_display)$sh_clear $sh_red\$(git_parse_dirty)$sh_clear\n$sh_green\$(u_lambda)$sh_clear "
-
-#
-# Externalities
-#
-# Completion
-if [[ `uname -s` == 'Linux' ]]; then
-    . /etc/profile.d/bash_completion.sh
-fi
-
-# FZF
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
-export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null'
-export FZF_DEFAULT_OPTS='--color bg:-1,bg+:-1,fg+:-1'
