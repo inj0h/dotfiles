@@ -36,7 +36,3 @@
 
 !/packages
 /packages/**
-!/packages/brew
-!/packages/brewcask
-!/packages/debian
-!/packages/snap
