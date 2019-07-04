@@ -44,6 +44,7 @@ if [[ `uname -s` == 'Darwin' ]]; then
 elif [[ `uname -s` == 'Linux' ]]; then
     LNFLAGS="-sTfv"
     dot_connect $LNFLAGS $DOTFILES/"redshift*" ~/.config
+    dot_connect $LNFLAGS $DOTFILES/"dircolors" ~/.dir_colors
 fi
 
 echo_green "Done."
@@ -52,7 +53,6 @@ echo_green "Done."
 echo_red "Linking shared *nix files..."
 
 dot_connect $LNFLAGS $DOTFILES/"bash*"     ~             dot
-dot_connect $LNFLAGS $DOTFILES/"dircolors" ~/.dir_colors
 dot_connect $LNFLAGS $DOTFILES/"emacs.d"   ~             dot
 dot_connect $LNFLAGS $DOTFILES/"rgignore"  ~/.config     dot
 dot_connect $LNFLAGS $DOTFILES/"tmux*"     ~             dot
