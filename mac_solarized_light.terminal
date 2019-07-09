@@ -1460,7 +1460,7 @@
 	<key>ShowTTYNameInTabTitle</key>
 	<true/>
 	<key>ShowTTYNameInTitle</key>
-	<true/>
+	<false/>
 	<key>ShowWindowSettingsNameInTitle</key>
 	<false/>
 	<key>TerminalType</key>
@@ -1619,6 +1619,8 @@
 	<false/>
 	<key>VisualBellOnlyWhenMuted</key>
 	<false/>
+	<key>WindowTitle</key>
+	<string></string>
 	<key>blackColour</key>
 	<data>
 	BAtzdHJlYW10eXBlZIHoA4QBQISEhAdOU0NvbG9yAISECE5TT2JqZWN0AIWEAWMBhARm
