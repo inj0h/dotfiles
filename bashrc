@@ -50,6 +50,9 @@ export PS1="$sh_green\u$sh_clear $sh_cyan\$(pwd -P)$sh_clear $sh_blue\$(git_stat
 # Externalities
 #
 # Completion
+[[ `uname -s` == 'Darwin' ]] &&
+    . /usr/local/etc/bash_completion
+
 [[ `uname -s` == 'Linux' ]] &&
     . /etc/profile.d/bash_completion.sh
 
@@ -75,7 +78,7 @@ command -v rg > /dev/null &&
 # NVM
 export NVM_DIR="$HOME/.nvm"
 
-command -v brew &&
+command -v brew > /dev/null &&
     [ $(brew list | grep nvm) == "nvm" ] &&
     my_nvm="/usr/local/opt/nvm/nvm.sh" &&
     my_nvm_complete="/usr/local/opt/nvm/etc/bash_completion"
