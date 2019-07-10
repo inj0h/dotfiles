@@ -9,6 +9,7 @@
 !.gitignore
 !bash_profile
 !bashrc
+!Brewfile
 !erikorojo_planck_rev6.json
 !mac_solarized_light.terminal
 !readme.md
@@ -32,7 +33,3 @@
 !/lib/hardware.bash
 !/lib/keybindings.bash
 !/lib/lib.bash
-
-!/packages
-/packages/**
-!/packages/Brewfile
