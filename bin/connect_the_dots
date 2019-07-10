@@ -43,8 +43,6 @@ if [[ `uname -s` == 'Darwin' ]]; then
     LNFLAGS="-shfv"
 elif [[ `uname -s` == 'Linux' ]]; then
     LNFLAGS="-sTfv"
-    dot_connect $LNFLAGS $DOTFILES/"redshift*" ~/.config
-    dot_connect $LNFLAGS $DOTFILES/"dircolors" ~/.dir_colors
 fi
 
 echo_green "Done."

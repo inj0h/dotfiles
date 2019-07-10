@@ -15,5 +15,3 @@ printf "New session with $USER!\n"
 #
 # In case we don't run a login shell every time.
 [ -f ~/.bashrc ] && . ~/.bashrc
-
-[ -f ~/.dir_colors/dircolors ] && eval `dircolors ~/.dir_colors/dircolors`

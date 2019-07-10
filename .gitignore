@@ -9,10 +9,8 @@
 !.gitignore
 !bash_profile
 !bashrc
-!dircolors
 !mac_solarized_light.terminal
 !readme.md
-!redshift.conf
 !rgignore
 !tmux.conf
 
