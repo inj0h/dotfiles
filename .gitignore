@@ -31,3 +31,10 @@
 /lib/**
 !/lib/alias.bash
 !/lib/lib.bash
+
+
+!/erikorojo_planck_rev6/
+/erikorojo_planck_rev6/**
+!/erikorojo_planck_rev6/keymap.c
+!/erikorojo_planck_rev6/layers.json
+!/erikorojo_planck_rev6/readme.md
