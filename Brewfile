@@ -1,6 +1,7 @@
 brew 'aspell'
 brew 'bash'
 brew 'bash-completion'
+brew 'bats'
 brew 'coreutils'
 brew 'ffmpeg'
 brew 'findutils'
