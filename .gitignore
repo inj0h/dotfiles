@@ -10,7 +10,6 @@
 !bash_profile
 !bashrc
 !Brewfile
-!erikorojo_planck_rev6.json
 !mac_solarized_light.terminal
 !readme.md
 !rgignore
@@ -27,14 +26,14 @@
 !/emacs.d/init.el
 !/emacs.d/snippets/
 
+!/keyboard/
+!/keyboard/**
+!/keyboard/erikorojo_planck_rev6.json
+!/keyboard/erikorojo_planck_rev6/keymap.c
+!/keyboard/erikorojo_planck_rev6/layers.json
+!/keyboard/erikorojo_planck_rev6/readme.md
+
 !/lib/
 /lib/**
 !/lib/alias.bash
 !/lib/lib.bash
-
-
-!/erikorojo_planck_rev6/
-/erikorojo_planck_rev6/**
-!/erikorojo_planck_rev6/keymap.c
-!/erikorojo_planck_rev6/layers.json
-!/erikorojo_planck_rev6/readme.md
