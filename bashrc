@@ -56,13 +56,6 @@ export PS1="$sh_green\u$sh_clear $sh_cyan\$(pwd -P)$sh_clear $sh_blue\$(git_stat
 [[ `uname -s` == 'Linux' ]] &&
     . /etc/profile.d/bash_completion.sh
 
-# Fzf
-[ -f ~/.fzf.bash ] && . ~/.fzf.bash
-export FZF_DEFAULT_OPTS='--color bg:-1,bg+:-1,fg+:-1'
-
-command -v rg > /dev/null &&
-    export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null'
-
 # Haskell
 #
 # Stack
