@@ -12,7 +12,7 @@
 
 ;; Load local-only settings file if it exists on disk, and don't throw a warning
 ;; if it doesn't.
-(load "~/dotfiles/emacs.d/settings-local-load-pre" 1)
+(load "~/dotfiles/emacs.d/local-preload" 1)
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -111,10 +111,10 @@
   (setq which-key-idle-delay 0.2)
   (setq which-key-sort-order 'which-key-key-order-alpha))
 
-(use-package abyss-theme
+(use-package dracula-theme
   :ensure t
   :config
-  (load-theme 'abyss t))
+  (load-theme 'dracula t))
 
 ;;
 ;; End UI configuration
@@ -154,6 +154,7 @@
     "ls"  'sort-lines
     "lw"  'whitespace-mode
     "/p"  'me/kill-filepath
+    "abh" '(lambda () (interactive) (find-file "~/.bash_history"))
     "ol"  'evil-switch-to-windows-last-buffer
     "on"  'counsel-find-file
     "oo"  'ivy-switch-buffer
@@ -417,4 +418,4 @@
 ;; when you need to override variables, etc.
 ;;
 ;; Don't throw a warning if it doesn't exist on disk.
-(load "~/dotfiles/emacs.d/settings-local-load-post" 1)
+(load "~/dotfiles/emacs.d/local-postload" 1)
