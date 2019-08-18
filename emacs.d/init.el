@@ -255,7 +255,11 @@
     :ensure t))
 
 (use-package deadgrep
-  :ensure t)
+  :ensure t
+  :config
+  (with-eval-after-load 'deadgrep
+    (evil-define-key 'normal
+      deadgrep-mode-map (kbd "q") 'kill-buffer-and-window)))
 
 (use-package company
   :ensure t
@@ -296,6 +300,7 @@
   (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
   (add-hook 'haskell-mode-hook    #'rainbow-delimiters-mode)
   (add-hook 'html-mode-hook       #'rainbow-delimiters-mode)
+  (add-hook 'java-mode-hook       #'rainbow-delimiters-mode)
   (add-hook 'js-mode-hook         #'rainbow-delimiters-mode)
   (add-hook 'scss-mode-hook       #'rainbow-delimiters-mode)
   (add-hook 'sh-mode-hook         #'rainbow-delimiters-mode)
