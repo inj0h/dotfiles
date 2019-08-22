@@ -2,12 +2,16 @@
 ;; Note:     Main Emacs Lisp configuration file.
 ;;
 
+;; Bugfix for v26.2 (apparently).
+(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+
 ;; Manage Lisp files and packages
 (package-initialize)
 
 (require 'package)
 (setq package-enable-at-startup nil)
 (add-to-list 'exec-path "/usr/local/bin")
+(add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/") t)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 
 ;; Load local-only settings file if it exists on disk, and don't throw a warning
@@ -135,50 +139,56 @@
   (evil-leader/set-leader "<SPC>")
 
   (evil-leader/set-key
-    "`"   'delete-other-windows
-    "2"   (kbd "@@")
-    "pa"  'projectile-add-known-project
-    "pd"  'projectile-remove-known-project
-    "ps"  'projectile-switch-project
-    "gb"  'magit-branch
-    "glb" 'magit-blame
-    "glc" 'magit-blame-copy-hash
-    "glg" 'magit-show-commit
-    "glq" 'magit-blame-quit
-    "gs"  'magit-status
-    "gul" 'magit-pull-from-upstream
-    "guu" 'magit-push-current-to-upstream
-    "lc"  'count-words-region
-    "lk"  'counsel-yank-pop
-    "ll"  'display-line-numbers-mode
-    "ls"  'sort-lines
-    "lw"  'whitespace-mode
-    "/p"  'me/kill-filepath
-    "abh" '(lambda () (interactive) (find-file "~/.bash_history"))
-    "ol"  'evil-switch-to-windows-last-buffer
-    "on"  'counsel-find-file
-    "oo"  'ivy-switch-buffer
-    "or"  'counsel-recentf
-    "ow"  'counsel-projectile-find-file
-    "eb"  'eval-buffer
-    "el"  'eval-last-sexp
-    "er"  'revert-buffer
-    "df"  'counsel-describe-function
-    "dn"  'woman
-    "dv"  'counsel-describe-variable
-    "ng"  'counsel-rg
-    "nl"  'goto-last-change
-    "nn"  'deadgrep
-    "nr"  'query-replace
-    "nt"  'swiper
-    "ka"  'which-key-show-keymap
-    "kk"  'which-key-abort
-    "kma" 'which-key-show-major-mode
-    "kmi" 'which-key-show-minor-mode-keymap
-    "w"   'other-window)
+    "2"    (kbd "@@")
+
+    "pa"   'projectile-add-known-project
+    "pd"   'projectile-remove-known-project
+    "ps"   'projectile-switch-project
+
+    "gb"   'magit-branch
+    "glb"  'magit-blame
+    "glc"  'magit-blame-copy-hash
+    "glg"  'magit-show-commit
+    "glq"  'magit-blame-quit
+    "gs"   'magit-status
+    "gul"  'magit-pull-from-upstream
+    "guu"  'magit-push-current-to-upstream
+
+    "lc"   'count-words-region
+    "ll"   'display-line-numbers-mode
+    "ls"   'sort-lines
+    "lw"   'whitespace-mode
+
+    "oc"   'delete-other-windows
+    "od"   'me/kill-filepath
+    "oe"   'counsel-switch-buffer-other-window
+    "oh"   'counsel-projectile-find-file
+    "on"   'counsel-find-file
+    "oo"   'counsel-switch-buffer
+    "or"    'other-window
+    "osbh" '(lambda () (interactive) (find-file "~/.bash_history"))
+    "ot"   'evil-switch-to-windows-last-buffer
+
+    "da"   'counsel-apropos
+    "dd"   'woman
+    "df"   'counsel-describe-function
+    "dv"   'counsel-describe-variable
+
+    "ne"   'counsel-bookmark
+    "nh"   'deadgrep
+    "nn"   'query-replace
+    "no"   'swiper
+    "ns"   'counsel-yank-pop
+    "nt"   'goto-last-change
+    "nu"   'bookmark-set
+
+    "ka"   'which-key-show-keymap
+    "kk"   'which-key-abort
+    "kma"  'which-key-show-major-mode
+    "kmi"  'which-key-show-minor-mode-keymap)
 
   (evil-leader/set-key-for-mode 'deadgrep-mode
-    "nn" 'deadgrep-visit-result-other-window)
+    "nh" 'deadgrep-visit-result-other-window)
 
   (evil-leader/set-key-for-mode 'org-mode
     "ls" 'org-sort-entries))
@@ -229,8 +239,12 @@
   :diminish (ivy-mode . "")
   :config
   (setq ivy-height 20
+        ivy-height-alist '((counsel-evil-registers . 10)
+                           (counsel-yank-pop . 10)
+                           (counsel-git-log . 20)
+                           (counsel--generic . 10)
+                           (counsel-el . 10))
         ivy-initial-inputs-alist nil
-        ivy-use-virtual-buffers t
         ivy-re-builders-alist '((t . ivy--regex-fuzzy)))
   (ivy-mode 1)
 
@@ -247,9 +261,6 @@
                                               --no-heading \
                                               --line-number \
                                               --color never %s"))
-
-  (use-package flx
-    :ensure t)
 
   (use-package smex
     :ensure t))
