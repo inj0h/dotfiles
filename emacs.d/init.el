@@ -141,10 +141,6 @@
   (evil-leader/set-key
     "2"    (kbd "@@")
 
-    "pa"   'projectile-add-known-project
-    "pd"   'projectile-remove-known-project
-    "ps"   'projectile-switch-project
-
     "gb"   'magit-branch
     "glb"  'magit-blame
     "glc"  'magit-blame-copy-hash
@@ -159,39 +155,59 @@
     "ls"   'sort-lines
     "lw"   'whitespace-mode
 
-    "oc"   'delete-other-windows
-    "od"   'me/kill-filepath
-    "oe"   'counsel-switch-buffer-other-window
-    "oh"   'counsel-projectile-find-file
-    "on"   'counsel-find-file
-    "oo"   'counsel-switch-buffer
-    "or"    'other-window
-    "osbh" '(lambda () (interactive) (find-file "~/.bash_history"))
-    "ot"   'evil-switch-to-windows-last-buffer
+    "pa"   'projectile-add-known-project
+    "pr"   'projectile-remove-known-project
+    "ps"   'projectile-switch-project
+    "pt"   'counsel-projectile-find-file
+
+    "n,"   'delete-other-windows
+    "n."   'find-file-literally
+    "n>"   'find-file-literally-at-point
+    "nE"   'bookmark-set
+    "nN"   'counsel-switch-buffer-other-window
+    "nT"   'find-file-at-point
+    "na"   'other-window
+    "ne"   'counsel-bookmark
+    "nn"   'counsel-switch-buffer
+    "no"   'evil-switch-to-windows-last-buffer
+    "nt"   'counsel-find-file
 
     "da"   'counsel-apropos
     "dd"   'woman
     "df"   'counsel-describe-function
     "dv"   'counsel-describe-variable
 
-    "ne"   'counsel-bookmark
-    "nh"   'deadgrep
-    "nn"   'query-replace
-    "no"   'swiper
-    "ns"   'counsel-yank-pop
-    "nt"   'goto-last-change
-    "nu"   'bookmark-set
+    "oe"   'deadgrep
+    "oh"   'counsel-yank-pop
+    "on"   'query-replace
+    "oo"   'swiper
+    "os"   'me/kill-filepath
+    "ot"   'goto-last-change
 
     "ka"   'which-key-show-keymap
     "kk"   'which-key-abort
     "kma"  'which-key-show-major-mode
-    "kmi"  'which-key-show-minor-mode-keymap)
+    "kmi"  'which-key-show-minor-mode-keymap
+
+    "sa"   'me/add-word-to-dictionary)
 
   (evil-leader/set-key-for-mode 'deadgrep-mode
-    "nh" 'deadgrep-visit-result-other-window)
+    "nT" 'deadgrep-visit-result-other-window)
 
   (evil-leader/set-key-for-mode 'org-mode
-    "ls" 'org-sort-entries))
+    ",ce"  'outline-hide-entry
+    ",co"  'outline-hide-other
+    ",csl" 'outline-hide-sublevels
+    ",cst" 'outline-hide-subtree
+    ",d"   'org-demote-subtree
+    ",ld"  'org-toggle-link-display
+    ",lg"  'browse-url
+    ",p"   'org-promote-subtree
+    ",se"  'org-sort-entries
+    ",sl"  'org-sort-list
+    ",ss"  'org-sort
+    ",st"  'org-table-sort-lines
+    ",t"   'org-todo))
 
 (use-package evil
   :ensure t
@@ -332,6 +348,20 @@
   :ensure t
   :config
   (my-rainbow-delimeters-hooks))
+
+(defun me/add-word-to-dictionary ()
+  "Add the word-at-point to aspell's dictionary."
+  (interactive)
+  (let ((current-location (point))
+        (word (flyspell-get-word)))
+    (when (consp word)
+      (flyspell-do-correct 'save
+                           nil
+                           (car word)
+                           current-location
+                           (cadr word)
+                           (caddr word)
+                           current-location))))
 
 ;; Flycheck linter
 (use-package flycheck
