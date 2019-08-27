@@ -10,6 +10,7 @@
 !bash_profile
 !bashrc
 !Brewfile
+!emacs
 !mac.terminal
 !readme.md
 !rgignore
@@ -23,8 +24,6 @@
 !/emacs.d/
 /emacs.d/**
 !/emacs.d/custom.el
-!/emacs.d/init.el
-!/emacs.d/snippets/
 
 !/keyboard/
 !/keyboard/**

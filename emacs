@@ -95,8 +95,8 @@
       scroll-step 1)
 
 ;; Window Transparency (#active, #inactive)
-(set-frame-parameter (selected-frame) 'alpha '(100 . 90))
-(add-to-list 'default-frame-alist '(alpha . (100 . 90)))
+(set-frame-parameter (selected-frame) 'alpha '(100 . 95))
+(add-to-list 'default-frame-alist '(alpha . (100 . 95)))
 
 ;; Minibuffer settings
 (add-hook 'minibuffer-setup-hook '(lambda () (setq truncate-lines nil)))
@@ -131,8 +131,7 @@
   (with-eval-after-load 'evil-maps
     (define-key evil-motion-state-map (kbd ";")   'evil-ex)
     (define-key evil-motion-state-map (kbd ":")   'evil-repeat-find-char)
-    (define-key evil-motion-state-map (kbd "C-e") 'evil-end-of-line)
-    (define-key evil-insert-state-map (kbd "C-y") 'yas-insert-snippet)))
+    (define-key evil-motion-state-map (kbd "C-e") 'evil-end-of-line)))
 
 (defun my-evil-leader-settings ()
   "Configure evil leader-based keybindings."
@@ -158,31 +157,24 @@
     "pa"   'projectile-add-known-project
     "pr"   'projectile-remove-known-project
     "ps"   'projectile-switch-project
-    "pt"   'counsel-projectile-find-file
+    "pn"   'projectile-find-file
 
-    "n,"   'delete-other-windows
-    "n."   'find-file-literally
-    "n>"   'find-file-literally-at-point
-    "nE"   'bookmark-set
-    "nN"   'counsel-switch-buffer-other-window
-    "nT"   'find-file-at-point
-    "na"   'other-window
-    "ne"   'counsel-bookmark
-    "nn"   'counsel-switch-buffer
-    "no"   'evil-switch-to-windows-last-buffer
-    "nt"   'counsel-find-file
+    "oN"   'find-file-at-point
+    "oR"   'find-file-literally-at-point
+    "oT"   'ido-switch-buffer-other-window
+    "oU"   'bookmark-set
+    "oc"   'delete-other-windows
+    "oh"   'other-window
+    "on"   'ido-find-file
+    "oo"   'evil-switch-to-windows-last-buffer
+    "or"   'find-file-literally
+    "ot"   'ido-switch-buffer
+    "ou"   'bookmark-bmenu-list
 
-    "da"   'counsel-apropos
-    "dd"   'woman
-    "df"   'counsel-describe-function
-    "dv"   'counsel-describe-variable
-
-    "oe"   'deadgrep
-    "oh"   'counsel-yank-pop
-    "on"   'query-replace
-    "oo"   'swiper
-    "os"   'me/kill-filepath
-    "ot"   'goto-last-change
+    "na"   'me/kill-filepath
+    "ne"   'query-replace
+    "nn"   'deadgrep
+    "no"   'goto-last-change
 
     "ka"   'which-key-show-keymap
     "kk"   'which-key-abort
@@ -192,7 +184,7 @@
     "sa"   'me/add-word-to-dictionary)
 
   (evil-leader/set-key-for-mode 'deadgrep-mode
-    "nT" 'deadgrep-visit-result-other-window)
+    "on"   'deadgrep-visit-result-other-window)
 
   (evil-leader/set-key-for-mode 'org-mode
     ",ce"  'outline-hide-entry
@@ -250,36 +242,17 @@
 ;;
 ;; Start Search and Completion configuration
 ;;
-(use-package ivy
+
+(setq ido-enable-flex-matching t
+      ido-everywhere t)
+(ido-mode 1)
+
+(use-package smex
   :ensure t
-  :diminish (ivy-mode . "")
   :config
-  (setq ivy-height 20
-        ivy-height-alist '((counsel-evil-registers . 10)
-                           (counsel-yank-pop . 10)
-                           (counsel-git-log . 20)
-                           (counsel--generic . 10)
-                           (counsel-el . 10))
-        ivy-initial-inputs-alist nil
-        ivy-re-builders-alist '((t . ivy--regex-fuzzy)))
-  (ivy-mode 1)
-
-  (use-package counsel
-    :ensure t
-    :after ivy
-    :bind
-    ("C-h f" . counsel-describe-function)
-    ("C-h v" . counsel-describe-variable)
-    ("M-x"   . counsel-M-x)
-    :config
-    (setq-default counsel-rg-base-command "rg -S \
-                                              --hidden \
-                                              --no-heading \
-                                              --line-number \
-                                              --color never %s"))
-
-  (use-package smex
-    :ensure t))
+  (smex-initialize)
+  (global-set-key (kbd "M-x") 'smex)
+  (global-set-key (kbd "M-X") 'smex-major-mode-commands))
 
 (use-package deadgrep
   :ensure t
@@ -287,6 +260,12 @@
   (with-eval-after-load 'deadgrep
     (evil-define-key 'normal
       deadgrep-mode-map (kbd "q") 'kill-buffer-and-window)))
+
+(use-package projectile
+  :ensure t
+  :init (setq projectile-completion-system 'ido)
+  :config
+  (projectile-mode +1))
 
 (use-package company
   :ensure t
@@ -299,16 +278,6 @@
     (define-key company-active-map (kbd "M-p") nil)
     (define-key company-active-map (kbd "C-n") #'company-select-next)
     (define-key company-active-map (kbd "C-p") #'company-select-previous)))
-
-(use-package projectile
-  :ensure t
-  :init (setq projectile-completion-system 'ivy)
-  :config
-  (projectile-mode +1)
-
-  (use-package counsel-projectile
-    :ensure t
-    :after projectile))
 
 ;;
 ;; End Search and Completion configuration
@@ -332,11 +301,6 @@
   (add-hook 'scss-mode-hook       #'rainbow-delimiters-mode)
   (add-hook 'sh-mode-hook         #'rainbow-delimiters-mode)
   (add-hook 'web-mode-hook        #'rainbow-delimiters-mode))
-
-(defun yas-enable-and-reload ()
-  "Enable yas-minor-mode for buffer and reload all snips"
-  (yas-minor-mode)
-  (yas-reload-all))
 
 ;; Text
 (add-hook 'text-mode-hook
@@ -370,6 +334,9 @@
   (add-hook 'text-mode-hook 'flyspell-mode))
 
 ;; Emacs Lisp
+(add-to-list 'auto-mode-alist '("\\emacs\\'" . emacs-lisp-mode))
+(add-to-list 'auto-mode-alist '("\\.emacs\\'" . emacs-lisp-mode))
+
 (add-hook 'emacs-lisp-mode-hook 'flyspell-prog-mode)
 (add-hook 'emacs-lisp-mode-hook
           '(lambda () (set-fill-column my/default-column-limit)))
@@ -448,13 +415,6 @@
     (when filepath
       (kill-new filepath)
       (message "Copied buffer filepath '%s' to clipboard." filepath))))
-
-;; Snippets
-(use-package yasnippet
-  :ensure t
-  :diminish yas-minor-mode
-  :config
-  )
 
 ;;
 ;; End Language configuration
