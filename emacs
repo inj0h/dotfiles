@@ -1,4 +1,4 @@
-;; Filename: init.el
+;; Filename: emacs
 ;; Note:     Main Emacs Lisp configuration file.
 ;;
 
