@@ -56,6 +56,7 @@
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
+(global-hl-line-mode -1)
 (setq frame-title-format nil
       ns-pop-up-frames nil
       ns-use-proxy-icon nil
@@ -69,7 +70,6 @@
       my/default-column-limit 80)
 (setq-default column-number-indicator-zero-based nil)
 (setq-default fill-column my/default-column-limit)
-(global-hl-line-mode t)
 (defalias 'yes-or-no-p 'y-or-n-p)
 (setq display-line-numbers-grow-only t)
 
@@ -108,6 +108,9 @@
 (global-set-key (kbd "s-+") 'text-scale-increase)
 (global-set-key (kbd "s-=") '(lambda () (interactive) (text-scale-adjust 0)))
 
+;; Super yank-pop
+(global-set-key (kbd "s-p") 'yank-pop)
+
 (use-package which-key
   :ensure t
   :config
@@ -138,68 +141,65 @@
   (evil-leader/set-leader "<SPC>")
 
   (evil-leader/set-key
-    "2"    (kbd "@@")
+    "2"   (kbd "@@")
 
-    "gb"   'magit-branch
-    "glb"  'magit-blame
-    "glc"  'magit-blame-copy-hash
-    "glg"  'magit-show-commit
-    "glq"  'magit-blame-quit
-    "gs"   'magit-status
-    "gul"  'magit-pull-from-upstream
-    "guu"  'magit-push-current-to-upstream
+    "gb"  'magit-branch
+    "glb" 'magit-blame
+    "glc" 'magit-blame-copy-hash
+    "glg" 'magit-show-commit
+    "glq" 'magit-blame-quit
+    "gs"  'magit-status
+    "gul" 'magit-pull-from-upstream
+    "guu" 'magit-push-current-to-upstream
 
-    "lc"   'count-words-region
-    "ll"   'display-line-numbers-mode
-    "ls"   'sort-lines
-    "lw"   'whitespace-mode
+    "lc"  'count-words-region
+    "ll"  'display-line-numbers-mode
+    "ls"  'sort-lines
+    "lw"  'whitespace-mode
 
-    "pa"   'projectile-add-known-project
-    "pr"   'projectile-remove-known-project
-    "ps"   'projectile-switch-project
-    "pn"   'projectile-find-file
+    "pa"  'projectile-add-known-project
+    "pr"  'projectile-remove-known-project
+    "ps"  'projectile-switch-project
+    "pn"  'projectile-find-file
 
-    "oN"   'find-file-at-point
-    "oR"   'find-file-literally-at-point
-    "oT"   'ido-switch-buffer-other-window
-    "oU"   'bookmark-set
-    "oc"   'delete-other-windows
-    "oh"   'other-window
-    "on"   'ido-find-file
-    "oo"   'evil-switch-to-windows-last-buffer
-    "or"   'find-file-literally
-    "ot"   'ido-switch-buffer
-    "ou"   'bookmark-bmenu-list
+    "oL"  'find-file-literally-at-point
+    "oN"  'find-file-at-point
+    "oT"  'ido-switch-buffer-other-window
+    "oU"  'bookmark-set
+    "oc"  'delete-other-windows
+    "oh"  'other-window
+    "ol"  'find-file-literally
+    "on"  'ido-find-file
+    "or"  'evil-switch-to-windows-last-buffer
+    "ot"  'ido-switch-buffer
+    "ou"  'bookmark-bmenu-list
 
-    "na"   'me/kill-filepath
-    "ne"   'query-replace
-    "nn"   'deadgrep
-    "no"   'goto-last-change
+    "na"  'me/kill-filepath
+    "ne"  'query-replace
+    "no"  'goto-last-change
+    "nu"  'deadgrep
 
-    "ka"   'which-key-show-keymap
-    "kk"   'which-key-abort
-    "kma"  'which-key-show-major-mode
-    "kmi"  'which-key-show-minor-mode-keymap
+    "ka"  'which-key-show-keymap
+    "kk"  'which-key-abort
+    "kma" 'which-key-show-major-mode
+    "kmi" 'which-key-show-minor-mode-keymap
 
-    "sa"   'me/add-word-to-dictionary)
+    "sa"  'me/add-word-to-dictionary)
 
   (evil-leader/set-key-for-mode 'deadgrep-mode
-    "on"   'deadgrep-visit-result-other-window)
+    "nu"  'deadgrep-visit-result-other-window)
 
   (evil-leader/set-key-for-mode 'org-mode
-    ",ce"  'outline-hide-entry
-    ",co"  'outline-hide-other
-    ",csl" 'outline-hide-sublevels
-    ",cst" 'outline-hide-subtree
-    ",d"   'org-demote-subtree
-    ",ld"  'org-toggle-link-display
-    ",lg"  'browse-url
-    ",p"   'org-promote-subtree
-    ",se"  'org-sort-entries
-    ",sl"  'org-sort-list
-    ",ss"  'org-sort
-    ",st"  'org-table-sort-lines
-    ",t"   'org-todo))
+    ",co" 'outline-hide-other
+    ",d"  'org-demote-subtree
+    ",ld" 'org-toggle-link-display
+    ",lg" 'browse-url
+    ",p"  'org-promote-subtree
+    ",se" 'org-sort-entries
+    ",sl" 'org-sort-list
+    ",ss" 'org-sort
+    ",st" 'org-table-sort-lines
+    ",t"  'org-todo))
 
 (use-package evil
   :ensure t
