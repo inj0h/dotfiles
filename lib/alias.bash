@@ -39,24 +39,8 @@ fi
 #
 # Git
 #
-alias g='git'
-alias ga='git add'
-alias gb='git branch'
-alias gc='git commit'
-alias gch='git checkout'
-alias gchp='git checkout -p'
-alias gcm='git commit -m'
-alias gd='git diff'
-alias gdc='git diff --cached'
-alias gdn='git diff --name-only'
-alias gl='git log'
-alias gla='git log --author='
-alias glf='git log --follow --'
 alias groot='cd $(git rev-parse --show-toplevel)'
-alias gs='git status'
-alias gsh='git show'
 alias gsroot='cd $(git rev-parse --show-superproject-working-tree)'
-alias gst='git stash'
 
 # Gist
 if [[ `uname -s` == 'Linux' ]]; then
