@@ -18,8 +18,9 @@ if [[ `uname -s` == 'Darwin' ]]; then
     alias grep='ggrep --color'
     alias head='ghead'
     alias kill='gkill'
-    alias l='gls -lA --color --group-directories-first'
-    alias lg='gls -lA --color --group-directories-first | ggrep'
+    alias l='gls -A --color --group-directories-first'
+    alias lg='gls -A --color --group-directories-first | ggrep'
+    alias ll='gls -lA --color --group-directories-first'
     alias ln='gln'
     alias ls='gls'
     alias mv='gmv'
@@ -32,8 +33,9 @@ if [[ `uname -s` == 'Darwin' ]]; then
     alias xargs='gxargs'
 else
     alias alg='alias | grep --color'
-    alias l='ls -lA --color --group-directories-first'
-    alias lg='ls -lA --color --group-directories-first | grep --color'
+    alias l='ls -A --color --group-directories-first'
+    alias lg='ls -A --color --group-directories-first | grep --color'
+    alias ll='ls -lA --color --group-directories-first'
 fi
 
 #
