@@ -174,6 +174,8 @@
     "ot"  'ido-switch-buffer
     "ou"  'bookmark-bmenu-list
 
+    "n,"  'replace-string
+    "n."  'replace-regexp
     "na"  'me/kill-filepath
     "ne"  'query-replace
     "no"  'goto-last-change
@@ -191,6 +193,7 @@
 
   (evil-leader/set-key-for-mode 'org-mode
     ",co" 'outline-hide-other
+    ",cr" 'outline-hide-subtree
     ",d"  'org-demote-subtree
     ",ld" 'org-toggle-link-display
     ",lg" 'browse-url
@@ -244,6 +247,7 @@
 ;;
 
 (setq ido-enable-flex-matching t
+      ido-case-fold t
       ido-everywhere t)
 (ido-mode 1)
 
