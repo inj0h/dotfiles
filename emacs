@@ -111,6 +111,9 @@
 ;; Super yank-pop
 (global-set-key (kbd "s-p") 'yank-pop)
 
+;; Turn off lockfiles.
+(setq create-lockfiles nil)
+
 (use-package which-key
   :ensure t
   :config
@@ -129,86 +132,20 @@
 ;; Start Evil configuration
 ;;
 
-(defun my-evil-settings ()
-  "Vi keybindings, etc."
-  (with-eval-after-load 'evil-maps
-    (define-key evil-motion-state-map (kbd ";")   'evil-ex)
-    (define-key evil-motion-state-map (kbd ":")   'evil-repeat-find-char)
-    (define-key evil-motion-state-map (kbd "C-e") 'evil-end-of-line)))
-
-(defun my-evil-leader-settings ()
-  "Configure evil leader-based keybindings."
-  (evil-leader/set-leader "<SPC>")
-
-  (evil-leader/set-key
-    "2"   (kbd "@@")
-
-    "gb"  'magit-branch
-    "glb" 'magit-blame
-    "glc" 'magit-blame-copy-hash
-    "glg" 'magit-show-commit
-    "glq" 'magit-blame-quit
-    "gs"  'magit-status
-    "gul" 'magit-pull-from-upstream
-    "guu" 'magit-push-current-to-upstream
-
-    "lc"  'count-words-region
-    "ll"  'display-line-numbers-mode
-    "ls"  'sort-lines
-    "lw"  'whitespace-mode
-
-    "pa"  'projectile-add-known-project
-    "pr"  'projectile-remove-known-project
-    "ps"  'projectile-switch-project
-    "pn"  'projectile-find-file
-
-    "oL"  'find-file-literally-at-point
-    "oN"  'find-file-at-point
-    "oT"  'ido-switch-buffer-other-window
-    "oU"  'bookmark-set
-    "oc"  'delete-other-windows
-    "oh"  'other-window
-    "ol"  'find-file-literally
-    "on"  'ido-find-file
-    "or"  'evil-switch-to-windows-last-buffer
-    "ot"  'ido-switch-buffer
-    "ou"  'bookmark-bmenu-list
-
-    "n,"  'replace-string
-    "n."  'replace-regexp
-    "na"  'me/kill-filepath
-    "ne"  'query-replace
-    "no"  'goto-last-change
-    "nu"  'deadgrep
-
-    "ka"  'which-key-show-keymap
-    "kk"  'which-key-abort
-    "kma" 'which-key-show-major-mode
-    "kmi" 'which-key-show-minor-mode-keymap
-
-    "sa"  'me/add-word-to-dictionary)
-
-  (evil-leader/set-key-for-mode 'deadgrep-mode
-    "nu"  'deadgrep-visit-result-other-window)
-
-  (evil-leader/set-key-for-mode 'org-mode
-    ",co" 'outline-hide-other
-    ",cr" 'outline-hide-subtree
-    ",d"  'org-demote-subtree
-    ",ld" 'org-toggle-link-display
-    ",lg" 'browse-url
-    ",p"  'org-promote-subtree
-    ",se" 'org-sort-entries
-    ",sl" 'org-sort-list
-    ",ss" 'org-sort
-    ",st" 'org-table-sort-lines
-    ",t"  'org-todo))
-
 (use-package evil
   :ensure t
   :config
   (evil-mode 1)
-  (my-evil-settings)
+
+  (with-eval-after-load 'evil-maps
+    (define-key evil-motion-state-map (kbd ";")   'evil-ex)
+    (define-key evil-motion-state-map (kbd ":")   'evil-repeat-find-char)
+    (define-key evil-motion-state-map (kbd "C-e") 'evil-end-of-line))
+
+  (use-package evil-commentary
+    :ensure t
+    :config
+    (evil-commentary-mode))
 
   (use-package evil-escape
     :ensure t
@@ -222,23 +159,84 @@
     :ensure t
     :config
     (global-evil-leader-mode)
-    (my-evil-leader-settings))
 
-  (use-package evil-surround
-    :ensure t
-    :config
-    (global-evil-surround-mode))
+    (evil-leader/set-leader "<SPC>")
 
-  (use-package evil-commentary
-    :ensure t
-    :config
-    (evil-commentary-mode))
+    (evil-leader/set-key
+      "2"   (kbd "@@")
+
+      "gb"  'magit-branch
+      "glb" 'magit-blame
+      "glc" 'magit-blame-copy-hash
+      "glg" 'magit-show-commit
+      "glq" 'magit-blame-quit
+      "gs"  'magit-status
+      "gul" 'magit-pull-from-upstream
+      "guu" 'magit-push-current-to-upstream
+
+      "lc"  'count-words-region
+      "ll"  'display-line-numbers-mode
+      "ls"  'sort-lines
+      "lw"  'whitespace-mode
+
+      "pa"  'projectile-add-known-project
+      "pr"  'projectile-remove-known-project
+      "ps"  'projectile-switch-project
+      "pn"  'projectile-find-file
+
+      "oL"  'find-file-literally-at-point
+      "oN"  'find-file-at-point
+      "oT"  'ido-switch-buffer-other-window
+      "oU"  'bookmark-set
+      "oc"  'delete-other-windows
+      "oh"  'other-window
+      "ol"  'find-file-literally
+      "on"  'ido-find-file
+      "or"  'evil-switch-to-windows-last-buffer
+      "ot"  'ido-switch-buffer
+      "ou"  'bookmark-bmenu-list
+
+      "n,"  'replace-string
+      "n."  'replace-regexp
+      "na"  'me/kill-filepath
+      "ne"  'query-replace
+      "no"  'goto-last-change
+      "nu"  'deadgrep
+
+      "ka"  'which-key-show-keymap
+      "kk"  'which-key-abort
+      "kma" 'which-key-show-major-mode
+      "kmi" 'which-key-show-minor-mode-keymap
+
+      "sa"  'me/add-word-to-dictionary)
+
+    (evil-leader/set-key-for-mode 'deadgrep-mode
+      "nu"  'deadgrep-visit-result-other-window)
+
+    (evil-leader/set-key-for-mode 'org-mode
+      ",co" 'outline-hide-other
+      ",cr" 'outline-hide-subtree
+      ",d"  'org-demote-subtree
+      ",ld" 'org-toggle-link-display
+      ",lg" 'browse-url
+      ",p"  'org-promote-subtree
+      ",rr" 'org-archive-subtree
+      ",se" 'org-sort-entries
+      ",sl" 'org-sort-list
+      ",ss" 'org-sort
+      ",st" 'org-table-sort-lines
+      ",t"  'org-todo))
 
   (use-package evil-magit
     :ensure t
     :config
     (add-hook 'magit-status-mode-hook
-              '(lambda () (setq magit-diff-refine-hunk t)))))
+              '(lambda () (setq magit-diff-refine-hunk t))))
+
+  (use-package evil-surround
+    :ensure t
+    :config
+    (global-evil-surround-mode)))
 
 ;;
 ;; End Evil configuration
@@ -295,17 +293,6 @@
       ((string-equal system-type "darwin")
        (setq ispell-program-name "/usr/local/bin/aspell")))
 
-(defun my-rainbow-delimeters-hooks ()
-  (add-hook 'css-mode-hook        #'rainbow-delimiters-mode)
-  (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
-  (add-hook 'haskell-mode-hook    #'rainbow-delimiters-mode)
-  (add-hook 'html-mode-hook       #'rainbow-delimiters-mode)
-  (add-hook 'java-mode-hook       #'rainbow-delimiters-mode)
-  (add-hook 'js-mode-hook         #'rainbow-delimiters-mode)
-  (add-hook 'scss-mode-hook       #'rainbow-delimiters-mode)
-  (add-hook 'sh-mode-hook         #'rainbow-delimiters-mode)
-  (add-hook 'web-mode-hook        #'rainbow-delimiters-mode))
-
 ;; Text
 (add-hook 'text-mode-hook
           '(lambda () (set-fill-column my/default-column-limit)))
@@ -315,7 +302,15 @@
 (use-package rainbow-delimiters
   :ensure t
   :config
-  (my-rainbow-delimeters-hooks))
+  (add-hook 'css-mode-hook        #'rainbow-delimiters-mode)
+  (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
+  (add-hook 'haskell-mode-hook    #'rainbow-delimiters-mode)
+  (add-hook 'html-mode-hook       #'rainbow-delimiters-mode)
+  (add-hook 'java-mode-hook       #'rainbow-delimiters-mode)
+  (add-hook 'js-mode-hook         #'rainbow-delimiters-mode)
+  (add-hook 'scss-mode-hook       #'rainbow-delimiters-mode)
+  (add-hook 'sh-mode-hook         #'rainbow-delimiters-mode)
+  (add-hook 'web-mode-hook        #'rainbow-delimiters-mode))
 
 (defun me/add-word-to-dictionary ()
   "Add the word-at-point to aspell's dictionary."
@@ -390,8 +385,19 @@
 ;; Org
 (use-package org
   :config
-  (setq org-src-fontify-natively t
-        org-src-tab-acts-natively t)
+  (setq org-enforce-todo-dependencies t
+        org-src-fontify-natively t
+        org-src-tab-acts-natively t
+        org-time-stamp-formats '("<%Y_%m_%d %a>" . "<%Y_%m_%d %a %H:%M>")
+        org-todo-keywords '((sequence "TODO(t)"
+                                      "IN-PROGRESS(p!)"
+                                      "BLOCKED(b@/!)"
+                                      "SOMEDAY(s@/!)"
+                                      "|"
+                                      "DONE(d!)"
+                                      "CANCELED(c@/!)"))
+        org-use-fast-todo-selection t)
+
   (add-to-list 'org-src-lang-modes '("haskell". haskell))
 
   (use-package org-bullets
