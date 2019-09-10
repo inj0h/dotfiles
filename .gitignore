@@ -6,15 +6,15 @@
 *
 
 # ..Except the whitelist!
+!.bash_profile
+!.bashrc
+!.emacs
 !.gitignore
-!bash_profile
-!bashrc
+!.rgignore
+!.tmux.conf
 !Brewfile
-!emacs
 !mac.terminal
 !readme.md
-!rgignore
-!tmux.conf
 
 !/bin/
 /bin/**
