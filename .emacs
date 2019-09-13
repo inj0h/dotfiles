@@ -246,8 +246,7 @@
 
 (setq ido-enable-flex-matching t
       ido-case-fold t
-      ido-everywhere t
-      ido-max-window-height 1)
+      ido-everywhere t)
 (ido-mode 1)
 
 (use-package smex
