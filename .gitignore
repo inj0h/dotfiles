@@ -21,9 +21,9 @@
 !/bin/connect_the_dots
 !/bin/init
 
-!/emacs.d/
-/emacs.d/**
-!/emacs.d/custom.el
+!/.emacs.d/
+/.emacs.d/**
+!/.emacs.d/custom.el
 
 !/lib/
 /lib/**
