@@ -25,15 +25,6 @@
 /emacs.d/**
 !/emacs.d/custom.el
 
-!/keyboard/
-/keyboard/**
-!/keyboard/erikorojo_planck_rev6.json
-!/keyboard/erikorojo_planck_rev6/
-!/keyboard/erikorojo_planck_rev6/config.h
-!/keyboard/erikorojo_planck_rev6/keymap.c
-!/keyboard/erikorojo_planck_rev6/layers.json
-!/keyboard/erikorojo_planck_rev6/readme.md
-
 !/lib/
 /lib/**
 !/lib/alias.bash
