@@ -2,9 +2,6 @@
 ;; Note:     Main Emacs Lisp configuration file.
 ;;
 
-;; Bugfix for v26.2 (apparently).
-(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
-
 ;; Manage Lisp files and packages
 (package-initialize)
 
@@ -28,7 +25,11 @@
 (use-package diminish :ensure t)
 (use-package bind-key :ensure t)
 
-;; Mac load path shenanigans.
+;; Mac Settings.
+
+(when (string-equal system-type "darwin")
+  (setq mac-command-modifier 'control))
+
 (use-package exec-path-from-shell
   :ensure t
   :config
@@ -114,23 +115,52 @@
 ;; Turn off lockfiles.
 (setq create-lockfiles nil)
 
-(use-package which-key
-  :ensure t
-  :config
-  (which-key-mode)
-  (setq which-key-idle-delay 0.2)
-  (setq which-key-sort-order 'which-key-key-order-alpha))
-
 (use-package dracula-theme
   :ensure t
   :config
   (load-theme 'dracula t))
 
 ;;
-;; End UI configuration
+;; Start Utility configuration
 ;;
-;; Start Evil configuration
-;;
+
+(defun me/goto-previous-buffer ()
+  (interactive)
+  (switch-to-buffer (other-buffer (current-buffer) 1)))
+
+(setq ido-enable-flex-matching t
+      ido-case-fold t
+      ido-everywhere t)
+(ido-mode 1)
+
+(use-package smex
+  :ensure t
+  :bind (("M-x" . smex)
+         ("M-X" . execute-extended-command)))
+
+(use-package deadgrep
+  :ensure t
+  :bind (:map deadgrep-mode-map
+              ("q"   . kill-buffer-and-window)
+              ("RET" . deadgrep-visit-result-other-window)))
+
+(use-package projectile
+  :ensure t
+  :init (setq projectile-completion-system 'ido)
+  :config
+  (projectile-mode +1))
+
+(use-package company
+  :ensure t
+  :init (global-company-mode)
+  :config
+  (setq company-idle-delay 0)
+  (setq-default company-dabbrev-downcase nil)
+  (with-eval-after-load 'company
+    (define-key company-active-map (kbd "M-n") nil)
+    (define-key company-active-map (kbd "M-p") nil)
+    (define-key company-active-map (kbd "C-n") #'company-select-next)
+    (define-key company-active-map (kbd "C-p") #'company-select-previous)))
 
 (use-package evil
   :ensure t
@@ -138,9 +168,11 @@
   (evil-mode 1)
 
   (with-eval-after-load 'evil-maps
-    (define-key evil-motion-state-map (kbd ";")   'evil-ex)
-    (define-key evil-motion-state-map (kbd ":")   'evil-repeat-find-char)
-    (define-key evil-motion-state-map (kbd "C-e") 'evil-end-of-line))
+    (define-key evil-motion-state-map (kbd ":") 'smex))
+
+  (evil-define-key 'normal deadgrep-mode-map "q" 'kill-buffer-and-window)
+  (evil-define-key 'normal deadgrep-mode-map (kbd "RET")
+    'deadgrep-visit-result-other-window)
 
   (use-package evil-commentary
     :ensure t
@@ -165,53 +197,61 @@
     (evil-leader/set-key
       "2"   (kbd "@@")
 
-      "gb"  'magit-branch
+      ;; Buffer/Window
+      "bK"  'kill-buffer-and-window
+      "bO"  'ido-switch-buffer-other-window
+      "bk"  'ido-kill-buffer
+      "bo"  'ido-switch-buffer
+      "bp"  'me/goto-previous-buffer
+      "bs"  'save-buffer
+      "w1"  'delete-other-windows
+      "wc"  'with-editor-cancel
+      "wd"  'delete-window
+      "ww"  'other-window
+
+      ;; File
+      "f."  'me/kill-filepath
+      "fB"  'bookmark-set
+      "fF"  'find-file-other-window
+      "fL"  'find-file-literally-at-point
+      "fb"  'bookmark-bmenu-list
+      "ff"  'ido-find-file
+      "fl"  'find-file-literally
+      "fp"  'find-file-at-point
+
+      ;; (Ma)Git
+      "gbb" 'magit-branch
+      "gbn" 'magit-branch-and-checkout
+      "gbs" 'magit-checkout
       "glb" 'magit-blame
       "glc" 'magit-blame-copy-hash
       "glg" 'magit-show-commit
       "glq" 'magit-blame-quit
+      "gp"  'magit-push
       "gs"  'magit-status
       "gul" 'magit-pull-from-upstream
       "guu" 'magit-push-current-to-upstream
 
-      "lc"  'count-words-region
-      "ll"  'display-line-numbers-mode
-      "ls"  'sort-lines
-      "lw"  'whitespace-mode
-
+      ;; Project
       "pa"  'projectile-add-known-project
+      "pf"  'projectile-find-file
       "pr"  'projectile-remove-known-project
       "ps"  'projectile-switch-project
-      "pn"  'projectile-find-file
 
-      "oL"  'find-file-literally-at-point
-      "oN"  'find-file-at-point
-      "oT"  'ido-switch-buffer-other-window
-      "oU"  'bookmark-set
-      "oc"  'delete-other-windows
-      "oh"  'other-window
-      "ol"  'find-file-literally
-      "on"  'ido-find-file
-      "or"  'evil-switch-to-windows-last-buffer
-      "ot"  'ido-switch-buffer
-      "ou"  'bookmark-bmenu-list
+      ;; Quitting
+      "Q"   'save-buffers-kill-emacs
 
-      "n,"  'replace-string
-      "n."  'replace-regexp
-      "na"  'me/kill-filepath
-      "ne"  'query-replace
-      "no"  'goto-last-change
-      "nu"  'deadgrep
-
-      "ka"  'which-key-show-keymap
-      "kk"  'which-key-abort
-      "kma" 'which-key-show-major-mode
-      "kmi" 'which-key-show-minor-mode-keymap
-
-      "sa"  'me/add-word-to-dictionary)
-
-    (evil-leader/set-key-for-mode 'deadgrep-mode
-      "nu"  'deadgrep-visit-result-other-window)
+      ;; Text
+      "tc"  'goto-last-change
+      "td"  'me/add-word-to-dictionary
+      "tlc" 'count-words-region
+      "tll" 'display-line-numbers-mode
+      "tls" 'sort-lines
+      "tra" 'query-replace
+      "trr" 'replace-regexp
+      "trs" 'replace-string
+      "ts"  'deadgrep
+      "tw"  'whitespace-mode)
 
     (evil-leader/set-key-for-mode 'org-mode
       ",co" 'outline-hide-other
@@ -236,50 +276,30 @@
   (use-package evil-surround
     :ensure t
     :config
-    (global-evil-surround-mode)))
+    (global-evil-surround-mode))
 
-;;
-;; End Evil configuration
-;;
-;; Start Search and Completion configuration
-;;
+  (use-package which-key
+    :ensure t
+    :config
+    (which-key-mode)
+    (setq which-key-idle-delay 0.125
+          which-key-sort-order 'which-key-key-order-alpha)
 
-(setq ido-enable-flex-matching t
-      ido-case-fold t
-      ido-everywhere t)
-(ido-mode 1)
+    (which-key-declare-prefixes "<SPC>b"  "buffer/window")
+    (which-key-declare-prefixes "<SPC>w"  "buffer/window")
 
-(use-package smex
-  :ensure t
-  :config
-  (smex-initialize)
-  (global-set-key (kbd "M-x") 'smex)
-  (global-set-key (kbd "M-X") 'smex-major-mode-commands))
+    (which-key-declare-prefixes "<SPC>f"  "file")
 
-(use-package deadgrep
-  :ensure t
-  :config
-  (with-eval-after-load 'deadgrep
-    (evil-define-key 'normal
-      deadgrep-mode-map (kbd "q") 'kill-buffer-and-window)))
+    (which-key-declare-prefixes "<SPC>g"  "(ma)git")
+    (which-key-declare-prefixes "<SPC>gb" "branch")
+    (which-key-declare-prefixes "<SPC>gl" "blame")
+    (which-key-declare-prefixes "<SPC>gu" "upstream")
 
-(use-package projectile
-  :ensure t
-  :init (setq projectile-completion-system 'ido)
-  :config
-  (projectile-mode +1))
+    (which-key-declare-prefixes "<SPC>p"  "project")
 
-(use-package company
-  :ensure t
-  :init (global-company-mode)
-  :config
-  (setq company-idle-delay 0)
-  (setq-default company-dabbrev-downcase nil)
-  (with-eval-after-load 'company
-    (define-key company-active-map (kbd "M-n") nil)
-    (define-key company-active-map (kbd "M-p") nil)
-    (define-key company-active-map (kbd "C-n") #'company-select-next)
-    (define-key company-active-map (kbd "C-p") #'company-select-previous)))
+    (which-key-declare-prefixes "<SPC>t"  "text")
+    (which-key-declare-prefixes "<SPC>tl" "line")
+    (which-key-declare-prefixes "<SPC>tr" "replace")))
 
 ;;
 ;; End Search and Completion configuration
@@ -306,7 +326,6 @@
   (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
   (add-hook 'haskell-mode-hook    #'rainbow-delimiters-mode)
   (add-hook 'html-mode-hook       #'rainbow-delimiters-mode)
-  (add-hook 'java-mode-hook       #'rainbow-delimiters-mode)
   (add-hook 'js-mode-hook         #'rainbow-delimiters-mode)
   (add-hook 'scss-mode-hook       #'rainbow-delimiters-mode)
   (add-hook 'sh-mode-hook         #'rainbow-delimiters-mode)
@@ -333,15 +352,12 @@
   (add-hook 'text-mode-hook 'flyspell-mode))
 
 ;; Emacs Lisp
-(add-to-list 'auto-mode-alist '("\\emacs\\'" . emacs-lisp-mode))
 (add-to-list 'auto-mode-alist '("\\.emacs\\'" . emacs-lisp-mode))
 
 (add-hook 'emacs-lisp-mode-hook 'flyspell-prog-mode)
 (add-hook 'emacs-lisp-mode-hook
           '(lambda () (set-fill-column my/default-column-limit)))
 (add-hook 'emacs-lisp-mode-hook 'turn-on-auto-fill)
-(add-hook 'emacs-lisp-mode-hook '(lambda ()
-                                   (local-set-key (kbd "s-e") 'eval-last-sexp)))
 
 ;; Haskell
 (use-package haskell-mode
@@ -410,12 +426,14 @@
 (add-to-list 'auto-mode-alist '("bashrc" . sh-mode))
 
 ;; Etc
-(use-package web-mode
-  :ensure t
-  :config
-  )
+(use-package web-mode :ensure t)
+
+;;
+;; Etc
+;;
 
 ;; Utility Functions
+
 (defun me/kill-filepath ()
   "Copy the current buffer filename with path to clipboard."
   (interactive)
@@ -429,6 +447,14 @@
 ;;
 ;; End Language configuration
 ;;
+
+;;
+;; Server
+;;
+
+(require 'server)
+(unless (server-running-p)
+  (server-start))
 
 ;; Load local-only settings file after reading the main init file, i.e. useful
 ;; when you need to override variables, etc.
