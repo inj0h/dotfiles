@@ -170,9 +170,9 @@
   (with-eval-after-load 'evil-maps
     (define-key evil-motion-state-map (kbd ":") 'smex))
 
-  (evil-define-key 'normal deadgrep-mode-map "q" 'kill-buffer-and-window)
-  (evil-define-key 'normal deadgrep-mode-map (kbd "RET")
-    'deadgrep-visit-result-other-window)
+  (evil-define-key 'normal deadgrep-mode-map
+    (kbd "q") 'kill-buffer-and-window
+    (kbd "RET") 'deadgrep-visit-result-other-window)
 
   (use-package evil-commentary
     :ensure t
