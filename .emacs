@@ -8,12 +8,14 @@
 (require 'package)
 (setq package-enable-at-startup nil)
 (add-to-list 'exec-path "/usr/local/bin")
-(add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/") t)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list
+ 'package-archives '("gnu" . "https://elpa.gnu.org/packages/") t)
+(add-to-list
+ 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 
-;; Load local-only settings file if it exists on disk, and don't throw a warning
-;; if it doesn't.
-(load "~/dotfiles/emacs.d/local-preload" 1)
+;; Load local-only settings file if it exists on disk, and don't throw a
+;; warning if it doesn't.
+(load "~/dotfiles/emacs.d/prelude" 1)
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -28,7 +30,9 @@
 ;; Mac Settings.
 
 (when (string-equal system-type "darwin")
-  (setq mac-command-modifier 'control))
+  (setq mac-command-modifier 'control
+        mac-option-modifier  'meta
+        mac-control-modifier 'super))
 
 (use-package exec-path-from-shell
   :ensure t
@@ -39,6 +43,12 @@
 ;; Dump all the custom-var-face s*** here.
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file 'noerror)
+
+;; Just like the other editors.
+(global-auto-revert-mode 1)
+
+;; And just like on X11.
+(setq mouse-drag-copy-region 1)
 
 ;;
 ;; Start UI configuration
@@ -68,9 +78,9 @@
 (add-hook 'find-file-hook 'delete-other-windows)
 
 (setq column-number-mode t
-      my/default-column-limit 80)
+      me/default-column-limit 72)
 (setq-default column-number-indicator-zero-based nil)
-(setq-default fill-column my/default-column-limit)
+(setq-default fill-column me/default-column-limit)
 (defalias 'yes-or-no-p 'y-or-n-p)
 (setq display-line-numbers-grow-only t)
 
@@ -84,6 +94,15 @@
 (setq c-basic-offset 4)
 (setq-default tab-width 4)
 (setq backward-delete-char-untabify-method 'hungry)
+
+;; Eval camelCase as two words
+(add-hook 'prog-mode-hook 'subword-mode)
+
+;; Eval sentences
+(setq sentence-end-double-space nil)
+
+;; Whitespace
+(setq-default whitespace-line-column me/default-column-limit)
 
 ;; Cleanup trailing whitespace, et al after write
 (add-hook 'before-save-hook 'whitespace-cleanup)
@@ -100,17 +119,16 @@
 (add-to-list 'default-frame-alist '(alpha . (100 . 95)))
 
 ;; Minibuffer settings
-(add-hook 'minibuffer-setup-hook '(lambda () (setq truncate-lines nil)))
+(add-hook 'minibuffer-setup-hook '(lambda ()
+                                    (setq truncate-lines nil)))
 
 ;; Keybindings
-;; General
 
-;; Scale text.
-(global-set-key (kbd "s-+") 'text-scale-increase)
-(global-set-key (kbd "s-=") '(lambda () (interactive) (text-scale-adjust 0)))
+(dolist (me/emacs-movement-bindings
+         '(("M-."   . repeat)))
 
-;; Super yank-pop
-(global-set-key (kbd "s-p") 'yank-pop)
+  (global-set-key (kbd (car me/emacs-movement-bindings))
+                  (cdr me/emacs-movement-bindings)))
 
 ;; Turn off lockfiles.
 (setq create-lockfiles nil)
@@ -144,6 +162,12 @@
               ("q"   . kill-buffer-and-window)
               ("RET" . deadgrep-visit-result-other-window)))
 
+(use-package magit
+  :ensure t
+  :config
+  (add-hook 'magit-status-mode-hook
+            '(lambda () (setq magit-diff-refine-hunk t))))
+
 (use-package projectile
   :ensure t
   :init (setq projectile-completion-system 'ido)
@@ -160,146 +184,28 @@
     (define-key company-active-map (kbd "M-n") nil)
     (define-key company-active-map (kbd "M-p") nil)
     (define-key company-active-map (kbd "C-n") #'company-select-next)
-    (define-key company-active-map (kbd "C-p") #'company-select-previous)))
+    (define-key company-active-map (kbd "C-p")
+      #'company-select-previous)))
 
-(use-package evil
+(use-package which-key
   :ensure t
   :config
-  (evil-mode 1)
+  (which-key-mode)
+  (setq which-key-idle-delay 0.125
+        which-key-sort-order 'which-key-key-order-alpha))
 
-  (with-eval-after-load 'evil-maps
-    (define-key evil-motion-state-map (kbd ":") 'smex))
-
-  (evil-define-key 'normal deadgrep-mode-map
-    (kbd "q") 'kill-buffer-and-window
-    (kbd "RET") 'deadgrep-visit-result-other-window)
-
-  (use-package evil-commentary
-    :ensure t
-    :config
-    (evil-commentary-mode))
-
-  (use-package evil-escape
-    :ensure t
-    :config
-    (evil-escape-mode t)
-    (setq-default evil-escape-key-sequence "hh"
-                  evil-escape-excluded-states '(normal visual emacs motion)
-                  evil-escape-delay 0.2))
-
-  (use-package evil-leader
-    :ensure t
-    :config
-    (global-evil-leader-mode)
-
-    (evil-leader/set-leader "<SPC>")
-
-    (evil-leader/set-key
-      "2"   (kbd "@@")
-
-      ;; Buffer/Window
-      "bK"  'kill-buffer-and-window
-      "bO"  'ido-switch-buffer-other-window
-      "bk"  'ido-kill-buffer
-      "bo"  'ido-switch-buffer
-      "bp"  'me/goto-previous-buffer
-      "bs"  'save-buffer
-      "w1"  'delete-other-windows
-      "wc"  'with-editor-cancel
-      "wd"  'delete-window
-      "ww"  'other-window
-
-      ;; File
-      "f."  'me/kill-filepath
-      "fB"  'bookmark-set
-      "fF"  'find-file-other-window
-      "fL"  'find-file-literally-at-point
-      "fb"  'bookmark-bmenu-list
-      "ff"  'ido-find-file
-      "fl"  'find-file-literally
-      "fp"  'find-file-at-point
-
-      ;; (Ma)Git
-      "gbb" 'magit-branch
-      "gbn" 'magit-branch-and-checkout
-      "gbs" 'magit-checkout
-      "glb" 'magit-blame
-      "glc" 'magit-blame-copy-hash
-      "glg" 'magit-show-commit
-      "glq" 'magit-blame-quit
-      "gp"  'magit-push
-      "gs"  'magit-status
-      "gul" 'magit-pull-from-upstream
-      "guu" 'magit-push-current-to-upstream
-
-      ;; Project
-      "pa"  'projectile-add-known-project
-      "pf"  'projectile-find-file
-      "pr"  'projectile-remove-known-project
-      "ps"  'projectile-switch-project
-
-      ;; Quitting
-      "Q"   'save-buffers-kill-emacs
-
-      ;; Text
-      "tc"  'goto-last-change
-      "td"  'me/add-word-to-dictionary
-      "tlc" 'count-words-region
-      "tll" 'display-line-numbers-mode
-      "tls" 'sort-lines
-      "tra" 'query-replace
-      "trr" 'replace-regexp
-      "trs" 'replace-string
-      "ts"  'deadgrep
-      "tw"  'whitespace-mode)
-
-    (evil-leader/set-key-for-mode 'org-mode
-      ",co" 'outline-hide-other
-      ",cr" 'outline-hide-subtree
-      ",d"  'org-demote-subtree
-      ",ld" 'org-toggle-link-display
-      ",lg" 'browse-url
-      ",p"  'org-promote-subtree
-      ",rr" 'org-archive-subtree
-      ",se" 'org-sort-entries
-      ",sl" 'org-sort-list
-      ",ss" 'org-sort
-      ",st" 'org-table-sort-lines
-      ",t"  'org-todo))
-
-  (use-package evil-magit
-    :ensure t
-    :config
-    (add-hook 'magit-status-mode-hook
-              '(lambda () (setq magit-diff-refine-hunk t))))
-
-  (use-package evil-surround
-    :ensure t
-    :config
-    (global-evil-surround-mode))
-
-  (use-package which-key
-    :ensure t
-    :config
-    (which-key-mode)
-    (setq which-key-idle-delay 0.125
-          which-key-sort-order 'which-key-key-order-alpha)
-
-    (which-key-declare-prefixes "<SPC>b"  "buffer/window")
-    (which-key-declare-prefixes "<SPC>w"  "buffer/window")
-
-    (which-key-declare-prefixes "<SPC>f"  "file")
-
-    (which-key-declare-prefixes "<SPC>g"  "(ma)git")
-    (which-key-declare-prefixes "<SPC>gb" "branch")
-    (which-key-declare-prefixes "<SPC>gl" "blame")
-    (which-key-declare-prefixes "<SPC>gu" "upstream")
-
-    (which-key-declare-prefixes "<SPC>p"  "project")
-
-    (which-key-declare-prefixes "<SPC>t"  "text")
-    (which-key-declare-prefixes "<SPC>tl" "line")
-    (which-key-declare-prefixes "<SPC>tr" "replace")))
+(use-package multiple-cursors
+  :ensure t
+  :bind (("C-<"     . mc/mark-previous-like-this)
+         ("C->"     . mc/mark-next-like-this)
+         ("C-/"     . mc/skip-to-next-like-this)
+         ("C-:"     . mc/skip-to-previous-like-this)
+         ("C->"     . mc/mark-next-like-this)
+         ("C-c c a" . mc/edit-beginnings-of-lines)
+         ("C-c c c" . mc/edit-lines)
+         ("C-c c e" . mc/edit-ends-of-lines)
+         ("C-c c *" . mc/mark-all-like-this)
+         ("C-c c r" . set-rectangular-region-anchor)))
 
 ;;
 ;; End Search and Completion configuration
@@ -315,7 +221,7 @@
 
 ;; Text
 (add-hook 'text-mode-hook
-          '(lambda () (set-fill-column my/default-column-limit)))
+          '(lambda () (set-fill-column me/default-column-limit)))
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 
 ;; Colored delims
@@ -328,8 +234,7 @@
   (add-hook 'html-mode-hook       #'rainbow-delimiters-mode)
   (add-hook 'js-mode-hook         #'rainbow-delimiters-mode)
   (add-hook 'scss-mode-hook       #'rainbow-delimiters-mode)
-  (add-hook 'sh-mode-hook         #'rainbow-delimiters-mode)
-  (add-hook 'web-mode-hook        #'rainbow-delimiters-mode))
+  (add-hook 'sh-mode-hook         #'rainbow-delimiters-mode))
 
 (defun me/add-word-to-dictionary ()
   "Add the word-at-point to aspell's dictionary."
@@ -356,7 +261,7 @@
 
 (add-hook 'emacs-lisp-mode-hook 'flyspell-prog-mode)
 (add-hook 'emacs-lisp-mode-hook
-          '(lambda () (set-fill-column my/default-column-limit)))
+          '(lambda () (set-fill-column me/default-column-limit)))
 (add-hook 'emacs-lisp-mode-hook 'turn-on-auto-fill)
 
 ;; Haskell
@@ -371,14 +276,15 @@
   :ensure t
   :config
   (setq git-commit-summary-max-length 50
-        my/git-commit-mode-column-limit 72)
+        me/git-commit-mode-column-limit 72)
 
   (add-hook 'git-commit-mode-hook
             '(lambda ()
                (setq-local whitespace-line-column
-                           my/git-commit-mode-column-limit)))
+                           me/git-commit-mode-column-limit)))
   (add-hook 'git-commit-mode-hook
-            '(lambda () (set-fill-column my/git-commit-mode-column-limit)))
+            '(lambda ()
+               (set-fill-column me/git-commit-mode-column-limit)))
   (add-hook 'git-commit-mode-hook '(lambda () (turn-on-auto-fill))))
 
 (use-package gitignore-mode :ensure t)
@@ -394,7 +300,8 @@
         ((string-equal system-type "darwin")
          (setq markdown-command "/usr/local/bin/pandoc")))
 
-  (add-hook 'markdown-mode-hook '(lambda () (setq-local truncate-lines t)))
+  (add-hook 'markdown-mode-hook '(lambda ()
+                                   (setq-local truncate-lines t)))
   (add-hook 'markdown-mode-hook 'flycheck-mode)
   (add-hook 'markdown-mode-hook 'turn-off-auto-fill))
 
@@ -404,7 +311,8 @@
   (setq org-enforce-todo-dependencies t
         org-src-fontify-natively t
         org-src-tab-acts-natively t
-        org-time-stamp-formats '("<%Y_%m_%d %a>" . "<%Y_%m_%d %a %H:%M>")
+        org-time-stamp-formats '("<%Y_%m_%d %a>" .
+                                 "<%Y_%m_%d %a %H:%M>")
         org-todo-keywords '((sequence "TODO(t)"
                                       "IN-PROGRESS(p!)"
                                       "BLOCKED(b@/!)"
@@ -424,9 +332,6 @@
 ;; Shell
 (add-to-list 'auto-mode-alist '("bash_profile" . sh-mode))
 (add-to-list 'auto-mode-alist '("bashrc" . sh-mode))
-
-;; Etc
-(use-package web-mode :ensure t)
 
 ;;
 ;; Etc
@@ -456,8 +361,8 @@
 (unless (server-running-p)
   (server-start))
 
-;; Load local-only settings file after reading the main init file, i.e. useful
-;; when you need to override variables, etc.
+;; Load local-only settings file after reading the main init file,
+;; i.e. useful when you need to override variables, etc.
 ;;
 ;; Don't throw a warning if it doesn't exist on disk.
-(load "~/dotfiles/emacs.d/local-postload" 1)
+(load "~/dotfiles/emacs.d/coda" 1)
