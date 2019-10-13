@@ -32,7 +32,7 @@
 (when (string-equal system-type "darwin")
   (setq mac-command-modifier 'control
         mac-option-modifier  'meta
-        mac-control-modifier 'super))
+        mac-control-modifier 'control))
 
 (use-package exec-path-from-shell
   :ensure t
@@ -130,6 +130,74 @@
   (global-set-key (kbd (car me/emacs-movement-bindings))
                   (cdr me/emacs-movement-bindings)))
 
+(define-prefix-command 'me/bindings-map)
+(global-set-key (kbd "S-SPC") 'me/bindings-map)
+(dolist (me/emacs-action-bindings
+         '(;; Buffer/Window
+           ("bK"  . kill-buffer-and-window)
+           ("bO"  . ido-switch-buffer-other-window)
+           ("bk"  . ido-kill-buffer)
+           ("bo"  . ido-switch-buffer)
+           ("bp"  . me/goto-previous-buffer)
+           ("bs"  . save-buffer)
+
+           ;; Dired
+           ("dd"  . dired)
+           ("dw"  . wdired-change-to-wdired-mode)
+
+           ;; File
+           ("f."  . me/kill-filepath)
+           ("fB"  . bookmark-set)
+           ("fF"  . find-file-other-window)
+           ("fL"  . find-file-literally-at-point)
+           ("fb"  . bookmark-bmenu-list)
+           ("ff"  . ido-find-file)
+           ("fl"  . find-file-literally)
+           ("fp"  . find-file-at-point)
+
+           ;; (Ma)Git
+           ("gbb" . magit-branch)
+           ("gbn" . magit-branch-and-checkout)
+           ("gbs" . magit-checkout)
+           ("glb" . magit-blame)
+           ("glc" . magit-blame-copy-hash)
+           ("glg" . magit-show-commit)
+           ("glq" . magit-blame-quit)
+           ("gp"  . magit-push)
+           ("gs"  . magit-status)
+           ("gul" . magit-pull-from-upstream)
+           ("guu" . magit-push-current-to-upstream)
+
+           ;; Project
+           ("pa"  . projectile-add-known-project)
+           ("pf"  . projectile-find-file)
+           ("pr"  . projectile-remove-known-project)
+           ("ps"  . projectile-switch-project)
+
+           ;; Quitting
+           ("Q"   . save-buffers-kill-emacs)
+
+           ;; Text
+           ("tc"  . goto-last-change)
+           ("td"  . me/add-word-to-dictionary)
+           ("tlc" . count-words-region)
+           ("tll" . display-line-numbers-mode)
+           ("tls" . sort-lines)
+           ("tra" . query-replace)
+           ("trr" . replace-regexp)
+           ("trs" . replace-string)
+           ("ts"  . deadgrep)
+           ("tw"  . whitespace-mode)
+
+           ;; Windowing
+           ("w1"  . delete-other-windows)
+           ("wd"  . delete-window)
+           ("ww"  . other-window)))
+
+  (define-key me/bindings-map
+    (kbd (car me/emacs-action-bindings))
+    (cdr me/emacs-action-bindings)))
+
 ;; Turn off lockfiles.
 (setq create-lockfiles nil)
 
@@ -146,10 +214,17 @@
   (interactive)
   (switch-to-buffer (other-buffer (current-buffer) 1)))
 
+;; Ido
 (setq ido-enable-flex-matching t
       ido-case-fold t
       ido-everywhere t)
 (ido-mode 1)
+
+;; Dired
+(defun me/dired-bindings ()
+  (local-set-key (kbd "S-SPC") 'me/bindings-map))
+
+(add-hook 'dired-mode-hook 'me/dired-bindings)
 
 (use-package smex
   :ensure t
@@ -159,11 +234,14 @@
 (use-package deadgrep
   :ensure t
   :bind (:map deadgrep-mode-map
-              ("q"   . kill-buffer-and-window)
-              ("RET" . deadgrep-visit-result-other-window)))
+              ("q"     . kill-buffer-and-window)
+              ("RET"   . deadgrep-visit-result-other-window)
+              ("S-SPC" . 'me/bindings-map)))
 
 (use-package magit
   :ensure t
+  :bind (:map magit-mode-map
+              ("S-SPC" . 'me/bindings-map))
   :config
   (add-hook 'magit-status-mode-hook
             '(lambda () (setq magit-diff-refine-hunk t))))
@@ -190,9 +268,9 @@
 (use-package which-key
   :ensure t
   :config
-  (which-key-mode)
-  (setq which-key-idle-delay 0.125
-        which-key-sort-order 'which-key-key-order-alpha))
+  (setq which-key-idle-delay 0.1
+        which-key-sort-order 'which-key-key-order-alpha)
+  (which-key-mode))
 
 (use-package multiple-cursors
   :ensure t
