@@ -180,6 +180,8 @@
            ;; Text
            ("tc"  . goto-last-change)
            ("td"  . me/add-word-to-dictionary)
+           ("tfp" . fill-paragraph)
+           ("tfr" . fill-region)
            ("tlc" . count-words-region)
            ("tll" . display-line-numbers-mode)
            ("tls" . sort-lines)
@@ -192,6 +194,8 @@
            ;; Windowing
            ("w1"  . delete-other-windows)
            ("wd"  . delete-window)
+           ("wrm" . recenter)
+           ("wrt" . me/recenter-window-top)
            ("ww"  . other-window)))
 
   (define-key me/bindings-map
@@ -265,13 +269,6 @@
     (define-key company-active-map (kbd "C-p")
       #'company-select-previous)))
 
-(use-package which-key
-  :ensure t
-  :config
-  (setq which-key-idle-delay 0.1
-        which-key-sort-order 'which-key-key-order-alpha)
-  (which-key-mode))
-
 (use-package multiple-cursors
   :ensure t
   :bind (("C-<"     . mc/mark-previous-like-this)
@@ -284,6 +281,28 @@
          ("C-c c e" . mc/edit-ends-of-lines)
          ("C-c c *" . mc/mark-all-like-this)
          ("C-c c r" . set-rectangular-region-anchor)))
+
+(use-package which-key
+  :ensure t
+  :config
+  (setq which-key-idle-delay 0.1
+        which-key-sort-order 'which-key-key-order-alpha)
+  (which-key-mode)
+
+  (dolist (me/which-key-labels
+    '(("S-SPC b"   . "buffer")
+      ("S-SPC d"   . "dired")
+      ("S-SPC f"   . "files")
+      ("S-SPC g"   . "magit")
+      ("S-SPC p"   . "projectile")
+      ("S-SPC t"   . "text")
+      ("S-SPC t f" . "format")
+      ("S-SPC t l" . "line")
+      ("S-SPC t r" . "replace")
+      ("S-SPC w"   . "window")))
+
+    (which-key-declare-prefixes (car me/which-key-labels)
+      (cdr me/which-key-labels))))
 
 ;;
 ;; End Search and Completion configuration
@@ -426,6 +445,11 @@
     (when filepath
       (kill-new filepath)
       (message "Copied buffer filepath '%s' to clipboard." filepath))))
+
+(defun me/recenter-window-top ()
+   "Recenter the current line to the top of the window."
+   (interactive)
+   (set-window-start (selected-window) (point)))
 
 ;;
 ;; End Language configuration
