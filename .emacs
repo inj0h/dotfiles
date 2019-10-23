@@ -95,11 +95,19 @@
 (setq-default tab-width 4)
 (setq backward-delete-char-untabify-method 'hungry)
 
+;;
+;; Text Processing
+;;
+
 ;; Eval camelCase as two words
 (add-hook 'prog-mode-hook 'subword-mode)
 
-;; Eval sentences
+;; When formatting sentences, especially with fill-column, don't
+;; separate joined sentences with two spaces. Use one space.
 (setq sentence-end-double-space nil)
+
+;; Always add a newline at the end of a file.
+(setq require-final-newline t)
 
 ;; Whitespace
 (setq-default whitespace-line-column me/default-column-limit)
@@ -131,7 +139,7 @@
                   (cdr me/emacs-movement-bindings)))
 
 (define-prefix-command 'me/bindings-map)
-(global-set-key (kbd "S-SPC") 'me/bindings-map)
+(global-set-key (kbd "C-c") 'me/bindings-map)
 (dolist (me/emacs-action-bindings
          '(;; Buffer/Window
            ("bK"  . kill-buffer-and-window)
@@ -226,7 +234,7 @@
 
 ;; Dired
 (defun me/dired-bindings ()
-  (local-set-key (kbd "S-SPC") 'me/bindings-map))
+  (local-set-key (kbd "C-c") 'me/bindings-map))
 
 (add-hook 'dired-mode-hook 'me/dired-bindings)
 
@@ -240,12 +248,12 @@
   :bind (:map deadgrep-mode-map
               ("q"     . kill-buffer-and-window)
               ("RET"   . deadgrep-visit-result-other-window)
-              ("S-SPC" . 'me/bindings-map)))
+              ("C-c"   . 'me/bindings-map)))
 
 (use-package magit
   :ensure t
   :bind (:map magit-mode-map
-              ("S-SPC" . 'me/bindings-map))
+              ("C-c" . 'me/bindings-map))
   :config
   (add-hook 'magit-status-mode-hook
             '(lambda () (setq magit-diff-refine-hunk t))))
@@ -274,8 +282,7 @@
   :bind (("C-<"     . mc/mark-previous-like-this)
          ("C->"     . mc/mark-next-like-this)
          ("C-/"     . mc/skip-to-next-like-this)
-         ("C-:"     . mc/skip-to-previous-like-this)
-         ("C->"     . mc/mark-next-like-this)
+         ("C-?"     . mc/skip-to-previous-like-this)
          ("C-c c a" . mc/edit-beginnings-of-lines)
          ("C-c c c" . mc/edit-lines)
          ("C-c c e" . mc/edit-ends-of-lines)
@@ -290,19 +297,54 @@
   (which-key-mode)
 
   (dolist (me/which-key-labels
-    '(("S-SPC b"   . "buffer")
-      ("S-SPC d"   . "dired")
-      ("S-SPC f"   . "files")
-      ("S-SPC g"   . "magit")
-      ("S-SPC p"   . "projectile")
-      ("S-SPC t"   . "text")
-      ("S-SPC t f" . "format")
-      ("S-SPC t l" . "line")
-      ("S-SPC t r" . "replace")
-      ("S-SPC w"   . "window")))
+    '(("C-c b"   . "buffer")
+      ("C-c d"   . "dired")
+      ("C-c f"   . "files")
+      ("C-c g"   . "magit")
+      ("C-c g b" . "branch")
+      ("C-c g l" . "blame")
+      ("C-c g u" . "upstream")
+      ("C-c p"   . "projectile")
+      ("C-c t"   . "text")
+      ("C-c t f" . "format")
+      ("C-c t l" . "line")
+      ("C-c t r" . "replace")
+      ("C-c w"   . "window")))
 
     (which-key-declare-prefixes (car me/which-key-labels)
       (cdr me/which-key-labels))))
+
+(use-package hydra
+  :ensure t
+  :config
+
+  (defhydra hydra-search ()
+    "Bindings for isearch mode"
+    ("b" end-of-buffer           "buffer bottom")
+    ("r" isearch-repeat-backward "reverse")
+    ("s" isearch-repeat-forward  "search")
+    ("t" beginning-of-buffer     "buffer top")
+    ("q" nil                     "quit"))
+
+  (define-key isearch-mode-map (kbd "C-s") 'hydra-search/body)
+  (define-key isearch-mode-map (kbd "C-r") 'hydra-search/body)
+
+  ;; (defhydra hydra-rectangle (:body-pre (rectangle-mark-mode 1)
+  ;;                            :post (deactivate-mark))
+  ;;   "Bindings for rectangular editing."
+
+  ;;   ("y" yank-rectangle "yank selection")
+  ;;   ("w" kill-rectangle "kill selection")
+  ;;   ("q" nil  "quit"))
+
+  ;; (global-set-key (kbd "C-x SPC") 'hydra-rectangle/body)
+
+  (defhydra hydra-undo ()
+    "Bindings for undoing"
+    ("u" undo "undo")
+    ("q" nil  "quit"))
+
+  (global-set-key (kbd "C-x u") 'hydra-undo/body))
 
 ;;
 ;; End Search and Completion configuration
