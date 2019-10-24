@@ -1,11 +1,13 @@
-# Filename: alias.bash
+#!/bin/sh
+#
+# Filename: alias.sh
 # Note:     Useful aliases for a smooth CLI experience.
 #
 
 #
 # Coreutils, GNU stuff for Mac, Etc
 #
-if [[ `uname -s` == 'Darwin' ]]; then
+if [ "$(uname -s)" = "Darwin" ]; then
     alias alg='alias | ggrep '
     alias cat='gcat'
     alias chmod='gchmod'
@@ -45,7 +47,8 @@ alias groot='cd $(git rev-parse --show-toplevel)'
 alias gsroot='cd $(git rev-parse --show-superproject-working-tree)'
 
 # Gist
-if [[ `uname -s` == 'Linux' ]]; then
+
+if [ "$(uname -s)" = "Linux" ]; then
     alias gist='gist-paste'
     alias gistp='gist-paste -p'
 fi
@@ -64,18 +67,6 @@ alias txka='tmux kill-server'
 alias txks='tmux kill-session -t'
 alias txl='tmux ls'
 alias txn='tmux new -s'
-
-#
-# Utilities
-#
-# Find
-if [[ `uname -s` == 'Darwin' ]]; then
-    alias fd='gfind . -type d -iname'
-    alias ff='gfind . -type f -iname'
-else
-    alias fd='find . -type d -iname'
-    alias ff='find . -type f -iname'
-fi
 
 #
 # Etc

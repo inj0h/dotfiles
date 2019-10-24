@@ -1,4 +1,6 @@
-# Filename: lib.bash
+#!/bin/sh
+#
+# Filename: lib.sh
 # Note:     Don't reinvent the wheel. Just put the wheels here.
 #
 
@@ -25,31 +27,22 @@ git_stat_clean="nothing to commit, working tree clean"
 #
 # Excuse these pathetic fake types.
 #
-# dir_make :: String -> Maybe Directory
-function dir_make {
-    [ "$#" -eq 1 ] && [ ! -d $1 ] && mkdir -v $1
-}
-
-# dot_connect :: String -> [String] -> String -> String -> SymbolicLink
-function dot_connect {
+# dot_connect :: String -> [String] -> String -> SymbolicLink
+dot_connect() {
     for file in $2; do
-        if [ "$4" == "dot" ]; then
-            ln $1 $file $3/.`basename $file`
-        else
-            ln $1 $file $3/`basename $file`
-        fi
+        ln "$1" "$file" "$3"/"$(basename "$file")"
     done
 }
 
 # git_parse_branch :: Exit -> String -> String
-function git_parse_branch {
+git_parse_branch() {
     git_status_check &&
         git branch --no-color 2> /dev/null |
             sed -e '/^[^*]/d' -e "s/* \(.*\)/\1/"
 }
 
 # git_parse_dirty :: Exit -> Exit -> Exit -> String
-function git_parse_dirty {
+git_parse_dirty() {
     git_status_check &&
         git status 2> /dev/null |
                        tail -n1 | grep "$git_stat_clean" > /dev/null 2>&1
@@ -57,45 +50,45 @@ function git_parse_dirty {
 }
 
 # git_parse_repo :: Exit -> String -> String
-function git_parse_repo {
+git_parse_repo() {
     git_status_check &&
-        basename $(git rev-parse --show-toplevel)
+        basename "$(git rev-parse --show-toplevel)"
 }
 
 # git_status_check :: String -> Exit
-function git_status_check {
+git_status_check() {
     git rev-parse --is-inside-work-tree > /dev/null 2>&1
 }
 
 # git_status_display :: Exit -> String -> String -> String
-function git_status_display {
+git_status_display() {
     git_status_check &&
         echo "[$(git_parse_repo) $(u_arrow_ltr) $(git_parse_branch)]"
 }
 
 # echo_green :: String -> String
-function echo_green {
-    echo -e ${echo_green}$1${echo_clear}
+echo_green() {
+    echo "${echo_green}""$1""${echo_clear}"
     sleep 0.5
 }
 
 # echo_red :: String -> String
-function echo_red {
-    echo -e ${echo_red}$1${echo_clear}
+echo_red() {
+    echo "${echo_red}""$1""${echo_clear}"
     sleep 1
 }
 
 # u_arrow_ltr :: String -> String
-function u_arrow_ltr {
+u_arrow_ltr() {
     printf "\u21fe"
 }
 
 # u_lambda :: String -> String
-function u_lambda {
+u_lambda() {
     printf "\u03bb"
 }
 
-# u_x { :: String -> String
-function u_x {
+# u_x :: String -> String
+u_x() {
     printf "\u2717"
 }

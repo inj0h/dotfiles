@@ -19,7 +19,6 @@
 !/bin/
 /bin/**
 !/bin/connect_the_dots
-!/bin/init
 
 !/.emacs.d/
 /.emacs.d/**
@@ -27,5 +26,5 @@
 
 !/lib/
 /lib/**
-!/lib/alias.bash
-!/lib/lib.bash
+!/lib/alias.sh
+!/lib/lib.sh

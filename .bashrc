@@ -39,10 +39,8 @@ function file_load {
 }
 
 # Load all them configs.
-file_load "$my_config_path"/alias.bash
-file_load "$my_config_path"/hardware.bash
-file_load "$my_config_path"/keybindings.bash
-file_load "$my_config_path"/lib.bash
+file_load "$my_config_path"/alias.sh
+file_load "$my_config_path"/lib.sh
 
 # Prompt
 export PS1="$sh_green\u$sh_clear $sh_cyan\$(pwd -P)$sh_clear $sh_blue\$(git_status_display)$sh_clear $sh_red\$(git_parse_dirty)$sh_clear\n$sh_green\$(u_lambda)$sh_clear "

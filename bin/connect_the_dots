@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # Filename: connect_the_dots
 # Note:     Softly link all *nix configuration files.
@@ -9,9 +9,9 @@ set -e
 #
 # Dependencies
 #
-if [ -f ~/dotfiles/lib/lib.bash ]; then
+if [ -f ~/dotfiles/lib/lib.sh ]; then
     echo "Dependencies found. Proceeding..."
-    . ~/dotfiles/lib/lib.bash
+    . ~/dotfiles/lib/lib.sh
 else
     echo "Error: could not find dependent script(s)."
     exit 1
@@ -37,11 +37,11 @@ echo_red "Screening directory..."
 echo_green "Done."
 
 # Specific Nix
-echo_red "`uname -s` kernel detected.\nLinking files specific to system..."
+echo_red "$(uname -s) kernel detected.\nLinking files specific to system..."
 
-if [[ `uname -s` == 'Darwin' ]]; then
+if [ "$(uname -s)" = 'Darwin' ]; then
     LNFLAGS="-shfv"
-elif [[ `uname -s` == 'Linux' ]]; then
+elif [ "$(uname -s)" = 'Linux' ]; then
     LNFLAGS="-sTfv"
 fi
 
@@ -50,10 +50,10 @@ echo_green "Done."
 # Shared Nix
 echo_red "Linking shared *nix files..."
 
-dot_connect $LNFLAGS $DOTFILES/".bash*"    ~
-dot_connect $LNFLAGS $DOTFILES/".emacs"    ~
-dot_connect $LNFLAGS $DOTFILES/".emacs.d"  ~
-dot_connect $LNFLAGS $DOTFILES/".rgignore" ~/.config
-dot_connect $LNFLAGS $DOTFILES/".tmux*"    ~
+dot_connect "$LNFLAGS" "$DOTFILES""/.bash*"    ~
+dot_connect "$LNFLAGS" "$DOTFILES""/.emacs"    ~
+dot_connect "$LNFLAGS" "$DOTFILES""/.emacs.d"  ~
+dot_connect "$LNFLAGS" "$DOTFILES""/.rgignore" ~/.config
+dot_connect "$LNFLAGS" "$DOTFILES""/.tmux*"    ~
 
 echo_green "Done.\nAll dotfiles linked. Have a nice day."
