@@ -8,7 +8,6 @@
 # Coreutils, GNU stuff for Mac, Etc
 #
 if [ "$(uname -s)" = "Darwin" ]; then
-    alias alg='alias | ggrep '
     alias cat='gcat'
     alias chmod='gchmod'
     alias chown='gchown'
@@ -17,12 +16,9 @@ if [ "$(uname -s)" = "Darwin" ]; then
     alias cut='gcut'
     alias echo='gecho'
     alias find='gfind'
-    alias grep='ggrep --color'
+    alias grep='ggrep'
     alias head='ghead'
     alias kill='gkill'
-    alias l='gls -A --color --group-directories-first'
-    alias lg='gls -A --color --group-directories-first | ggrep'
-    alias ll='gls -lA --color --group-directories-first'
     alias ln='gln'
     alias ls='gls'
     alias mv='gmv'
@@ -33,11 +29,6 @@ if [ "$(uname -s)" = "Darwin" ]; then
     alias touch='gtouch'
     alias uniq='guniq'
     alias xargs='gxargs'
-else
-    alias alg='alias | grep --color'
-    alias l='ls -A --color --group-directories-first'
-    alias lg='ls -A --color --group-directories-first | grep --color'
-    alias ll='ls -lA --color --group-directories-first'
 fi
 
 #
@@ -57,18 +48,3 @@ fi
 # Emacs
 #
 alias em='emacsclient'
-
-#
-# Tmux
-#
-alias tx='tmux'
-alias txa='tmux attach -t'
-alias txka='tmux kill-server'
-alias txks='tmux kill-session -t'
-alias txl='tmux ls'
-alias txn='tmux new -s'
-
-#
-# Etc
-#
-alias u='cd ..'
