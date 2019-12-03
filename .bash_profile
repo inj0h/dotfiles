@@ -5,8 +5,8 @@
 #
 # Variables
 #
-export VISUAL=vi
-export EDITOR="$VISUAL"
+export EDITOR="emacsclient -nw"
+export VISUAL="$EDITOR"
 
 # Welcome Message
 printf "New session with $USER!\n"

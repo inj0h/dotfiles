@@ -5,7 +5,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (multiple-cursors magit org-bullets markdown-mode gitignore-mode haskell-mode flycheck rainbow-delimiters company projectile deadgrep smex dracula-theme which-key exec-path-from-shell diminish use-package))))
+    (markdown-mode haskell-mode gitignore-mode which-key smex projectile flycheck deadgrep company browse-kill-ring org-bullets naysayer-theme use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

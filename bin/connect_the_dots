@@ -51,7 +51,6 @@ echo_green "Done."
 echo_red "Linking shared *nix files..."
 
 dot_connect "$LNFLAGS" "$DOTFILES""/.bash*"    ~
-dot_connect "$LNFLAGS" "$DOTFILES""/.emacs"    ~
 dot_connect "$LNFLAGS" "$DOTFILES""/.emacs.d"  ~
 dot_connect "$LNFLAGS" "$DOTFILES""/.rgignore" ~/.config
 
