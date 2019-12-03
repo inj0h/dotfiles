@@ -643,7 +643,7 @@
     #+END_SRC
 
 *** Deadgrep
-    Rust is better than C/C++, and we should use it's version of grep.
+    Rust is better than C/C++, and we should use its version of grep.
 
     #+BEGIN_SRC emacs-lisp
       (use-package deadgrep
