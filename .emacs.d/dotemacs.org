@@ -98,7 +98,8 @@
      #+BEGIN_SRC emacs-lisp
        (dolist (ehc/emacs-override-keybindings
                 '(("C-x s"   . save-buffer)
-                  ("C-x C-s" . save-some-buffers)))
+                  ("C-x C-s" . save-some-buffers)
+                  ("M-`"     . other-frame)))
 
          (global-set-key (kbd (car ehc/emacs-override-keybindings))
                          (cdr ehc/emacs-override-keybindings)))
