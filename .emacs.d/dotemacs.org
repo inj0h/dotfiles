@@ -83,26 +83,30 @@
     bindings via C-c.
 
 **** Additions
+     Keybindings unprovided by default.
 
      #+BEGIN_SRC emacs-lisp
-       (dolist (ehc/emacs-custom-keybindings
-                '(("<f5>"  . repeat)
-                  ("C-S-k" . ehc/kill-line-to-beginning-of-line)))
+       (setq ehc/emacs-custom-keybindings
+             '(("<f5>"     . repeat)
+               ("<M-down>" . forward-paragraph)
+               ("<M-up>"   . backward-paragraph)
+               ("C-S-k"    . ehc/kill-line-to-beginning-of-line)))
 
-         (global-set-key (kbd (car ehc/emacs-custom-keybindings))
-                         (cdr ehc/emacs-custom-keybindings)))
+       (dolist (keybindings ehc/emacs-custom-keybindings)
+         (global-set-key (kbd (car keybindings)) (cdr keybindings)))
      #+END_SRC
 
 **** Overrides
+     Keybindings that override default ones.
 
      #+BEGIN_SRC emacs-lisp
-       (dolist (ehc/emacs-override-keybindings
-                '(("C-x s"   . save-buffer)
-                  ("C-x C-s" . save-some-buffers)
-                  ("M-`"     . other-frame)))
+       (setq ehc/emacs-override-keybindings
+                      '(("C-x s"   . save-buffer)
+                        ("C-x C-s" . save-some-buffers)
+                        ("M-`"     . other-frame)))
 
-         (global-set-key (kbd (car ehc/emacs-override-keybindings))
-                         (cdr ehc/emacs-override-keybindings)))
+       (dolist (keybindings ehc/emacs-override-keybindings)
+         (global-set-key (kbd (car keybindings)) (cdr keybindings)))
      #+END_SRC
 
 **** Prefix
@@ -116,56 +120,56 @@
      Define the prefix keymap.
 
      #+BEGIN_SRC emacs-lisp
-       (define-prefix-command 'ehc/prefix-keybindings)
-       (global-set-key (kbd "C-c") 'ehc/prefix-keybindings)
-       (global-set-key (kbd "<f8>") 'ehc/prefix-keybindings)
+       (define-prefix-command 'ehc/prefix-keymap)
+       (global-set-key (kbd "C-c") 'ehc/prefix-keymap)
+       (global-set-key (kbd "<f8>") 'ehc/prefix-keymap)
      #+END_SRC
 
      Define the prefix keymap.
 
      #+BEGIN_SRC emacs-lisp
-       (dolist (ehc/prefix-keymap-vanilla
-                '(;; Buffer
-                  ("bK" . kill-buffer-and-window)
-                  ("bO" . ido-switch-buffer-other-window)
-                  ("bk" . ido-kill-buffer)
-                  ("bo" . ido-switch-buffer)
-                  ("bp" . ehc/goto-previous-buffer)
-                  ("bs" . save-buffer)
+       (setq ehc/prefix-vanilla-keybindings
+             '(;; Buffer
+               ("bK" . kill-buffer-and-window)
+               ("bO" . ido-switch-buffer-other-window)
+               ("bk" . ido-kill-buffer)
+               ("bo" . ido-switch-buffer)
+               ("bp" . ehc/goto-previous-buffer)
+               ("bs" . save-buffer)
 
-                  ;; Dired
-                  ("dd" . dired)
-                  ("dw" . wdired-change-to-wdired-mode)
+               ;; Dired
+               ("dd" . dired)
+               ("dw" . wdired-change-to-wdired-mode)
 
-                  ;; File
-                  ("f." . ehc/kill-filepath)
-                  ("fB" . bookmark-set)
-                  ("fF" . find-file-other-window)
-                  ("fL" . find-file-literally-at-point)
-                  ("fb" . bookmark-bmenu-list)
-                  ("ff" . ido-find-file)
-                  ("fl" . find-file-literally)
-                  ("fp" . find-file-at-point)
+               ;; File
+               ("f." . ehc/kill-filepath)
+               ("fB" . bookmark-set)
+               ("fF" . find-file-other-window)
+               ("fL" . find-file-literally-at-point)
+               ("fb" . bookmark-bmenu-list)
+               ("ff" . ido-find-file)
+               ("fl" . find-file-literally)
+               ("fp" . find-file-at-point)
 
-                  ;; Lines
-                  ("ll" . display-line-numbers-mode)
-                  ("ls" . sort-lines)
-                  ("lc" . count-words-region)
+               ;; Lines
+               ("ll" . display-line-numbers-mode)
+               ("ls" . sort-lines)
+               ("lc" . count-words-region)
 
-                  ;; Replacement
-                  ("ra" . query-replace)
-                  ("rr" . replace-regexp)
-                  ("rs" . replace-string)
+               ;; Replacement
+               ("ra" . query-replace)
+               ("rr" . replace-regexp)
+               ("rs" . replace-string)
 
-                  ;; Text Formatting
-                  ("td" . ehc/add-word-to-dictionary)
-                  ("tp" . fill-paragraph)
-                  ("tr" . fill-region)
-                  ("tw" . whitespace-mode)))
+               ;; Text Formatting
+               ("td" . ehc/add-word-to-dictionary)
+               ("tp" . fill-paragraph)
+               ("tr" . fill-region)
+               ("tw" . whitespace-mode)))
 
-         (define-key ehc/prefix-keybindings
-           (kbd (car ehc/prefix-keymap-vanilla))
-           (cdr ehc/prefix-keymap-vanilla)))
+       (dolist (keybindings ehc/prefix-vanilla-keybindings)
+         (define-key ehc/prefix-keymap
+           (kbd (car keybindings)) (cdr keybindings)))
      #+END_SRC
 
 *** Modifier Bindings
@@ -585,10 +589,34 @@
    Use use-package.
 
    #+BEGIN_SRC emacs-lisp
-     (unless (package-installed-p 'use-package)
+     (unless (package-installed-p 'use-package) ;
        (package-refresh-contents)
        (package-install 'use-package))
    #+END_SRC
+
+   Require bind and diminish.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package bind-key :ensure t)
+     (use-package diminish
+       :ensure t
+       :config
+       (setq ehc/diminished-modes
+             '(auto-fill-function ; = auto-fill-mode
+               eldoc-mode))
+
+       (dolist (diminished ehc/diminished-modes)
+         (diminish diminished))
+
+       (setq ehc/forced-diminished-modes
+             '((flyspell . flyspell-mode)
+               (subword  . subword-mode)))
+
+       (dolist (diminished ehc/forced-diminished-modes)
+         (with-eval-after-load (car diminished)
+           (diminish (cdr diminished)))))
+   #+END_SRC
+
 ** Aesthetic
    Colors, ligatures, /etc./
 
@@ -630,6 +658,7 @@
     #+BEGIN_SRC emacs-lisp
       (use-package company
         :ensure t
+        :diminish company-mode
         :init (global-company-mode)
         :config
         (setq company-idle-delay 0)
@@ -650,9 +679,11 @@
       (use-package deadgrep
         :ensure t
         :bind (:map deadgrep-mode-map
-                    ("q"     . kill-buffer-and-window)
-                    ("RET"   . deadgrep-visit-result-other-window)
-                    ("C-c"   . 'ehc/prefix-keybindings)))
+                    ("q"   . kill-buffer-and-window)
+                    ("RET" . deadgrep-visit-result-other-window)
+                    ("C-c" . 'ehc/prefix-keymap)
+               :map ehc/prefix-keymap
+                    ("gr"  . 'deadgrep)))
     #+END_SRC
 
 *** Flycheck
@@ -660,7 +691,8 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package flycheck
-        :ensure t)
+        :ensure t
+        :diminish flycheck-mode)
     #+END_SRC
 
 *** Projectile
@@ -670,7 +702,13 @@
     #+BEGIN_SRC emacs-lisp
       (use-package projectile
         :ensure t
+        :diminish projectile-mode
         :init (setq projectile-completion-system 'ido)
+        :bind (:map ehc/prefix-keymap
+                    ("pa" . projectile-add-known-project)
+                    ("pf" . projectile-find-file)
+                    ("pr" . projectile-remove-known-project)
+                    ("ps" . projectile-switch-project))
         :config
         (projectile-mode +1))
     #+END_SRC
@@ -692,6 +730,7 @@
     #+BEGIN_SRC emacs-lisp
       (use-package which-key
         :ensure t
+        :diminish which-key-mode
         :config
         (setq which-key-idle-delay 0.1
               which-key-sort-order 'which-key-key-order-alpha)
