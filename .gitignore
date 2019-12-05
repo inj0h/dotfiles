@@ -27,5 +27,4 @@
 
 !/lib/
 /lib/**
-!/lib/alias.sh
 !/lib/lib.sh
