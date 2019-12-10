@@ -101,9 +101,9 @@
 
      #+BEGIN_SRC emacs-lisp
        (setq ehc/emacs-override-keybindings
-                      '(("C-x s"   . save-buffer)
-                        ("C-x C-s" . save-some-buffers)
-                        ("M-`"     . other-frame)))
+             '(("C-x s"   . save-buffer)
+               ("C-x C-s" . save-some-buffers)
+               ("M-`"     . other-frame)))
 
        (dolist (keybindings ehc/emacs-override-keybindings)
          (global-set-key (kbd (car keybindings)) (cdr keybindings)))
@@ -384,8 +384,8 @@
 
     #+BEGIN_SRC emacs-lisp
       (add-hook 'server-visit-hook
-           '(lambda ()
-              (xterm-mouse-mode 1)))
+                '(lambda ()
+                   (xterm-mouse-mode 1)))
     #+END_SRC
 
 *** Disable
@@ -633,9 +633,9 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package org-bullets
-      :ensure t
-      :config
-      (add-hook 'org-mode-hook 'org-bullets-mode))
+        :ensure t
+        :config
+        (add-hook 'org-mode-hook 'org-bullets-mode))
     #+END_SRC
 
 ** Productivity
