@@ -612,8 +612,7 @@
          (diminish diminished))
 
        (setq ehc/forced-diminished-modes
-             '((flyspell . flyspell-mode)
-               (subword  . subword-mode)))
+             '((subword  . subword-mode)))
 
        (dolist (diminished ehc/forced-diminished-modes)
          (with-eval-after-load (car diminished)
@@ -698,24 +697,6 @@
         :diminish flycheck-mode)
     #+END_SRC
 
-*** Projectile
-    Good plugin for managing projects. Too bad Emacs doesn't have it
-    out-of-the-box.
-
-    #+BEGIN_SRC emacs-lisp
-      (use-package projectile
-        :ensure t
-        :diminish projectile-mode
-        :init (setq projectile-completion-system 'ido)
-        :bind (:map ehc/prefix-keymap
-                    ("pa" . projectile-add-known-project)
-                    ("pf" . projectile-find-file)
-                    ("pr" . projectile-remove-known-project)
-                    ("ps" . projectile-switch-project))
-        :config
-        (projectile-mode +1))
-    #+END_SRC
-
 *** Smex
     Extend Ido functionality for M-x. This package should also ship with
     Emacs in my opinion.
@@ -747,7 +728,6 @@
                    ("C-c g b" . "branch")
                    ("C-c g l" . "blame")
                    ("C-c g u" . "upstream")
-                   ("C-c p"   . "projectile")
                    ("C-c t"   . "text")
                    ("C-c t f" . "format")
                    ("C-c t l" . "line")
