@@ -101,9 +101,13 @@
 
      #+BEGIN_SRC emacs-lisp
        (setq ehc/emacs-override-keybindings
-             '(("C-x s"   . save-buffer)
-               ("C-x C-s" . save-some-buffers)
-               ("M-`"     . other-frame)))
+             '(("<s-left>"  . backward-sexp)
+               ("<s-right>" . forward-sexp)
+               ("C-x s"     . save-buffer)
+               ("C-x C-s"   . save-some-buffers)
+               ("M-`"       . other-frame)
+               ("s-e"       . eval-last-sexp)))
+
 
        (dolist (keybindings ehc/emacs-override-keybindings)
          (global-set-key (kbd (car keybindings)) (cdr keybindings)))
@@ -184,7 +188,6 @@
        (when (memq window-system '(mac ns))
          (setq mac-command-modifier 'meta
                mac-option-modifier  'super
-               mac-right-option-modifier 'control
                mac-control-modifier 'control))
      #+END_SRC
 
