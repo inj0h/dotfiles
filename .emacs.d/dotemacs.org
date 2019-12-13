@@ -204,14 +204,30 @@
       ;;    onto the next line.
       ;; 3. Use pretty symbols, which really means replace the lambda
       ;;    keyword with the Greek symbol.
-      ;;
+      ;; 4. Check for spelling on comments and strings.
       (add-hook 'emacs-lisp-mode-hook
                 '(lambda () (set-fill-column ehc/default-column-limit)))
       (add-hook 'emacs-lisp-mode-hook 'turn-on-auto-fill)
       (add-hook 'emacs-lisp-mode-hook 'prettify-symbols-mode)
+      (add-hook 'emacs-lisp-mode-hook 'flyspell-prog-mode)
 
       ;; Read ".emacs" files as Elisp files.
       (add-to-list 'auto-mode-alist '("\\.emacs\\'" . emacs-lisp-mode))
+    #+END_SRC
+
+*** Shell Scripting
+
+    #+BEGIN_SRC emacs-lisp
+      ;; 1. Limit columns to 72, i.e. the ehc/default-column-limit
+      ;;    variable.
+      ;; 2. Automatically wrap any characters that exceed that limit
+      ;;    onto the next line.
+      ;; 3. Check for spelling on comments and strings.
+      ;;
+      (add-hook 'sh-mode-hook
+                '(lambda () (set-fill-column ehc/default-column-limit)))
+      (add-hook 'sh-mode-hook 'turn-on-autofill)
+      (add-hook 'sh-mode-hook 'flyspell-prog-mode)
     #+END_SRC
 
 *** Text
