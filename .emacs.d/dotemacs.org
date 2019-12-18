@@ -580,7 +580,7 @@
   downloading third party packages.
 
   #+BEGIN_SRC emacs-lisp
-    (load "~/dotfiles/emacs.d/prelude" 1)
+    (load "~/dotfiles/.emacs.d/prelude" 1)
   #+END_SRC
 
 * Packages
@@ -803,5 +803,5 @@
   should come /after/ loading everything else to Emacs.
 
   #+BEGIN_SRC emacs-lisp
-    (load "~/dotfiles/emacs.d/coda" 1)
+    (load "~/dotfiles/.emacs.d/coda" 1)
   #+END_SRC
