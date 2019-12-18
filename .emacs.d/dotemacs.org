@@ -765,7 +765,6 @@
       (use-package gitignore-mode :ensure t)
     #+END_SRC
 
-
 *** Haskell
     Support for the famous polymorphic, lazily evaluated, runtime lambda
     calculus with algebraic data types.
