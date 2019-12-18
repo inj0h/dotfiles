@@ -8,10 +8,10 @@
 # ..Except the whitelist!
 !.bash_profile
 !.bashrc
-!.emacs
 !.gitignore
 !.rgignore
 !Brewfile
+!dotfiles.txt
 !mac.terminal
 !readme.md
 
