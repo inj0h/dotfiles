@@ -82,34 +82,62 @@
     Additions and overrides to the default bindings. Also prefix
     bindings via C-c.
 
-**** Additions
-     Keybindings unprovided by default.
+**** Custom
+     Keybindings that extend the defaults. For ergonomics, I like
+     binding commonly used commands to super and binding super as the
+     keys adjacent to those left and right of the spacebar, /e.g./
+     typically the Option key on most Mac oriented keyboards and the
+     Windows key on the left side and the Context Menu, Control,
+     Function, or Windows key on the right side for Windows keyboards.
+
+     Mac Keyboard
+
+     |----------------+----------------+----------+----------------+----------------|
+     | Option = Super | Command = Meta | Spacebar | Option = Super | Command = Meta |
+     |----------------+----------------+----------+----------------+----------------|
+
+     Windows Keyboard
+
+     |------------------+------------+----------+-------------+-----------|
+     | Windows  = Super | Alt = Meta | Spacebar | Alt = Super | /X/ = Meta  |
+     |------------------+------------+----------+-------------+-----------|
+
+     Where the "X" key can be..
+     - Context Menu
+     - Control
+     - Function
+     - Windows
 
      #+BEGIN_SRC emacs-lisp
        (setq ehc/emacs-custom-keybindings
-             '(("<f5>"     . repeat)
-               ("<M-down>" . forward-paragraph)
-               ("<M-up>"   . backward-paragraph)
-               ("C-S-k"    . ehc/kill-line-to-beginning-of-line)))
-
-       (dolist (keybindings ehc/emacs-custom-keybindings)
-         (global-set-key (kbd (car keybindings)) (cdr keybindings)))
-     #+END_SRC
-
-**** Overrides
-     Keybindings that override default ones.
-
-     #+BEGIN_SRC emacs-lisp
-       (setq ehc/emacs-override-keybindings
-             '(("<s-left>"  . backward-sexp)
+             '(("<M-down>"  . forward-paragraph)
+               ("<M-up>"    . backward-paragraph)
+               ("<f5>"      . repeat)
+               ("<s-left>"  . backward-sexp)
                ("<s-right>" . forward-sexp)
+
+               ("C-S-k"     . ehc/kill-line-to-beginning-of-line)
                ("C-x s"     . save-buffer)
                ("C-x C-s"   . save-some-buffers)
                ("M-`"       . other-frame)
-               ("s-e"       . eval-last-sexp)))
 
+               ("s-."       . bookmark-bmenu-list)
+               ("s->"       . bookmark-set)
+               ("s-B"       . switch-to-buffer-other-window)
+               ("s-F"       . find-file-other-window)
+               ("s-K"       . kill-buffer-and-window)
+               ("s-L"       . find-file-literally-other-window)
+               ("s-b"       . switch-to-buffer)
+               ("s-e"       . eval-last-sexp)
+               ("s-f"       . find-file)
+               ("s-k"       . kill-buffer)
+               ("s-l"       . find-file-literally)
+               ("s-o"       . other-window)
+               ("s-p"       . ehc/goto-previous-buffer)
+               ("s-y"       . yank)
+               ("s-z"       . undo)))
 
-       (dolist (keybindings ehc/emacs-override-keybindings)
+       (dolist (keybindings ehc/emacs-custom-keybindings)
          (global-set-key (kbd (car keybindings)) (cdr keybindings)))
      #+END_SRC
 
@@ -119,7 +147,7 @@
      functionality to it, but later, third-party functionality gets
      bound /ad hoc/.
 
-     Vi users can think of it as the leader key.
+     vi users can think of it as the leader key.
 
      Define the prefix keymap.
 
@@ -133,27 +161,11 @@
 
      #+BEGIN_SRC emacs-lisp
        (setq ehc/prefix-vanilla-keybindings
-             '(;; Buffer
-               ("bK" . kill-buffer-and-window)
-               ("bO" . ido-switch-buffer-other-window)
-               ("bk" . ido-kill-buffer)
-               ("bo" . ido-switch-buffer)
-               ("bp" . ehc/goto-previous-buffer)
-               ("bs" . save-buffer)
-
-               ;; Dired
-               ("dd" . dired)
+             '(;; Dired
                ("dw" . wdired-change-to-wdired-mode)
 
                ;; File
                ("f." . ehc/kill-filepath)
-               ("fB" . bookmark-set)
-               ("fF" . find-file-other-window)
-               ("fL" . find-file-literally-at-point)
-               ("fb" . bookmark-bmenu-list)
-               ("ff" . ido-find-file)
-               ("fl" . find-file-literally)
-               ("fp" . find-file-at-point)
 
                ;; Lines
                ("ll" . display-line-numbers-mode)
@@ -737,18 +749,11 @@
         (which-key-mode)
 
         (dolist (me/which-key-labels
-                 '(("C-c b"   . "buffer")
-                   ("C-c d"   . "dired")
+                 '(("C-c d"   . "dired")
                    ("C-c f"   . "files")
-                   ("C-c g"   . "magit")
-                   ("C-c g b" . "branch")
-                   ("C-c g l" . "blame")
-                   ("C-c g u" . "upstream")
-                   ("C-c t"   . "text")
-                   ("C-c t f" . "format")
-                   ("C-c t l" . "line")
-                   ("C-c t r" . "replace")
-                   ("C-c w"   . "window")))
+                   ("C-c l"   . "lines")
+                   ("C-c r"   . "replacements")
+                   ("C-c t"   . "text")))
 
           (which-key-declare-prefixes (car me/which-key-labels)
             (cdr me/which-key-labels))))
