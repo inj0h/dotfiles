@@ -537,15 +537,10 @@
 
     #+BEGIN_SRC emacs-lisp
       (setq initial-scratch-message
-            ";; Hello, Friend! Welcome to Emacs - the extensible, customizable,
-      ;; self-documenting real-time display editor.
-      ;;
-      ;; This buffer is your scratch buffer. It is for text that is not saved,
-      ;; and for Lisp evaluation.
-      ;;
-      ;; To create a file, visit it with \\[find-file] and enter text in its
-      ;; buffer.
-      ;;
+            ";; Welcome to Emacs - The extensible, customizable, self-documenting
+      ;; real-time display editor! This is the scratch buffer. It is for text
+      ;; that is not saved, and for Lisp evaluation. To create a file, visit
+      ;; it with \\[find-file] and enter text in its buffer.
 
       ")
     #+END_SRC
