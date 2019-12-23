@@ -98,19 +98,25 @@
      Windows key on the left side and the Context Menu, Control,
      Function, or Windows key on the right side for Windows keyboards.
 
+     Convention
+
+     |-------+------+-------+------+-------|
+     | Super | Meta | Space | Meta | Super |
+     |-------+------+-------+------+-------|
+
      Mac Keyboard
 
-     |----------------+----------------+----------+----------------+----------------|
-     | Option = Super | Command = Meta | Spacebar | Option = Super | Command = Meta |
-     |----------------+----------------+----------+----------------+----------------|
+     |----------------+----------------+-------+---------------+-----------------|
+     | Option = Super | Command = Meta | Space | Option = Meta | Command = Super |
+     |----------------+----------------+-------+---------------+-----------------|
 
      Windows Keyboard
 
-     |------------------+------------+----------+-------------+-----------|
-     | Windows  = Super | Alt = Meta | Spacebar | Alt = Super | /X/ = Meta  |
-     |------------------+------------+----------+-------------+-----------|
+     |-----------------+------------+-------+------------+-----------|
+     | Windows = Super | Alt = Meta | Space | Alt = Meta | /X/ = Super |
+     |-----------------+------------+-------+------------+-----------|
 
-     Where the "X" key can be..
+     Where the /X/ key equals..
      - Context Menu
      - Control
      - Function
@@ -620,7 +626,7 @@
   downloading third party packages.
 
   #+BEGIN_SRC emacs-lisp
-    (load "~/dotfiles/.emacs.d/prelude" 1)
+    (load "~/dotfiles/.emacs.d/lisp/prelude" 1)
   #+END_SRC
 
 * Packages
@@ -838,5 +844,5 @@
   should come /after/ loading everything else to Emacs.
 
   #+BEGIN_SRC emacs-lisp
-    (load "~/dotfiles/.emacs.d/coda" 1)
+    (load "~/dotfiles/.emacs.d/lisp/coda" 1)
   #+END_SRC
