@@ -1,6 +1,5 @@
-# Filename: .bashrc
+# Filename: bashrc
 # Note:     A good enough bashrc for most *nix users.
-#
 
 #
 # Preemption

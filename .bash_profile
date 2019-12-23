@@ -1,6 +1,5 @@
 # Filename: bash_profile
 # Note:     Just your average bash_profile.
-#
 
 #
 # Variables
