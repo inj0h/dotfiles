@@ -35,6 +35,14 @@
     (load custom-file 'noerror)
   #+END_SRC
 
+** Encoding
+   Gotta have that 8-bit Unicode.
+
+   #+BEGIN_SRC emacs-lisp
+     (prefer-coding-system 'utf-8)
+     (setq default-buffer-file-coding-system 'utf-8)
+   #+END_SRC
+
 ** File IO
    Behavior when loading or "visiting" files in Emacs.
 
@@ -300,14 +308,33 @@
    Tell Emacs where it should look for ancillary Elisp, binaries, /etc./
 
 *** Bin
-    On POSIX, we often need to point to some binaries.
+    Running Emacs on Mac or Windows typically involves explicitly
+    pointing to binaries on disk via setting the PATH and exec-path
+    variables in order to get some extended functionality.
 
-    Mac/Darwin uses //usr/local/bin// instead of //usr/bin// like on Linux.
+    *Shells and subprocess* within Emacs typically use the PATH variable
+    to refer to external binaries. One notable exception is the package
+    *deadgrep,* which uses PATH to refer to the ripgrep binary.
 
-    #+BEGIN_SRC emacs-lisp
-      (when (equal system-type 'darwin)
-        (add-to-list 'exec-path "/usr/local/bin"))
-    #+END_SRC
+    *Elisp programs* like diff tools, file compressors, spellcheckers, /etc/
+    typically use the exec-path variable.
+
+**** Mac
+     Macs use //usr/local/bin// instead of //usr/bin// for a lot of
+     binaries, especially those installed via Homebrew.
+
+     #+BEGIN_SRC emacs-lisp
+       (when (equal system-type 'darwin)
+         (let ((mac-binaries '("/usr/local/bin")))
+
+           ;; Set PATH.
+           (setenv "PATH" (mapconcat
+                           'identity mac-binaries path-separator))
+
+           ;; Set exec-path.
+           (dolist (binaries mac-binaries)
+             (add-to-list 'exec-path binaries))))
+     #+END_SRC
 
 ** Server
    Enable server if there's no daemon already running.
@@ -319,7 +346,8 @@
 
 ** Spellcheck
    Use aspell for spell checking. Note, the location of the binary will
-   change depending on the OS.
+   change depending on the OS. Also, make sure Emacs loads the binary,
+   /e.g./ //usr/local/bin/aspell/ on Mac.
 
    #+BEGIN_SRC emacs-lisp
      (cond ((equal system-type 'gnu/linux)
@@ -704,6 +732,7 @@
 
 *** Deadgrep
     Rust is better than C/C++, and we should use its version of grep.
+    Make sure Emacs loads the binaries, /e.g./ //usr/local/bin/rg/ on Mac.
 
     #+BEGIN_SRC emacs-lisp
       (use-package deadgrep
@@ -751,6 +780,7 @@
         (dolist (me/which-key-labels
                  '(("C-c d"   . "dired")
                    ("C-c f"   . "files")
+                   ("C-c g"   . "grep")
                    ("C-c l"   . "lines")
                    ("C-c r"   . "replacements")
                    ("C-c t"   . "text")))
