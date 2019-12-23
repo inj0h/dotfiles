@@ -1,7 +1,9 @@
 #!/bin/sh
 #
 # Filename: connect_the_dots
-# Note:     Softly link all *nix configuration files.
+# Note:     A POSIX compliant shell script to setup and teardown symbolic
+#           links for a set of files outlined by an argument
+#           configuration file.
 
 #
 # Variables
@@ -10,14 +12,27 @@
 # These allow for a more manageable way to read this file's parent Git
 # directory so that we can validate the script runs in the correct
 # specified location.
-#
 path_exec="$( cd "$(dirname -- "$0")" || exit 1 ; pwd -P )"
 this_repo_name="dotfiles"
 this_repo_path="$(dirname "$path_exec")"
 this_repo_path_base_name="$(basename "$this_repo_path")"
 
-# Name of the configuration file.
+# Arguments
+flag_help="--help"
+flag_help_abbrev="-h"
+flag_link="--link"
+flag_link_abbrev="-l"
+flag_unlink="--unlink"
+flag_unlink_abbrev="-u"
+
+# Configuration file.
 configuration_file="dotfiles.txt"
+
+# Link Actions
+link_action_link="link"
+link_action_unlink="unlink"
+
+# Printing
 delimiter="--------------------------------------------------"
 
 #
@@ -25,23 +40,25 @@ delimiter="--------------------------------------------------"
 #
 
 link() {
-    # Parsing the $configuration_file, this function will create a
-    # symbolic link for each file at the specified directory.
+    # This function will parse the $configuration_file, and create a
+    # symbolic link for each file per line at the specified directory.
+    #
+    # It short circuits the script upon encountering an error, and
+    # prints the cause of error to STDOUT.
     #
     # It assumes that the $configuration_file exists and its contents,
-    # parsable. Therefore, we should call any validation functions
-    # beforehand.
+    # parsable.
 
     # Detect whether the host has link, ln, installed and set the
     # respective flags for creating symbolic links.
-
     if ! command -v ln > /dev/null
     then
-        echo "Error: unable to find link binary on system."
+        echo "Error: Unable to find link binary on system."
         echo "Exiting with nonzero code.."
         exit 1
     fi
 
+    # TODO: Add support for Windows.
     case "$(uname -s)" in
         "Darwin")
             echo "BSD/Mac system detected."
@@ -54,32 +71,85 @@ link() {
             ln_flags="-sTfv"
             ;;
         *)
-            echo "Error: incompatible system detected."
+            echo "Error: Incompatible system detected."
             echo "Exiting with nonzero code.."
             exit 1
     esac
 
     echo "Done."
-    echo "$delimiter"
     echo "Linking.."
+    echo "$delimiter"
 
     while IFS="," read -r filetype filepath linkpath
     do
-        ln "$ln_flags" "$HOME/$filepath" "$HOME/$linkpath"
+        filepath_full="$HOME/$filepath"
+        linkpath_full="$HOME/$linkpath"
+
+        ln "$ln_flags" "$filepath_full" "$linkpath_full"
     done < "$1"
 
     echo "$delimiter"
     echo "Done."
 }
 
+print_help() {
+    # This function prints the help documentation for properly running
+    # this script.
+
+    echo "Usage:   connect_the_dots [options] [file]"
+    echo
+    echo "Options: $flag_help_abbrev, $flag_help"
+    echo "         Print help, i.e. this output."
+    echo
+    echo "         $flag_link_abbrev, $flag_link [file]"
+    echo "         Parse the contents of the configuration file, and if it"
+    echo "         contains no errors, i.e. the relevant directories and files"
+    echo "         exist on disk, create symbolic links for the file(s) listed"
+    echo "         per line."
+    echo
+    echo "         $flag_unlink_abbrev, $flag_unlink [file]"
+    echo "         Parse the contents of the configuration file, and if it"
+    echo "         contains no errors, i.e. the relevant directories and files"
+    echo "         exist on disk, destroy the symbolic links for the file(s)"
+    echo "         listed per line."
+    echo
+    echo "File:    A plain text configuration file named $configuration_file. It can"
+    echo "         exist anywhere within the user home directory insofar as the"
+    echo "         host filesystem has access. It must have the format below:"
+    echo
+    echo "         filetype + , + path_to_file + , + path_to_symbolic_link"
+    echo
+    echo "         The filetype specifies either a directory or file. Any string"
+    echo "         of characters beginning with d specifies that the path points"
+    echo "         to a directory and with f, that the path points to a file."
+    echo
+    echo "         Paths must be fully written so their location from the user"
+    echo "         home directory is clear."
+    echo
+    echo "         E.g. file,foo/.bashrc,.bashrc"
+    echo "         Conveys the file ~/foo/.bashrc and the respective symbolic link"
+    echo "         at ~/.bashrc."
+    echo
+    echo "         E.g. f,foo/.bash_profile,.bash_profile"
+    echo "         Conveys the file ~/foo/.bash_profile and the respective"
+    echo "         symbolic link at ~/.bash_profile."
+    echo
+    echo "         E.g. dir,foo/.emacs.d,.emacs.d"
+    echo "         Conveys the directory ~/foo/.emacs.d and the respective"
+    echo "         symbolic link at ~/.emacs.d."
+    echo
+}
+
 unlink() {
-    # Parsing the $configuration_file, this function will remove the
-    # symbolic link for each file, i.e. the rightmost comma separated
-    # value.
+    # This function will parse the $configuration_file, and will remove
+    # the symbolic link for each file, i.e. the rightmost comma
+    # separated value.
+    #
+    # It short circuits the script upon encountering an error, and
+    # prints the cause of error to STDOUT.
     #
     # It assumes that the $configuration_file exists and its contents,
-    # parsable. Therefore, we should call any validation functions
-    # beforehand.
+    # parsable.
 
     echo "Unlinking.."
     echo "$delimiter"
@@ -87,8 +157,11 @@ unlink() {
 
     while IFS="," read -r filetype filepath linkpath
     do
-        rm -rf "${HOME:?}/$linkpath"
-        echo "-> $HOME/$linkpath"
+        linkpath_full="$HOME/$linkpath"
+        linkpath_full_noexpand="${HOME:?}/$linkpath"
+
+        rm -rf "$linkpath_full_noexpand"
+        echo "-> $linkpath_full"
     done < "$1"
 
     echo "$delimiter"
@@ -96,19 +169,23 @@ unlink() {
 }
 
 validate_file_content() {
-    # Parsing the $configuration_file, this function validates whether
-    # the files marked for linking and the directories where their
-    # respective links will get created exist on disk.
+    # This function parses the $configuration_file, and validates
+    # whether the files marked for linking and the directories where
+    # their respective links will get created exist on disk.
     #
     # It short circuits the script upon encountering an error, and
-    # prints the cause of error, i.e. nonexistent file or directory, to
-    # STDOUT.
+    # prints the cause of error to STDOUT.
+    #
+    # It assumes that the $configuration_file exists.
 
     while IFS="," read -r filetype filepath linkpath
     do
+        filepath_full="$HOME/$filepath"
+        linkpath_directory="$HOME/$(dirname "$linkpath")"
+
         if [ -z "$filetype" ]
         then
-            echo "Error: non-parsable content"
+            echo "Error:   Non-parsable content"
             echo "Content: $filetype"
             echo "Please make sure $configuration_file has correct formatting."
             echo "Exiting with nonzero code.."
@@ -117,7 +194,7 @@ validate_file_content() {
 
         if [ -z "$filepath" ]
         then
-            echo "Error: non-parsable content"
+            echo "Error:   Non-parsable content"
             echo "Content: $filepath"
             echo "Please make sure $configuration_file has correct formatting."
             echo "Exiting with nonzero code.."
@@ -126,7 +203,7 @@ validate_file_content() {
 
         if [ -z "$linkpath" ]
         then
-            echo "Error: non-parsable content"
+            echo "Error:   Non-parsable content"
             echo "Content: $linkpath"
             echo "Please make sure $configuration_file has correct formatting."
             echo "Exiting with nonzero code.."
@@ -135,36 +212,36 @@ validate_file_content() {
 
         case "$filetype" in
             "d"*)
-                if [ ! -d "$HOME/$filepath" ]
+                if [ ! -d "$filepath_full" ]
                 then
-                    echo "Error: could not find directory on disk."
-                    echo "Directory: $filepath"
+                    echo "Error:     Could not find directory on disk."
+                    echo "Directory: $filepath_full"
                     echo "Exiting with nonzero code.."
                     exit 1
                 fi
                 ;;
             "f"*)
-                if [ ! -f "$HOME/$filepath" ]
+                if [ ! -f "$filepath_full" ]
                 then
-                    echo "Error: could not find file on disk."
-                    echo "File: $filepath"
+                    echo "Error: Could not find file on disk."
+                    echo "File:  $filepath_full"
                     echo "Exiting with nonzero code.."
                     exit 1
                 fi
                 ;;
             *)
-                echo "Error: non-parsable content"
+                echo "Error:   Non-parsable content"
                 echo "Content: $filetype"
                 echo "Please make sure $configuration_file has correct formatting."
                 echo "Exiting with nonzero code.."
                 exit 1
         esac
 
-        if [ ! -d "$HOME/$(dirname "$linkpath")" ]
+        if [ ! -d "$linkpath_directory" ]
         then
 
-            echo "Error: could not find directory on disk."
-            echo "Directory: $HOME/$(dirname "$linkpath")"
+            echo "Error:     Could not find directory on disk."
+            echo "Directory: $linkpath_directory"
             echo "Exiting with nonzero code.."
             exit 1
         fi
@@ -174,22 +251,24 @@ validate_file_content() {
 
 validate_file_path() {
     # This function accepts a file path as its only argument, and checks
-    # whether the file exists on disk.
+    # whether the file exists on disk. The file must have the name of
+    # the variable $configuration_file.
     #
-    # The file must have the name of the variable $configuration_file.
+    # It short circuits the script upon encountering an error, and
+    # prints the cause of error to STDOUT.
 
     case "$(basename "$1")" in
         "$configuration_file")
             if [ ! -e "$1" ]
             then
-                echo "Error: could not find file on disk!"
+                echo "Error:         Could not find file on disk!"
                 echo "File argument: $1"
                 echo "Exiting with nonzero code.."
                 exit 1
             fi
             ;;
         *)
-            echo "Error: non-parsable argument detected!"
+            echo "Error:         Non-parsable argument detected!"
             echo "File argument: $1"
             echo "Please provide the correct configuration file, i.e. $configuration_file."
             echo "Exiting with nonzero code.."
@@ -198,29 +277,33 @@ validate_file_path() {
 }
 
 validate_link_argument() {
-    # Docstring here.
+    # This function accepts a link argument as its only argument, and
+    # sets the link action accordingly. Refer to the [options] section
+    # of the help documentation, i.e. print_help, for more details.
+    #
+    # It short circuits the script upon encountering an error, and
+    # prints the cause of error to STDOUT.
 
     case "$1" in
-        "-l"*)
+        "$flag_help"|"$flag_help_abbrev")
+            echo "Error:    Non-parsable argument detected!"
+            echo "Argument: $1"
+            echo "Access the help documentation by only passing $flag_help."
+            echo "Exiting with nonzero code.."
+            exit 1
+            ;;
+        "$flag_link"|"$flag_link_abbrev")
             echo "Creating symbolic links.."
-            link_action="link"
+            link_action="$link_action_link"
             ;;
-        "-u"*)
+        "$flag_unlink"|"$flag_unlink_abbrev")
             echo "Destroying symbolic links.."
-            link_action="unlink"
-            ;;
-        "--l"*)
-            echo "Creating symbolic links.."
-            link_action="link"
-            ;;
-        "--u"*)
-            echo "Destroying symbolic links.."
-            link_action="unlink"
+            link_action="$link_action_unlink"
             ;;
         *)
-            echo "Error: non-parsable argument detected!"
-            echo "File argument: $1"
-            echo "Exiting with nonzero exit code.."
+            echo "Error:    Non-parsable argument detected!"
+            echo "Argument: $1"
+            echo "Exiting with nonzero code.."
             exit 1
     esac
 }
@@ -231,10 +314,9 @@ validate_link_argument() {
 
 # Make sure this script only runs from the bin directory of this
 # particular Git repository.
-
 if [ "$this_repo_path_base_name" != "$this_repo_name" ]
 then
-    echo "Error: invalid directory detected. Call this script within $this_repo_name."
+    echo "Error: Invalid directory detected. Run within $this_repo_name."
     echo "Exiting with nonzero code.."
     exit 1
 fi
@@ -242,18 +324,28 @@ fi
 case "$#" in
     1)
         case "$1" in
-            "-h"*)
-                echo "Printing help.."
+            "$flag_help"|"$flag_help_abbrev")
+                print_help
                 exit 0
                 ;;
-            "--h"*)
-                echo "Printing help.."
-                exit 0
+            "$flag_link"|"$flag_link_abbrev")
+                echo "Error:    Non-parsable argument detected!"
+                echo "Argument: $1"
+                echo "Passing $flag_link requires a file argument!"
+                echo "Exiting with nonzero code.."
+                exit 1
+                ;;
+            "$flag_unlink"|"$flag_unlink_abbrev")
+                echo "Error:    Non-parsable argument detected!"
+                echo "Argument: $1"
+                echo "Passing $flag_unlink requires a file argument!"
+                echo "Exiting with nonzero code.."
+                exit 1
                 ;;
             *)
-                echo "Error: non-parsable argument detected!"
-                echo "File argument: $1"
-                echo "Exiting with nonzero exit code.."
+                echo "Error:    Non-parsable argument detected!"
+                echo "Argument: $1"
+                echo "Exiting with nonzero code.."
                 exit 1
         esac
         ;;
@@ -262,7 +354,7 @@ case "$#" in
         validate_file_path "$2"
         validate_file_content "$2"
 
-        if [ "$link_action" = "link" ]
+        if [ "$link_action" = "$link_action_link" ]
         then
             link "$2"
         else
@@ -270,7 +362,9 @@ case "$#" in
         fi
         ;;
     *)
-        echo "Error: non-parsable argument detected!"
-        echo "Exiting with nonzero exit code.."
+        echo "Error:     Invalid number of arguments!"
+        echo "Arguments: $# (expected 2)"
+        echo "Run this script with the $flag_help flag for more context."
+        echo "Exiting with nonzero code.."
         exit 1
 esac
