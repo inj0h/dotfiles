@@ -2,15 +2,20 @@
 # Note:     Just your average bash_profile.
 
 #
-# Variables
+# System Variables
 #
+
+# Editor
 export EDITOR="emacsclient -nw"
 export VISUAL="$EDITOR"
 
-# Welcome Message
-printf "New session with $USER!\n"
+# History
+HISTCONTROL=ignoreboth
+HISTSIZE=100000
 
-# Load the configs!
-#
-# In case we don't run a login shell every time.
-[ -f ~/.bashrc ] && . ~/.bashrc
+
+# Welcome Message
+printf "New session with %s!\n" "$USER"
+
+# Load the configuration file.
+[ -r ~/.bashrc ] && . ~/.bashrc

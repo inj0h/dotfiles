@@ -25,7 +25,7 @@ flag_link_abbrev="-l"
 flag_unlink="--unlink"
 flag_unlink_abbrev="-u"
 
-# Configuration file.
+# Configuration file
 configuration_file="dotfiles.txt"
 
 # Link Actions
