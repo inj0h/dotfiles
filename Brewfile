@@ -23,6 +23,4 @@ cask 'emacs'
 cask 'macs-fan-control'
 cask 'virtualbox'
 cask 'vlc'
-cask 'xquartz'
-# Must install after xquartz
 cask 'inkscape'
