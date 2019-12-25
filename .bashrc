@@ -152,6 +152,41 @@ esac
 
 [ -n "$bash_completion" ] && . "$bash_completion"
 
+# GNU Utilities for Mac
+if [ "$(uname -s)" == "Darwin" ]
+then
+    if command -v brew > /dev/null
+    then
+        brew_packages="$(brew list)"
+
+        # coreutils
+        if [ "$(echo "$brew_packages" | grep coreutils)" == "coreutils" ]
+        then
+            PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+        fi
+
+        # curl
+        if [ "$(echo "$brew_packages" | grep curl)" == "curl" ]
+        then
+            export PATH="/usr/local/opt/curl/bin:$PATH"
+            export LDFLAGS="-L/usr/local/opt/curl/lib"
+            export CPPFLAGS="-I/usr/local/opt/curl/include"
+        fi
+
+        # findutils
+        if [ "$(echo "$brew_packages" | grep findutils)" == "findutils" ]
+        then
+            PATH="/usr/local/opt/findutils/libexec/gnubin:$PATH"
+        fi
+
+        # make
+        if [ "$(echo "$brew_packages" | grep make)" == "make" ]
+        then
+            PATH="/usr/local/opt/make/libexec/gnubin:$PATH"
+        fi
+    fi
+fi
+
 # Node Version Manager
 #
 # TODO: Configure NVM for Linux and Windows too.
