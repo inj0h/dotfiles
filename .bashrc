@@ -27,8 +27,10 @@ sh_blue="\[\033[0;34m\]"
 sh_clear="\[\033[0m\]"
 sh_cyan="\[\033[0;36m\]"
 sh_green="\[\033[0;32m\]"
-sh_purple="\[\033[0;35m\]"
 sh_red="\[\033[0;31m\]"
+
+# Homebrew
+homebrew_path="/usr/local/Cellar"
 
 # Unicode
 utf8_arrow_ltr="\u21fe"
@@ -157,16 +159,14 @@ if [ "$(uname -s)" == "Darwin" ]
 then
     if command -v brew > /dev/null
     then
-        brew_packages="$(brew list)"
-
         # coreutils
-        if [ "$(echo "$brew_packages" | grep coreutils)" == "coreutils" ]
+        if [ "$(ls "$homebrew_path" | grep coreutils)" == coreutils ]
         then
             PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
         fi
 
         # curl
-        if [ "$(echo "$brew_packages" | grep curl)" == "curl" ]
+        if [ "$(ls "$homebrew_path" | grep curl)" == curl ]
         then
             export PATH="/usr/local/opt/curl/bin:$PATH"
             export LDFLAGS="-L/usr/local/opt/curl/lib"
@@ -174,13 +174,13 @@ then
         fi
 
         # findutils
-        if [ "$(echo "$brew_packages" | grep findutils)" == "findutils" ]
+        if [ "$(ls "$homebrew_path" | grep findutils)" == findutils ]
         then
             PATH="/usr/local/opt/findutils/libexec/gnubin:$PATH"
         fi
 
         # make
-        if [ "$(echo "$brew_packages" | grep make)" == "make" ]
+        if [ "$(ls "$homebrew_path" | grep make)" == make ]
         then
             PATH="/usr/local/opt/make/libexec/gnubin:$PATH"
         fi
@@ -194,7 +194,7 @@ case "$(uname -s)" in
     "Darwin")
         if command -v brew > /dev/null
         then
-            if [ "$(brew list | grep nvm)" == "nvm" ]
+            if [ "$(ls "$homebrew_path" | grep nvm)" == nvm ]
             then
                 nvm="/usr/local/opt/nvm/nvm.sh"
                 nvm_bash_completion="/usr/local/opt/nvm/etc/bash_completion"
