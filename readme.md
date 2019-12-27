@@ -20,9 +20,9 @@ $ ./bin/connect_the_dots --link dotfiles.txt
 
 ### Configuration File
 The script will read the contents of `dotfiles.txt` in order to
-determine the paths. __You can configure it__ to link your own
-dotfiles - useful if you keep a lot of them around. For more details,
-run `connect_the_dots` with the `--help` flag.
+determine the paths. __You can configure the plain text file__ to link
+your own dotfiles - useful if you keep a lot of them around. For more
+details, run `connect_the_dots` with the `--help` flag.
 
 ``` shell
 $ ./bin/connect_the_dots --help
