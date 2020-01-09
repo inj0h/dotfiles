@@ -4,7 +4,10 @@
 # Ignore everything!
 *
 
-# ..Except the whitelist!
+# But descend into directories.
+!*/
+
+# And mind the whitelist!
 !.bash_profile
 !.bashrc
 !.gitignore
@@ -14,11 +17,7 @@
 !mac.terminal
 !readme.md
 
-!/bin/
-/bin/**
 !/bin/connect_the_dots
 
-!/.emacs.d/
-/.emacs.d/**
 !/.emacs.d/init.el
 !/.emacs.d/dotemacs.org
