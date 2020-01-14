@@ -124,7 +124,9 @@
 
      #+BEGIN_SRC emacs-lisp
        (setq ehc/emacs-custom-keybindings
-             '(("<M-down>"  . forward-paragraph)
+             '(("<C-left>"  . move-beginning-of-line)
+               ("<C-right>" . move-end-of-line)
+               ("<M-down>"  . forward-paragraph)
                ("<M-up>"    . backward-paragraph)
                ("<f5>"      . repeat)
                ("<s-left>"  . backward-sexp)
