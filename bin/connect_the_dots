@@ -96,48 +96,48 @@ print_help() {
     # This function prints the help documentation for properly running
     # this script.
 
-    echo "Usage:   connect_the_dots [options] [file]"
-    echo
-    echo "Options: $flag_help_abbrev, $flag_help"
-    echo "         Print help, i.e. this output."
-    echo
-    echo "         $flag_link_abbrev, $flag_link [file]"
-    echo "         Parse the contents of the configuration file, and if it"
-    echo "         contains no errors, i.e. the relevant directories and files"
-    echo "         exist on disk, create symbolic links for the file(s) listed"
-    echo "         per line."
-    echo
-    echo "         $flag_unlink_abbrev, $flag_unlink [file]"
-    echo "         Parse the contents of the configuration file, and if it"
-    echo "         contains no errors, i.e. the relevant directories and files"
-    echo "         exist on disk, destroy the symbolic links for the file(s)"
-    echo "         listed per line."
-    echo
-    echo "File:    A plain text configuration file named $configuration_file. It can"
-    echo "         exist anywhere within the user home directory insofar as the"
-    echo "         host filesystem has access. It must have the format below:"
-    echo
-    echo "         filetype + , + path_to_file + , + path_to_symbolic_link"
-    echo
-    echo "         The filetype specifies either a directory or file. Any string"
-    echo "         of characters beginning with d specifies that the path points"
-    echo "         to a directory and with f, that the path points to a file."
-    echo
-    echo "         Paths must be fully written so their location from the user"
-    echo "         home directory is clear."
-    echo
-    echo "         E.g. file,foo/.bashrc,.bashrc"
-    echo "         Conveys the file ~/foo/.bashrc and the respective symbolic link"
-    echo "         at ~/.bashrc."
-    echo
-    echo "         E.g. f,foo/.bash_profile,.bash_profile"
-    echo "         Conveys the file ~/foo/.bash_profile and the respective"
-    echo "         symbolic link at ~/.bash_profile."
-    echo
-    echo "         E.g. dir,foo/.emacs.d,.emacs.d"
-    echo "         Conveys the directory ~/foo/.emacs.d and the respective"
-    echo "         symbolic link at ~/.emacs.d."
-    echo
+    echo "Usage:   connect_the_dots [options] [file]
+
+Options: $flag_help_abbrev, $flag_help
+         Print help, i.e. this output.
+
+         $flag_link_abbrev, $flag_link [file]
+         Parse the contents of the configuration file, and if it
+         contains no errors, i.e. the relevant directories and files
+         exist on disk, create symbolic links for the file(s) listed
+         per line.
+
+         $flag_unlink_abbrev, $flag_unlink [file]
+         Parse the contents of the configuration file, and if it
+         contains no errors, i.e. the relevant directories and files
+         exist on disk, destroy the symbolic links for the file(s)
+         listed per line.
+
+File:    A plain text configuration file named $configuration_file. It can
+         exist anywhere within the user home directory insofar as the
+         host filesystem has access. It must have the format below:
+
+         filetype + , + path_to_file + , + path_to_symbolic_link
+
+         The filetype specifies either a directory or file. Any string
+         of characters beginning with d specifies that the path points
+         to a directory and with f, that the path points to a file.
+
+         Paths must be fully written so their location from the user
+         home directory is clear.
+
+         E.g. file,foo/.bashrc,.bashrc
+         Conveys the file ~/foo/.bashrc and the respective symbolic link
+         at ~/.bashrc.
+
+         E.g. f,foo/.bash_profile,.bash_profile
+         Conveys the file ~/foo/.bash_profile and the respective
+         symbolic link at ~/.bash_profile.
+
+         E.g. dir,foo/.emacs.d,.emacs.d
+         Conveys the directory ~/foo/.emacs.d and the respective
+         symbolic link at ~/.emacs.d.
+         "
 }
 
 unlink() {
