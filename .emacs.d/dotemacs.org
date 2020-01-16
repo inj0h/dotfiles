@@ -165,7 +165,7 @@
 
      vi users can think of it as the leader key.
 
-     Define the prefix keymap.
+     Declare the prefix keymap and bind it to one or more prefix keys.
 
      #+BEGIN_SRC emacs-lisp
        (define-prefix-command 'ehc/prefix-keymap)
