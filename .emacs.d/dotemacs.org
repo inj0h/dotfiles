@@ -133,9 +133,12 @@
                ("<s-right>" . forward-sexp)
 
                ("C-S-k"     . ehc/kill-line-to-beginning-of-line)
+               ("C-p"       . transpose-chars); Formerly C-t.
+               ("C-t"       . previous-line); Formerly C-p.
                ("C-x s"     . save-buffer)
                ("C-x C-s"   . save-some-buffers)
                ("M-`"       . other-frame)
+               ("M-z"       . zap-up-to-char)
 
                ("s-."       . bookmark-bmenu-list)
                ("s->"       . bookmark-set)
