@@ -159,24 +159,12 @@ if [ "$(uname -s)" == "Darwin" ]
 then
     if command -v brew > /dev/null
     then
-        # coreutils
-        if [ "$(ls "$homebrew_path" | grep coreutils)" == coreutils ]
-        then
-            PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
-        fi
-
         # curl
         if [ "$(ls "$homebrew_path" | grep curl)" == curl ]
         then
             export PATH="/usr/local/opt/curl/bin:$PATH"
             export LDFLAGS="-L/usr/local/opt/curl/lib"
             export CPPFLAGS="-I/usr/local/opt/curl/include"
-        fi
-
-        # findutils
-        if [ "$(ls "$homebrew_path" | grep findutils)" == findutils ]
-        then
-            PATH="/usr/local/opt/findutils/libexec/gnubin:$PATH"
         fi
 
         # make
