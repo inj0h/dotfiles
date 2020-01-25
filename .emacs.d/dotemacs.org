@@ -831,8 +831,6 @@
               ((string-equal system-type "darwin")
                (setq markdown-command "/usr/local/bin/pandoc")))
 
-        (add-hook 'markdown-mode-hook '(lambda ()
-                                         (setq-local truncate-lines t)))
         (add-hook 'markdown-mode-hook 'flycheck-mode)
         (add-hook 'markdown-mode-hook 'turn-off-auto-fill))
     #+END_SRC
