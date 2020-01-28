@@ -257,7 +257,7 @@
       ;;
       (add-hook 'sh-mode-hook
                 '(lambda () (set-fill-column ehc/default-column-limit)))
-      (add-hook 'sh-mode-hook 'turn-on-autofill)
+      (add-hook 'sh-mode-hook 'turn-on-auto-fill)
       (add-hook 'sh-mode-hook 'flyspell-prog-mode)
     #+END_SRC
 
@@ -266,14 +266,12 @@
     #+BEGIN_SRC emacs-lisp
       ;; 1. Limit columns to 72, i.e. the ehc/default-column-limit
       ;;    variable.
-      ;; 2. Automatically wrap any characters that exceed that limit
-      ;;    onto the next line.
-      ;; 3. Check for spelling.
+      ;; 2. Check for spelling.
       ;;
       (add-hook 'text-mode-hook
                 '(lambda () (set-fill-column ehc/default-column-limit)))
-      (add-hook 'text-mode-hook 'turn-on-auto-fill)
       (add-hook 'text-mode-hook 'flyspell-mode)
+      (add-hook 'text-mode-hook 'visual-line-mode)
 
       ;; Handle Git commit messages as text.
       (add-to-list 'auto-mode-alist '("COMMIT_EDITMSG" . text-mode))
