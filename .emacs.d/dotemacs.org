@@ -106,9 +106,9 @@
 
      Mac Keyboard
 
-     |----------------+----------------+-------+---------------+-----------------|
-     | Option = Super | Command = Meta | Space | Option = Meta | Command = Super |
-     |----------------+----------------+-------+---------------+-----------------|
+     |----------------+----------------+-------+----------------+----------------|
+     | Option = Super | Command = Meta | Space | Command = Meta | Option = Super |
+     |----------------+----------------+-------+----------------+----------------|
 
      Windows Keyboard
 
@@ -120,6 +120,7 @@
      - Context Menu
      - Control
      - Function
+     - Print Screen
      - Windows
 
      #+BEGIN_SRC emacs-lisp
@@ -133,26 +134,27 @@
                ("<s-right>" . forward-sexp)
 
                ("C-S-k"     . ehc/kill-line-to-beginning-of-line)
-               ("C-p"       . transpose-chars); Formerly C-t.
-               ("C-t"       . previous-line); Formerly C-p.
-               ("C-x s"     . save-buffer)
+               ("C-p"       . transpose-chars)
+               ("C-t"       . previous-line)
                ("C-x C-s"   . save-some-buffers)
+               ("C-x s"     . save-buffer)
                ("M-`"       . other-frame)
                ("M-z"       . zap-up-to-char)
 
-               ("s-."       . bookmark-bmenu-list)
                ("s->"       . bookmark-set)
+               ("s-."       . bookmark-bmenu-list)
                ("s-B"       . switch-to-buffer-other-window)
-               ("s-F"       . find-file-other-window)
-               ("s-K"       . kill-buffer-and-window)
-               ("s-L"       . find-file-literally-other-window)
                ("s-b"       . switch-to-buffer)
                ("s-e"       . eval-last-sexp)
+               ("s-F"       . find-file-other-window)
                ("s-f"       . find-file)
+               ("s-K"       . kill-buffer-and-window)
                ("s-k"       . kill-buffer)
+               ("s-L"       . find-file-literally-other-window)
                ("s-l"       . find-file-literally)
                ("s-o"       . other-window)
                ("s-p"       . ehc/goto-previous-buffer)
+               ("s-r"       . occur)
                ("s-y"       . yank)
                ("s-z"       . undo)))
 
@@ -730,7 +732,7 @@
           (define-key company-active-map (kbd "M-p") nil)
           (define-key company-active-map (kbd "C-n")
             #'company-select-next)
-          (define-key company-active-map (kbd "C-p")
+          (define-key company-active-map (kbd "C-t")
             #'company-select-previous)))
     #+END_SRC
 
