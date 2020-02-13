@@ -423,6 +423,21 @@
       (add-hook 'prog-mode-hook 'subword-mode)
     #+END_SRC
 
+** Tetris
+   Because any /real/ Emacs user plays Tetris once in a while to blow off
+   some steam.
+*** Keybindings
+    We want to use C-H-T-N or I-J-K-L for Qwerty people. No one wants to
+    have to use the arrow keys!
+
+    #+BEGIN_SRC emacs-lisp
+      (add-hook 'tetris-mode-hook
+          '(lambda ()
+             (define-key tetris-mode-map "c" 'tetris-rotate-prev)
+             (define-key tetris-mode-map "h" 'tetris-move-left)
+             (define-key tetris-mode-map "t" 'tetris-move-down)
+             (define-key tetris-mode-map "n" 'tetris-move-right)))
+    #+END_SRC
 ** User Interface
    General UI settings.
 
