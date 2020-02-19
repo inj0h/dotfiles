@@ -347,6 +347,32 @@
              (add-to-list 'exec-path binaries))))
      #+END_SRC
 
+** Rectangle Mark
+   Emacs getting feature parity with vi's VISUAL BLOCK mode.
+*** Keybindings
+    #+BEGIN_SRC emacs-lisp
+      (setq ehc/rectangle-mark-mode-keybindings
+            '(("W" . kill-region)
+              ("a" . move-beginning-of-line)
+              ("c" . previous-line)
+              ("d" . delete-rectangle)
+              ("e" . move-end-of-line)
+              ("g" . backward-word)
+              ("h" . backward-char)
+              ("n" . forward-char)
+              ("o" . replace-rectangle)
+              ("r" . forward-word)
+              ("t" . next-line)
+              ("w" . kill-ring-save)))
+
+      (add-hook 'rectangle-mark-mode-hook
+                '(lambda ()
+                   (dolist
+                       (bindings ehc/rectangle-mark-mode-keybindings)
+                     (define-key rectangle-mark-mode-map
+                       (kbd (car bindings)) (cdr bindings)))))
+    #+END_SRC
+
 ** Server
    Enable server if there's no daemon already running.
 
@@ -431,13 +457,20 @@
     have to use the arrow keys!
 
     #+BEGIN_SRC emacs-lisp
+      (setq ehc/tetris-mode-keybindings
+            '(("c" . tetris-rotate-prev)
+              ("h" . tetris-move-left)
+              ("n" . tetris-move-right)
+              ("o" . tetris-start-game)
+              ("t" . tetris-move-down)))
+
       (add-hook 'tetris-mode-hook
-          '(lambda ()
-             (define-key tetris-mode-map "c" 'tetris-rotate-prev)
-             (define-key tetris-mode-map "h" 'tetris-move-left)
-             (define-key tetris-mode-map "t" 'tetris-move-down)
-             (define-key tetris-mode-map "n" 'tetris-move-right)))
+                '(lambda ()
+                   (dolist (bindings ehc/tetris-mode-keybindings)
+                     (define-key tetris-mode-map
+                       (kbd (car bindings)) (cdr bindings)))))
     #+END_SRC
+
 ** User Interface
    General UI settings.
 
