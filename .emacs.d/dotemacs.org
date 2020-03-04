@@ -733,12 +733,13 @@
    Colors, ligatures, /etc./
 
 *** Colorscheme
+    Throw some paint on it.
 
     #+BEGIN_SRC emacs-lisp
-      (use-package naysayer-theme
+      (use-package zenburn-theme
         :ensure t
         :config
-        (load-theme 'naysayer t))
+        (load-theme 'zenburn t))
     #+END_SRC
 
 *** Org
