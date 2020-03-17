@@ -83,6 +83,22 @@
      (ido-mode 1)
    #+END_SRC
 
+** Isearch
+   The interactive search, no?
+*** Keybindings
+    #+BEGIN_SRC emacs-lisp
+      (setq ehc/isearch-mode-keybindings
+            '(("<up>"   . isearch-repeat-backward)
+              ("<down>" . isearch-repeat-forward)))
+
+      (add-hook 'isearch-mode-hook
+                '(lambda ()
+                   (dolist
+                       (bindings ehc/isearch-mode-keybindings)
+                     (define-key isearch-mode-map
+                       (kbd (car bindings)) (cdr bindings)))))
+    #+END_SRC
+
 ** Keybindings
    Click clack.
 
@@ -240,12 +256,10 @@
       ;; 4. Check for spelling on comments and strings.
       (add-hook 'emacs-lisp-mode-hook
                 '(lambda () (set-fill-column ehc/default-column-limit)))
-      (add-hook 'emacs-lisp-mode-hook 'turn-on-auto-fill)
-      (add-hook 'emacs-lisp-mode-hook 'prettify-symbols-mode)
+      (add-hook 'emacs-lisp-mode-hook 'electric-pair-mode)
       (add-hook 'emacs-lisp-mode-hook 'flyspell-prog-mode)
-
-      ;; Read ".emacs" files as Elisp files.
-      (add-to-list 'auto-mode-alist '("\\.emacs\\'" . emacs-lisp-mode))
+      (add-hook 'emacs-lisp-mode-hook 'prettify-symbols-mode)
+      (add-hook 'emacs-lisp-mode-hook 'turn-on-auto-fill)
     #+END_SRC
 
 *** Shell Scripting
@@ -733,13 +747,13 @@
    Colors, ligatures, /etc./
 
 *** Colorscheme
-    Throw some paint on it.
+    Life by color.
 
     #+BEGIN_SRC emacs-lisp
-      (use-package zenburn-theme
+      (use-package modus-vivendi-theme
         :ensure t
         :config
-        (load-theme 'zenburn t))
+        (load-theme 'modus-vivendi t))
     #+END_SRC
 
 *** Org
