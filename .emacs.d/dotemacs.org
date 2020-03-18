@@ -157,20 +157,23 @@
                ("M-`"       . other-frame)
                ("M-z"       . zap-up-to-char)
 
+               ("s-0"       . delete-window)
+               ("s-1"       . delete-other-windows)
+               ("s-2"       . split-window-below)
+               ("s-3"       . split-window-right)
                ("s->"       . bookmark-set)
                ("s-."       . bookmark-bmenu-list)
                ("s-B"       . switch-to-buffer-other-window)
                ("s-b"       . switch-to-buffer)
-               ("s-e"       . eval-last-sexp)
                ("s-F"       . find-file-other-window)
                ("s-f"       . find-file)
                ("s-K"       . kill-buffer-and-window)
                ("s-k"       . kill-buffer)
                ("s-L"       . find-file-literally-other-window)
                ("s-l"       . find-file-literally)
-               ("s-o"       . other-window)
+               ("s-o"       . occur)
                ("s-p"       . ehc/goto-previous-buffer)
-               ("s-r"       . occur)
+               ("s-w"       . other-window)
                ("s-y"       . yank)
                ("s-z"       . undo)))
 
@@ -524,7 +527,7 @@
     Disable the following.
 
     #+BEGIN_SRC emacs-lisp
-      (global-hl-line-mode -1)
+      (global-hl-line-mode 1)
       (menu-bar-mode -1)
       (tool-bar-mode -1)
     #+END_SRC
