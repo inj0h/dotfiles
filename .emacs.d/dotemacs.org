@@ -247,23 +247,39 @@
 ** Language Modes
    Settings for default modes that support various languages, text, /etc./
 
-*** Elisp
+*** Emacs Lisp
+**** General
+     Stuff and things.
 
-    #+BEGIN_SRC emacs-lisp
-      ;; 1. Limit columns to 72, i.e. the ehc/default-column-limit
-      ;;    variable.
-      ;; 2. Automatically wrap any characters that exceed that limit
-      ;;    onto the next line.
-      ;; 3. Use pretty symbols, which really means replace the lambda
-      ;;    keyword with the Greek symbol.
-      ;; 4. Check for spelling on comments and strings.
-      (add-hook 'emacs-lisp-mode-hook
-                '(lambda () (set-fill-column ehc/default-column-limit)))
-      (add-hook 'emacs-lisp-mode-hook 'electric-pair-mode)
-      (add-hook 'emacs-lisp-mode-hook 'flyspell-prog-mode)
-      (add-hook 'emacs-lisp-mode-hook 'prettify-symbols-mode)
-      (add-hook 'emacs-lisp-mode-hook 'turn-on-auto-fill)
-    #+END_SRC
+     #+BEGIN_SRC emacs-lisp
+       (add-hook 'emacs-lisp-mode-hook
+                 '(lambda () (set-fill-column ehc/default-column-limit)))
+       (add-hook 'emacs-lisp-mode-hook 'flyspell-prog-mode)
+       (add-hook 'emacs-lisp-mode-hook 'prettify-symbols-mode)
+       (add-hook 'emacs-lisp-mode-hook 'turn-on-auto-fill)
+     #+END_SRC
+
+**** Keybindings
+     Flight school, space cadet.
+
+     *IMPORTANT! POTENTIAL BUG:*
+
+     For whatever reason, I can't get keybindings to work /specifically/
+     in emacs-lisp-mode using define-key with the emacs-lisp-mode-map. I
+     have to use local-set-key instead. Weird. I got the idea from
+     thumbing through [[https://github.com/rexim/dotfiles/blob/master/.emacs][Alexey's Emacs.]]
+
+     #+BEGIN_SRC emacs-lisp
+       (setq ehc/emacs-lisp-mode-keybindings
+             '(("s-i" . eval-last-sexp)))
+
+       (add-hook 'emacs-lisp-mode-hook
+                 '(lambda ()
+                    (dolist
+                        (bindings ehc/emacs-lisp-mode-keybindings)
+                      (local-set-key
+                       (kbd (car bindings)) (cdr bindings)))))
+     #+END_SRC
 
 *** Shell Scripting
 
@@ -427,20 +443,40 @@
       (setq require-final-newline t)
     #+END_SRC
 
+*** Pairs
+    Like peas in a pod.
+
+    Highlight matching symbols.
+
+    #+BEGIN_SRC emacs-lisp
+      (setq show-paren-delay 0)
+      (show-paren-mode 1)
+    #+END_SRC
+
+    Automatically insert matching pairs.
+
+    #+BEGIN_SRC emacs-lisp
+      (setq ehc/electic-pair-modes '(cc-mode
+                                     emacs-lisp-mode
+                                     java-mode
+                                     lisp-interaction-mode
+                                     sh-mode))
+
+      (defun ehc/electric-pair-disabled-modes (mode)
+        (not (member major-mode ehc/electic-pair-modes)))
+
+      (setq electric-pair-inhibit-predicate
+            'ehc/electric-pair-disabled-modes)
+
+      (electric-pair-mode 1)
+    #+END_SRC
+
 *** Sentences
     When formatting sentences with fill-column, separate joined
     sentences with one space instead of two spaces (default).
 
     #+BEGIN_SRC emacs-lisp
       (setq sentence-end-double-space nil)
-    #+END_SRC
-
-*** Symbols
-    Highlight matching symbols.
-
-    #+BEGIN_SRC emacs-lisp
-      (setq show-paren-delay 0)
-      (show-paren-mode 1)
     #+END_SRC
 
 *** Tabs
