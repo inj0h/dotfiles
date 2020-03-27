@@ -456,14 +456,14 @@
     Automatically insert matching pairs.
 
     #+BEGIN_SRC emacs-lisp
-      (setq ehc/electic-pair-modes '(cc-mode
-                                     emacs-lisp-mode
-                                     java-mode
-                                     lisp-interaction-mode
-                                     sh-mode))
+      (setq ehc/electric-pair-modes '(c++-mode
+                                      emacs-lisp-mode
+                                      java-mode
+                                      lisp-interaction-mode
+                                      sh-mode))
 
       (defun ehc/electric-pair-disabled-modes (mode)
-        (not (member major-mode ehc/electic-pair-modes)))
+        (not (member major-mode ehc/electric-pair-modes)))
 
       (setq electric-pair-inhibit-predicate
             'ehc/electric-pair-disabled-modes)
@@ -749,7 +749,8 @@
      (add-to-list
       'package-archives '("gnu" . "https://elpa.gnu.org/packages/") t)
      (add-to-list
-      'package-archives '("melpa" . "https://melpa.org/packages/") t)
+      'package-archives
+      '("melpa-stable" . "https://stable.melpa.org/packages/") t)
    #+END_SRC
 
    Use use-package.
@@ -763,9 +764,14 @@
    Require bind and diminish.
 
    #+BEGIN_SRC emacs-lisp
-     (use-package bind-key :ensure t)
+     (use-package bind-key
+       :ensure t
+       :pin melpa-stable)
+
+
      (use-package diminish
        :ensure t
+       :pin melpa-stable
        :config
        (setq ehc/diminished-modes
              '(auto-fill-function ; = auto-fill-mode
@@ -791,6 +797,7 @@
     #+BEGIN_SRC emacs-lisp
       (use-package modus-vivendi-theme
         :ensure t
+        :pin gnu
         :config
         (load-theme 'modus-vivendi t))
     #+END_SRC
@@ -800,6 +807,7 @@
     #+BEGIN_SRC emacs-lisp
       (use-package org-bullets
         :ensure t
+        :pin melpa-stable
         :config
         (add-hook 'org-mode-hook 'org-bullets-mode))
     #+END_SRC
@@ -814,6 +822,7 @@
     #+BEGIN_SRC emacs-lisp
       (use-package browse-kill-ring
         :ensure t
+        :pin melpa-stable
         :bind (("M-y" . browse-kill-ring)
                ("M-Y" . yank-pop)))
     #+END_SRC
@@ -824,6 +833,7 @@
     #+BEGIN_SRC emacs-lisp
       (use-package company
         :ensure t
+        :pin melpa-stable
         :diminish company-mode
         :init (global-company-mode)
         :config
@@ -845,6 +855,7 @@
     #+BEGIN_SRC emacs-lisp
       (use-package deadgrep
         :ensure t
+        :pin melpa-stable
         :bind (:map deadgrep-mode-map
                     ("q"   . kill-buffer-and-window)
                     ("RET" . deadgrep-visit-result-other-window)
@@ -859,6 +870,7 @@
     #+BEGIN_SRC emacs-lisp
       (use-package flycheck
         :ensure t
+        :pin melpa-stable
         :diminish flycheck-mode)
     #+END_SRC
 
@@ -869,6 +881,7 @@
     #+BEGIN_SRC emacs-lisp
       (use-package smex
         :ensure t
+        :pin melpa-stable
         :bind (("M-x" . smex)
                ("M-X" . execute-extended-command)))
     #+END_SRC
@@ -879,6 +892,7 @@
     #+BEGIN_SRC emacs-lisp
       (use-package which-key
         :ensure t
+        :pin melpa-stable
         :diminish which-key-mode
         :config
         (setq which-key-idle-delay 0.1
@@ -905,7 +919,9 @@
     Yeah, this doesn't come out of the box.
 
     #+BEGIN_SRC emacs-lisp
-      (use-package gitignore-mode :ensure t)
+      (use-package gitignore-mode
+        :ensure t
+        :pin melpa-stable)
     #+END_SRC
 
 *** Haskell
@@ -915,6 +931,7 @@
     #+BEGIN_SRC emacs-lisp
       (use-package haskell-mode
         :ensure t
+        :pin melpa-stable
         :config
         (add-hook 'haskell-mode-hook 'flycheck-mode))
     #+END_SRC
@@ -925,6 +942,7 @@
     #+BEGIN_SRC emacs-lisp
       (use-package markdown-mode
         :ensure t
+        :pin melpa-stable
         :commands (markdown-mode gfm-mode)
         :mode (("README\\.md\\'" . gfm-mode))
         :config
