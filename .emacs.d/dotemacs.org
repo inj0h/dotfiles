@@ -87,14 +87,14 @@
    The interactive search, no?
 *** Keybindings
     #+BEGIN_SRC emacs-lisp
-      (setq ehc/isearch-mode-keybindings
+      (setq foo/isearch-mode-keybindings
             '(("<up>"   . isearch-repeat-backward)
               ("<down>" . isearch-repeat-forward)))
 
       (add-hook 'isearch-mode-hook
                 '(lambda ()
                    (dolist
-                       (bindings ehc/isearch-mode-keybindings)
+                       (bindings foo/isearch-mode-keybindings)
                      (define-key isearch-mode-map
                        (kbd (car bindings)) (cdr bindings)))))
     #+END_SRC
@@ -112,7 +112,8 @@
      keys adjacent to those left and right of the spacebar, /e.g./
      typically the Option key on most Mac oriented keyboards and the
      Windows key on the left side and the Context Menu, Control,
-     Function, or Windows key on the right side for Windows keyboards.
+     Function, Print Screen, or Windows key on the right side for
+     Windows keyboards.
 
      Convention
 
@@ -129,7 +130,7 @@
      Windows Keyboard
 
      |-----------------+------------+-------+------------+-----------|
-     | Windows = Super | Alt = Meta | Space | Alt = Meta | /X/ = Super |
+     | Windows = Super | Alt = Meta | Space | Alt = Meta | X = Super |
      |-----------------+------------+-------+------------+-----------|
 
      Where the /X/ key equals..
@@ -140,7 +141,7 @@
      - Windows
 
      #+BEGIN_SRC emacs-lisp
-       (setq ehc/emacs-custom-keybindings
+       (setq foo/emacs-custom-keybindings
              '(("<C-left>"  . move-beginning-of-line)
                ("<C-right>" . move-end-of-line)
                ("<M-down>"  . forward-paragraph)
@@ -149,7 +150,7 @@
                ("<s-left>"  . backward-sexp)
                ("<s-right>" . forward-sexp)
 
-               ("C-S-k"     . ehc/kill-line-to-beginning-of-line)
+               ("C-S-k"     . foo/kill-line-to-beginning-of-line)
                ("C-p"       . transpose-chars)
                ("C-t"       . previous-line)
                ("C-x C-s"   . save-some-buffers)
@@ -162,6 +163,7 @@
                ("s-2"       . split-window-below)
                ("s-3"       . split-window-right)
                ("s->"       . bookmark-set)
+               ("s-,"       . save-buffer)
                ("s-."       . bookmark-bmenu-list)
                ("s-B"       . switch-to-buffer-other-window)
                ("s-b"       . switch-to-buffer)
@@ -172,12 +174,12 @@
                ("s-L"       . find-file-literally-other-window)
                ("s-l"       . find-file-literally)
                ("s-o"       . occur)
-               ("s-p"       . ehc/goto-previous-buffer)
+               ("s-p"       . foo/goto-previous-buffer)
                ("s-w"       . other-window)
                ("s-y"       . yank)
                ("s-z"       . undo)))
 
-       (dolist (keybindings ehc/emacs-custom-keybindings)
+       (dolist (keybindings foo/emacs-custom-keybindings)
          (global-set-key (kbd (car keybindings)) (cdr keybindings)))
      #+END_SRC
 
@@ -192,20 +194,20 @@
      Declare the prefix keymap and bind it to one or more prefix keys.
 
      #+BEGIN_SRC emacs-lisp
-       (define-prefix-command 'ehc/prefix-keymap)
-       (global-set-key (kbd "C-c") 'ehc/prefix-keymap)
-       (global-set-key (kbd "<f8>") 'ehc/prefix-keymap)
+       (define-prefix-command 'foo/prefix-keymap)
+       (global-set-key (kbd "C-c") 'foo/prefix-keymap)
+       (global-set-key (kbd "<f8>") 'foo/prefix-keymap)
      #+END_SRC
 
      Define the prefix keymap.
 
      #+BEGIN_SRC emacs-lisp
-       (setq ehc/prefix-vanilla-keybindings
+       (setq foo/prefix-vanilla-keybindings
              '(;; Dired
                ("dw" . wdired-change-to-wdired-mode)
 
                ;; File
-               ("f." . ehc/kill-filepath)
+               ("f." . foo/kill-filepath)
 
                ;; Lines
                ("ll" . display-line-numbers-mode)
@@ -218,13 +220,13 @@
                ("rs" . replace-string)
 
                ;; Text Formatting
-               ("td" . ehc/add-word-to-dictionary)
+               ("td" . foo/add-word-to-dictionary)
                ("tp" . fill-paragraph)
                ("tr" . fill-region)
                ("tw" . whitespace-mode)))
 
-       (dolist (keybindings ehc/prefix-vanilla-keybindings)
-         (define-key ehc/prefix-keymap
+       (dolist (keybindings foo/prefix-vanilla-keybindings)
+         (define-key foo/prefix-keymap
            (kbd (car keybindings)) (cdr keybindings)))
      #+END_SRC
 
@@ -253,7 +255,7 @@
 
      #+BEGIN_SRC emacs-lisp
        (add-hook 'emacs-lisp-mode-hook
-                 '(lambda () (set-fill-column ehc/default-column-limit)))
+                 '(lambda () (set-fill-column foo/default-column-limit)))
        (add-hook 'emacs-lisp-mode-hook 'flyspell-prog-mode)
        (add-hook 'emacs-lisp-mode-hook 'prettify-symbols-mode)
        (add-hook 'emacs-lisp-mode-hook 'turn-on-auto-fill)
@@ -270,13 +272,13 @@
      thumbing through [[https://github.com/rexim/dotfiles/blob/master/.emacs][Alexey's Emacs.]]
 
      #+BEGIN_SRC emacs-lisp
-       (setq ehc/emacs-lisp-mode-keybindings
+       (setq foo/emacs-lisp-mode-keybindings
              '(("s-i" . eval-last-sexp)))
 
        (add-hook 'emacs-lisp-mode-hook
                  '(lambda ()
                     (dolist
-                        (bindings ehc/emacs-lisp-mode-keybindings)
+                        (bindings foo/emacs-lisp-mode-keybindings)
                       (local-set-key
                        (kbd (car bindings)) (cdr bindings)))))
      #+END_SRC
@@ -284,14 +286,14 @@
 *** Shell Scripting
 
     #+BEGIN_SRC emacs-lisp
-      ;; 1. Limit columns to 72, i.e. the ehc/default-column-limit
+      ;; 1. Limit columns to 72, i.e. the foo/default-column-limit
       ;;    variable.
       ;; 2. Automatically wrap any characters that exceed that limit
       ;;    onto the next line.
       ;; 3. Check for spelling on comments and strings.
       ;;
       (add-hook 'sh-mode-hook
-                '(lambda () (set-fill-column ehc/default-column-limit)))
+                '(lambda () (set-fill-column foo/default-column-limit)))
       (add-hook 'sh-mode-hook 'turn-on-auto-fill)
       (add-hook 'sh-mode-hook 'flyspell-prog-mode)
     #+END_SRC
@@ -299,16 +301,10 @@
 *** Text
 
     #+BEGIN_SRC emacs-lisp
-      ;; 1. Limit columns to 72, i.e. the ehc/default-column-limit
-      ;;    variable.
-      ;; 2. Check for spelling.
-      ;;
       (add-hook 'text-mode-hook
-                '(lambda () (set-fill-column ehc/default-column-limit)))
+                '(lambda () (set-fill-column foo/default-column-limit)))
       (add-hook 'text-mode-hook 'flyspell-mode)
-      (add-hook 'text-mode-hook 'visual-line-mode)
 
-      ;; Handle Git commit messages as text.
       (add-to-list 'auto-mode-alist '("COMMIT_EDITMSG" . text-mode))
     #+END_SRC
 
@@ -384,7 +380,7 @@
    Emacs getting feature parity with vi's VISUAL BLOCK mode.
 *** Keybindings
     #+BEGIN_SRC emacs-lisp
-      (setq ehc/rectangle-mark-mode-keybindings
+      (setq foo/rectangle-mark-mode-keybindings
             '(("W" . kill-region)
               ("a" . move-beginning-of-line)
               ("c" . previous-line)
@@ -401,7 +397,7 @@
       (add-hook 'rectangle-mark-mode-hook
                 '(lambda ()
                    (dolist
-                       (bindings ehc/rectangle-mark-mode-keybindings)
+                       (bindings foo/rectangle-mark-mode-keybindings)
                      (define-key rectangle-mark-mode-map
                        (kbd (car bindings)) (cdr bindings)))))
     #+END_SRC
@@ -456,17 +452,17 @@
     Automatically insert matching pairs.
 
     #+BEGIN_SRC emacs-lisp
-      (setq ehc/electric-pair-modes '(c++-mode
+      (setq foo/electric-pair-modes '(c++-mode
                                       emacs-lisp-mode
                                       java-mode
                                       lisp-interaction-mode
                                       sh-mode))
 
-      (defun ehc/electric-pair-disabled-modes (mode)
-        (not (member major-mode ehc/electric-pair-modes)))
+      (defun foo/electric-pair-disabled-modes (mode)
+        (not (member major-mode foo/electric-pair-modes)))
 
       (setq electric-pair-inhibit-predicate
-            'ehc/electric-pair-disabled-modes)
+            'foo/electric-pair-disabled-modes)
 
       (electric-pair-mode 1)
     #+END_SRC
@@ -510,7 +506,7 @@
     have to use the arrow keys!
 
     #+BEGIN_SRC emacs-lisp
-      (setq ehc/tetris-mode-keybindings
+      (setq foo/tetris-mode-keybindings
             '(("c" . tetris-rotate-prev)
               ("h" . tetris-move-left)
               ("n" . tetris-move-right)
@@ -519,7 +515,7 @@
 
       (add-hook 'tetris-mode-hook
                 '(lambda ()
-                   (dolist (bindings ehc/tetris-mode-keybindings)
+                   (dolist (bindings foo/tetris-mode-keybindings)
                      (define-key tetris-mode-map
                        (kbd (car bindings)) (cdr bindings)))))
     #+END_SRC
@@ -539,9 +535,9 @@
     whitespace-mode is enabled.
 
     #+BEGIN_SRC emacs-lisp
-      (setq ehc/default-column-limit 72)
-      (setq-default fill-column ehc/default-column-limit)
-      (setq-default whitespace-line-column ehc/default-column-limit)
+      (setq foo/default-column-limit 72)
+      (setq-default fill-column foo/default-column-limit)
+      (setq-default whitespace-line-column foo/default-column-limit)
     #+END_SRC
 
 *** Cursor
@@ -679,46 +675,12 @@
       (add-to-list 'default-frame-alist '(alpha . (100 . 95)))
     #+END_SRC
 ** Utility Functions
-   Handy lisp code.
+   Some homebrewed Emacs Lisp. Might come useful.
 
    #+BEGIN_SRC emacs-lisp
-     (defun ehc/add-word-to-dictionary ()
-       "Add the word-at-point to aspell's dictionary."
-       (interactive)
-       (let ((current-location (point))
-             (word (flyspell-get-word)))
-         (when (consp word)
-           (flyspell-do-correct 'save
-                                nil
-                                (car word)
-                                current-location
-                                (cadr word)
-                                (caddr word)
-                                current-location))))
-
-     (defun ehc/goto-previous-buffer ()
-       "Return to the previously visited buffer. This function is
-     interactive."
-       (interactive)
-       (switch-to-buffer (other-buffer (current-buffer) 1)))
-
-     (defun ehc/kill-filepath ()
-       "Copy the current buffer filename with path to clipboard. This
-     function is interactive."
-       (interactive)
-       (let ((filepath (if (equal major-mode 'dired-mode)
-                           default-directory
-                         (buffer-file-name))))
-         (when filepath
-           (kill-new filepath)
-           (message "Copied buffer filepath '%s' to clipboard."
-                    filepath))))
-
-     (defun ehc/kill-line-to-beginning-of-line ()
-       "Kill all text from point to the beginning of the line."
-       (interactive)
-       (kill-line 0))
+     (load "~/dotfiles/.emacs.d/lisp/doodads")
    #+END_SRC
+
 * Prelude: Local Configuration
   Load a local settings file named /prelude.el/ if it exists on disk, and
   don't throw a warning if it doesn't. A local settings file comes handy
@@ -773,17 +735,17 @@
        :ensure t
        :pin melpa-stable
        :config
-       (setq ehc/diminished-modes
+       (setq foo/diminished-modes
              '(auto-fill-function ; = auto-fill-mode
                eldoc-mode))
 
-       (dolist (diminished ehc/diminished-modes)
+       (dolist (diminished foo/diminished-modes)
          (diminish diminished))
 
-       (setq ehc/forced-diminished-modes
+       (setq foo/forced-diminished-modes
              '((subword  . subword-mode)))
 
-       (dolist (diminished ehc/forced-diminished-modes)
+       (dolist (diminished foo/forced-diminished-modes)
          (with-eval-after-load (car diminished)
            (diminish (cdr diminished)))))
    #+END_SRC
@@ -859,8 +821,8 @@
         :bind (:map deadgrep-mode-map
                     ("q"   . kill-buffer-and-window)
                     ("RET" . deadgrep-visit-result-other-window)
-                    ("C-c" . 'ehc/prefix-keymap)
-               :map ehc/prefix-keymap
+                    ("C-c" . 'foo/prefix-keymap)
+               :map foo/prefix-keymap
                     ("gr"  . 'deadgrep)))
     #+END_SRC
 
