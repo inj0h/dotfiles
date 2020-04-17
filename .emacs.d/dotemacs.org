@@ -24,7 +24,6 @@
 
 * Vanilla
   Stock Emacs settings without any third party packages.
-
 ** Custom Settings
    Designate a separate file for custom-set-variables under ~/.emacs.d/
    and name it custom.el. Load the file on startup.
@@ -34,6 +33,12 @@
           (expand-file-name "custom.el" user-emacs-directory))
     (load custom-file 'noerror)
   #+END_SRC
+
+** Dired
+   Directory editor.
+   #+BEGIN_SRC emacs-lisp
+     (add-hook 'dired-mode-hook 'hl-line-mode)
+   #+END_SRC
 
 ** Encoding
    Gotta have that 8-bit Unicode.
@@ -142,19 +147,22 @@
 
      #+BEGIN_SRC emacs-lisp
        (setq foo/emacs-custom-keybindings
-             '(("<C-left>"  . move-beginning-of-line)
-               ("<C-right>" . move-end-of-line)
-               ("<M-down>"  . forward-paragraph)
-               ("<M-up>"    . backward-paragraph)
-               ("<f5>"      . repeat)
-               ("<s-left>"  . backward-sexp)
-               ("<s-right>" . forward-sexp)
+             '(("<f5>"      . repeat)
 
-               ("C-S-k"     . foo/kill-line-to-beginning-of-line)
+               ("<C-right>" . move-end-of-line)
+               ("<C-left>"  . move-beginning-of-line)
+
+               ("<M-up>"    . backward-paragraph)
+               ("<M-down>"  . forward-paragraph)
+
+               ("<s-right>" . forward-sexp)
+               ("<s-left>"  . backward-sexp)
+
                ("C-p"       . transpose-chars)
                ("C-t"       . previous-line)
                ("C-x C-s"   . save-some-buffers)
                ("C-x s"     . save-buffer)
+
                ("M-`"       . other-frame)
                ("M-z"       . zap-up-to-char)
 
@@ -162,21 +170,23 @@
                ("s-1"       . delete-other-windows)
                ("s-2"       . split-window-below)
                ("s-3"       . split-window-right)
-               ("s->"       . bookmark-set)
-               ("s-,"       . save-buffer)
-               ("s-."       . bookmark-bmenu-list)
-               ("s-B"       . switch-to-buffer-other-window)
-               ("s-b"       . switch-to-buffer)
-               ("s-F"       . find-file-other-window)
-               ("s-f"       . find-file)
-               ("s-K"       . kill-buffer-and-window)
-               ("s-k"       . kill-buffer)
-               ("s-L"       . find-file-literally-other-window)
-               ("s-l"       . find-file-literally)
-               ("s-o"       . occur)
-               ("s-p"       . foo/goto-previous-buffer)
-               ("s-w"       . other-window)
+
+               ("s-<"       . bookmark-set)
+               ("s-,"       . bookmark-bmenu-list)
+               ("s-p"       . occur)
                ("s-y"       . yank)
+               ("s-L"       . find-file-literally)
+
+               ("s-a"       . foo/goto-previous-buffer)
+               ("s-O"       . switch-to-buffer-other-window)
+               ("s-o"       . switch-to-buffer)
+               ("s-E"       . find-file-other-window)
+               ("s-e"       . find-file)
+               ("s-u"       . foo/kill-line-to-beginning-of-line)
+
+               ("s-K"       . kill-buffer)
+               ("s-k"       . kill-line)
+               ("s-w"       . other-window)
                ("s-z"       . undo)))
 
        (dolist (keybindings foo/emacs-custom-keybindings)
@@ -449,24 +459,6 @@
       (show-paren-mode 1)
     #+END_SRC
 
-    Automatically insert matching pairs.
-
-    #+BEGIN_SRC emacs-lisp
-      (setq foo/electric-pair-modes '(c++-mode
-                                      emacs-lisp-mode
-                                      java-mode
-                                      lisp-interaction-mode
-                                      sh-mode))
-
-      (defun foo/electric-pair-disabled-modes (mode)
-        (not (member major-mode foo/electric-pair-modes)))
-
-      (setq electric-pair-inhibit-predicate
-            'foo/electric-pair-disabled-modes)
-
-      (electric-pair-mode 1)
-    #+END_SRC
-
 *** Sentences
     When formatting sentences with fill-column, separate joined
     sentences with one space instead of two spaces (default).
@@ -545,6 +537,7 @@
 
     #+BEGIN_SRC emacs-lisp
       (blink-cursor-mode 1)
+      (setq blink-cursor-blinks 0)
     #+END_SRC
 
     Enable the cursor when running as a TTY.
@@ -559,7 +552,7 @@
     Disable the following.
 
     #+BEGIN_SRC emacs-lisp
-      (global-hl-line-mode 1)
+      (global-hl-line-mode -1)
       (menu-bar-mode -1)
       (tool-bar-mode -1)
     #+END_SRC
@@ -771,7 +764,8 @@
         :ensure t
         :pin melpa-stable
         :config
-        (add-hook 'org-mode-hook 'org-bullets-mode))
+        (add-hook 'org-mode-hook 'org-bullets-mode)
+        (add-hook 'org-mode-hook 'hl-line-mode))
     #+END_SRC
 
 ** Productivity
