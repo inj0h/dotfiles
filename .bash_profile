@@ -2,7 +2,7 @@
 # Note:     Just your average bash_profile.
 
 # Editor
-export EDITOR="emacsclient -nw"
+export EDITOR="vi"
 export VISUAL="$EDITOR"
 
 # History
