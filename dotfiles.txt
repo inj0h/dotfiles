@@ -1,4 +1,3 @@
-d,dotfiles/.emacs.d,.emacs.d
 d,dotfiles/bin,bin
 f,dotfiles/.bash_profile,.bash_profile
 f,dotfiles/.bashrc,.bashrc

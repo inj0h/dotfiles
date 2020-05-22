@@ -134,9 +134,9 @@ File:    A plain text configuration file named $configuration_file. It can
          Conveys the file ~/foo/.bash_profile and the respective
          symbolic link at ~/.bash_profile.
 
-         E.g. dir,foo/.emacs.d,.emacs.d
-         Conveys the directory ~/foo/.emacs.d and the respective
-         symbolic link at ~/.emacs.d.
+         E.g. dir,foo/.config.d,.config.d
+         Conveys the directory ~/foo/.config.d and the respective
+         symbolic link at ~/.config.d.
          "
 }
 
