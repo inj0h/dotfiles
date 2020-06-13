@@ -5,8 +5,7 @@ My nix configuration files. Share, steal, _etc._
 
 ## System Compatibility
 To get the most out of these files, you need to do your computing on a
-POSIX system. No idea if these files work on native Windows. WSL might
-workout.
+POSIX system. No idea if these files work on Windows. WSL might help.
 
 ## Installation
 Clone this repository and run the `connect_the_dots` shell script to
