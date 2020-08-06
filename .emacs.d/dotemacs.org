@@ -1,0 +1,799 @@
+# Filename: dotemacs.org
+# Note:     Main Emacs configuration file written in literate
+#           programming style.
+
+* About
+  My Emacs configuration written in literate programming style, /a la/
+  Donald Knuth (heh). Hopefully it's easier to read than a plain Elisp
+  file.
+
+  I like to keep a relatively lightweight configuration, tuning the
+  defaults as I like, but not necessarily using too many plugins. I
+  stick to those that provide language support in addition to a handful
+  that offer some nice quality of life features. I generally try to
+  avoid relying too much on plugins.
+
+* Lexical Binding
+  By default, Elisp does not have lexical binding, /i.e./ variable scope
+  based on the position of text which virtually every other mainstream
+  language has. So let's enable it.
+
+  #+BEGIN_SRC emacs-lisp
+    ;; -*- lexical-binding: t -*-
+  #+END_SRC
+
+* Vanilla
+  Stock Emacs settings without any third party packages.
+** Custom Settings
+   Designate a separate file for custom-set-variables under ~/.emacs.d/
+   and name it custom.el. Load the file on startup.
+
+  #+BEGIN_SRC emacs-lisp
+    (setq custom-file
+          (expand-file-name "custom.el" user-emacs-directory))
+    (load custom-file 'noerror)
+  #+END_SRC
+
+** Dired
+   Directory editor.
+   #+BEGIN_SRC emacs-lisp
+     (add-hook 'dired-mode-hook 'hl-line-mode)
+   #+END_SRC
+
+** Encoding
+   Gotta have that 8-bit Unicode.
+
+   #+BEGIN_SRC emacs-lisp
+     (prefer-coding-system 'utf-8)
+     (setq default-buffer-file-coding-system 'utf-8)
+   #+END_SRC
+
+** File IO
+   Behavior when loading or "visiting" files in Emacs.
+
+*** Auto Revert
+    Reload files automatically when detecting changes made outside of
+    Emacs, so basically like every contemporary editor.
+
+    #+BEGIN_SRC emacs-lisp
+      (global-auto-revert-mode 1)
+    #+END_SRC
+
+*** Backups
+    Disable file backups, at least for now.
+
+    1. Don't auto-save files.
+    2. Don't create backup files (yes, I know).
+    3. Don't create lock files.
+
+    #+BEGIN_SRC emacs-lisp
+      (setq auto-save-default nil
+            create-lockfiles nil
+            make-backup-files nil)
+    #+END_SRC
+
+** Ido
+   1. Disable file matching when opening files.
+   2. Ignore case.
+   3. Enable flexible matching.
+   4. Enable Ido where applicable, /e.g./ finding files, /etc./
+   5. Enable Ido.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq ido-auto-merge-work-directories-length -1
+           ido-case-fold t
+           ido-enable-flex-matching t
+           ido-everywhere t)
+
+     (ido-mode 1)
+   #+END_SRC
+
+** Isearch
+   The interactive search, no?
+*** Keybindings
+    #+BEGIN_SRC emacs-lisp
+      (setq foo/isearch-mode-keybindings
+            '(("<up>"   . isearch-repeat-backward)
+              ("<down>" . isearch-repeat-forward)))
+
+      (add-hook 'isearch-mode-hook
+                '(lambda ()
+                   (dolist (bindings foo/isearch-mode-keybindings)
+                     (define-key isearch-mode-map
+                       (kbd (car bindings)) (cdr bindings)))))
+    #+END_SRC
+
+** Keybindings
+   Click clack.
+*** Modifier Bindings
+    Bind modifiers for Linux, Mac, and Windows.
+
+**** Linux
+**** Mac
+     Note the right-only prefix bindings might not work when typing from
+     an external keyboard connected to your Macintosh. Oh well.
+
+     #+BEGIN_SRC emacs-lisp
+       (when (memq window-system '(mac ns))
+         (setq mac-command-modifier 'meta
+               mac-option-modifier  'super
+               mac-control-modifier 'control))
+     #+END_SRC
+
+**** Windows
+** Language Modes
+   Settings for default modes that support various languages, text, /etc./
+
+*** Emacs Lisp
+**** General
+     Stuff and things.
+
+     #+BEGIN_SRC emacs-lisp
+       (add-hook 'emacs-lisp-mode-hook
+                 '(lambda () (set-fill-column foo/default-column-limit)))
+       (add-hook 'emacs-lisp-mode-hook 'flyspell-prog-mode)
+       (add-hook 'emacs-lisp-mode-hook 'prettify-symbols-mode)
+       (add-hook 'emacs-lisp-mode-hook 'turn-on-auto-fill)
+     #+END_SRC
+
+**** Keybindings
+     Flight school, space cadet.
+
+     *IMPORTANT! POTENTIAL BUG:*
+
+     For whatever reason, I can't get keybindings to work /specifically/
+     in emacs-lisp-mode using define-key with the emacs-lisp-mode-map. I
+     have to use local-set-key instead. Weird. I got the idea from
+     thumbing through [[https://github.com/rexim/dotfiles/blob/master/.emacs][Alexey's Emacs.]]
+
+     #+BEGIN_SRC emacs-lisp
+       (setq foo/emacs-lisp-mode-keybindings
+             '(("s-i" . eval-last-sexp)))
+
+       (add-hook 'emacs-lisp-mode-hook
+                 '(lambda ()
+                    (dolist
+                        (bindings foo/emacs-lisp-mode-keybindings)
+                      (local-set-key
+                       (kbd (car bindings)) (cdr bindings)))))
+     #+END_SRC
+
+*** Shell Scripting
+
+    #+BEGIN_SRC emacs-lisp
+      (add-hook 'sh-mode-hook '(lambda () (set-fill-column foo/default-column-limit)))
+      (add-hook 'sh-mode-hook 'turn-on-auto-fill)
+      (add-hook 'sh-mode-hook 'flyspell-prog-mode)
+    #+END_SRC
+
+*** Text
+
+    #+BEGIN_SRC emacs-lisp
+      (add-hook 'text-mode-hook '(lambda () (set-fill-column foo/default-column-limit)))
+      (add-hook 'text-mode-hook 'flyspell-mode)
+
+      (add-to-list 'auto-mode-alist '("COMMIT_EDITMSG" . text-mode))
+    #+END_SRC
+
+** Mouse
+*** Selection
+    Delete a selected region by simply typing any character(s).
+
+    #+BEGIN_SRC emacs-lisp
+      (delete-selection-mode t)
+    #+END_SRC
+
+    Copy, /i.e./ save to kill ring, automatically when dragging mouse over
+    region.
+
+    #+BEGIN_SRC emacs-lisp
+      (setq mouse-drag-copy-region 1)
+    #+END_SRC
+
+** Org
+   Some Org Mode settings... Maybe one day you'll bother labeling these
+   out.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq org-enforce-todo-dependencies t
+           org-hide-emphasis-markers t
+           org-src-fontify-natively t
+           org-src-tab-acts-natively t
+           org-time-stamp-formats '("<%Y_%m_%d %a>" .
+                                    "<%Y_%m_%d %a %H:%M>")
+           org-todo-keywords '((sequence "TODO(t)"
+                                         "IN-PROGRESS(p!)"
+                                         "BLOCKED(b@/!)"
+                                         "SOMEDAY(s@/!)"
+                                         "|"
+                                         "DONE(d!)"
+                                         "CANCELED(c@/!)"))
+           org-use-fast-todo-selection t)
+   #+END_SRC
+
+** Paths
+   Tell Emacs where it should look for ancillary Elisp, binaries, /etc./
+
+*** Bin
+    Running Emacs on Mac or Windows typically involves explicitly
+    pointing to binaries on disk via setting the PATH and exec-path
+    variables in order to get some extended functionality.
+
+    *Shells and subprocess* within Emacs typically use the PATH variable
+    to refer to external binaries. One notable exception is the package
+    *deadgrep,* which uses PATH to refer to the ripgrep binary.
+
+    *Elisp programs* like diff tools, file compressors, spellcheckers, /etc/
+    typically use the exec-path variable.
+
+**** Mac
+     Macs use //usr/local/bin// instead of //usr/bin// for a lot of
+     binaries, especially those installed via Homebrew.
+
+     #+BEGIN_SRC emacs-lisp
+       (when (equal system-type 'darwin)
+         (let ((mac-binaries '("/usr/local/bin")))
+
+           ;; Set PATH.
+           (setenv "PATH" (mapconcat
+                           'identity mac-binaries path-separator))
+
+           ;; Set exec-path.
+           (dolist (binaries mac-binaries)
+             (add-to-list 'exec-path binaries))))
+     #+END_SRC
+
+** Rectangle Mark
+   Emacs getting feature parity with vi's VISUAL BLOCK mode.
+*** Keybindings
+    #+BEGIN_SRC emacs-lisp
+      (setq foo/rectangle-mark-mode-keybindings
+            '(("W" . kill-region)
+              ("a" . move-beginning-of-line)
+              ("c" . previous-line)
+              ("d" . delete-rectangle)
+              ("e" . move-end-of-line)
+              ("g" . backward-word)
+              ("h" . backward-char)
+              ("n" . forward-char)
+              ("o" . replace-rectangle)
+              ("r" . forward-word)
+              ("t" . next-line)
+              ("w" . kill-ring-save)))
+
+      (add-hook 'rectangle-mark-mode-hook
+                '(lambda ()
+                   (dolist
+                       (bindings foo/rectangle-mark-mode-keybindings)
+                     (define-key rectangle-mark-mode-map
+                       (kbd (car bindings)) (cdr bindings)))))
+    #+END_SRC
+
+** Server
+   Enable server if there's no daemon already running.
+
+   #+BEGIN_SRC emacs-lisp
+     (require 'server)
+     (unless (server-running-p) (server-start))
+   #+END_SRC
+
+** Spellcheck
+   Use aspell for spell checking. Note, the location of the binary will
+   change depending on the OS. Also, make sure Emacs loads the binary,
+   /e.g./ //usr/local/bin/aspell/ on Mac.
+
+   #+BEGIN_SRC emacs-lisp
+     (cond ((equal system-type 'gnu/linux)
+            (setq ispell-program-name "/usr/bin/aspell"))
+           ((equal system-type 'darwin)
+            (setq ispell-progam-name "/usr/local/bin/aspell")))
+   #+END_SRC
+
+** Text
+   Plain text behavior.
+
+*** Backspace
+    Backspace to the nearest non-whitespace character.
+
+    #+BEGIN_SRC emacs-lisp
+      (setq backward-delete-char-untabify-method 'hungry)
+    #+END_SRC
+
+*** Newlines
+    Always add a newline at the end of a file.
+
+    #+BEGIN_SRC emacs-lisp
+      (setq require-final-newline t)
+    #+END_SRC
+
+*** Pairs
+    Like peas in a pod.
+
+    Highlight matching symbols.
+
+    #+BEGIN_SRC emacs-lisp
+      (setq show-paren-delay 0)
+      (show-paren-mode 1)
+    #+END_SRC
+
+*** Sentences
+    When formatting sentences with fill-column, separate joined
+    sentences with one space instead of two spaces (default).
+
+    #+BEGIN_SRC emacs-lisp
+      (setq sentence-end-double-space nil)
+    #+END_SRC
+
+*** Tabs
+    A tab means four spaces.
+
+    #+BEGIN_SRC emacs-lisp
+      (setq-default indent-tabs-mode nil)
+      (setq-default tab-width 4)
+      (setq c-basic-offset 4)
+    #+END_SRC
+
+*** Whitespace
+    Cleanup trailing whitespace, /et al/ before writing buffers.
+
+    #+BEGIN_SRC emacs-lisp
+      (add-hook 'before-save-hook 'whitespace-cleanup)
+    #+END_SRC
+
+*** Words
+    Read camelCase as two words.
+
+    #+BEGIN_SRC emacs-lisp
+      (add-hook 'prog-mode-hook 'subword-mode)
+    #+END_SRC
+
+** User Interface
+   General UI settings.
+
+*** Columns
+    Count columns starting from 1, /i.e./ the default is 0.
+
+    #+BEGIN_SRC emacs-lisp
+      (setq-default column-number-indicator-zero-based nil)
+      (setq column-number-mode t)
+    #+END_SRC
+
+    Set column limit to 80 and mark anything exceeding 80 columns when
+    whitespace-mode is enabled.
+
+    #+BEGIN_SRC emacs-lisp
+      (setq foo/default-column-limit 80)
+      (setq-default fill-column foo/default-column-limit)
+      (setq-default whitespace-line-column foo/default-column-limit)
+    #+END_SRC
+
+*** Cursor
+    I like blinking cursors.
+
+    #+BEGIN_SRC emacs-lisp
+      (blink-cursor-mode 1)
+      (setq blink-cursor-blinks 0)
+    #+END_SRC
+
+    Enable the cursor when running as a TTY.
+
+    #+BEGIN_SRC emacs-lisp
+      (add-hook 'server-visit-hook
+                '(lambda ()
+                   (xterm-mouse-mode 1)))
+    #+END_SRC
+
+*** Disable
+    Disable the following.
+
+    #+BEGIN_SRC emacs-lisp
+      (global-hl-line-mode -1)
+      (menu-bar-mode -1)
+      (scroll-bar-mode -1)
+      (tool-bar-mode -1)
+    #+END_SRC
+
+    Don't display anything in the frame title and disable the startup
+    screen.
+
+    #+BEGIN_SRC emacs-lisp
+      (setq frame-title-format nil
+            inhibit-startup-screen t)
+    #+END_SRC
+
+*** Font
+    Set the font regardless of whether Emacs runs as a GUI or TTY.
+    Careful to make sure the OS has the font installed!
+
+    #+BEGIN_SRC emacs-lisp
+      (cond ((equal system-type 'gnu/linux)
+             (set-frame-font "Inconsolata-15" nil t))
+            ((equal system-type 'darwin)
+             (set-frame-font "Inconsolata-15" nil t))
+            ((equal system-type 'windows-nt)
+             (set-frame-font "Inconsolata-15" nil t)))
+    #+END_SRC
+
+*** Line Numbers
+    Keep line numbers in uniform width, /i.e./ if the file has 100 lines
+    then single and double digit numbers take up three spaces.
+
+    #+BEGIN_SRC emacs-lisp
+      (setq display-line-numbers-grow-only t)
+    #+END_SRC
+
+*** Minibuffer
+    Wrap long lines within the minibuffer.
+
+    #+BEGIN_SRC emacs-lisp
+      (add-hook 'minibuffer-setup-hook '(lambda () (setq truncate-lines nil)))
+    #+END_SRC
+
+*** Scrolling
+    Do not allow over-scrolling.
+
+    Emacs limits scrolling when the last non-empty line reaches the top
+    of the current window instead of at the bottom like virtually every
+    other modern text editor. According to the documentation however,
+    this feature only works when running Emacs on X.
+
+    #+BEGIN_SRC emacs-lisp
+      (setq scroll-bar-adjust-thumb-portion nil)
+    #+END_SRC
+
+    Configure smooth scrolling behavior.
+
+    #+BEGIN_SRC emacs-lisp
+      (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))
+            mouse-wheel-progressive-speed nil
+            mouse-wheel-follow-mouse 't
+            scroll-preserve-screen-position t
+            scroll-step 1)
+    #+END_SRC
+
+*** Scratch Buffer
+    Get in the text edtior!
+
+    #+BEGIN_SRC emacs-lisp
+      (setq initial-scratch-message
+            ";; God's in His Heaven. All's right with the World.  ")
+    #+END_SRC
+
+*** User Input
+**** Visual Bell
+     Flash the window when doing something that Emacs doesn't
+     understand.
+
+     #+BEGIN_SRC emacs-lisp
+       (setq visible-bell 1)
+     #+END_SRC
+
+**** Yes/No Input
+     Replace "y" and "n" for "yes" and "no" respectively. This should
+     make interacting with prompts faster, obviously.
+
+     #+BEGIN_SRC emacs-lisp
+       (defalias 'yes-or-no-p 'y-or-n-p)
+     #+END_SRC
+
+*** Windows
+    Render non-focused frames transparent. /I.e./ when setting the alpha
+    or transparency level, the first number indicates the transparency
+    when focused and the second number, the transparency when unfocused.
+    An alpha of 100 means opaque.
+
+    #+BEGIN_SRC emacs-lisp
+      (set-frame-parameter (selected-frame) 'alpha '(100 . 95))
+      (add-to-list 'default-frame-alist '(alpha . (100 . 95)))
+    #+END_SRC
+** Utility Functions
+   Some homebrewed Emacs Lisp. Might come useful.
+
+   #+BEGIN_SRC emacs-lisp
+     (defun foo/add-word-to-dictionary ()
+       "Add the word-at-point to aspell's dictionary."
+       (interactive)
+       (let ((current-location (point))
+             (word (flyspell-get-word)))
+         (when (consp word)
+           (flyspell-do-correct 'save
+                                nil
+                                (car word)
+                                current-location
+                                (cadr word)
+                                (caddr word)
+                                current-location))))
+
+     (defun foo/goto-previous-buffer ()
+       "Return to the previously visited buffer. This function is
+          interactive."
+       (interactive)
+       (switch-to-buffer (other-buffer (current-buffer) 1)))
+
+     (defun foo/kill-filepath ()
+       "Copy the current buffer filename with path to clipboard. This
+          function is interactive."
+       (interactive)
+       (let ((filepath (if (equal major-mode 'dired-mode)
+                           default-directory
+                         (buffer-file-name))))
+         (when filepath
+           (kill-new filepath)
+           (message "Copied buffer filepath '%s' to clipboard."
+                    filepath))))
+   #+END_SRC
+
+* Prelude: Local Configuration
+  Load a local settings file named /prelude.el/ if it exists on disk, and
+  don't throw a warning if it doesn't. A local settings file comes handy
+  when configuring work proxies, /etc./ The following code snippet should
+  come /before/ telling Emacs to make any sort of network connection, /e.g./
+  downloading third party packages.
+
+  #+BEGIN_SRC emacs-lisp
+    (load "~/dotfiles/.emacs.d/lisp/prelude" 1)
+  #+END_SRC
+
+* Packages
+  Settings for third party Elisp packages.
+
+** Remote Repositories
+   Configurations for third party packages.
+
+   Load and activate Lisp packages.
+
+   #+BEGIN_SRC emacs-lisp
+     (require 'package)
+     (package-initialize)
+   #+END_SRC
+
+   Set remote package repositories.
+
+   #+BEGIN_SRC emacs-lisp
+     (add-to-list 'package-archives '("gnu"          . "https://elpa.gnu.org/packages/") t)
+     (add-to-list 'package-archives '("melpa"        . "https://melpa.org/packages/") t)
+     (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+   #+END_SRC
+
+   Use use-package.
+
+   #+BEGIN_SRC emacs-lisp
+     (unless (package-installed-p 'use-package)
+       (package-refresh-contents)
+       (package-install 'use-package))
+   #+END_SRC
+
+   Require bind and diminish.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package bind-key
+       :ensure t
+       :pin melpa-stable)
+
+
+     (use-package diminish
+       :ensure t
+       :pin melpa-stable
+       :config
+       (setq foo/diminished-modes
+             '(auto-fill-function ; = auto-fill-mode
+               eldoc-mode))
+
+       (dolist (diminished foo/diminished-modes)
+         (diminish diminished))
+
+       (setq foo/forced-diminished-modes
+             '((subword  . subword-mode)))
+
+       (dolist (diminished foo/forced-diminished-modes)
+         (with-eval-after-load (car diminished)
+           (diminish (cdr diminished)))))
+   #+END_SRC
+
+** Aesthetic
+   Colors, ligatures, /etc./
+
+*** Colorscheme
+    Life by color.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package naysayer-theme
+        :ensure t
+        :pin melpa
+        :config (load-theme 'naysayer t))
+    #+END_SRC
+
+*** Org
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package org-bullets
+        :ensure t
+        :pin melpa-stable
+        :config
+        (add-hook 'org-mode-hook 'org-bullets-mode)
+        (add-hook 'org-mode-hook 'hl-line-mode))
+    #+END_SRC
+
+** Productivity
+   Useful tools that didn't make it into core for whatever reason.
+
+*** Browse Kill Ring
+    Provides a nice interactive buffer that shows all the stuff in the
+    kill ring.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package browse-kill-ring
+        :ensure t
+        :pin melpa-stable
+        :bind (("M-y" . browse-kill-ring)
+               ("M-Y" . yank-pop)))
+    #+END_SRC
+
+*** Centaur Tabs
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package centaur-tabs
+        :ensure t
+        :demand
+        :pin melpa
+        :bind
+        ("M-{" . centaur-tabs-backward)
+        ("M-}" . centaur-tabs-forward)
+        :config
+        (setq centaur-tabs-gray-out-icons 'buffer
+              centaur-tabs-set-icons t
+              centaur-tabs-cycle-scope 'tabs
+              centaur-tabs-modified-marker "**"
+              centaur-tabs-set-bar 'over
+              centaur-tabs-set-modified-marker t
+              centaur-tabs-style "bar")
+        (centaur-tabs-mode t))
+    #+END_SRC
+*** Company
+    The /de facto/ completion framework for Emacs.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package company
+        :ensure t
+        :pin melpa-stable
+        :diminish company-mode
+        :init (global-company-mode)
+        :config
+        (setq company-idle-delay 0)
+        (setq-default company-dabbrev-downcase nil)
+        (with-eval-after-load 'company
+          (define-key company-active-map (kbd "M-n") nil)
+          (define-key company-active-map (kbd "M-p") nil)
+          (define-key company-active-map (kbd "C-n")
+            #'company-select-next)
+          (define-key company-active-map (kbd "C-t")
+            #'company-select-previous)))
+    #+END_SRC
+
+*** Deadgrep
+    They say Rust is better than C/C++, so we should use its version of grep?
+    Make sure Emacs loads the binaries, /e.g./ //usr/local/bin/rg/ on Mac.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package deadgrep
+        :ensure t
+        :pin melpa-stable)
+    #+END_SRC
+
+*** Evil
+    Summon the Editor of the Beast.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package evil
+        :ensure t
+        :config
+        (evil-mode 1)
+        (evil-select-search-module 'evil-search-module 'evil-search)
+        (setq foo/evil-motion-state-rebindings
+              '((";"  . evil-ex)
+                (":"  . evil-repeat-find-char)
+                ("gc" . comment-dwim)))
+
+        ;; TODO: Make this into a general function or macro.
+        (dolist (keybindings foo/evil-motion-state-rebindings)
+          (define-key evil-motion-state-map
+            (kbd (car keybindings)) (cdr keybindings)))
+
+        (define-prefix-command 'foo/evil-leader-keymap)
+
+        (with-eval-after-load 'evil-maps
+          (define-key evil-motion-state-map
+            (kbd "<SPC>") 'foo/evil-leader-keymap))
+
+        (setq foo/evil-leader-bindings
+              '(("lc" . count-words-region)
+                ("ls" . sort-lines)
+                ("gr" . deadgrep)
+                ("r"  . foo/goto-previous-buffer)
+                ("o"  . switch-to-buffer)
+                ("e"  . find-file)
+                ("tw" . whitespace-mode)
+                ("n"  . other-window)))
+
+        ;; TODO: Make this into a general function or macro.
+        (dolist (keybindings foo/evil-leader-bindings)
+          (define-key foo/evil-leader-keymap
+            (kbd (car keybindings)) (cdr keybindings)))
+
+        ;; Bindings for deadgrep.
+        (evil-define-key 'normal deadgrep-mode-map
+          (kbd "q") 'kill-buffer-and-window
+          (kbd "RET") 'deadgrep-visit-result-other-window)
+
+        (setq foo/which-key-evil-leader-labels
+              '(("<SPC> l" . "line actions")
+                ("<SPC> g" . "grep actions")
+                ("<SPC> r" . "visit last buffer")
+                ("<SPC> o" . "open buffer")
+                ("<SPC> e" . "edit file")
+                ("<SPC> t" . "text actions")
+                ("<SPC> n" . "visit other window")))
+
+        ;; TODO: Make this into a general function or macro.
+        (dolist (labels foo/which-key-evil-leader-labels)
+          (which-key-add-key-based-replacements (car labels) (cdr labels)))
+
+        (use-package evil-escape
+          :ensure t
+          :config
+          (evil-escape-mode t)
+          (setq-default evil-escape-key-sequence "hh"
+                        evil-escape-excluded-states '(normal visual motion)
+                        evil-escape-delay 0.2))
+
+        (use-package evil-surround
+          :ensure t
+          :config
+          (global-evil-surround-mode 1)))
+    #+END_SRC
+
+*** Flycheck
+    Asynchronous linting, /etc./
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package flycheck
+        :ensure t
+        :pin melpa-stable
+        :diminish flycheck-mode)
+    #+END_SRC
+
+*** Smex
+    Extend Ido functionality for M-x. This package should also ship with Emacs
+    in my opinion.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package smex
+        :ensure t
+        :pin melpa-stable
+        :bind (("M-x" . smex)
+               ("M-X" . execute-extended-command)))
+    #+END_SRC
+
+*** Which Key
+    Dynamic menu helpful for learning keybindings.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package which-key
+        :ensure t
+        :pin melpa-stable
+        :diminish which-key-mode
+        :config
+        (setq which-key-idle-delay 0.1
+              which-key-sort-order 'which-key-key-order-alpha)
+        (which-key-mode))
+
+    #+END_SRC
+* Coda: Local Configuration
+  Load a local settings file named /coda.el/ if it exists on disk, and
+  don't throw a warning if it doesn't. A local settings file comes handy
+  when configuring work specific settings. The following code snippet
+  should come /after/ loading everything else to Emacs.
+
+  #+BEGIN_SRC emacs-lisp
+    (load "~/dotfiles/.emacs.d/lisp/coda" 1)
+  #+END_SRC

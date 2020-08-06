@@ -12,7 +12,6 @@
 !.bashrc
 !.gitignore
 !.rgignore
-!.vimrc
 !Brewfile
 !alacritty.yml
 !dotfiles.txt
@@ -20,3 +19,6 @@
 !readme.md
 
 !/bin/connect_the_dots
+
+!/.emacs.d/init.el
+!/.emacs.d/dotemacs.org
