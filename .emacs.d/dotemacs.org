@@ -788,6 +788,50 @@
         (which-key-mode))
 
     #+END_SRC
+
+** Programming Languages
+   Third party packages for working with programming languages that vanilla
+   Emacs doesn't support.
+
+*** Gitignore
+    Yeah, this doesn't come out of the box.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package gitignore-mode
+        :ensure t
+        :pin melpa-stable)
+    #+END_SRC
+
+*** Haskell
+    Support for the polymorphic, lazily evaluated, runtime lambda calculus with
+    algebraic data types.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package haskell-mode
+        :ensure t
+        :pin melpa-stable
+        :config
+        (add-hook 'haskell-mode-hook 'flycheck-mode))
+    #+END_SRC
+
+*** Markdown
+    People seem to like it. Seems okay.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package markdown-mode
+        :ensure t
+        :pin melpa-stable
+        :commands (markdown-mode gfm-mode)
+        :mode (("README\\.md\\'" . gfm-mode))
+        :config
+        (cond ((string-equal system-type "gnu/linux")
+               (setq markdown-command "/usr/bin/pandoc"))
+              ((string-equal system-type "darwin")
+               (setq markdown-command "/usr/local/bin/pandoc")))
+        (add-hook 'markdown-mode-hook 'flycheck-mode)
+        (add-hook 'markdown-mode-hook 'turn-off-auto-fill))
+    #+END_SRC
+
 * Coda: Local Configuration
   Load a local settings file named /coda.el/ if it exists on disk, and
   don't throw a warning if it doesn't. A local settings file comes handy
