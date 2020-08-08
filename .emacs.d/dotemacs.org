@@ -662,7 +662,8 @@
                 ("<SPC> o" . "open buffer")
                 ("<SPC> e" . "edit file")
                 ("<SPC> t" . "text actions")
-                ("<SPC> n" . "visit other window")))
+                ("<SPC> n" . "visit other window")
+                ("<SPC> w" . "window actions")))
 
         ;; TODO: Make this into a general function or macro.
         (dolist (labels foo/which-key-evil-leader-labels)
