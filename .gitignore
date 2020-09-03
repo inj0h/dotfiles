@@ -13,6 +13,7 @@
 !.gitignore
 !.rgignore
 !Brewfile
+!Makefile
 !alacritty.yml
 !config.fish
 !dotfiles.txt

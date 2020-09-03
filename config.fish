@@ -6,18 +6,20 @@
 #
 
 # Utility
+abbr -a ec  'emacsclient -n'
 abbr -a ff  'find . -type f -iname'
 abbr -a ffd 'find . -type d -iname'
 abbr -a ffi 'find . -iname'
 abbr -a o   'ls -AGho'
 abbr -a t   'tree -aC .'
+abbr -a u   'cd ..'
 
 #
 # Aliases
 #
 
 # Git
-alias groot  "cd (git rev-parse --show-toplevel)"
+alias groot  'cd (git rev-parse --show-toplevel)'
 alias gsroot 'cd (git rev-parse --show-superproject-working-tree)'
 alias ls     ls # unset default flags
 
@@ -35,7 +37,8 @@ function fish_greeting
     set_color red
     echo -n "$nge_boot_kanji: "
     set_color white
-    echo "Descending into Terminal Dogma."
+    echo "Descending into Terminal Dogma.."
+    load_config_local
 end
 
 #
@@ -51,6 +54,35 @@ set nge_boot_kanji     (printf '\u8d77\u52d5')
 set vcs_icon_arrow_ltr (printf '\u21fe')
 set vcs_icon_check     (printf '\u2714')
 set vcs_icon_cross     (printf '\u2718')
+
+#
+# Local Configuration
+#
+
+function load_config_local
+    set -l config_local "$HOME/.config/fish/local.fish"
+    echo "Loading local configuration.."
+    if [ -r $config_local ]
+        echo "Found."
+        source $config_local
+        echo "Loaded."
+    else
+        echo "Unable to detect local configuration."
+    end
+end
+
+#
+# Path
+#
+
+switch (uname -s)
+    case "Darwin"
+        # Add these directories to the PATH for Homebrew.
+        set -g fish_user_paths "/usr/local/bin" $fish_user_paths
+        set -g fish_user_paths "/usr/local/sbin" $fish_user_paths
+    # case "Linux"
+    # case '*'
+end
 
 #
 # Prompt
