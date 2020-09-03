@@ -6,15 +6,16 @@ My Unix configuration files. Sort of. Share, steal, _etc._
 To get the most out of these files, you need to do your computing on a Unix
 system. Not guaranteed to work on Windows. WSL might help.
 
-## Installation
-Clone this repository and run the `connect-the-dots` POSIX shell script to link
-the files to your home directory.
+## (Un)installation
+Clone this repository, and use the provided `Makefile`, which runs the
+`connect-the-dots` shell script to link the files to your home directory.
 
 ``` shell
-$ git clone this-repository-url
-$ cd path-to-cloned-repository-on-disk
-$ ./bin/connect-the-dots --link dotfiles.txt
+$ make setup
 ```
+
+Similarly run `make clean` to uninstall, _i.e._ destroying the symlinks, and
+`make help` to get an overview of the commands.
 
 ### Configuration File
 The script will read the contents of `dotfiles.txt` in order to determine the

@@ -459,7 +459,7 @@
   make any sort of network connection like downloading packages.
 
   #+BEGIN_SRC emacs-lisp
-    (load "~/dotfiles/emacs/lisp/prelude" 1)
+    (load "~/Documents/src/dotfiles/emacs/lisp/prelude" 1)
   #+END_SRC
 
 * Packages
@@ -771,5 +771,5 @@
   following code snippet should come /after/ loading everything else to Emacs.
 
   #+BEGIN_SRC emacs-lisp
-    (load "~/dotfiles/emacs/lisp/coda" 1)
+    (load "~/Documents/src/dotfiles/emacs/lisp/coda" 1)
   #+END_SRC
