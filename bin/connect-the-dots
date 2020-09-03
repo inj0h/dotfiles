@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Filename: connect_the_dots
+# Filename: connect-the-dots
 # Note:     A POSIX compliant shell script to setup and teardown symbolic
 #           links for a set of files outlined by an argument
 #           configuration file.
@@ -96,7 +96,7 @@ print_help() {
     # This function prints the help documentation for properly running
     # this script.
 
-    echo "Usage:   connect_the_dots [options] [file]
+    echo "Usage:   connect-the-dots [options] [file]
 
 Options: $flag_help_abbrev, $flag_help
          Print help, i.e. this output.

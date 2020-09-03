@@ -1,6 +1,4 @@
-d,dotfiles/.emacs.d,.emacs.d
-d,dotfiles/bin,bin
-f,dotfiles/.bash_profile,.bash_profile
-f,dotfiles/.bashrc,.bashrc
+d,dotfiles/emacs,.config/emacs
 f,dotfiles/.rgignore,.config/.rgignore
 f,dotfiles/alacritty.yml,.config/alacritty/alacritty.yml
+f,dotfiles/config.fish,.config/fish/config.fish

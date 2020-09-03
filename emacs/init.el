@@ -5,4 +5,4 @@
 ;;           configuration using Org Babel.
 
 ;; Load the Org configuration at the specified path.
-(org-babel-load-file "~/.emacs.d/dotemacs.org")
+(org-babel-load-file "~/.config/emacs/dotemacs.org")

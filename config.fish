@@ -1,0 +1,100 @@
+# Filename: config.fish
+# Note:     Friendly settings for friendly shell.
+
+#
+# Abbreviations
+#
+
+# Utility
+abbr -a ff  'find . -type f -iname'
+abbr -a ffd 'find . -type d -iname'
+abbr -a ffi 'find . -iname'
+abbr -a o   'ls -AGho'
+abbr -a t   'tree -aC .'
+
+#
+# Aliases
+#
+
+# Git
+alias groot  "cd (git rev-parse --show-toplevel)"
+alias gsroot 'cd (git rev-parse --show-superproject-working-tree)'
+alias ls     ls # unset default flags
+
+#
+# Editor
+#
+
+set -Ux EDITOR "emacsclient -nw"
+
+#
+# Greeting
+#
+
+function fish_greeting
+    set_color red
+    echo -n "$nge_boot_kanji: "
+    set_color white
+    echo "Descending into Terminal Dogma."
+end
+
+#
+# Icons
+#
+
+# Unicode
+set greek_delta        (printf '\u0394')
+set greek_lambda       (printf '\u03bb')
+set math_equal_not     (printf '\u2260')
+set math_exists        (printf '\u2203')
+set nge_boot_kanji     (printf '\u8d77\u52d5')
+set vcs_icon_arrow_ltr (printf '\u21fe')
+set vcs_icon_check     (printf '\u2714')
+set vcs_icon_cross     (printf '\u2718')
+
+#
+# Prompt
+#
+
+function fish_prompt
+    set_color blue
+    if [ $PWD = $HOME ]
+        printf '~'
+    else
+        printf '%s' (basename $PWD)
+    end
+    set_color white
+    printf '%s' (__fish_git_prompt)
+    set_color green
+    echo " $greek_lambda: "
+end
+
+#
+# Version Control
+#
+
+# Git
+set __fish_git_prompt_shorten_branch_len      20
+set __fish_git_prompt_show_informative_status
+set __fish_git_prompt_showcolorhints
+set __fish_git_prompt_showdirtystate
+set __fish_git_prompt_showstashstate
+set __fish_git_prompt_showuntrackedfiles
+set __fish_git_prompt_showupstream            "none"
+
+set __fish_git_prompt_char_cleanstate     " $vcs_icon_check"
+set __fish_git_prompt_char_dirtystate     " $vcs_icon_cross"
+set __fish_git_prompt_char_invalidstate   " $math_equal_not"
+set __fish_git_prompt_char_stagedstate    " $vcs_icon_check"
+set __fish_git_prompt_char_stashstate     " $math_exists"
+set __fish_git_prompt_char_stateseparator " $vcs_icon_arrow_ltr"
+set __fish_git_prompt_char_untrackedfiles " $greek_delta"
+
+set __fish_git_prompt_color_branch          magenta --bold
+set __fish_git_prompt_color_branch_detached red
+set __fish_git_prompt_color_cleanstate      green
+set __fish_git_prompt_color_dirtystate      red
+set __fish_git_prompt_color_invalidstate    red
+set __fish_git_prompt_color_stagedstate     yellow
+set __fish_git_prompt_color_stashstate      green
+set __fish_git_prompt_color_untrackedfiles  red

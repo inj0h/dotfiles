@@ -14,11 +14,11 @@
 !.rgignore
 !Brewfile
 !alacritty.yml
+!config.fish
 !dotfiles.txt
-!mac.terminal
 !readme.md
 
-!/bin/connect_the_dots
+!/bin/connect-the-dots
 
-!/.emacs.d/init.el
-!/.emacs.d/dotemacs.org
+!/emacs/init.el
+!/emacs/dotemacs.org
