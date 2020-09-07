@@ -44,6 +44,16 @@
      (setq default-buffer-file-coding-system 'utf-8)
    #+END_SRC
 
+** Environment
+*** Default Directory (Mac)
+    Since Emacs 27, Emacs doesn't set the default directory to home, at least on
+    Mac.
+
+    #+BEGIN_SRC emacs-lisp
+      (when (equal system-type 'darwin)
+        (setq default-directory "~/"))
+    #+END_SRC
+
 ** File IO
    Behavior when loading files in Emacs.
 *** Auto Revert
@@ -88,22 +98,117 @@
    The interactive search, no?
 *** Keybindings
     #+BEGIN_SRC emacs-lisp
-      (setq foo/isearch-mode-keybindings
+      (setq user-var\isearch-mode-keybindings
             '(("<up>"   . isearch-repeat-backward)
               ("<down>" . isearch-repeat-forward)))
 
       (add-hook 'isearch-mode-hook
                 '(lambda ()
-                   (dolist (bindings foo/isearch-mode-keybindings)
+                   (dolist (bindings user-var\isearch-mode-keybindings)
                      (define-key isearch-mode-map
                        (kbd (car bindings)) (cdr bindings)))))
     #+END_SRC
 
 ** Keybindings
    Click clack.
+*** Custom
+    Additions and overrides to the default bindings. Also prefix bindings via C-c.
+**** Custom
+     Keybindings that extend the defaults. For ergonomics, I keep a control key
+     on both sides of the keyboard, and bind commonly used commands to the super
+     key.
+
+     Convention
+
+     |-------+------+-------+------+---------|
+     | Super | Meta | Space | Meta | Control |
+     |-------+------+-------+------+---------|
+
+     Mac
+
+     |----------------+----------------+-------+----------------+------------------|
+     | Option = Super | Command = Meta | Space | Command = Meta | Option = Control |
+     |----------------+----------------+-------+----------------+------------------|
+
+     PC (Linux and Windows)
+
+     |-----------------+------------+-------+------------+-------------|
+     | Windows = Super | Alt = Meta | Space | Alt = Meta | X = Control |
+     |-----------------+------------+-------+------------+-------------|
+
+     Where the /X/ key equals..
+     - Context Menu
+     - Control
+     - Function
+     - Print Screen
+     - Windows
+
+     #+BEGIN_SRC emacs-lisp
+       (setq user-var\emacs-custom-keybindings
+             '(("<f5>"      . repeat)
+               ("<M-up>"    . backward-paragraph)
+               ("<M-down>"  . forward-paragraph)
+               ("M-`"       . other-frame)
+               ("M-z"       . zap-up-to-char)))
+
+       (dolist (keybindings user-var\emacs-custom-keybindings)
+         (global-set-key (kbd (car keybindings)) (cdr keybindings)))
+     #+END_SRC
+
+**** Prefix
+     I only use one prefix key and bind it to C-c. In this section of this
+     configuration file, I only bind default functionality to it, but later,
+     third-party functionality gets bound /ad hoc/.
+
+     vi users can think of it as the leader key.
+
+     Declare the prefix keymap and bind it to one or more prefix keys.
+
+     #+BEGIN_SRC emacs-lisp
+       (define-prefix-command 'user-var\prefix-keymap)
+       (global-set-key (kbd "C-c") 'user-var\prefix-keymap)
+     #+END_SRC
+
+     Define the prefix keymap.
+
+     #+BEGIN_SRC emacs-lisp
+       (setq user-var\prefix-vanilla-keybindings
+             '(;; Buffer
+               ("bb" . switch-to-buffer-other-window)
+               ("bm" . ibuffer)
+
+               ;; Change
+               ("ca" . query-replace)
+               ("cr" . replace-regexp)
+               ("cs" . replace-string)
+
+               ;; Dired
+               ("dw" . wdired-change-to-wdired-mode)
+
+               ;; File
+               ("ff" . find-file-other-window)
+               ("fp" . user-var\kill-filepath)
+
+               ;; Lines
+               ("le" . apply-macro-to-region-lines)
+               ("ls" . sort-lines)
+               ("lc" . count-words-region)
+
+               ;; Switch to previous buffer
+               ("r"  . user-var\previous-goto-previous-buffer)
+
+               ;; Text Formatting
+               ("td" . user-var\add-word-to-dictionary)
+               ("tr" . fill-region)
+               ("tw" . whitespace-mode)))
+
+       (dolist (keybindings user-var\prefix-vanilla-keybindings)
+         (define-key user-var\prefix-keymap
+           (kbd (car keybindings)) (cdr keybindings)))
+     #+END_SRC
+
 *** Modifier Bindings
     Bind modifiers for Linux, Mac, and Windows.
-
 **** Linux
 **** Mac
      Note the right-only prefix bindings might not work when typing from an
@@ -111,31 +216,40 @@
 
      #+BEGIN_SRC emacs-lisp
        (when (memq window-system '(mac ns))
-         (setq mac-command-modifier 'meta
-               mac-option-modifier  'super
-               mac-control-modifier 'control))
+         (setq mac-command-modifier      'meta
+               mac-control-modifier      'control
+               ;; Use with external keyboard
+               ;; mac-option-modifier       'super
+
+               ;; Use with laptop
+               mac-option-modifier       'super
+               mac-right-option-modifier 'control))
      #+END_SRC
 
 **** Windows
 ** Language Modes
    Settings for default modes that support various languages, text, /etc./
+*** C/C++
+
+    #+BEGIN_SRC emacs-lisp
+      (add-hook 'c++-mode-hook '(lambda () (set-fill-column user-var\default-column-limit)))
+      (add-hook 'c++-mode-hook 'flyspell-prog-mode)
+    #+END_SRC
+
 *** Emacs Lisp
     Flight school, space cadet.
-**** General
 
      #+BEGIN_SRC emacs-lisp
        (add-hook 'emacs-lisp-mode-hook
-                 '(lambda () (set-fill-column foo/default-column-limit)))
+                 '(lambda () (set-fill-column user-var\default-column-limit)))
        (add-hook 'emacs-lisp-mode-hook 'flyspell-prog-mode)
        (add-hook 'emacs-lisp-mode-hook 'prettify-symbols-mode)
-       (add-hook 'emacs-lisp-mode-hook 'turn-on-auto-fill)
      #+END_SRC
 
 *** Shell Scripting
 
     #+BEGIN_SRC emacs-lisp
-      (add-hook 'sh-mode-hook '(lambda () (set-fill-column foo/default-column-limit)))
-      (add-hook 'sh-mode-hook 'turn-on-auto-fill)
+      (add-hook 'sh-mode-hook '(lambda () (set-fill-column user-var\default-column-limit)))
       (add-hook 'sh-mode-hook 'flyspell-prog-mode)
     #+END_SRC
 
@@ -179,6 +293,7 @@
                                          "DONE(d!)"
                                          "CANCELED(c@/!)"))
            org-use-fast-todo-selection t)
+     (add-hook 'org-mode-hook '(lambda () (set-fill-column user-var\default-column-limit)))
    #+END_SRC
 
 ** Paths
@@ -205,8 +320,26 @@
            (dolist (binaries mac-binaries) (add-to-list 'exec-path binaries))))
      #+END_SRC
 
+** Rectangle Mark
+   Cough, cough. Visual block mode.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq user-var\rectangle-mark-mode-keybindings
+           '(("W" . kill-region)
+             ("a" . move-beginning-of-line)
+             ("d" . delete-rectangle)
+             ("e" . move-end-of-line)
+             ("r" . replace-rectangle)
+             ("w" . kill-ring-save)))
+
+     (add-hook 'rectangle-mark-mode-hook
+               '(lambda () (dolist (bindings user-var\rectangle-mark-mode-keybindings)
+                        (define-key rectangle-mark-mode-map
+                          (kbd (car bindings)) (cdr bindings)))))
+   #+END_SRC
+
 ** Server
-   Return of the yokai.
+   Akuma!
 
    #+BEGIN_SRC emacs-lisp
      (require 'server)
@@ -292,9 +425,9 @@
     whitespace-mode is enabled.
 
     #+BEGIN_SRC emacs-lisp
-      (setq foo/default-column-limit 80)
-      (setq-default fill-column foo/default-column-limit)
-      (setq-default whitespace-line-column foo/default-column-limit)
+      (setq user-var\default-column-limit 80)
+      (setq-default fill-column user-var\default-column-limit)
+      (setq-default whitespace-line-column user-var\default-column-limit)
     #+END_SRC
 
 *** Cursor
@@ -419,7 +552,7 @@
    Some homebrewed Lisp.
 
    #+BEGIN_SRC emacs-lisp
-     (defun foo/add-word-to-dictionary ()
+     (defun user-var\add-word-to-dictionary ()
        "Add the word-at-point to aspell's dictionary."
        (interactive)
        (let ((current-location (point)) (word (flyspell-get-word)))
@@ -432,13 +565,13 @@
                                 (caddr word)
                                 current-location))))
 
-     (defun foo/goto-previous-buffer ()
+     (defun user-var\goto-previous-buffer ()
        "Return to the previously visited buffer. This function is
           interactive."
        (interactive)
        (switch-to-buffer (other-buffer (current-buffer) 1)))
 
-     (defun foo/kill-filepath ()
+     (defun user-var\kill-filepath ()
        "Copy the current buffer filename with path to clipboard. This
           function is interactive."
        (interactive)
@@ -501,27 +634,25 @@
        :ensure t
        :pin melpa-stable
        :config
-       (setq foo/diminished-modes
+       (setq user-var\diminished-modes
              '(auto-fill-function ; = auto-fill-mode
                eldoc-mode))
 
-       (dolist (diminished foo/diminished-modes) (diminish diminished))
+       (dolist (diminished user-var\diminished-modes) (diminish diminished))
 
-       (setq foo/forced-diminished-modes '((subword  . subword-mode)))
+       (setq user-var\forced-diminished-modes '((subword  . subword-mode)))
 
-       (dolist (diminished foo/forced-diminished-modes)
+       (dolist (diminished user-var\forced-diminished-modes)
          (with-eval-after-load (car diminished) (diminish (cdr diminished)))))
    #+END_SRC
 
 ** Aesthetic
-*** Colorscheme
+*** Theme
     This is not a compiler stream.
 
     #+BEGIN_SRC emacs-lisp
-      (use-package naysayer-theme
-        :ensure t
-        :pin melpa
-        :config (load-theme 'naysayer t))
+      (load "~/Documents/src/dotfiles/emacs/lisp/blowout-theme" 1)
+      (load-theme 'blowout t)
     #+END_SRC
 
 *** Org
@@ -545,6 +676,7 @@
       (use-package browse-kill-ring
         :ensure t
         :pin melpa-stable
+        :defer t
         :bind (("M-y" . browse-kill-ring)
                ("M-Y" . yank-pop)))
     #+END_SRC
@@ -557,17 +689,26 @@
         :ensure t
         :demand
         :pin melpa
+        :hook
+        (deadgrep-mode         . centaur-tabs-local-mode)
+        (dired-mode            . centaur-tabs-local-mode)
+        (ibuffer-mode          . centaur-tabs-local-mode)
+        (info-mode             . centaur-tabs-local-mode)
+        (lisp-interaction-mode . centaur-tabs-local-mode)
+        (message-mode          . centaur-tabs-local-mode)
+        (occur-mode            . centaur-tabs-local-mode)
         :bind
         ("M-{" . centaur-tabs-backward)
         ("M-}" . centaur-tabs-forward)
         :config
-        (setq centaur-tabs-gray-out-icons 'buffer
-              centaur-tabs-set-icons t
-              centaur-tabs-cycle-scope 'tabs
+        (setq centaur-tabs-cycle-scope 'tabs
               centaur-tabs-modified-marker "**"
               centaur-tabs-set-bar 'over
+              centaur-tabs-set-icons t
               centaur-tabs-set-modified-marker t
-              centaur-tabs-style "bar")
+              centaur-tabs-style "bar"
+              centaur-tabs-gray-out-icons 'buffer)
+        (centaur-tabs-group-by-projectile-project)
         (centaur-tabs-mode t))
     #+END_SRC
 *** Company
@@ -577,6 +718,7 @@
       (use-package company
         :ensure t
         :pin melpa-stable
+        :defer t
         :diminish company-mode
         :init (global-company-mode)
         :config
@@ -596,42 +738,50 @@
     #+BEGIN_SRC emacs-lisp
       (use-package deadgrep
         :ensure t
-        :pin melpa-stable)
+        :pin melpa-stable
+        :defer t
+        :bind (:map deadgrep-mode-map
+                    ("q"   . kill-buffer-and-window)
+                    ("RET" . deadgrep-visit-result-other-window)
+                    ("C-c" . 'user-var\prefix-keymap)
+                    :map user-var\prefix-keymap
+                    ("gr"  . 'deadgrep)))
     #+END_SRC
 
 *** Evil
-    Summon the Editor of the Beast.
+    Summon vi vi vi - the Editor of the Beast.
 
     #+BEGIN_SRC emacs-lisp
       (use-package evil
         :ensure t
         :pin melpa-stable
+        :defer t
         :config
-        (evil-mode 1)
+        (evil-mode -1)
         (evil-select-search-module 'evil-search-module 'evil-search)
-        (setq foo/evil-motion-state-rebindings
+        (setq user-var\evil-motion-state-rebindings
               '((";"  . evil-ex)
                 (":"  . evil-repeat-find-char)
                 ("gc" . comment-dwim)
-                ("zg" . foo/add-word-to-dictionary)))
+                ("zg" . user-var\add-word-to-dictionary)))
 
         ;; TODO: Make this into a general function or macro.
-        (dolist (keybindings foo/evil-motion-state-rebindings)
+        (dolist (keybindings user-var\evil-motion-state-rebindings)
           (define-key evil-motion-state-map
             (kbd (car keybindings)) (cdr keybindings)))
 
-        (define-prefix-command 'foo/evil-leader-keymap)
+        (define-prefix-command 'user-var\evil-leader-keymap)
 
         (with-eval-after-load 'evil-maps
           (define-key evil-motion-state-map
-            (kbd "<SPC>") 'foo/evil-leader-keymap))
+            (kbd "<SPC>") 'user-var\evil-leader-keymap))
 
-        (setq foo/evil-leader-bindings
+        (setq user-var\evil-leader-bindings
               '(("lc" . count-words-region)
-                ("le" . foo/evil-apply-macro-to-region-lines)
+                ("le" . user-var\evil-apply-macro-to-region-lines)
                 ("ls" . sort-lines)
                 ("gr" . deadgrep)
-                ("r"  . foo/goto-previous-buffer)
+                ("r"  . user-var\goto-previous-buffer)
                 ("o"  . switch-to-buffer)
                 ("e"  . find-file)
                 ("tw" . whitespace-mode)
@@ -640,34 +790,20 @@
                 ("wo" . delete-other-windows)
                 ("wv" . split-window-right)))
 
-        (defun foo/evil-apply-macro-to-region-lines ()
+        (defun user-var\evil-apply-macro-to-region-lines ()
           "Easy binding for running an Evil macro over some selected lines."
           (interactive)
           (evil-ex "'<,'>norm@"))
 
         ;; TODO: Make this into a general function or macro.
-        (dolist (keybindings foo/evil-leader-bindings)
-          (define-key foo/evil-leader-keymap
+        (dolist (keybindings user-var\evil-leader-bindings)
+          (define-key user-var\evil-leader-keymap
             (kbd (car keybindings)) (cdr keybindings)))
 
         ;; Bindings for deadgrep.
         (evil-define-key 'normal deadgrep-mode-map
           (kbd "q") 'kill-buffer-and-window
           (kbd "RET") 'deadgrep-visit-result-other-window)
-
-        (setq foo/which-key-evil-leader-labels
-              '(("<SPC> l" . "line actions")
-                ("<SPC> g" . "grep actions")
-                ("<SPC> r" . "visit last buffer")
-                ("<SPC> o" . "open buffer")
-                ("<SPC> e" . "edit file")
-                ("<SPC> t" . "text actions")
-                ("<SPC> n" . "visit other window")
-                ("<SPC> w" . "window actions")))
-
-        ;; TODO: Make this into a general function or macro.
-        (dolist (labels foo/which-key-evil-leader-labels)
-          (which-key-add-key-based-replacements (car labels) (cdr labels)))
 
         (use-package evil-escape
           :ensure t
@@ -691,9 +827,34 @@
       (use-package flycheck
         :ensure t
         :pin melpa-stable
+        :defer t
         :diminish flycheck-mode)
     #+END_SRC
 
+*** Projectile
+    Project management, meh. Note, you need to tell Emacs to use POSIX shell for
+    Projectile to work correctly. It won't play nice with something like Fish
+    ootb.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package projectile
+        :ensure t
+        :pin melpa-stable
+        :defer t
+        :bind (:map user-var\prefix-keymap
+                    ("pR" . projectile-replacae-regexp)
+                    ("pa" . projectile-add-known-project)
+                    ("pb" . projectile-switch-to-buffer)
+                    ("pd" . projectile-remove-known-project)
+                    ("pf" . projectile-find-file)
+                    ("pr" . projectile-replace)
+                    ("ps" . projectile-switch-project)
+                    ("pw" . projectile-save-project-buffers))
+        :config
+        (setq projectile-completion-system 'ido
+              shell-file-name "/bin/sh")
+        (projectile-mode +1))
+    #+END_SRC
 *** Smex
     Extend Ido functionality for M-x. This package should also ship with Emacs
     in my opinion.
@@ -702,6 +863,7 @@
       (use-package smex
         :ensure t
         :pin melpa-stable
+        :defer t
         :bind (("M-x" . smex)
                ("M-X" . execute-extended-command)))
     #+END_SRC
@@ -713,10 +875,39 @@
       (use-package which-key
         :ensure t
         :pin melpa-stable
+        :defer 2
         :diminish which-key-mode
         :config
         (setq which-key-idle-delay 0.1
               which-key-sort-order 'which-key-key-order-alpha)
+
+        (setq user-var\which-key-prefix-vanilla-labels
+              '(("C-c b"  . "buffer actions")
+                ("C-c c"  . "change/replace actions")
+                ("C-c f." . "file actions")
+                ("C-c l"  . "line actions")
+                ("C-c p"  . "project actions")
+                ("C-c r"  . "visit last buffer")
+                ("C-c t"  . "text actions")))
+
+      ;; TODO: Make this into a general function or macro.
+        (dolist (labels user-var\which-key-prefix-vanilla-labels)
+          (which-key-add-key-based-replacements (car labels) (cdr labels)))
+
+        (setq user-var\which-key-evil-leader-labels
+              '(("<SPC> l" . "line actions")
+                ("<SPC> g" . "grep actions")
+                ("<SPC> r" . "visit last buffer")
+                ("<SPC> o" . "open buffer")
+                ("<SPC> e" . "edit file")
+                ("<SPC> t" . "text actions")
+                ("<SPC> n" . "visit other window")
+                ("<SPC> w" . "window actions")))
+
+        ;; TODO: Make this into a general function or macro.
+        (dolist (labels user-var\which-key-evil-leader-labels)
+          (which-key-add-key-based-replacements (car labels) (cdr labels)))
+
         (which-key-mode))
 
     #+END_SRC
@@ -730,7 +921,20 @@
     #+BEGIN_SRC emacs-lisp
       (use-package gitignore-mode
         :ensure t
-        :pin melpa-stable)
+        :pin melpa-stable
+        :defer t)
+    #+END_SRC
+
+*** Fish
+    Gone fishing.
+
+    #+BEGIN_SRC elisp
+      (use-package fish-mode
+        :ensure t
+        :pin melpa-stable
+        :defer t
+        :config
+        (add-hook 'fish-mode-hook 'flyspell-prog-mode))
     #+END_SRC
 
 *** Haskell
@@ -741,6 +945,7 @@
       (use-package haskell-mode
         :ensure t
         :pin melpa-stable
+        :defer t
         :config
         (add-hook 'haskell-mode-hook 'flycheck-mode))
     #+END_SRC
@@ -752,6 +957,7 @@
       (use-package markdown-mode
         :ensure t
         :pin melpa-stable
+        :defer t
         :commands (markdown-mode gfm-mode)
         :mode (("README\\.md\\'" . gfm-mode))
         :config
@@ -760,7 +966,20 @@
               ((string-equal system-type "darwin")
                (setq markdown-command "/usr/local/bin/pandoc")))
         (add-hook 'markdown-mode-hook 'flycheck-mode)
-        (add-hook 'markdown-mode-hook 'turn-off-auto-fill))
+        (add-hook 'markdown-mode-hook
+                  '(lambda () (set-fill-column user-var\default-column-limit))))
+    #+END_SRC
+
+*** YAML
+    This is still a thing. Apparently.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package yaml-mode
+        :ensure t
+        :pin melpa-stable
+        :defer t
+        :config
+        (add-hook 'yaml-mode-hook '(lambda () (setq-local tab-width 2))))
     #+END_SRC
 
 * Coda: Local Configuration

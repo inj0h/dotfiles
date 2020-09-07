@@ -8,13 +8,14 @@ system. Not guaranteed to work on Windows. WSL might help.
 
 ## (Un)installation
 Clone this repository, and use the provided `Makefile`, which runs the
-`connect-the-dots` shell script to link the files to your home directory.
+`connect-the-dots` shell script to link the files. Note, their destination
+depends on the paths set in the `dotfiles.txt` configuration file.
 
 ``` shell
 $ make setup
 ```
 
-Similarly run `make clean` to uninstall, _i.e._ destroying the symlinks, and
+Similarly, run `make clean` to uninstall, _i.e._ destroying the symlinks, and
 `make help` to get an overview of the commands.
 
 ### Configuration File
