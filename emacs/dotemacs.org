@@ -187,7 +187,7 @@
 
                ;; File
                ("ff" . find-file-other-window)
-               ("fp" . user-var\kill-filepath)
+               ("fp" . user-fun\kill-filepath)
 
                ;; Lines
                ("le" . apply-macro-to-region-lines)
@@ -195,10 +195,10 @@
                ("lc" . count-words-region)
 
                ;; Switch to previous buffer
-               ("r"  . user-var\previous-goto-previous-buffer)
+               ("r"  . user-fun\goto-previous-buffer)
 
                ;; Text Formatting
-               ("td" . user-var\add-word-to-dictionary)
+               ("td" . user-fun\add-word-to-dictionary)
                ("tr" . fill-region)
                ("tw" . whitespace-mode)))
 
@@ -552,7 +552,7 @@
    Some homebrewed Lisp.
 
    #+BEGIN_SRC emacs-lisp
-     (defun user-var\add-word-to-dictionary ()
+     (defun user-fun\add-word-to-dictionary ()
        "Add the word-at-point to aspell's dictionary."
        (interactive)
        (let ((current-location (point)) (word (flyspell-get-word)))
@@ -565,13 +565,13 @@
                                 (caddr word)
                                 current-location))))
 
-     (defun user-var\goto-previous-buffer ()
+     (defun user-fun\goto-previous-buffer ()
        "Return to the previously visited buffer. This function is
           interactive."
        (interactive)
        (switch-to-buffer (other-buffer (current-buffer) 1)))
 
-     (defun user-var\kill-filepath ()
+     (defun user-fun\kill-filepath ()
        "Copy the current buffer filename with path to clipboard. This
           function is interactive."
        (interactive)
@@ -763,7 +763,7 @@
               '((";"  . evil-ex)
                 (":"  . evil-repeat-find-char)
                 ("gc" . comment-dwim)
-                ("zg" . user-var\add-word-to-dictionary)))
+                ("zg" . user-fun\add-word-to-dictionary)))
 
         ;; TODO: Make this into a general function or macro.
         (dolist (keybindings user-var\evil-motion-state-rebindings)
@@ -781,7 +781,7 @@
                 ("le" . user-var\evil-apply-macro-to-region-lines)
                 ("ls" . sort-lines)
                 ("gr" . deadgrep)
-                ("r"  . user-var\goto-previous-buffer)
+                ("r"  . user-fun\goto-previous-buffer)
                 ("o"  . switch-to-buffer)
                 ("e"  . find-file)
                 ("tw" . whitespace-mode)
