@@ -145,11 +145,15 @@
 
      #+BEGIN_SRC emacs-lisp
        (setq user-var\emacs-custom-keybindings
-             '(("<f5>"      . repeat)
-               ("<M-up>"    . backward-paragraph)
-               ("<M-down>"  . forward-paragraph)
-               ("M-`"       . other-frame)
-               ("M-z"       . zap-up-to-char)))
+             '(("<f5>"        . repeat)
+               ("<M-S-down>"  . windmove-down)
+               ("<M-S-left>"  . windmove-left)
+               ("<M-S-right>" . windmove-right)
+               ("<M-S-up>"    . windmove-up)
+               ("<M-up>"      . backward-paragraph)
+               ("<M-down>"    . forward-paragraph)
+               ("M-`"         . other-frame)
+               ("M-z"         . zap-up-to-char)))
 
        (dolist (keybindings user-var\emacs-custom-keybindings)
          (global-set-key (kbd (car keybindings)) (cdr keybindings)))
@@ -216,24 +220,40 @@
 
      #+BEGIN_SRC emacs-lisp
        (when (memq window-system '(mac ns))
-         (setq mac-command-modifier      'meta
-               mac-control-modifier      'control
-               ;; Use with external keyboard
-               ;; mac-option-modifier       'super
-
-               ;; Use with laptop
-               mac-option-modifier       'super
-               mac-right-option-modifier 'control))
+         (setq mac-command-modifier 'meta
+               mac-option-modifier  'control))
      #+END_SRC
 
 **** Windows
 ** Language Modes
    Settings for default modes that support various languages, text, /etc./
 *** C/C++
+    Old school cool.
 
     #+BEGIN_SRC emacs-lisp
+      (add-hook 'c-mode-hook '(lambda () (set-fill-column user-var\default-column-limit)))
+      (add-hook 'c-mode-hook 'flyspell-prog-mode)
+
       (add-hook 'c++-mode-hook '(lambda () (set-fill-column user-var\default-column-limit)))
       (add-hook 'c++-mode-hook 'flyspell-prog-mode)
+    #+END_SRC
+
+*** CSS
+    Cascade style sheet badge from Cerulean City gym. Kanto region. Indigo
+    League.
+
+    #+BEGIN_SRC emacs-lisp
+      (setq user-var\indent-offset-web 2)
+
+      (add-hook 'css-mode-hook '(lambda () (setq-local tab-width
+                                                       user-var\indent-offset-web)))
+      (add-hook 'css-mode-hook '(lambda () (setq-local css-indent-offset
+                                                       user-var\indent-offset-web)))
+
+      (add-hook 'scss-mode-hook '(lambda () (setq-local css-indent-offset
+                                                        user-var\indent-offset-web)))
+      (add-hook 'scss-mode-hook '(lambda () (setq-local indent-tabs-mode t)))
+      (add-hook 'scss-mode-hook '(lambda () (setq-local tab-width user-var\indent-offset-web)))
     #+END_SRC
 
 *** Emacs Lisp
@@ -304,8 +324,7 @@
     get some extended functionality.
 
     *Shells and subprocess* within Emacs typically use the PATH variable to refer
-    to external binaries. One notable exception is the package *deadgrep,* which
-    uses PATH to refer to the ripgrep binary.
+    to external binaries.
 
     *Elisp programs* like diff tools, file compressors, spellcheckers, /etc/
     typically use the exec-path variable.
@@ -687,10 +706,9 @@
     #+BEGIN_SRC emacs-lisp
       (use-package centaur-tabs
         :ensure t
-        :demand
         :pin melpa
+        :demand
         :hook
-        (deadgrep-mode         . centaur-tabs-local-mode)
         (dired-mode            . centaur-tabs-local-mode)
         (ibuffer-mode          . centaur-tabs-local-mode)
         (info-mode             . centaur-tabs-local-mode)
@@ -731,31 +749,14 @@
           (define-key company-active-map (kbd "C-t") #'company-select-previous)))
     #+END_SRC
 
-*** Deadgrep
-    Like Occur and Wgrep but better I find. Make sure Emacs loads the ripgrep
-    binary to get this to work.
-
-    #+BEGIN_SRC emacs-lisp
-      (use-package deadgrep
-        :ensure t
-        :pin melpa-stable
-        :defer t
-        :bind (:map deadgrep-mode-map
-                    ("q"   . kill-buffer-and-window)
-                    ("RET" . deadgrep-visit-result-other-window)
-                    ("C-c" . 'user-var\prefix-keymap)
-                    :map user-var\prefix-keymap
-                    ("gr"  . 'deadgrep)))
-    #+END_SRC
-
 *** Evil
-    Summon vi vi vi - the Editor of the Beast.
+    Summon the Editor of the Beast (vi vi vi).
 
     #+BEGIN_SRC emacs-lisp
       (use-package evil
         :ensure t
         :pin melpa-stable
-        :defer t
+        :demand
         :config
         (evil-mode -1)
         (evil-select-search-module 'evil-search-module 'evil-search)
@@ -780,12 +781,14 @@
               '(("lc" . count-words-region)
                 ("le" . user-var\evil-apply-macro-to-region-lines)
                 ("ls" . sort-lines)
-                ("gr" . deadgrep)
                 ("r"  . user-fun\goto-previous-buffer)
+                ("O"  . switch-to-buffer-other-window)
                 ("o"  . switch-to-buffer)
+                ("E"  . find-file-other-window)
                 ("e"  . find-file)
                 ("tw" . whitespace-mode)
                 ("n"  . other-window)
+                ("b"  . ibuffer)
                 ("wh" . split-window-below)
                 ("wo" . delete-other-windows)
                 ("wv" . split-window-right)))
@@ -798,26 +801,42 @@
         ;; TODO: Make this into a general function or macro.
         (dolist (keybindings user-var\evil-leader-bindings)
           (define-key user-var\evil-leader-keymap
-            (kbd (car keybindings)) (cdr keybindings)))
+            (kbd (car keybindings)) (cdr keybindings))))
+    #+END_SRC
 
-        ;; Bindings for deadgrep.
-        (evil-define-key 'normal deadgrep-mode-map
-          (kbd "q") 'kill-buffer-and-window
-          (kbd "RET") 'deadgrep-visit-result-other-window)
+    Nobody hits escape.
 
-        (use-package evil-escape
-          :ensure t
-          :diminish
-          :config
-          (evil-escape-mode t)
-          (setq-default evil-escape-key-sequence "hh"
-                        evil-escape-excluded-states '(normal visual motion)
-                        evil-escape-delay 0.2))
+    #+BEGIN_SRC emacs-lisp
+      (use-package evil-escape
+        :ensure t
+        :diminish
+        :config
+        (evil-escape-mode t)
+        (setq-default evil-escape-key-sequence "hh"
+                      evil-escape-excluded-states '(normal visual motion)
+                      evil-escape-delay 0.2))
+    #+END_SRC
 
-        (use-package evil-surround
-          :ensure t
-          :config
-          (global-evil-surround-mode 1)))
+    Emulate Tpope's Surround Vim plugin.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package evil-surround
+        :ensure t
+        :config
+        (global-evil-surround-mode 1))
+    #+END_SRC
+
+*** Exec Path From Shell (Mac Only)
+    Emacs needs some help loading PATH variables when on Mac.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package exec-path-from-shell
+        :if (memq window-system '(mac ns))
+        :ensure t
+        :pin melpa-stable
+        :defer 5
+        :config
+        (exec-path-from-shell-initialize))
     #+END_SRC
 
 *** Flycheck
@@ -832,9 +851,9 @@
     #+END_SRC
 
 *** Projectile
-    Project management, meh. Note, you need to tell Emacs to use POSIX shell for
-    Projectile to work correctly. It won't play nice with something like Fish
-    ootb.
+    Project management, meh. Note, you need to tell Emacs to use a POSIX shell
+    for Projectile to work correctly. It won't play nice with something like
+    Fish.
 
     #+BEGIN_SRC emacs-lisp
       (use-package projectile
@@ -842,6 +861,15 @@
         :pin melpa-stable
         :defer t
         :bind (:map user-var\prefix-keymap
+                    ("pR" . projectile-replacae-regexp)
+                    ("pa" . projectile-add-known-project)
+                    ("pb" . projectile-switch-to-buffer)
+                    ("pd" . projectile-remove-known-project)
+                    ("pf" . projectile-find-file)
+                    ("pr" . projectile-replace)
+                    ("ps" . projectile-switch-project)
+                    ("pw" . projectile-save-project-buffers)
+               :map user-var\evil-leader-keymap
                     ("pR" . projectile-replacae-regexp)
                     ("pa" . projectile-add-known-project)
                     ("pb" . projectile-switch-to-buffer)
@@ -882,26 +910,29 @@
               which-key-sort-order 'which-key-key-order-alpha)
 
         (setq user-var\which-key-prefix-vanilla-labels
-              '(("C-c b"  . "buffer actions")
-                ("C-c c"  . "change/replace actions")
-                ("C-c f." . "file actions")
-                ("C-c l"  . "line actions")
-                ("C-c p"  . "project actions")
-                ("C-c r"  . "visit last buffer")
-                ("C-c t"  . "text actions")))
+              '(("C-c b" . "buffer actions")
+                ("C-c c" . "change/replace actions")
+                ("C-c f" . "file actions")
+                ("C-c l" . "line actions")
+                ("C-c p" . "project actions")
+                ("C-c r" . "visit last buffer")
+                ("C-c t" . "text actions")))
 
-      ;; TODO: Make this into a general function or macro.
+        ;; TODO: Make this into a general function or macro.
         (dolist (labels user-var\which-key-prefix-vanilla-labels)
           (which-key-add-key-based-replacements (car labels) (cdr labels)))
 
         (setq user-var\which-key-evil-leader-labels
-              '(("<SPC> l" . "line actions")
-                ("<SPC> g" . "grep actions")
+              '(("<SPC> p" . "project actions")
+                ("<SPC> l" . "line actions")
                 ("<SPC> r" . "visit last buffer")
+                ("<SPC> O" . "open buffer in other window")
                 ("<SPC> o" . "open buffer")
+                ("<SPC> E" . "edit file in other window")
                 ("<SPC> e" . "edit file")
                 ("<SPC> t" . "text actions")
                 ("<SPC> n" . "visit other window")
+                ("<SPC> b" . "buffer menu")
                 ("<SPC> w" . "window actions")))
 
         ;; TODO: Make this into a general function or macro.
@@ -950,6 +981,24 @@
         (add-hook 'haskell-mode-hook 'flycheck-mode))
     #+END_SRC
 
+*** JSON
+    But not with the Argonauts.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package json-mode
+        :ensure t
+        :pin melpa-stable
+        :defer t
+        :config
+        (add-to-list 'auto-mode-alist '("\\.eslintrc\\'"   . json-mode))
+        (add-to-list 'auto-mode-alist '("\\.prettierrc\\'" . json-mode))
+
+        (add-hook 'json-mode-hook
+                  '(lambda () (setq-local js-indent-level user-var\indent-offset-web)))
+        (add-hook 'json-mode-hook
+                  '(lambda () (setq-local tab-width user-var\indent-offset-web))))
+    #+END_SRC
+
 *** Markdown
     People seem to like it. Seems okay.
 
@@ -968,6 +1017,19 @@
         (add-hook 'markdown-mode-hook 'flycheck-mode)
         (add-hook 'markdown-mode-hook
                   '(lambda () (set-fill-column user-var\default-column-limit))))
+    #+END_SRC
+
+*** TypeScript
+    The Seattle area grunge type. You know.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package typescript-mode
+        :ensure t
+        :pin melpa-stable
+        :defer t
+        :hook  ((typescript-mode . (lambda () (setq-local tab-width user-var\indent-offset-web)))
+                (typescript-mode . prettify-symbols-mode)
+                (typescript-mode . (lambda () (push '("=>" . 8658) prettify-symbols-alist)))))
     #+END_SRC
 
 *** YAML

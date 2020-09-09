@@ -8,8 +8,6 @@
 !*/
 
 # And mind the whitelist!
-!.bash_profile
-!.bashrc
 !.gitignore
 !.rgignore
 !Brewfile
