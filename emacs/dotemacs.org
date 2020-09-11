@@ -34,6 +34,8 @@
 
    #+BEGIN_SRC emacs-lisp
      (add-hook 'dired-mode-hook 'hl-line-mode)
+     (add-hook 'dired-mode-hook
+               '(lambda () (local-set-key (kbd "SPC") 'uvar:evil-leader-keymap)))
    #+END_SRC
 
 ** Encoding
@@ -77,6 +79,18 @@
             make-backup-files nil)
     #+END_SRC
 
+** Ibuffer
+   Just sprinkle in some jk.
+
+   #+BEGIN_SRC emacs-lisp
+     (add-hook 'ibuffer-mode-hook '(lambda () (local-set-key (kbd "G") 'end-of-buffer)))
+     (add-hook 'ibuffer-mode-hook '(lambda () (local-set-key (kbd "R") 'ibuffer-do-replace-regexp)))
+     (add-hook 'ibuffer-mode-hook '(lambda () (local-set-key (kbd "g") 'beginning-of-buffer)))
+     (add-hook 'ibuffer-mode-hook '(lambda () (local-set-key (kbd "j") 'next-line)))
+     (add-hook 'ibuffer-mode-hook '(lambda () (local-set-key (kbd "k") 'previous-line)))
+     (add-hook 'ibuffer-mode-hook '(lambda () (local-set-key (kbd "r") 'ibuffer-update)))
+   #+END_SRC
+
 ** Ido
    Interactive do.
    1. Disable file matching when opening files.
@@ -98,13 +112,13 @@
    The interactive search, no?
 *** Keybindings
     #+BEGIN_SRC emacs-lisp
-      (setq user-var\isearch-mode-keybindings
+      (setq uvar:isearch-mode-keybindings
             '(("<up>"   . isearch-repeat-backward)
               ("<down>" . isearch-repeat-forward)))
 
       (add-hook 'isearch-mode-hook
                 '(lambda ()
-                   (dolist (bindings user-var\isearch-mode-keybindings)
+                   (dolist (bindings uvar:isearch-mode-keybindings)
                      (define-key isearch-mode-map
                        (kbd (car bindings)) (cdr bindings)))))
     #+END_SRC
@@ -112,129 +126,37 @@
 ** Keybindings
    Click clack.
 *** Custom
-    Additions and overrides to the default bindings. Also prefix bindings via C-c.
-**** Custom
-     Keybindings that extend the defaults. For ergonomics, I keep a control key
-     on both sides of the keyboard, and bind commonly used commands to the super
-     key.
+    Don't really use these too much, but navigating between splits is super
+    helpful.
 
-     Convention
+    #+BEGIN_SRC emacs-lisp
+      (setq uvar:emacs-custom-keybindings
+            '(("<M-down>"  . windmove-down)
+              ("<M-left>"  . windmove-left)
+              ("<M-right>" . windmove-right)
+              ("<M-up>"    . windmove-up)))
 
-     |-------+------+-------+------+---------|
-     | Super | Meta | Space | Meta | Control |
-     |-------+------+-------+------+---------|
-
-     Mac
-
-     |----------------+----------------+-------+----------------+------------------|
-     | Option = Super | Command = Meta | Space | Command = Meta | Option = Control |
-     |----------------+----------------+-------+----------------+------------------|
-
-     PC (Linux and Windows)
-
-     |-----------------+------------+-------+------------+-------------|
-     | Windows = Super | Alt = Meta | Space | Alt = Meta | X = Control |
-     |-----------------+------------+-------+------------+-------------|
-
-     Where the /X/ key equals..
-     - Context Menu
-     - Control
-     - Function
-     - Print Screen
-     - Windows
-
-     #+BEGIN_SRC emacs-lisp
-       (setq user-var\emacs-custom-keybindings
-             '(("<f5>"        . repeat)
-               ("<M-S-down>"  . windmove-down)
-               ("<M-S-left>"  . windmove-left)
-               ("<M-S-right>" . windmove-right)
-               ("<M-S-up>"    . windmove-up)
-               ("<M-up>"      . backward-paragraph)
-               ("<M-down>"    . forward-paragraph)
-               ("M-`"         . other-frame)
-               ("M-z"         . zap-up-to-char)))
-
-       (dolist (keybindings user-var\emacs-custom-keybindings)
-         (global-set-key (kbd (car keybindings)) (cdr keybindings)))
-     #+END_SRC
-
-**** Prefix
-     I only use one prefix key and bind it to C-c. In this section of this
-     configuration file, I only bind default functionality to it, but later,
-     third-party functionality gets bound /ad hoc/.
-
-     vi users can think of it as the leader key.
-
-     Declare the prefix keymap and bind it to one or more prefix keys.
-
-     #+BEGIN_SRC emacs-lisp
-       (define-prefix-command 'user-var\prefix-keymap)
-       (global-set-key (kbd "C-c") 'user-var\prefix-keymap)
-     #+END_SRC
-
-     Define the prefix keymap.
-
-     #+BEGIN_SRC emacs-lisp
-       (setq user-var\prefix-vanilla-keybindings
-             '(;; Buffer
-               ("bb" . switch-to-buffer-other-window)
-               ("bm" . ibuffer)
-
-               ;; Change
-               ("ca" . query-replace)
-               ("cr" . replace-regexp)
-               ("cs" . replace-string)
-
-               ;; Dired
-               ("dw" . wdired-change-to-wdired-mode)
-
-               ;; File
-               ("ff" . find-file-other-window)
-               ("fp" . user-fun\kill-filepath)
-
-               ;; Lines
-               ("le" . apply-macro-to-region-lines)
-               ("ls" . sort-lines)
-               ("lc" . count-words-region)
-
-               ;; Switch to previous buffer
-               ("r"  . user-fun\goto-previous-buffer)
-
-               ;; Text Formatting
-               ("td" . user-fun\add-word-to-dictionary)
-               ("tr" . fill-region)
-               ("tw" . whitespace-mode)))
-
-       (dolist (keybindings user-var\prefix-vanilla-keybindings)
-         (define-key user-var\prefix-keymap
-           (kbd (car keybindings)) (cdr keybindings)))
-     #+END_SRC
+      (dolist (keybindings uvar:emacs-custom-keybindings)
+        (global-set-key (kbd (car keybindings)) (cdr keybindings)))
+    #+END_SRC
 
 *** Modifier Bindings
     Bind modifiers for Linux, Mac, and Windows.
-**** Linux
 **** Mac
-     Note the right-only prefix bindings might not work when typing from an
-     external keyboard connected to your Macintosh. Oh well.
+     Command is Meta!
 
      #+BEGIN_SRC emacs-lisp
        (when (memq window-system '(mac ns))
          (setq mac-command-modifier 'meta
-               mac-option-modifier  'control))
+               mac-option-modifier  'super))
      #+END_SRC
-
-**** Windows
 ** Language Modes
    Settings for default modes that support various languages, text, /etc./
 *** C/C++
     Old school cool.
 
     #+BEGIN_SRC emacs-lisp
-      (add-hook 'c-mode-hook '(lambda () (set-fill-column user-var\default-column-limit)))
-      (add-hook 'c-mode-hook 'flyspell-prog-mode)
-
-      (add-hook 'c++-mode-hook '(lambda () (set-fill-column user-var\default-column-limit)))
+      (add-hook 'c-mode-hook   'flyspell-prog-mode)
       (add-hook 'c++-mode-hook 'flyspell-prog-mode)
     #+END_SRC
 
@@ -243,25 +165,18 @@
     League.
 
     #+BEGIN_SRC emacs-lisp
-      (setq user-var\indent-offset-web 2)
-
-      (add-hook 'css-mode-hook '(lambda () (setq-local tab-width
-                                                       user-var\indent-offset-web)))
-      (add-hook 'css-mode-hook '(lambda () (setq-local css-indent-offset
-                                                       user-var\indent-offset-web)))
-
-      (add-hook 'scss-mode-hook '(lambda () (setq-local css-indent-offset
-                                                        user-var\indent-offset-web)))
+      (setq uvar:indent-web 2)
+      (add-hook 'css-mode-hook  '(lambda () (setq-local tab-width uvar:indent-web)))
+      (add-hook 'css-mode-hook  '(lambda () (setq-local css-indent-offset uvar:indent-web)))
+      (add-hook 'scss-mode-hook '(lambda () (setq-local css-indent-offset uvar:indent-web)))
       (add-hook 'scss-mode-hook '(lambda () (setq-local indent-tabs-mode t)))
-      (add-hook 'scss-mode-hook '(lambda () (setq-local tab-width user-var\indent-offset-web)))
+      (add-hook 'scss-mode-hook '(lambda () (setq-local tab-width uvar:indent-web)))
     #+END_SRC
 
 *** Emacs Lisp
     Flight school, space cadet.
 
      #+BEGIN_SRC emacs-lisp
-       (add-hook 'emacs-lisp-mode-hook
-                 '(lambda () (set-fill-column user-var\default-column-limit)))
        (add-hook 'emacs-lisp-mode-hook 'flyspell-prog-mode)
        (add-hook 'emacs-lisp-mode-hook 'prettify-symbols-mode)
      #+END_SRC
@@ -269,14 +184,18 @@
 *** Shell Scripting
 
     #+BEGIN_SRC emacs-lisp
-      (add-hook 'sh-mode-hook '(lambda () (set-fill-column user-var\default-column-limit)))
       (add-hook 'sh-mode-hook 'flyspell-prog-mode)
     #+END_SRC
 
 *** Text
+    Real plain text.
 
     #+BEGIN_SRC emacs-lisp
-      (add-hook 'text-mode-hook '(lambda () (set-fill-column 72))) ; blame Git
+      (setq uvar:text-column 72)
+      (add-hook
+       'text-mode-hook '(lambda () (setq-local fill-column uvar:text-column))) ; blame Git
+      (add-hook
+       'text-mode-hook '(lambda () (setq-local whitespace-line-column uvar:text-column))) ; same
       (add-hook 'text-mode-hook 'flyspell-mode)
       (add-to-list 'auto-mode-alist '("COMMIT_EDITMSG" . text-mode))
     #+END_SRC
@@ -313,7 +232,19 @@
                                          "DONE(d!)"
                                          "CANCELED(c@/!)"))
            org-use-fast-todo-selection t)
-     (add-hook 'org-mode-hook '(lambda () (set-fill-column user-var\default-column-limit)))
+     (add-hook 'org-mode-hook '(lambda () (setq-local fill-column uvar:default-column)))
+     (add-hook 'org-mode-hook '(lambda () (setq-local whitespace-line-column uvar:default-column)))
+   #+END_SRC
+
+** Package Menu
+   Just sprinkle in some jk.
+
+   #+BEGIN_SRC emacs-lisp
+     (add-hook 'package-menu-mode-hook 'hl-line-mode)
+     (add-hook 'package-menu-mode-hook '(lambda () (local-set-key (kbd "G")  'end-of-buffer)))
+     (add-hook 'package-menu-mode-hook '(lambda () (local-set-key (kbd "gg") 'beginning-of-buffer)))
+     (add-hook 'package-menu-mode-hook '(lambda () (local-set-key (kbd "j")  'next-line)))
+     (add-hook 'package-menu-mode-hook '(lambda () (local-set-key (kbd "k")  'previous-line)))
    #+END_SRC
 
 ** Paths
@@ -330,7 +261,7 @@
     typically use the exec-path variable.
 
 **** Mac
-     These settings exist mostly to find binaries downloaded by Homebrew.
+     These settings exist mostly to find Homebrew binaries.
 
      #+BEGIN_SRC emacs-lisp
        (when (equal system-type 'darwin)
@@ -338,24 +269,6 @@
            (setenv "PATH" (mapconcat 'identity mac-binaries path-separator))
            (dolist (binaries mac-binaries) (add-to-list 'exec-path binaries))))
      #+END_SRC
-
-** Rectangle Mark
-   Cough, cough. Visual block mode.
-
-   #+BEGIN_SRC emacs-lisp
-     (setq user-var\rectangle-mark-mode-keybindings
-           '(("W" . kill-region)
-             ("a" . move-beginning-of-line)
-             ("d" . delete-rectangle)
-             ("e" . move-end-of-line)
-             ("r" . replace-rectangle)
-             ("w" . kill-ring-save)))
-
-     (add-hook 'rectangle-mark-mode-hook
-               '(lambda () (dolist (bindings user-var\rectangle-mark-mode-keybindings)
-                        (define-key rectangle-mark-mode-map
-                          (kbd (car bindings)) (cdr bindings)))))
-   #+END_SRC
 
 ** Server
    Akuma!
@@ -444,9 +357,9 @@
     whitespace-mode is enabled.
 
     #+BEGIN_SRC emacs-lisp
-      (setq user-var\default-column-limit 80)
-      (setq-default fill-column user-var\default-column-limit)
-      (setq-default whitespace-line-column user-var\default-column-limit)
+      (setq uvar:default-column 80)
+      (setq-default fill-column uvar:default-column)
+      (setq-default whitespace-line-column fill-column)
     #+END_SRC
 
 *** Cursor
@@ -571,7 +484,7 @@
    Some homebrewed Lisp.
 
    #+BEGIN_SRC emacs-lisp
-     (defun user-fun\add-word-to-dictionary ()
+     (defun ufun:add-word-to-dictionary ()
        "Add the word-at-point to aspell's dictionary."
        (interactive)
        (let ((current-location (point)) (word (flyspell-get-word)))
@@ -584,13 +497,13 @@
                                 (caddr word)
                                 current-location))))
 
-     (defun user-fun\goto-previous-buffer ()
+     (defun ufun:goto-previous-buffer ()
        "Return to the previously visited buffer. This function is
           interactive."
        (interactive)
        (switch-to-buffer (other-buffer (current-buffer) 1)))
 
-     (defun user-fun\kill-filepath ()
+     (defun ufun:kill-filepath ()
        "Copy the current buffer filename with path to clipboard. This
           function is interactive."
        (interactive)
@@ -653,15 +566,15 @@
        :ensure t
        :pin melpa-stable
        :config
-       (setq user-var\diminished-modes
+       (setq uvar:diminished-modes
              '(auto-fill-function ; = auto-fill-mode
                eldoc-mode))
 
-       (dolist (diminished user-var\diminished-modes) (diminish diminished))
+       (dolist (diminished uvar:diminished-modes) (diminish diminished))
 
-       (setq user-var\forced-diminished-modes '((subword  . subword-mode)))
+       (setq uvar:forced-diminished-modes '((subword  . subword-mode)))
 
-       (dolist (diminished user-var\forced-diminished-modes)
+       (dolist (diminished uvar:forced-diminished-modes)
          (with-eval-after-load (car diminished) (diminish (cdr diminished)))))
    #+END_SRC
 
@@ -680,9 +593,9 @@
       (use-package org-bullets
         :ensure t
         :pin melpa-stable
-        :config
-        (add-hook 'org-mode-hook 'org-bullets-mode)
-        (add-hook 'org-mode-hook 'hl-line-mode))
+        :defer t
+        :hook ((org-mode . hl-line-mode)
+               (org-mode . org-bullets-mode)))
     #+END_SRC
 
 ** Productivity
@@ -696,8 +609,8 @@
         :ensure t
         :pin melpa-stable
         :defer t
-        :bind (("M-y" . browse-kill-ring)
-               ("M-Y" . yank-pop)))
+        :hook ((browse-kill-ring-mode . (lambda () (local-set-key (kbd "j") 'browse-kill-ring-forward)))
+               (browse-kill-ring-mode . (lambda () (local-set-key (kbd "k") 'browse-kill-ring-previous)))))
     #+END_SRC
 
 *** Centaur Tabs
@@ -708,13 +621,12 @@
         :ensure t
         :pin melpa
         :demand
-        :hook
-        (dired-mode            . centaur-tabs-local-mode)
-        (ibuffer-mode          . centaur-tabs-local-mode)
-        (info-mode             . centaur-tabs-local-mode)
-        (lisp-interaction-mode . centaur-tabs-local-mode)
-        (message-mode          . centaur-tabs-local-mode)
-        (occur-mode            . centaur-tabs-local-mode)
+        :hook ((dired-mode            . centaur-tabs-local-mode)
+               (ibuffer-mode          . centaur-tabs-local-mode)
+               (info-mode             . centaur-tabs-local-mode)
+               (lisp-interaction-mode . centaur-tabs-local-mode)
+               (message-mode          . centaur-tabs-local-mode)
+               (occur-mode            . centaur-tabs-local-mode))
         :bind
         ("M-{" . centaur-tabs-backward)
         ("M-}" . centaur-tabs-forward)
@@ -730,7 +642,7 @@
         (centaur-tabs-mode t))
     #+END_SRC
 *** Company
-    The /de facto/ completion framework for Emacs.
+    The de facto completion framework for Emacs.
 
     #+BEGIN_SRC emacs-lisp
       (use-package company
@@ -750,7 +662,7 @@
     #+END_SRC
 
 *** Evil
-    Summon the Editor of the Beast (vi vi vi).
+    Summon the Editor of the Beast - vi vi vi.
 
     #+BEGIN_SRC emacs-lisp
       (use-package evil
@@ -758,50 +670,61 @@
         :pin melpa-stable
         :demand
         :config
-        (evil-mode -1)
+        (evil-mode 1)
         (evil-select-search-module 'evil-search-module 'evil-search)
-        (setq user-var\evil-motion-state-rebindings
+        (setq uvar:evil-motion-state-rebindings
               '((";"  . evil-ex)
                 (":"  . evil-repeat-find-char)
                 ("gc" . comment-dwim)
-                ("zg" . user-fun\add-word-to-dictionary)))
+                ("zg" . ufun:add-word-to-dictionary)))
 
         ;; TODO: Make this into a general function or macro.
-        (dolist (keybindings user-var\evil-motion-state-rebindings)
+        (dolist (keybindings uvar:evil-motion-state-rebindings)
           (define-key evil-motion-state-map
             (kbd (car keybindings)) (cdr keybindings)))
 
-        (define-prefix-command 'user-var\evil-leader-keymap)
+        (define-prefix-command 'uvar:evil-leader-keymap)
 
         (with-eval-after-load 'evil-maps
           (define-key evil-motion-state-map
-            (kbd "<SPC>") 'user-var\evil-leader-keymap))
+            (kbd "<SPC>") 'uvar:evil-leader-keymap))
 
-        (setq user-var\evil-leader-bindings
-              '(("lc" . count-words-region)
-                ("le" . user-var\evil-apply-macro-to-region-lines)
+        (setq uvar:evil-leader-bindings
+              '(("ly" . browse-kill-ring) ; binding here b/c it's called after :/
+                ("lc" . count-words-region)
+                ("le" . uvar:evil-apply-macro-to-region-lines)
                 ("ls" . sort-lines)
-                ("r"  . user-fun\goto-previous-buffer)
+                ("r"  . ufun:goto-previous-buffer)
                 ("O"  . switch-to-buffer-other-window)
                 ("o"  . switch-to-buffer)
                 ("E"  . find-file-other-window)
                 ("e"  . find-file)
+                ("dG" . end-of-buffer) ; TODO: make these dired specific.
+                ("dg" . beginning-of-buffer)
+                ("dw" . wdired-change-to-wdired-mode)
                 ("tw" . whitespace-mode)
                 ("n"  . other-window)
+                ("sp" . ufun:kill-filepath)
                 ("b"  . ibuffer)
                 ("wh" . split-window-below)
                 ("wo" . delete-other-windows)
                 ("wv" . split-window-right)))
 
-        (defun user-var\evil-apply-macro-to-region-lines ()
+        (defun uvar:evil-apply-macro-to-region-lines ()
           "Easy binding for running an Evil macro over some selected lines."
           (interactive)
           (evil-ex "'<,'>norm@"))
 
         ;; TODO: Make this into a general function or macro.
-        (dolist (keybindings user-var\evil-leader-bindings)
-          (define-key user-var\evil-leader-keymap
-            (kbd (car keybindings)) (cdr keybindings))))
+        (dolist (keybindings uvar:evil-leader-bindings)
+          (define-key uvar:evil-leader-keymap
+            (kbd (car keybindings)) (cdr keybindings)))
+
+        ;; Need Ctr-Z for Emacsclient.
+        (define-key evil-motion-state-map (kbd "M-m") 'evil-emacs-state)
+        (define-key evil-motion-state-map (kbd "C-z") 'suspend-frame)
+        (define-key evil-emacs-state-map  (kbd "M-m") 'evil-exit-emacs-state)
+        (define-key evil-emacs-state-map  (kbd "C-z") 'suspend-frame))
     #+END_SRC
 
     Nobody hits escape.
@@ -860,16 +783,7 @@
         :ensure t
         :pin melpa-stable
         :defer t
-        :bind (:map user-var\prefix-keymap
-                    ("pR" . projectile-replacae-regexp)
-                    ("pa" . projectile-add-known-project)
-                    ("pb" . projectile-switch-to-buffer)
-                    ("pd" . projectile-remove-known-project)
-                    ("pf" . projectile-find-file)
-                    ("pr" . projectile-replace)
-                    ("ps" . projectile-switch-project)
-                    ("pw" . projectile-save-project-buffers)
-               :map user-var\evil-leader-keymap
+        :bind (:map uvar:evil-leader-keymap
                     ("pR" . projectile-replacae-regexp)
                     ("pa" . projectile-add-known-project)
                     ("pb" . projectile-switch-to-buffer)
@@ -893,7 +807,9 @@
         :pin melpa-stable
         :defer t
         :bind (("M-x" . smex)
-               ("M-X" . execute-extended-command)))
+               ("M-X" . execute-extended-command)
+               :map uvar:evil-leader-keymap
+               ("m" . smex)))
     #+END_SRC
 
 *** Which Key
@@ -909,20 +825,7 @@
         (setq which-key-idle-delay 0.1
               which-key-sort-order 'which-key-key-order-alpha)
 
-        (setq user-var\which-key-prefix-vanilla-labels
-              '(("C-c b" . "buffer actions")
-                ("C-c c" . "change/replace actions")
-                ("C-c f" . "file actions")
-                ("C-c l" . "line actions")
-                ("C-c p" . "project actions")
-                ("C-c r" . "visit last buffer")
-                ("C-c t" . "text actions")))
-
-        ;; TODO: Make this into a general function or macro.
-        (dolist (labels user-var\which-key-prefix-vanilla-labels)
-          (which-key-add-key-based-replacements (car labels) (cdr labels)))
-
-        (setq user-var\which-key-evil-leader-labels
+        (setq uvar:which-key-evil-leader-labels
               '(("<SPC> p" . "project actions")
                 ("<SPC> l" . "line actions")
                 ("<SPC> r" . "visit last buffer")
@@ -930,22 +833,35 @@
                 ("<SPC> o" . "open buffer")
                 ("<SPC> E" . "edit file in other window")
                 ("<SPC> e" . "edit file")
+                ("<SPC> d" . "directory actions")
                 ("<SPC> t" . "text actions")
+                ("<SPC> s" . "special actions")
                 ("<SPC> n" . "visit other window")
                 ("<SPC> b" . "buffer menu")
+                ("<SPC> m" . "toplevel")
                 ("<SPC> w" . "window actions")))
 
         ;; TODO: Make this into a general function or macro.
-        (dolist (labels user-var\which-key-evil-leader-labels)
+        (dolist (labels uvar:which-key-evil-leader-labels)
           (which-key-add-key-based-replacements (car labels) (cdr labels)))
 
         (which-key-mode))
-
     #+END_SRC
 
 ** Programming Languages
    Third party plugins for working with programming languages that core doesn't
    support.
+*** Fish
+    Gone fishing.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package fish-mode
+        :ensure t
+        :pin melpa-stable
+        :defer t
+        :hook ((fish-mode . flyspell-prog-mode)))
+    #+END_SRC
+
 *** Gitignore
     Yeah, this doesn't come out of the box.
 
@@ -953,19 +869,8 @@
       (use-package gitignore-mode
         :ensure t
         :pin melpa-stable
-        :defer t)
-    #+END_SRC
-
-*** Fish
-    Gone fishing.
-
-    #+BEGIN_SRC elisp
-      (use-package fish-mode
-        :ensure t
-        :pin melpa-stable
         :defer t
-        :config
-        (add-hook 'fish-mode-hook 'flyspell-prog-mode))
+        :hook ((gitignore-mode . flyspell-prog-mode)))
     #+END_SRC
 
 *** Haskell
@@ -977,26 +882,25 @@
         :ensure t
         :pin melpa-stable
         :defer t
-        :config
-        (add-hook 'haskell-mode-hook 'flycheck-mode))
+        :hook ((haskell-mode . flycheck-mode)
+               (haskell-mode . flyspell-prog-mode)))
     #+END_SRC
 
 *** JSON
-    But not with the Argonauts.
+    Yet another... Wait. That's the other one.
 
     #+BEGIN_SRC emacs-lisp
       (use-package json-mode
         :ensure t
         :pin melpa-stable
         :defer t
+        :hook ((json-mode . (lambda () (setq-local js-indent-level uvar:indent-web)))
+               (json-mode . (lambda () (setq-local tab-width uvar:indent-web)))
+               (json-mode . flycheck-mode)
+               (json-mode . flyspell-prog-mode))
         :config
         (add-to-list 'auto-mode-alist '("\\.eslintrc\\'"   . json-mode))
-        (add-to-list 'auto-mode-alist '("\\.prettierrc\\'" . json-mode))
-
-        (add-hook 'json-mode-hook
-                  '(lambda () (setq-local js-indent-level user-var\indent-offset-web)))
-        (add-hook 'json-mode-hook
-                  '(lambda () (setq-local tab-width user-var\indent-offset-web))))
+        (add-to-list 'auto-mode-alist '("\\.prettierrc\\'" . json-mode)))
     #+END_SRC
 
 *** Markdown
@@ -1009,14 +913,15 @@
         :defer t
         :commands (markdown-mode gfm-mode)
         :mode (("README\\.md\\'" . gfm-mode))
+        :hook ((markdown-mode . flycheck-mode)
+               (markdown-mode . flyspell-mode)
+               (markdown-mode . (lambda () (setq-local fill-column uvar:default-column)))
+               (markdown-mode . (lambda () (setq-local whitespace-line-column uvar:default-column))))
         :config
         (cond ((string-equal system-type "gnu/linux")
                (setq markdown-command "/usr/bin/pandoc"))
               ((string-equal system-type "darwin")
-               (setq markdown-command "/usr/local/bin/pandoc")))
-        (add-hook 'markdown-mode-hook 'flycheck-mode)
-        (add-hook 'markdown-mode-hook
-                  '(lambda () (set-fill-column user-var\default-column-limit))))
+               (setq markdown-command "/usr/local/bin/pandoc"))))
     #+END_SRC
 
 *** TypeScript
@@ -1027,21 +932,24 @@
         :ensure t
         :pin melpa-stable
         :defer t
-        :hook  ((typescript-mode . (lambda () (setq-local tab-width user-var\indent-offset-web)))
-                (typescript-mode . prettify-symbols-mode)
-                (typescript-mode . (lambda () (push '("=>" . 8658) prettify-symbols-alist)))))
+        :hook ((typescript-mode . (lambda () (setq-local tab-width uvar:indent-web)))
+               (typescript-mode . (lambda () (push '("=>" . 8658) prettify-symbols-alist)))
+               (typescript-mode . flycheck-mode)
+               (typescript-mode . flyspell-prog-mode)
+               (typescript-mode . prettify-symbols-mode)))
     #+END_SRC
 
 *** YAML
-    This is still a thing. Apparently.
+    Still a thing.
 
     #+BEGIN_SRC emacs-lisp
       (use-package yaml-mode
         :ensure t
         :pin melpa-stable
         :defer t
-        :config
-        (add-hook 'yaml-mode-hook '(lambda () (setq-local tab-width 2))))
+        :hook ((yaml-mode-hook . (lambda () (setq-local tab-width 2)))
+               (yaml-mode-hook . flycheck-mode)
+               (yaml-mode-hook . flyspell-prog-mode)))
     #+END_SRC
 
 * Coda: Local Configuration

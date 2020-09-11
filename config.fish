@@ -78,8 +78,9 @@ end
 switch (uname -s)
     case "Darwin"
         # Add these directories to the PATH for Homebrew.
-        set -g fish_user_paths "/usr/local/bin" $fish_user_paths
-        set -g fish_user_paths "/usr/local/sbin" $fish_user_paths
+        set -g fish_user_paths "/Library/TeX/texbin" $fish_user_paths
+        set -g fish_user_paths "/usr/local/bin"      $fish_user_paths
+        set -g fish_user_paths "/usr/local/sbin"     $fish_user_paths
     # case "Linux"
     # case '*'
 end
