@@ -182,9 +182,18 @@
      #+END_SRC
 
 *** Shell Scripting
+    Lawful evil scripting.
 
     #+BEGIN_SRC emacs-lisp
       (add-hook 'sh-mode-hook 'flyspell-prog-mode)
+    #+END_SRC
+
+*** TeX
+    In the beginning, before Markdown.
+
+    #+BEGIN_SRC emacs-lisp
+      (add-hook 'tex-mode-hook '(lambda () (setq-local fill-column uvar:default-column)))
+      (add-hook 'tex-mode-hook 'flyspell-mode)
     #+END_SRC
 
 *** Text
@@ -670,61 +679,67 @@
         :pin melpa-stable
         :demand
         :config
+        (diminish 'undo-tree-mode) ; don't remind me I have it on
         (evil-mode 1)
-        (evil-select-search-module 'evil-search-module 'evil-search)
-        (setq uvar:evil-motion-state-rebindings
-              '((";"  . evil-ex)
-                (":"  . evil-repeat-find-char)
-                ("gc" . comment-dwim)
-                ("zg" . ufun:add-word-to-dictionary)))
+        (evil-select-search-module 'evil-search-module 'evil-search))
+    #+END_SRC
 
-        ;; TODO: Make this into a general function or macro.
-        (dolist (keybindings uvar:evil-motion-state-rebindings)
-          (define-key evil-motion-state-map
-            (kbd (car keybindings)) (cdr keybindings)))
+    Keybindings setup. Don't change default vi (too much).
 
-        (define-prefix-command 'uvar:evil-leader-keymap)
+    #+BEGIN_SRC emacs-lisp
+      (setq uvar:evil-motion-state-rebindings
+            '((";"  . evil-ex)
+              (":"  . evil-repeat-find-char)
+              ("gc" . comment-dwim)
+              ("zg" . ufun:add-word-to-dictionary)))
 
-        (with-eval-after-load 'evil-maps
-          (define-key evil-motion-state-map
-            (kbd "<SPC>") 'uvar:evil-leader-keymap))
+      ;; TODO: Make this into a general function or macro.
+      (dolist (keybindings uvar:evil-motion-state-rebindings)
+        (define-key evil-motion-state-map
+          (kbd (car keybindings)) (cdr keybindings)))
 
-        (setq uvar:evil-leader-bindings
-              '(("ly" . browse-kill-ring) ; binding here b/c it's called after :/
-                ("lc" . count-words-region)
-                ("le" . uvar:evil-apply-macro-to-region-lines)
-                ("ls" . sort-lines)
-                ("r"  . ufun:goto-previous-buffer)
-                ("O"  . switch-to-buffer-other-window)
-                ("o"  . switch-to-buffer)
-                ("E"  . find-file-other-window)
-                ("e"  . find-file)
-                ("dG" . end-of-buffer) ; TODO: make these dired specific.
-                ("dg" . beginning-of-buffer)
-                ("dw" . wdired-change-to-wdired-mode)
-                ("tw" . whitespace-mode)
-                ("n"  . other-window)
-                ("sp" . ufun:kill-filepath)
-                ("b"  . ibuffer)
-                ("wh" . split-window-below)
-                ("wo" . delete-other-windows)
-                ("wv" . split-window-right)))
+      ;; Need Ctr-Z for Emacsclient.
+      (define-key evil-motion-state-map (kbd "M-m") 'evil-emacs-state)
+      (define-key evil-motion-state-map (kbd "C-z") 'suspend-frame)
+      (define-key evil-emacs-state-map  (kbd "M-m") 'evil-exit-emacs-state)
+      (define-key evil-emacs-state-map  (kbd "C-z") 'suspend-frame)
+    #+END_SRC
 
-        (defun uvar:evil-apply-macro-to-region-lines ()
-          "Easy binding for running an Evil macro over some selected lines."
-          (interactive)
-          (evil-ex "'<,'>norm@"))
+    Leader keybindings setup with vanilla Emacs. No extra plugins like
+    Evil Leader, General, /etc/ necessary.
 
-        ;; TODO: Make this into a general function or macro.
-        (dolist (keybindings uvar:evil-leader-bindings)
-          (define-key uvar:evil-leader-keymap
-            (kbd (car keybindings)) (cdr keybindings)))
+    #+BEGIN_SRC emacs-lisp
+      (define-prefix-command 'uvar:evil-leader-keymap)
 
-        ;; Need Ctr-Z for Emacsclient.
-        (define-key evil-motion-state-map (kbd "M-m") 'evil-emacs-state)
-        (define-key evil-motion-state-map (kbd "C-z") 'suspend-frame)
-        (define-key evil-emacs-state-map  (kbd "M-m") 'evil-exit-emacs-state)
-        (define-key evil-emacs-state-map  (kbd "C-z") 'suspend-frame))
+      (with-eval-after-load 'evil-maps
+        (define-key evil-motion-state-map
+          (kbd "<SPC>") 'uvar:evil-leader-keymap))
+
+      (setq uvar:evil-leader-bindings
+            '(("ly" . browse-kill-ring) ; binding here b/c it's called after :/
+              ("lc" . count-words-region)
+              ("le" . ufun:evil-apply-macro-to-region-lines)
+              ("ls" . sort-lines)
+              ("r"  . ufun:goto-previous-buffer)
+              ("O"  . switch-to-buffer-other-window)
+              ("o"  . switch-to-buffer)
+              ("E"  . find-file-other-window)
+              ("e"  . find-file)
+              ("dG" . end-of-buffer) ; TODO: make these dired specific.
+              ("dg" . beginning-of-buffer)
+              ("dw" . wdired-change-to-wdired-mode)
+              ("tw" . whitespace-mode)
+              ("n"  . other-window)
+              ("sp" . ufun:kill-filepath)
+              ("b"  . ibuffer)
+              ("wh" . split-window-below)
+              ("wo" . delete-other-windows)
+              ("wv" . split-window-right)))
+
+      ;; TODO: Make this into a general function or macro.
+      (dolist (keybindings uvar:evil-leader-bindings)
+        (define-key uvar:evil-leader-keymap
+          (kbd (car keybindings)) (cdr keybindings)))
     #+END_SRC
 
     Nobody hits escape.
@@ -747,6 +762,15 @@
         :ensure t
         :config
         (global-evil-surround-mode 1))
+    #+END_SRC
+
+    User Evil function(s).
+
+    #+BEGIN_SRC emacs-lisp
+      (defun ufun:evil-apply-macro-to-region-lines ()
+        "Easy binding for running an Evil macro over some selected lines."
+        (interactive)
+        (evil-ex "'<,'>norm@"))
     #+END_SRC
 
 *** Exec Path From Shell (Mac Only)
@@ -793,10 +817,26 @@
                     ("ps" . projectile-switch-project)
                     ("pw" . projectile-save-project-buffers))
         :config
-        (setq projectile-completion-system 'ido
-              shell-file-name "/bin/sh")
+        (setq shell-file-name "/bin/sh")
+        (setq projectile-completion-system  'ido
+              projectile-mode-line-function '(lambda () (format " Proj[%s]" (ufun:projectile-display-project-name)))
+              projectile-sort-order         'recentf)
         (projectile-mode +1))
     #+END_SRC
+
+    User Projectile function(s).
+
+    #+BEGIN_SRC emacs-lisp
+      (defun ufun:projectile-display-project-name ()
+        "Return the project name as determined by Projectile if 10 characters or less.
+      Otherwise, truncate the name."
+        (let ((cutoff 10)
+              (name (projectile-project-name)))
+          (if (>= cutoff (string-width name))
+              name
+            (concat (truncate-string-to-width name cutoff) ".."))))
+    #+END_SRC
+
 *** Smex
     Extend Ido functionality for M-x. This package should also ship with Emacs
     in my opinion.
