@@ -181,19 +181,19 @@
        (add-hook 'emacs-lisp-mode-hook 'prettify-symbols-mode)
      #+END_SRC
 
+*** LaTeX
+    In the beginning, before Markdown.
+
+    #+BEGIN_SRC emacs-lisp
+      (add-hook 'latex-mode-hook '(lambda () (setq-local fill-column uvar:default-column)))
+      (add-hook 'latex-mode-hook 'flyspell-mode)
+    #+END_SRC
+
 *** Shell Scripting
     Lawful evil scripting.
 
     #+BEGIN_SRC emacs-lisp
       (add-hook 'sh-mode-hook 'flyspell-prog-mode)
-    #+END_SRC
-
-*** TeX
-    In the beginning, before Markdown.
-
-    #+BEGIN_SRC emacs-lisp
-      (add-hook 'tex-mode-hook '(lambda () (setq-local fill-column uvar:default-column)))
-      (add-hook 'tex-mode-hook 'flyspell-mode)
     #+END_SRC
 
 *** Text
@@ -470,7 +470,7 @@
 
     #+BEGIN_SRC emacs-lisp
       (setq initial-scratch-message
-            ";; God's in His Heaven. All's right with the World. ")
+            ";; God's in His Heaven. All's right with the World.  ")
     #+END_SRC
 
 *** User Input
@@ -522,6 +522,13 @@
          (when filepath
            (kill-new filepath)
            (message "Copied buffer filepath '%s' to clipboard." filepath))))
+   #+END_SRC
+
+** Version Control
+   Prefer the default CLI for this sort of thing.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq vc-handled-backends nil)
    #+END_SRC
 
 * Prelude: Local Configuration
@@ -813,6 +820,7 @@
                     ("pb" . projectile-switch-to-buffer)
                     ("pd" . projectile-remove-known-project)
                     ("pf" . projectile-find-file)
+                    ("pk" . projectile-kill-buffers)
                     ("pr" . projectile-replace)
                     ("ps" . projectile-switch-project)
                     ("pw" . projectile-save-project-buffers))
