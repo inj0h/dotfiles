@@ -91,6 +91,12 @@
      (add-hook 'ibuffer-mode-hook '(lambda () (local-set-key (kbd "r") 'ibuffer-update)))
    #+END_SRC
 
+   And some other stuff.
+
+   #+BEGIN_SRC emacs-lisp
+     (add-hook 'ibuffer-mode-hook 'hl-line-mode)
+   #+END_SRC
+
 ** Ido
    Interactive do.
    1. Disable file matching when opening files.
@@ -470,7 +476,7 @@
 
     #+BEGIN_SRC emacs-lisp
       (setq initial-scratch-message
-            ";; God's in His Heaven. All's right with the World.  ")
+            ";; God's in his heaven. All's right with the world.  ")
     #+END_SRC
 
 *** User Input
@@ -637,7 +643,9 @@
         :ensure t
         :pin melpa
         :demand
-        :hook ((dired-mode            . centaur-tabs-local-mode)
+        :hook ((calc-mode             . centaur-tabs-local-mode)
+               (calendar-mode         . centaur-tabs-local-mode)
+               (dired-mode            . centaur-tabs-local-mode)
                (ibuffer-mode          . centaur-tabs-local-mode)
                (info-mode             . centaur-tabs-local-mode)
                (lisp-interaction-mode . centaur-tabs-local-mode)
@@ -816,13 +824,14 @@
         :defer t
         :bind (:map uvar:evil-leader-keymap
                     ("pR" . projectile-replacae-regexp)
+                    ("pS" . projectile-switch-project)
                     ("pa" . projectile-add-known-project)
                     ("pb" . projectile-switch-to-buffer)
                     ("pd" . projectile-remove-known-project)
                     ("pf" . projectile-find-file)
                     ("pk" . projectile-kill-buffers)
                     ("pr" . projectile-replace)
-                    ("ps" . projectile-switch-project)
+                    ("ps" . projectile-switch-open-project)
                     ("pw" . projectile-save-project-buffers))
         :config
         (setq shell-file-name "/bin/sh")
