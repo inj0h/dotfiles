@@ -16,7 +16,7 @@
 !alacritty.yml
 !config.fish
 !dotfiles.txt
-!myterm.terminal
+!myterm.json
 !readme.md
 
 !/bin/connect-the-dots
