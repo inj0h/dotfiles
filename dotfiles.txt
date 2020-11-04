@@ -1,4 +1,4 @@
-d,Documents/src/dotfiles/emacs,.config/emacs
 f,Documents/src/dotfiles/.rgignore,.config/.rgignore
+f,Documents/src/dotfiles/.vimrc,.vimrc
 f,Documents/src/dotfiles/alacritty.yml,.config/alacritty/alacritty.yml
 f,Documents/src/dotfiles/config.fish,.config/fish/config.fish

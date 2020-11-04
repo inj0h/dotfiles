@@ -27,7 +27,7 @@ alias ls     ls # unset default flags
 # Editor
 #
 
-set -Ux EDITOR "emacsclient -nw"
+set -Ux EDITOR "vim"
 
 #
 # Greeting

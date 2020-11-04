@@ -10,6 +10,7 @@
 # And mind the whitelist!
 !.gitignore
 !.rgignore
+!.vimrc
 !Brewfile
 !Makefile
 !alacritty.yml
@@ -20,5 +21,3 @@
 
 !/bin/connect-the-dots
 
-!/emacs/init.el
-!/emacs/dotemacs.org
