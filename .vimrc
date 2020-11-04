@@ -1,8 +1,8 @@
 " Filename: .vimrc
-" Note:     No BS editor. Requires Vim 8.1.
+" Note:     No BS editor config. Requires Vim 8.1 or l8r.
 
 " TODO:
-" - Use w on camel and kebab cased words.
+" - Use w on camel, kebab, and under cased words.
 " - Configure indentation, text-width, etc for...
 "     - C/C++
 "     - Haskell
@@ -143,13 +143,13 @@ nnoremap <leader>s :setlocal spell!<cr>
 " Colors, UI, Etc
 "-----------------
 
-set statusline=         " reset
-set statusline+=%F      " full file path
-set statusline+=\%m     " if modified
-set statusline+=\ %y    " filetype
-set statusline+=%=      " spacer
-set statusline+=\ %l:%c " line:column numbers
-set statusline+=\ %P%%  " buffer percentage
+set statusline=        " reset
+set statusline+=%F     " full file path
+set statusline+=\%m    " if modified
+set statusline+=\ %y   " filetype
+set statusline+=%=     " spacer
+set statusline+=\%l:%c " line:column numbers
+set statusline+=\ %P   " buffer percentage
 
 " Technically a Plugin.
 colorscheme nord
