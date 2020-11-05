@@ -1,8 +1,8 @@
 " Filename: .vimrc
-" Note:     No BS editor config. Requires Vim 8.1 or l8r.
+" Note:     No BS editor config. Requires Vim 8 or l8r compiled with
+"           termguicolors. Otherwise, just change the colorscheme.
 
 " TODO:
-" - Use w on camel, kebab, and under cased words.
 " - Configure indentation, text-width, etc for...
 "     - C/C++
 "     - Haskell
@@ -18,11 +18,11 @@
 "----------
 
 call plug#begin('~/.config/vim/plugs')
-Plug 'arcticicestudio/nord-vim'
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'junegunn/vim-easy-align'
 Plug 'neovimhaskell/haskell-vim'
 Plug 'octol/vim-cpp-enhanced-highlight'
-Plug 'junegunn/vim-easy-align'
+Plug 'relastle/bluewery.vim'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
@@ -68,7 +68,9 @@ set smarttab
 set softtabstop=4
 set spelllang=en_us
 set splitbelow
+set t_Co=256
 set tabstop=4
+set termguicolors
 set textwidth=80
 set timeoutlen=200
 set undolevels=500
@@ -109,7 +111,7 @@ inoremap hh <esc>
 " swap ; and :
 nnoremap ; :
 nnoremap : ;
-" Swap ; and :
+" swap ; and :
 vnoremap ; :
 vnoremap : ;
 
@@ -143,16 +145,18 @@ nnoremap <leader>s :setlocal spell!<cr>
 " Colors, UI, Etc
 "-----------------
 
-set statusline=        " reset
-set statusline+=%F     " full file path
-set statusline+=\%m    " if modified
-set statusline+=\ %y   " filetype
-set statusline+=%=     " spacer
-set statusline+=\%l:%c " line:column numbers
-set statusline+=\ %P   " buffer percentage
+set statusline=              " reset
+set statusline+=\ %f         " full file path
+set statusline+=\%m          " if modified
+set statusline+=\ %y         " filetype
+set statusline+=%=           " spacer
+set statusline+=\%l:%c       " line:column numbers
+set statusline+=\ \ \ \ %P\  " buffer percentage
 
 " Technically a Plugin.
-colorscheme nord
+colorscheme bluewery
+" Add the following line in the colorscheme file to color FoldColumn.
+" call bluewery#hi('FoldColumn',       '', '',          s:b_black)
 
 "---------
 " Plugins
