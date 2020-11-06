@@ -3,6 +3,8 @@
 "           termguicolors. Otherwise, just change the colorscheme.
 
 " TODO:
+" - Configure folding
+"     - Refer to -> https://learnvimscriptthehardway.stevelosh.com/chapters/49.html
 " - Configure indentation, text-width, etc for...
 "     - C/C++
 "     - Haskell
@@ -13,13 +15,14 @@
 "     - TypeScript
 "     - YAML
 
-"----------
-" Plug-Ins
-"----------
+"---------
+" Plugins
+"---------
 
 call plug#begin('~/.config/vim/plugs')
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'junegunn/vim-easy-align'
+Plug 'neoclide/coc.nvim'
 Plug 'neovimhaskell/haskell-vim'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'relastle/bluewery.vim'
@@ -92,7 +95,11 @@ aug haskell
 aug END
 
 " Plain Text
-au FileType text setlocal spell
+aug plainText
+    au!
+    au BufEnter *.md,*.tex,*.txt  :CocDisable " a tad slow, meh
+    au FileType text setlocal spell
+aug END
 
 " VimL
 au FileType vim setlocal formatoptions+=t
@@ -111,9 +118,13 @@ inoremap hh <esc>
 " swap ; and :
 nnoremap ; :
 nnoremap : ;
-" swap ; and :
 vnoremap ; :
 vnoremap : ;
+" navigate splits
+nnoremap <silent> <up>    <c-w>k
+nnoremap <silent> <down>  <c-w>j
+nnoremap <silent> <left>  <c-w>h
+nnoremap <silent> <right> <c-w>l
 
 " Leader
 let mapleader = "\<space>"
@@ -133,9 +144,8 @@ nnoremap <leader>wv :vsplit<cr>
 nnoremap <leader>ww :only<cr>
 
 " Macros
-" replay last keyboard macro
-vnoremap <leader>e :norm@
-nnoremap <leader>m @@
+" replay keyboard macro over selected region
+vnoremap <leader>e :norm@@<cr>
 
 " Spelling
 " toggle spellchecker
@@ -153,14 +163,31 @@ set statusline+=%=           " spacer
 set statusline+=\%l:%c       " line:column numbers
 set statusline+=\ \ \ \ %P\  " buffer percentage
 
-" Technically a Plugin.
 colorscheme bluewery
-" Add the following line in the colorscheme file to color FoldColumn.
+" technically a Plugin
+" add the following line in the colorscheme file to color FoldColumn..
 " call bluewery#hi('FoldColumn',       '', '',          s:b_black)
 
-"---------
-" Plugins
-"---------
+"-----------------
+" Plugin Settings
+"-----------------
+
+" CoC
+" recommendations
+set nobackup
+set nowritebackup
+set updatetime=300
+" use <tab> for trigger completion and navigate to the next complete item
+function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+
+inoremap <silent><expr> <Tab>
+            \ pumvisible() ? "\<C-n>" :
+            \ <SID>check_back_space() ? "\<Tab>" :
+            \ coc#refresh()
+inoremap <expr><S-Tab> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 " CtrlP
 if executable('rg')
