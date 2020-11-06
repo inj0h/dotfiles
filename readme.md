@@ -12,7 +12,7 @@ Clone this repository, and use the provided `Makefile`, which runs the
 depends on the paths set in the `dotfiles.txt` configuration file.
 
 ``` shell
-$ make setup
+$ make
 ```
 
 Similarly, run `make clean` to uninstall, _i.e._ destroying the symlinks, and
