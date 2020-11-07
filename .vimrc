@@ -21,6 +21,7 @@
 
 call plug#begin('~/.config/vim/plugs')
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'georgewitteman/vim-fish'
 Plug 'junegunn/vim-easy-align'
 Plug 'neoclide/coc.nvim'
 Plug 'neovimhaskell/haskell-vim'
