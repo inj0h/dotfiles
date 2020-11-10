@@ -98,8 +98,13 @@ aug END
 " Plain Text
 aug plainText
     au!
-    au BufEnter *.md,*.tex,*.txt  :CocDisable " a tad slow, meh
-    au FileType text setlocal spell
+    au BufEnter *.md,*.tex,*.txt silent loadview :CocDisable " a tad slow, meh
+    au BufLeave *.md,*.tex,*.txt mkview
+    au FileType text setlocal
+                \ spell
+                \ foldmethod=marker
+                \ foldmarker=[,]
+                \ foldenable
 aug END
 
 " VimL
