@@ -3,8 +3,6 @@
 "           termguicolors. Otherwise, just change the colorscheme.
 
 " TODO:
-" - Configure folding
-"     - Refer to -> https://learnvimscriptthehardway.stevelosh.com/chapters/49.html
 " - Configure indentation, text-width, etc for...
 "     - C/C++
 "     - Haskell
@@ -162,7 +160,7 @@ nnoremap <leader>s :setlocal spell!<cr>
 "-----------------
 
 set statusline=              " reset
-set statusline+=\ %f         " full file path
+set statusline+=\ %f         " relative file path
 set statusline+=\%m          " if modified
 set statusline+=\ %y         " filetype
 set statusline+=%=           " spacer
