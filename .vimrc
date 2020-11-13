@@ -80,9 +80,9 @@ set visualbell
 set wildmenu
 set wildmode=list:longest,list
 
-"-------
-" Hooks
-"-------
+"------------
+" Hooks, Etc
+"------------
 
 " Git
 au FileType gitcommit setlocal textwidth=72 spell
@@ -93,10 +93,17 @@ aug haskell
     au FileType haskell setlocal expandtab shiftwidth=4 softtabstop=4
 aug END
 
+" Java
+let java_highlight_functions = 1
+let java_highlight_all = 1
+hi li javaScopeDecl Statement
+hi li javaType Type
+hi li javaDocTags PreProc
+
 " Plain Text
 aug plainText
     au!
-    au BufEnter *.md,*.tex,*.txt silent loadview :CocDisable " a tad slow, meh
+    au BufEnter *.md,*.tex,*.txt silent loadview
     au BufLeave *.md,*.tex,*.txt mkview
     au FileType text setlocal
                 \ spell
@@ -139,7 +146,7 @@ nnoremap <leader>l `.zz
 " faster window jumping
 nnoremap <leader>n <c-w><c-w>
 " visit previous buffer
-nnoremap <leader>r :bp<cr>
+nnoremap <leader>r :e #<cr>zt
 " split window horizontally
 nnoremap <leader>wh :split<cr>
 " split window vertically
@@ -149,7 +156,7 @@ nnoremap <leader>ww :only<cr>
 
 " Macros
 " replay keyboard macro over selected region
-vnoremap <leader>e :norm@@<cr>
+vnoremap <leader>e :norm@q<cr>
 
 " Spelling
 " toggle spellchecker
