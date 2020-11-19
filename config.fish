@@ -6,7 +6,6 @@
 #
 
 # Utility
-abbr -a ec  'emacsclient -n'
 abbr -a ff  'find . -type f -iname'
 abbr -a ffd 'find . -type d -iname'
 abbr -a ffi 'find . -iname'
@@ -24,7 +23,7 @@ alias gsroot 'cd (git rev-parse --show-superproject-working-tree)'
 alias ls     ls # unset default flags
 
 #
-# Editor
+# Environment Variables
 #
 
 set -Ux EDITOR "vim"
@@ -35,7 +34,7 @@ set -Ux EDITOR "vim"
 
 function fish_greeting
   set_color red
-  echo -n "$nge_boot_kanji: "
+  echo -n "$nge_boot_kanji "
   set_color white
   echo "Descending into Terminal Dogma.."
   load_config_local
