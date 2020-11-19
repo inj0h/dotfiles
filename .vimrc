@@ -5,9 +5,8 @@
 " TODO:
 " - Configure indentation, text-width, etc for...
 "     - C/C++
-"     - Haskell
 "     - JSON
-"     - Java
+"     - Markdown
 "     - Swift
 "     - TeX
 "     - TypeScript
@@ -84,16 +83,27 @@ set wildmode=list:longest,list
 " Hooks, Etc
 "------------
 
+" Etc
+au BufWritePre * %s/\s\+$//e           " remove all trailing whitespace upon write
+au BufWritePre * %s/\n\{3,}/\r\r/e     " condense all blank lines into one
+au BufWritePre * %s:\($\n\s*\)\+\%$::e " no blank lines at EOF, please
+
 " Git
-au FileType gitcommit setlocal textwidth=72 spell
+au FileType gitcommit setlocal
+                \ spell
+                \ textwidth=72
 
 " Haskell
 aug haskell
     au!
-    au FileType haskell setlocal expandtab shiftwidth=4 softtabstop=4
+    au FileType haskell setlocal
+                \ formatoptions+=t
+                \ shiftwidth=2
+                \ softtabstop=2
 aug END
 
 " Java
+" turn on these defaults
 let java_highlight_functions = 1
 let java_highlight_all = 1
 hi li javaScopeDecl Statement
@@ -115,10 +125,6 @@ aug END
 " VimL
 au FileType vim setlocal formatoptions+=t
 
-" Writing
-" Remove all trailing whitespace upon write
-au BufWritePre * %s/\s\+$//e
-
 "-------------
 " Keybindings
 "-------------
@@ -136,29 +142,12 @@ nnoremap <silent> <up>    <c-w>k
 nnoremap <silent> <down>  <c-w>j
 nnoremap <silent> <left>  <c-w>h
 nnoremap <silent> <right> <c-w>l
-
-" Leader
+" Leader and Leader Bindings
 let mapleader = "\<space>"
-
-" Buffers and Windows
-" jump to last edit and center
-nnoremap <leader>l `.zz
-" faster window jumping
-nnoremap <leader>n <c-w><c-w>
+" replay keyboard macro at q over selected region
+vnoremap <leader>. :norm@q<cr>
 " visit previous buffer
-nnoremap <leader>r :e #<cr>zt
-" split window horizontally
-nnoremap <leader>wh :split<cr>
-" split window vertically
-nnoremap <leader>wv :vsplit<cr>
-" close other windows except for the current one
-nnoremap <leader>ww :only<cr>
-
-" Macros
-" replay keyboard macro over selected region
-vnoremap <leader>e :norm@q<cr>
-
-" Spelling
+nnoremap <leader>r :b#<cr>
 " toggle spellchecker
 nnoremap <leader>s :setlocal spell!<cr>
 
@@ -166,13 +155,13 @@ nnoremap <leader>s :setlocal spell!<cr>
 " Colors, UI, Etc
 "-----------------
 
-set statusline=              " reset
-set statusline+=\ %f         " relative file path
-set statusline+=\%m          " if modified
-set statusline+=\ %y         " filetype
-set statusline+=%=           " spacer
-set statusline+=\%l:%c       " line:column numbers
-set statusline+=\ \ \ \ %P\  " buffer percentage
+set statusline=                        " reset
+set statusline+=\ %f                   " relative file path
+set statusline+=\%m                    " if modified
+set statusline+=\ %y                   " filetype
+set statusline+=%=                     " spacer
+set statusline+=\%l:%c                 " line:column numbers
+set statusline+=\ \ \ \ \ \ \ \ \ %P\  " buffer percentage
 
 colorscheme bluewery
 " technically a Plugin
@@ -188,12 +177,13 @@ colorscheme bluewery
 set nobackup
 set nowritebackup
 set updatetime=300
-" use <tab> for trigger completion and navigate to the next complete item
+" use <tab> for trigger completion and navigate to the next complete item with
+" this bit of VimL
 function! s:check_back_space() abort
     let col = col('.') - 1
     return !col || getline('.')[col - 1]  =~ '\s'
 endfunction
-
+" then bind it
 inoremap <silent><expr> <Tab>
             \ pumvisible() ? "\<C-n>" :
             \ <SID>check_back_space() ? "\<Tab>" :
@@ -205,7 +195,7 @@ if executable('rg')
   let g:ctrlp_user_command = 'rg %s --files --hidden --color=never --glob ""'
 endif
 nnoremap <leader>o :CtrlP<cr>
-nnoremap <leader>b :CtrlPBuffer<cr>
+nnoremap <leader>e :CtrlPBuffer<cr>
 
 " Vim Easy Align
 xmap ga <Plug>(EasyAlign)
