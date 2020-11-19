@@ -61,16 +61,16 @@ set nofoldenable
 set noswapfile
 set ruler
 set shell=fish
-set shiftwidth=4
+set shiftwidth=2
 set shortmess+=I
 set showcmd
 set smartcase
 set smarttab
-set softtabstop=4
+set softtabstop=2
 set spelllang=en_us
 set splitbelow
 set t_Co=256
-set tabstop=4
+set tabstop=2
 set termguicolors
 set textwidth=80
 set timeoutlen=200
@@ -90,16 +90,13 @@ au BufWritePre * %s:\($\n\s*\)\+\%$::e " no blank lines at EOF, please
 
 " Git
 au FileType gitcommit setlocal
-                \ spell
-                \ textwidth=72
+      \ spell
+      \ textwidth=72
 
 " Haskell
 aug haskell
-    au!
-    au FileType haskell setlocal
-                \ formatoptions+=t
-                \ shiftwidth=2
-                \ softtabstop=2
+  au!
+  au FileType haskell setlocal formatoptions+=t
 aug END
 
 " Java
@@ -112,14 +109,14 @@ hi li javaDocTags PreProc
 
 " Plain Text
 aug plainText
-    au!
-    au BufEnter *.md,*.tex,*.txt silent loadview
-    au BufLeave *.md,*.tex,*.txt mkview
-    au FileType text setlocal
-                \ spell
-                \ foldmethod=marker
-                \ foldmarker=[,]
-                \ foldenable
+  au!
+  au BufEnter *.md,*.tex,*.txt silent loadview
+  au BufLeave *.md,*.tex,*.txt mkview
+  au FileType text setlocal
+        \ spell
+        \ foldmethod=marker
+        \ foldmarker=[,]
+        \ foldenable
 aug END
 
 " VimL
@@ -142,14 +139,14 @@ nnoremap <silent> <up>    <c-w>k
 nnoremap <silent> <down>  <c-w>j
 nnoremap <silent> <left>  <c-w>h
 nnoremap <silent> <right> <c-w>l
-" Leader and Leader Bindings
+" Leader Bindings
 let mapleader = "\<space>"
-" replay keyboard macro at q over selected region
-vnoremap <leader>. :norm@q<cr>
 " visit previous buffer
 nnoremap <leader>r :b#<cr>
 " toggle spellchecker
 nnoremap <leader>s :setlocal spell!<cr>
+" replay keyboard macro at q over selected region
+vnoremap <leader>. :norm@q<cr>
 
 "-----------------
 " Colors, UI, Etc
@@ -180,14 +177,14 @@ set updatetime=300
 " use <tab> for trigger completion and navigate to the next complete item with
 " this bit of VimL
 function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~ '\s'
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
 endfunction
 " then bind it
 inoremap <silent><expr> <Tab>
-            \ pumvisible() ? "\<C-n>" :
-            \ <SID>check_back_space() ? "\<Tab>" :
-            \ coc#refresh()
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<Tab>" :
+      \ coc#refresh()
 inoremap <expr><S-Tab> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 " CtrlP
