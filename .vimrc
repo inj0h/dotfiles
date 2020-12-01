@@ -152,7 +152,7 @@ vnoremap <leader>. :norm@q<cr>
 "-----------------
 
 set statusline=                        " reset
-set statusline+=\ %f                   " relative file path
+set statusline+=\ %.40f                " relative filepath (40 char max width)
 set statusline+=\%m                    " if modified
 set statusline+=\ %y                   " filetype
 set statusline+=%=                     " spacer
