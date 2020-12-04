@@ -17,6 +17,12 @@ abbr -a u   'cd ..'
 # Aliases
 #
 
+# Convenience
+if [ (uname -s) = "Darwin" ]
+  alias go     'pwd | pbcopy'
+  alias here   'cd (pbpaste)'
+end
+
 # Git
 alias groot  'cd (git rev-parse --show-toplevel)'
 alias gsroot 'cd (git rev-parse --show-superproject-working-tree)'
