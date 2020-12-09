@@ -20,10 +20,13 @@ call plug#begin('~/.config/vim/plugs')
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'georgewitteman/vim-fish'
 Plug 'junegunn/vim-easy-align'
+Plug 'lervag/vimtex'
+Plug 'mikeboiko/vim-markdown-folding'
 Plug 'neoclide/coc.nvim'
 Plug 'neovimhaskell/haskell-vim'
 Plug 'relastle/bluewery.vim'
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-markdown'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 call plug#end()
@@ -87,11 +90,6 @@ au BufWritePre * %s/\s\+$//e           " remove all trailing whitespace upon wri
 au BufWritePre * %s/\n\{3,}/\r\r/e     " condense all blank lines into one
 au BufWritePre * %s:\($\n\s*\)\+\%$::e " no blank lines at EOF, please
 
-" Git
-au FileType gitcommit setlocal
-      \ spell
-      \ textwidth=72
-
 " Haskell
 aug haskell
   au!
@@ -105,17 +103,23 @@ let java_highlight_all = 1
 hi li javaScopeDecl Statement
 hi li javaType Type
 hi li javaDocTags PreProc
+" hope you bought a big enough monitor
+au FileType java setlocal textwidth=120
 
 " Plain Text
 aug plainText
   au!
-  au BufEnter *.md,*.tex,*.txt silent loadview
-  au BufLeave *.md,*.tex,*.txt mkview
-  au FileType text setlocal
+  au BufEnter *.md silent loadview
+  au BufLeave *.md mkview
+  au FileType gitcommit setlocal
         \ spell
-        \ foldmethod=marker
-        \ foldmarker=[,]
+        \ textwidth=72
+  au FileType markdown setlocal
+        \ spell
         \ foldenable
+        \ foldexpr=NestedMarkdownFolds()
+        \ foldmethod=expr
+  au FileType tex,text setlocal spell
 aug END
 
 " VimL
@@ -196,3 +200,14 @@ nnoremap <leader>e :CtrlPBuffer<cr>
 " Vim Easy Align
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
+
+" Vim Markdown
+" you have to include html and place it after haskell or the plugin breaks Vim's
+" spellchecker :/
+let g:markdown_fenced_languages = [
+      \ 'haskell',
+      \ 'html',
+      \ 'c',
+      \ 'cpp',
+      \ 'sh',
+      \ 'typescript']
