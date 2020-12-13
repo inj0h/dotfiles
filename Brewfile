@@ -1,4 +1,5 @@
 tap 'homebrew/cask-fonts'
+brew 'cabal'
 brew 'diffr'
 brew 'ffmpeg'
 brew 'fish'
