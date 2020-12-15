@@ -11,7 +11,7 @@ Clone this repository, and use the provided `Makefile`, which runs the
 `connect-the-dots` shell script to link the files. Note, their destination
 depends on the paths set in the `dotfiles.txt` configuration file.
 
-``` shell
+``` sh
 $ make
 ```
 
@@ -24,6 +24,6 @@ paths. __You can configure the plain text file__ to link your own dotfiles -
 useful if you keep a lot of them around. For more details, run
 `connect-the-dots` with the `--help` flag.
 
-``` shell
+``` sh
 $ ./bin/connect-the-dots --help
 ```
