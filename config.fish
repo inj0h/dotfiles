@@ -6,6 +6,7 @@
 #
 
 # Utility
+abbr -a em  'emacsclient -n'
 abbr -a ff  'find . -type f -iname'
 abbr -a ffd 'find . -type d -iname'
 abbr -a ffi 'find . -iname'
