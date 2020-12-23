@@ -1,40 +1,12 @@
 " Filename: .vimrc
-" Note:     No BS editor config. Requires Vim 8 or l8r compiled with
-"           termguicolors. Otherwise, just change the colorscheme.
-
-" TODO:
-" - Configure indentation, text-width, etc for...
-"     - C/C++
-"     - JSON
-"     - Markdown
-"     - Swift
-"     - TeX
-"     - TypeScript
-"     - YAML
-
-"---------
-" Plugins
-"---------
-
-call plug#begin('~/.config/vim/plugs')
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'georgewitteman/vim-fish'
-Plug 'godlygeek/tabular'
-Plug 'lervag/vimtex'
-Plug 'mikeboiko/vim-markdown-folding'
-Plug 'neoclide/coc.nvim'
-Plug 'neovimhaskell/haskell-vim'
-Plug 'plasticboy/vim-markdown'
-Plug 'relastle/bluewery.vim'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-surround'
-call plug#end()
+" Note:     Editor of the Beast config. Plugin free. Should work with most
+"           modern Vims.
 
 "----------
 " Defaults
 "----------
 
-syntax on
+syntax off
 filetype on
 filetype plugin on
 filetype plugin indent on
@@ -88,35 +60,13 @@ au BufWritePre * %s/\s\+$//e           " remove all trailing whitespace upon wri
 au BufWritePre * %s/\n\{3,}/\r\r/e     " condense all blank lines into one
 au BufWritePre * %s:\($\n\s*\)\+\%$::e " no blank lines at EOF, please
 
-" Haskell
-aug haskell
-  au!
-  au FileType haskell setlocal formatoptions+=t
-aug END
-
-" Java
-" turn on these defaults
-let java_highlight_functions = 1
-let java_highlight_all = 1
-hi li javaScopeDecl Statement
-hi li javaType Type
-hi li javaDocTags PreProc
-" hope you bought a big enough monitor
-au FileType java setlocal textwidth=120
-
 " Plain Text
 aug plainText
   au!
   au FileType gitcommit setlocal
         \ spell
         \ textwidth=72
-  au FileType markdown setlocal
-        \ conceallevel=2
-        \ spell
-        \ foldenable
-        \ foldexpr=NestedMarkdownFolds()
-        \ foldmethod=expr
-  au FileType tex,text setlocal spell
+  au FileType markdown,tex,text setlocal spell
 aug END
 
 " VimL
@@ -160,50 +110,4 @@ set statusline+=%=                     " spacer
 set statusline+=\%l:%c                 " line:column numbers
 set statusline+=\ \ \ \ \ \ \ \ \ %P\  " buffer percentage
 
-colorscheme bluewery
-" technically a Plugin
-" add the following line in the colorscheme file to color FoldColumn..
-" call bluewery#hi('FoldColumn',       '', '',          s:b_black)
-
-"-----------------
-" Plugin Settings
-"-----------------
-
-" CoC
-" recommendations
-set nobackup
-set nowritebackup
-set updatetime=300
-" use <tab> for trigger completion and navigate to the next complete item with
-" this bit of VimL
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~ '\s'
-endfunction
-" then bind it
-inoremap <silent><expr> <Tab>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<Tab>" :
-      \ coc#refresh()
-inoremap <expr><S-Tab> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-" CtrlP
-if executable('rg')
-  let g:ctrlp_user_command = 'rg %s --files --hidden --color=never --glob ""'
-endif
-nnoremap <leader>o :CtrlP<cr>
-nnoremap <leader>e :CtrlPBuffer<cr>
-
-" Vim Markdown
-au FileType markdown nnoremap <leader>t :TableFormat<cr>
-let g:vim_markdown_conceal_code_blocks = 0
-let g:vim_markdown_folding_disabled = 1
-let g:vim_markdown_no_default_key_mappings = 1
-let g:vim_markdown_override_foldtext = 0
-let g:vim_markdown_fenced_languages = [
-      \ 'haskell',
-      \ 'html',
-      \ 'c',
-      \ 'cpp',
-      \ 'sh',
-      \ 'typescript']
+highlight EndOfBuffer ctermfg=none " don't color the tiles!

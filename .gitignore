@@ -20,3 +20,6 @@
 !readme.md
 
 !/bin/connect-the-dots
+
+!/emacs/init.el
+!/emacs/dotemacs.org
