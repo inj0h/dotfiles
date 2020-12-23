@@ -1,10 +1,10 @@
 # Dotfiles
 ## About
-My Unix configuration files. Sort of. Share, steal, _etc._
+My Unix configuration files. Emacs. _Etc._ Share, steal, blah, blah, blah.
 
 ## System Compatibility
 To get the most out of these files, you need to do your computing on a Unix
-system. Not guaranteed to work on Windows. WSL might help.
+system. Not tested on Windows (YMMV).
 
 ## (Un)installation
 Clone this repository, and use the provided `Makefile`, which runs the
