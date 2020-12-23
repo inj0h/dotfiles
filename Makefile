@@ -2,9 +2,9 @@
 .PHONY        := setup clean
 
 msg_info_help := "Commands: \
-				 \n  clean -> unlink config files \
-				 \n  help  -> output this message \
-				 \n  setup -> link config files"
+									\n  clean -> unlink config files \
+									\n  help  -> output this message \
+									\n  setup -> link config files"
 
 clean:
 	./bin/connect-the-dots --unlink dotfiles.txt
