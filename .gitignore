@@ -10,7 +10,6 @@
 # And mind the whitelist!
 !.gitignore
 !.rgignore
-!.vimrc
 !Brewfile
 !Makefile
 !alacritty.yml

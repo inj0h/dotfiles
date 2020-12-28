@@ -676,8 +676,7 @@
           (kbd "<SPC>") 'uvar:evil-leader-keymap))
 
       (setq uvar:evil-leader-bindings
-            '(("ly" . browse-kill-ring) ; binding here b/c it's called after :/
-              ("lc" . count-words-region)
+            '(("lc" . count-words-region)
               ("le" . ufun:evil-apply-macro-to-region-lines)
               ("ls" . sort-lines)
               ("r"  . ufun:goto-previous-buffer)
@@ -685,16 +684,13 @@
               ("o"  . switch-to-buffer)
               ("E"  . find-file-other-window)
               ("e"  . find-file)
-              ("dG" . end-of-buffer) ; TODO: make these dired specific.
-              ("dg" . beginning-of-buffer)
-              ("dw" . wdired-change-to-wdired-mode)
+              ("dG" . end-of-buffer)                         ; TODO: make this dired specific
+              ("dg" . beginning-of-buffer)                   ; "
+              ("dw" . wdired-change-to-wdired-mode)          ; "
+              ("ty" . browse-kill-ring)                      ; binding here b/c it's called after :/
               ("tw" . whitespace-mode)
-              ("n"  . other-window)
               ("sp" . ufun:kill-filepath)
-              ("b"  . ibuffer)
-              ("wh" . split-window-below)
-              ("wv" . split-window-right)
-              ("ww" . delete-other-windows)))
+              ("b"  . ibuffer)))
 
       ;; TODO: Make this into a general function or macro.
       (dolist (keybindings uvar:evil-leader-bindings)
@@ -846,10 +842,8 @@
                 ("<SPC> d" . "directory actions")
                 ("<SPC> t" . "text actions")
                 ("<SPC> s" . "special actions")
-                ("<SPC> n" . "visit other window")
                 ("<SPC> b" . "buffer menu")
-                ("<SPC> m" . "toplevel")
-                ("<SPC> w" . "window actions")))
+                ("<SPC> m" . "toplevel")))
 
         ;; TODO: Make this into a general function or macro.
         (dolist (labels uvar:which-key-evil-leader-labels)

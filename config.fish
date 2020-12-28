@@ -33,7 +33,7 @@ alias ls     ls # unset default flags
 # Environment Variables
 #
 
-set -Ux EDITOR "vim"
+set -Ux EDITOR "emacsclient -nw"
 
 #
 # Greeting
