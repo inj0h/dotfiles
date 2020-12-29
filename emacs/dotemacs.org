@@ -1,14 +1,13 @@
 # Filename: dotemacs.org
-# Note:     Emacs configuration file, obviously.
+# Note:     Emacs configuration, obviously.
 
 * About
   My Emacs configuration written in literate programming style that would make
-  Donald Knuth proud. Hopefully it's easier to read than a plain Elisp file.
+  Donald Knuth proud. Hopefully easier to read than a plain Elisp file.
 
-  I keep a relatively lightweight config, separating default and third party
-  settings for easier debugging. I also don't like the idea of using too many
-  plugins, but I don't think I would have nearly as much fun Emacsing without
-  Evil and a handful of others.
+  I keep a (relatively) lightweight config, separating default and third party
+  settings for easier debugging. I don't like the idea of using too many
+  plugins, so I try to keep them spare.
 * Lexical Binding
   By default, Elisp does not have lexical binding, /i.e./ variable scope based on
   the position of text which virtually every other mainstream language has. So
@@ -452,7 +451,7 @@
 
     #+BEGIN_SRC emacs-lisp
       (setq initial-scratch-message
-            ";; God's in his heaven. All's right with the world.  ")
+            ";; God's in his heaven. All's right with the world. ")
     #+END_SRC
 
 *** User Input
@@ -620,6 +619,7 @@
         :config
         (setq company-idle-delay 0)
         (setq-default company-dabbrev-downcase nil)
+        (setq-default company-dabbrev-ignore-case 1)
         (with-eval-after-load 'company
           (define-key company-active-map (kbd "M-n") nil)
           (define-key company-active-map (kbd "M-p") nil)
@@ -628,7 +628,7 @@
     #+END_SRC
 
 *** Evil
-    Summon the /Editor of the Beast - vi vi vi./
+    Summon the Editor of the Beast - /vi vi vi./
 
     #+BEGIN_SRC emacs-lisp
       (use-package evil
@@ -766,9 +766,9 @@
     #+END_SRC
 
 *** Projectile
-    Project management, meh. Note, you need to tell Emacs to use a POSIX shell
-    for Projectile to work correctly. It won't play nice with something like
-    Fish.
+    Project management. Note, you need to tell Emacs to use a POSIX shell for
+    this package to work correctly. It won't play nice with something like Fish
+    OOTB.
 
     #+BEGIN_SRC emacs-lisp
       (use-package projectile
@@ -807,8 +807,7 @@
     #+END_SRC
 
 *** Smex
-    Extend Ido functionality for M-x. This package should also ship with Emacs
-    in my opinion.
+    Extend Ido functionality for M-x.
 
     #+BEGIN_SRC emacs-lisp
       (use-package smex
@@ -904,7 +903,7 @@
     #+END_SRC
 
 *** Markdown
-    People seem to like it. Seems okay.
+    People like it. Seems okay.
 
     #+BEGIN_SRC emacs-lisp
       (use-package markdown-mode
@@ -924,7 +923,7 @@
     #+END_SRC
 
 *** TypeScript
-    The Seattle area grunge type. You know.
+    Hater, hater static type chaser.
 
     #+BEGIN_SRC emacs-lisp
       (use-package typescript-mode
@@ -937,7 +936,7 @@
     #+END_SRC
 
 *** YAML
-    Still a thing.
+    Whitespace JSON?
 
     #+BEGIN_SRC emacs-lisp
       (use-package yaml-mode

@@ -1,6 +1,7 @@
 # Dotfiles
 ## About
-My Unix configuration files. Emacs. _Etc._ Share, steal, blah, blah, blah.
+My programming configuration files. Unix. Emacs. _Etc._ Share. Steal. Blah,
+blah, blah.
 
 ## System Compatibility
 To get the most out of these files, you need to do your computing on a Unix
