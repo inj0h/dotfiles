@@ -636,112 +636,171 @@
         :demand
         :config
         (evil-mode 1)
-        (evil-select-search-module 'evil-search-module 'evil-search) ; TODO: set to 'isearch when in Org
-        (use-package undo-fu
+        (evil-select-search-module 'evil-search-module 'evil-search)
+        (use-package undo-fu ; No BS. Linear undo.
           :ensure t
           :config
           (define-key evil-normal-state-map "u"    'undo-fu-only-undo)
           (define-key evil-normal-state-map "\C-r" 'undo-fu-only-redo)))
     #+END_SRC
 
-    Keybindings setup. Don't change default vi (too much).
+**** Keybindings
+     Tuned for EN-Dvorak. Don't change default vi/Vim (too much).
+***** Basic
 
-    #+BEGIN_SRC emacs-lisp
-      (setq uvar:evil-motion-state-rebindings
-            '((";"  . evil-ex)
-              (":"  . evil-repeat-find-char)
-              ("gc" . comment-dwim)
-              ("zg" . ufun:add-word-to-dictionary)))
+      #+BEGIN_SRC emacs-lisp
+        (setq uvar:evil-motion-state-rebindings
+              '((";"  . evil-ex)
+                (":"  . evil-repeat-find-char)
+                ("gc" . comment-dwim)
+                ("zg" . ufun:add-word-to-dictionary)))
 
-      ;; TODO: Make this into a general function or macro.
-      (dolist (keybindings uvar:evil-motion-state-rebindings)
+        ;; TODO: Make this into a general function or macro.
+        (dolist (keybindings uvar:evil-motion-state-rebindings)
+          (define-key evil-motion-state-map
+            (kbd (car keybindings)) (cdr keybindings)))
+
+        ;; Need Ctrl-z when using Emacsclient.
+        (define-key evil-motion-state-map (kbd "M-m") 'evil-emacs-state)
+        (define-key evil-motion-state-map (kbd "C-z") 'suspend-frame)
+        (define-key evil-emacs-state-map  (kbd "M-m") 'evil-exit-emacs-state)
+        (define-key evil-emacs-state-map  (kbd "C-z") 'suspend-frame)
+      #+END_SRC
+
+***** Leader
+      Leader keybindings setup with vanilla Emacs. Plugins like Evil Leader,
+      General, /etc/ not needed. For mode-specific leader bindings, use
+      *evil-define-key* to make a binding for both an Evil State and a Major Mode.
+      Also, make sure to update the Which-Key labels accordingly.
+
+      #+BEGIN_SRC emacs-lisp
+        (define-prefix-command 'uvar:evil-leader-keymap)
+
+        ;; Using evil-define-key here will not bind additional mappings from other
+        ;; plugins via use-package :bind for whatever reason. Need to use define-key.
         (define-key evil-motion-state-map
-          (kbd (car keybindings)) (cdr keybindings)))
+          (kbd "<SPC>") 'uvar:evil-leader-keymap)
 
-      ;; Need Ctr-Z for Emacsclient.
-      (define-key evil-motion-state-map (kbd "M-m") 'evil-emacs-state)
-      (define-key evil-motion-state-map (kbd "C-z") 'suspend-frame)
-      (define-key evil-emacs-state-map  (kbd "M-m") 'evil-exit-emacs-state)
-      (define-key evil-emacs-state-map  (kbd "C-z") 'suspend-frame)
-    #+END_SRC
+        (setq uvar:evil-leader-bindings
+              '(("la" . align-regexp)
+                ("lc" . count-words-region)
+                ("le" . ufun:evil-apply-macro-to-region-lines)
+                ("lo" . occur)
+                ("ls" . sort-lines)
+                ("lw" . whitespace-mode)
+                ("ly" . browse-kill-ring) ; binding here b/c Evil not declared until after BKR
+                ("r"  . ufun:goto-previous-buffer)
+                ("O"  . switch-to-buffer-other-window)
+                ("o"  . switch-to-buffer)
+                ("E"  . find-file-other-window)
+                ("e"  . find-file)
+                ("sp" . ufun:kill-filepath)
+                ("b"  . ibuffer)))
 
-    Leader keybindings setup with vanilla Emacs. No extra plugins like
-    Evil Leader, General, /etc/ necessary.
+        (dolist (keybindings uvar:evil-leader-bindings)
+          (define-key uvar:evil-leader-keymap
+            (kbd (car keybindings)) (cdr keybindings)))
+      #+END_SRC
 
-    #+BEGIN_SRC emacs-lisp
-      (define-prefix-command 'uvar:evil-leader-keymap)
+****** Dired
 
-      (with-eval-after-load 'evil-maps
-        (define-key evil-motion-state-map
-          (kbd "<SPC>") 'uvar:evil-leader-keymap))
+       #+BEGIN_SRC emacs-lisp
+         (define-prefix-command 'uvar:evil-leader-dired-keymap)
 
-      (setq uvar:evil-leader-bindings
-            '(("lc" . count-words-region)
-              ("le" . ufun:evil-apply-macro-to-region-lines)
-              ("ls" . sort-lines)
-              ("r"  . ufun:goto-previous-buffer)
-              ("O"  . switch-to-buffer-other-window)
-              ("o"  . switch-to-buffer)
-              ("E"  . find-file-other-window)
-              ("e"  . find-file)
-              ("dG" . end-of-buffer)                         ; TODO: make this dired specific
-              ("dg" . beginning-of-buffer)                   ; "
-              ("dw" . wdired-change-to-wdired-mode)          ; "
-              ("ty" . browse-kill-ring)                      ; binding here b/c it's called after :/
-              ("tw" . whitespace-mode)
-              ("sp" . ufun:kill-filepath)
-              ("b"  . ibuffer)))
+         (add-hook 'dired-mode-hook
+                   '(lambda ()
+                      (local-set-key (kbd "SPC") 'uvar:evil-leader-dired-keymap)))
 
-      ;; TODO: Make this into a general function or macro.
-      (dolist (keybindings uvar:evil-leader-bindings)
-        (define-key uvar:evil-leader-keymap
-          (kbd (car keybindings)) (cdr keybindings)))
+         (setq uvar:evil-leader-bindings-dired
+               (append uvar:evil-leader-bindings
+                       '(("mG" . end-of-buffer)
+                         ("mg" . beginning-of-buffer)
+                         ("mw" . wdired-change-to-wdired-mode))))
 
-      ;; Apply leader binding when in Dired.
-      (add-hook 'dired-mode-hook
-                '(lambda () (local-set-key (kbd "SPC") 'uvar:evil-leader-keymap)))
-    #+END_SRC
+         (dolist (keybindings uvar:evil-leader-bindings-dired)
+           (define-key uvar:evil-leader-dired-keymap
+             (kbd (car keybindings)) (cdr keybindings)))
 
-    Nobody hits escape.
+       #+END_SRC
 
-    #+BEGIN_SRC emacs-lisp
-      (use-package evil-escape
-        :ensure t
-        :diminish
-        :config
-        (evil-escape-mode t)
-        (setq-default evil-escape-key-sequence "hh"
-                      evil-escape-excluded-states '(normal visual motion)
-                      evil-escape-delay 0.2))
-    #+END_SRC
+****** Elisp
 
-    Increment/decrement numbers like in Vim.
+       #+BEGIN_SRC emacs-lisp
+         (define-prefix-command 'uvar:evil-leader-elisp-keymap)
 
-    #+BEGIN_SRC emacs-lisp
-      (use-package evil-numbers
-        :ensure t
-        :config
-        (define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
-        (define-key evil-normal-state-map (kbd "C-x") 'evil-numbers/dec-at-pt))
-    #+END_SRC
+         (evil-define-key 'motion emacs-lisp-mode-map
+           (kbd "<SPC>") 'uvar:evil-leader-elisp-keymap)
 
-    Emulate Tpope's Surround Vim plugin.
+         (setq uvar:evil-leader-bindings-elisp
+               (append uvar:evil-leader-bindings
+                       '(("me" . eval-last-sexp))))
 
-    #+BEGIN_SRC emacs-lisp
-      (use-package evil-surround
-        :ensure t
-        :config
-        (global-evil-surround-mode 1))
-    #+END_SRC
+         (dolist (keybindings uvar:evil-leader-bindings-elisp)
+           (define-key uvar:evil-leader-elisp-keymap
+             (kbd (car keybindings)) (cdr keybindings)))
+       #+END_SRC
 
-    User Evil function(s).
+****** Org
 
-    #+BEGIN_SRC emacs-lisp
-      (defun ufun:evil-apply-macro-to-region-lines ()
-        "Easy binding for running an Evil macro over some selected lines."
-        (interactive)
-        (evil-ex "'<,'>norm@"))
-    #+END_SRC
+       #+BEGIN_SRC emacs-lisp
+         (define-prefix-command 'uvar:evil-leader-org-keymap)
+
+         (evil-define-key 'motion org-mode-map
+           (kbd "<SPC>") 'uvar:evil-leader-org-keymap)
+
+         (setq uvar:evil-leader-bindings-org
+               (append uvar:evil-leader-bindings
+                       '(("mi" . org-insert-heading))))
+
+         (dolist (keybindings uvar:evil-leader-bindings-org)
+           (define-key uvar:evil-leader-org-keymap
+             (kbd (car keybindings)) (cdr keybindings)))
+       #+END_SRC
+
+**** Evil-based plugins
+***** Evil Escape
+      Nobody hits escape.
+
+      #+BEGIN_SRC emacs-lisp
+        (use-package evil-escape
+          :ensure t
+          :diminish
+          :config
+          (evil-escape-mode t)
+          (setq-default evil-escape-key-sequence "hh"
+                        evil-escape-excluded-states '(normal visual motion)
+                        evil-escape-delay 0.2))
+      #+END_SRC
+
+***** Evil Numbers
+      Increment/decrement numbers like in vanilla Vim.
+
+      #+BEGIN_SRC emacs-lisp
+        (use-package evil-numbers
+          :ensure t
+          :config
+          (define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
+          (define-key evil-normal-state-map (kbd "C-x") 'evil-numbers/dec-at-pt))
+      #+END_SRC
+
+***** Evil Surround
+      Emulate TPope's Surround Vim plugin.
+
+      #+BEGIN_SRC emacs-lisp
+        (use-package evil-surround
+          :ensure t
+          :config
+          (global-evil-surround-mode 1))
+      #+END_SRC
+
+**** User functions, /Etc/
+
+     #+BEGIN_SRC emacs-lisp
+       (defun ufun:evil-apply-macro-to-region-lines ()
+         "Easy binding for running an Evil macro over some selected lines."
+         (interactive)
+         (evil-ex "'<,'>norm@"))
+     #+END_SRC
 
 *** Exec Path From Shell (Mac Only)
     Emacs needs some help loading PATH variables when on Mac.
@@ -788,6 +847,7 @@
         :config
         (setq shell-file-name "/bin/sh")
         (setq projectile-completion-system  'ido
+              projectile-indexing-method    'hybrid
               projectile-mode-line-function '(lambda () (format " P[%s]" (ufun:projectile-display-project-name)))
               projectile-sort-order         'recentf)
         (projectile-mode +1))
@@ -816,7 +876,8 @@
         :bind (("M-x" . smex)
                ("M-X" . execute-extended-command)
                :map uvar:evil-leader-keymap
-               ("m" . smex)))
+               ("t" . smex)
+               ("T" . execute-extended-command)))
     #+END_SRC
 
 *** Which Key
@@ -830,23 +891,28 @@
         :config
         (setq which-key-idle-delay 0.1
               which-key-sort-order 'which-key-key-order-alpha)
-        (setq uvar:which-key-evil-leader-labels
-              '(("<SPC> p" . "project actions")
-                ("<SPC> l" . "line actions")
-                ("<SPC> r" . "visit last buffer")
-                ("<SPC> O" . "open buffer in other window")
-                ("<SPC> o" . "open buffer")
-                ("<SPC> E" . "edit file in other window")
-                ("<SPC> e" . "edit file")
-                ("<SPC> d" . "directory actions")
-                ("<SPC> t" . "text actions")
-                ("<SPC> s" . "special actions")
-                ("<SPC> b" . "buffer menu")
-                ("<SPC> m" . "toplevel")))
 
-        ;; TODO: Make this into a general function or macro.
-        (dolist (labels uvar:which-key-evil-leader-labels)
-          (which-key-add-key-based-replacements (car labels) (cdr labels)))
+        (which-key-add-keymap-based-replacements evil-motion-state-map
+          "<SPC> p" "project actions"
+          "<SPC> l" "line actions"
+          "<SPC> r" "visit last buffer"
+          "<SPC> O" "open buffer in other window"
+          "<SPC> o" "open buffer"
+          "<SPC> E" "edit file in other window"
+          "<SPC> e" "edit file"
+          "<SPC> T" "toplevel (fine)"
+          "<SPC> t" "toplevel"
+          "<SPC> s" "special actions"
+          "<SPC> b" "buffer menu")
+
+        (which-key-add-major-mode-key-based-replacements 'dired-mode
+          "<SPC> m" "dired actions")
+
+        (which-key-add-major-mode-key-based-replacements 'emacs-lisp-mode
+          "<SPC> m" "elisp actions")
+
+        (which-key-add-major-mode-key-based-replacements 'org-mode
+          "<SPC> m" "org actions")
 
         (which-key-mode))
     #+END_SRC
