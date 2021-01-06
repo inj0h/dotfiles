@@ -11,14 +11,9 @@
 !.gitignore
 !.rgignore
 !Brewfile
-!Makefile
 !alacritty.yml
 !config.fish
+!dotemacs.org
 !dotfiles.txt
-!myterm2.json
+!init.el
 !readme.md
-
-!/bin/connect-the-dots
-
-!/emacs/init.el
-!/emacs/dotemacs.org
