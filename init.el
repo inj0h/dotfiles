@@ -18,4 +18,5 @@
                                           gc-cons-percentage 0.1)))
 
 ;; Load the main config.
-(org-babel-load-file "~/.config/emacs/dotemacs.org")
+(setq find-file-visit-truename t)
+(org-babel-load-file "~/.config/emacs/dotemacs.org") ;; TODO: Get bytecomp working

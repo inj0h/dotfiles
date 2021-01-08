@@ -723,6 +723,12 @@
 
        #+END_SRC
 
+****** Ibuffer
+
+       #+BEGIN_SRC emacs-lisp
+         (add-hook 'ibuffer-mode-hook '(lambda () (local-set-key (kbd "SPC") 'uvar:evil-leader-keymap)))
+       #+END_SRC
+
 ****** Elisp
 
        #+BEGIN_SRC emacs-lisp
