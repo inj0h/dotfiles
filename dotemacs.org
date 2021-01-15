@@ -994,6 +994,17 @@
                (setq markdown-command "/usr/local/bin/pandoc"))))
     #+END_SRC
 
+*** Swift
+    PL from Chris L and Apple. Named after a kind of bird.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package swift-mode
+        :ensure t
+        :defer t
+        :config
+        (setq swift-mode:basic-offset 2))
+    #+END_SRC
+
 *** TypeScript
     Hater, hater static type chaser.
 
