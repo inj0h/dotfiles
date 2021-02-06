@@ -8,17 +8,27 @@
   I keep a (relatively) lightweight config, separating default and third party
   settings for easier debugging. I don't like the idea of using too many
   plugins, so I try to keep them spare.
-* Lexical Binding
-  By default, Elisp does not have lexical binding, /i.e./ variable scope based on
-  the position of text which virtually every other mainstream language has. So
-  let's enable it.
+* Vanilla
+  Stock Emacs settings.
+** Lexical Binding
+   By default, Elisp does not have lexical binding, /i.e./ variable scope based on
+   text position which virtually every other mainstream language has. So let's
+   enable it. Note, make sure to have them set /at the beginning/ of this section
+   to affect the rest of this config.
+
+   #+BEGIN_SRC emacs-lisp
+     ;; -*- lexical-binding: t -*-
+   #+END_SRC
+
+** Defaults
+   Commonly referenced default settings. Note, make sure to set them /towards the
+   beginning/ of this section to avoid undefined reference errors.
 
   #+BEGIN_SRC emacs-lisp
-    ;; -*- lexical-binding: t -*-
+    (setq uvar:default-column 80)
+    (setq uvar:default-indent 2)
   #+END_SRC
 
-* Vanilla
-  Stock Emacs settings without any third party packages.
 ** Custom Settings
    Designate a separate file for custom-set-variables under .emacs.d, name it
    custom.el, and load the file on startup.
@@ -173,6 +183,7 @@
     Lawful evil scripting.
 
     #+BEGIN_SRC emacs-lisp
+      (setq sh-indentation uvar:default-indent)
       (add-hook 'sh-mode-hook 'flyspell-prog-mode)
     #+END_SRC
 
@@ -285,7 +296,6 @@
     #+BEGIN_SRC emacs-lisp
       (setq backward-delete-char-untabify-method 'hungry)
     #+END_SRC
-
 *** Newlines
     Always add a newline at the end of a file.
 
@@ -314,8 +324,8 @@
 
     #+BEGIN_SRC emacs-lisp
       (setq-default indent-tabs-mode nil)
-      (setq-default tab-width 2)
-      (setq c-basic-offset 2)
+      (setq-default tab-width uvar:default-indent)
+      (setq c-basic-offset uvar:default-indent)
     #+END_SRC
 
 *** Whitespace
@@ -342,11 +352,10 @@
       (setq column-number-mode t)
     #+END_SRC
 
-    Set column limit to 80 and mark anything exceeding 80 columns when
-    whitespace-mode is enabled.
+    Set column limit to the user default, and when enabling whitespace-mode,
+    mark anything exceeding it.
 
     #+BEGIN_SRC emacs-lisp
-      (setq uvar:default-column 80)
       (setq-default fill-column uvar:default-column)
       (setq-default whitespace-line-column fill-column)
     #+END_SRC
@@ -447,7 +456,7 @@
     #+END_SRC
 
 *** Scratch Buffer
-    Get in the text editor!
+    Get in the text editor, 碇君!
 
     #+BEGIN_SRC emacs-lisp
       (setq initial-scratch-message
@@ -512,20 +521,19 @@
      (setq vc-handled-backends nil)
    #+END_SRC
 
-* Prelude: Local Configuration
-  Load a local settings file named /prelude.el/ if it exists on disk, and don't
-  throw a warning if it doesn't.
-
-  Sometimes you need a local settings file for stuff like proxy configuration,
-  /etc./ You should also put the following code snippet /before/ telling Emacs to
-  make any sort of network connection like downloading packages.
-
-  #+BEGIN_SRC emacs-lisp
-    (load "~/Documents/src/dotfiles/emacs/lisp/prelude" 1)
-  #+END_SRC
-
-* Packages
+* Not Vanilla
   Settings for third party Elisp packages.
+** Proxy Configuration
+   Configure proxy settings /before/ attempting to install any third party
+   packages.
+
+   #+BEGIN_SRC emacs-lisp
+     ;; E.g.
+     ;; (setq url-proxy-services
+     ;;       '(("http"  . "work.proxy.com:8080")
+     ;;         ("https" . "work.proxy.com:8080")))
+   #+END_SRC
+
 ** Remote Repositories
    Configurations for third party packages.
 
@@ -595,18 +603,6 @@
 
 ** Productivity
    Useful tools that didn't make it into core for whatever reason.
-*** Browse Kill Ring
-    Provides a nice interactive buffer that shows all the stuff in the kill
-    ring.
-
-    #+BEGIN_SRC emacs-lisp
-      (use-package browse-kill-ring
-        :ensure t
-        :defer t
-        :hook ((browse-kill-ring-mode . (lambda () (local-set-key (kbd "j") 'browse-kill-ring-forward)))
-               (browse-kill-ring-mode . (lambda () (local-set-key (kbd "k") 'browse-kill-ring-previous)))))
-    #+END_SRC
-
 *** Company
     The de facto completion framework for Emacs.
 
@@ -688,12 +684,12 @@
                 ("lo" . occur)
                 ("ls" . sort-lines)
                 ("lw" . whitespace-mode)
-                ("ly" . browse-kill-ring) ; binding here b/c Evil not declared until after BKR
                 ("r"  . ufun:goto-previous-buffer)
                 ("O"  . switch-to-buffer-other-window)
                 ("o"  . switch-to-buffer)
                 ("E"  . find-file-other-window)
                 ("e"  . find-file)
+                ("n"  . yank-pop)
                 ("sp" . ufun:kill-filepath)
                 ("b"  . ibuffer)))
 
@@ -787,16 +783,6 @@
           :config
           (define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
           (define-key evil-normal-state-map (kbd "C-x") 'evil-numbers/dec-at-pt))
-      #+END_SRC
-
-***** Evil Surround
-      Emulate TPope's Surround Vim plugin.
-
-      #+BEGIN_SRC emacs-lisp
-        (use-package evil-surround
-          :ensure t
-          :config
-          (global-evil-surround-mode 1))
       #+END_SRC
 
 **** User functions, /Etc/
@@ -934,7 +920,7 @@
         :ensure t
         :defer t
         :hook ((fish-mode . flyspell-prog-mode))
-        :config (setq fish-indent-offset 2))
+        :config (setq fish-indent-offset uvar:default-indent))
     #+END_SRC
 
 *** Gitignore
@@ -969,7 +955,7 @@
         :hook ((json-mode . flycheck-mode)
                (json-mode . flyspell-prog-mode))
         :config
-        (setq js-indent-level 2)
+        (setq js-indent-level uvar:default-indent)
         (add-to-list 'auto-mode-alist '("\\.eslintrc\\'"   . json-mode))
         (add-to-list 'auto-mode-alist '("\\.prettierrc\\'" . json-mode)))
     #+END_SRC
@@ -1002,7 +988,7 @@
         :ensure t
         :defer t
         :config
-        (setq swift-mode:basic-offset 2))
+        (setq swift-mode:basic-offset uvar:default-indent))
     #+END_SRC
 
 *** TypeScript
@@ -1015,7 +1001,8 @@
         :hook ((typescript-mode . (lambda () (push '("=>" . 8658) prettify-symbols-alist)))
                (typescript-mode . flycheck-mode)
                (typescript-mode . flyspell-prog-mode)
-               (typescript-mode . prettify-symbols-mode)))
+               (typescript-mode . prettify-symbols-mode))
+        :config (setq typescript-indent-level uvar:default-indent))
     #+END_SRC
 
 *** YAML
@@ -1028,14 +1015,3 @@
         :hook ((yaml-mode-hook . flycheck-mode)
                (yaml-mode-hook . flyspell-prog-mode)))
     #+END_SRC
-
-* Coda: Local Configuration
-  Load a local settings file named /coda.el/ if it exists on disk, and don't throw
-  a warning if it doesn't.
-
-  A local settings file comes handy when configuring work specific settings. The
-  following code snippet should come /after/ loading everything else to Emacs.
-
-  #+BEGIN_SRC emacs-lisp
-    (load "~/Documents/src/dotfiles/emacs/lisp/coda" 1)
-  #+END_SRC
