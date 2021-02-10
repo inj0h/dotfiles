@@ -25,8 +25,8 @@
    beginning/ of this section to avoid undefined reference errors.
 
   #+BEGIN_SRC emacs-lisp
-    (setq uvar:default-column 80)
-    (setq uvar:default-indent 2)
+    (setq uvar:default-column 80
+          uvar:default-indent 2)
   #+END_SRC
 
 ** Custom Settings
@@ -361,11 +361,11 @@
     #+END_SRC
 
 *** Cursor
-    Blinking cursors forever.
+    I like blinking cursors.
 
     #+BEGIN_SRC emacs-lisp
       (blink-cursor-mode 1)
-      (setq blink-cursor-blinks 0)
+      (setq blink-cursor-blinks 30)
     #+END_SRC
 
     Enable the cursor when running as a TTY.
@@ -678,13 +678,14 @@
           (kbd "<SPC>") 'uvar:evil-leader-keymap)
 
         (setq uvar:evil-leader-bindings
-              '(("la" . align-regexp)
+              '(("c"  . compile)
+                ("r"  . ufun:goto-previous-buffer)
+                ("la" . align-regexp)
                 ("lc" . count-words-region)
                 ("le" . ufun:evil-apply-macro-to-region-lines)
                 ("lo" . occur)
                 ("ls" . sort-lines)
                 ("lw" . whitespace-mode)
-                ("r"  . ufun:goto-previous-buffer)
                 ("O"  . switch-to-buffer-other-window)
                 ("o"  . switch-to-buffer)
                 ("E"  . find-file-other-window)

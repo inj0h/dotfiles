@@ -4,7 +4,8 @@
 ;; Note:     A minimal Emacs initialization file to bootstrap an Org
 ;;           configuration using Org Babel.
 
-;; Speed up that init time. For reference.
+;; Speed up that init time by overloading GC.
+;; For reference.
 ;; - https://so.nwalsh.com/2020/02/29/dot-emacs
 ;; - https://github.com/hlissner/doom-emacs/blob/develop/docs/faq.org#how-does-doom-start-up-so-quickly
 ;;
@@ -19,4 +20,4 @@
 
 ;; Load the main config.
 (setq find-file-visit-truename t)
-(org-babel-load-file "~/.config/emacs/dotemacs.org") ;; TODO: Get bytecomp working
+(org-babel-load-file "~/.config/emacs/dotemacs.org")
