@@ -137,21 +137,18 @@
     #+END_SRC
 
 ** Keybindings
-   Click clack.
-*** Custom
-    Don't really use these too much, but navigating between splits is super
-    helpful.
+   Don't really need these when using vi bindings.
 
-    #+BEGIN_SRC emacs-lisp
-      (setq uvar:emacs-custom-keybindings
-            '(("<M-down>"  . windmove-down)
-              ("<M-left>"  . windmove-left)
-              ("<M-right>" . windmove-right)
-              ("<M-up>"    . windmove-up)))
+   #+BEGIN_SRC emacs-lisp
+     (setq uvar:emacs-custom-keybindings
+           '(("<M-down>"  . windmove-down)
+             ("<M-left>"  . windmove-left)
+             ("<M-right>" . windmove-right)
+             ("<M-up>"    . windmove-up)))
 
-      (dolist (keybindings uvar:emacs-custom-keybindings)
-        (global-set-key (kbd (car keybindings)) (cdr keybindings)))
-    #+END_SRC
+     (dolist (keybindings uvar:emacs-custom-keybindings)
+       (global-set-key (kbd (car keybindings)) (cdr keybindings)))
+   #+END_SRC
 
 ** Language Modes
    Settings for default modes that support various languages, text, /etc./
@@ -171,6 +168,15 @@
        (add-hook 'emacs-lisp-mode-hook 'prettify-symbols-mode)
      #+END_SRC
 
+*** Java
+    Enterprising.
+
+     #+BEGIN_SRC emacs-lisp
+       (add-hook 'java-mode-hook '(lambda () (setq-local fill-column 120)))
+       (add-hook 'java-mode-hook '(lambda () (setq-local whitespace-line-column 120)))
+       (add-hook 'java-mode-hook 'flyspell-prog-mode)
+     #+END_SRC
+
 *** LaTeX
     In the beginning, before Markdown.
 
@@ -188,14 +194,11 @@
     #+END_SRC
 
 *** Text
-    Real plain text.
+    Plain Jane text.
 
     #+BEGIN_SRC emacs-lisp
-      (setq uvar:text-column 72)
-      (add-hook
-       'text-mode-hook '(lambda () (setq-local fill-column uvar:text-column))) ; blame Git
-      (add-hook
-       'text-mode-hook '(lambda () (setq-local whitespace-line-column uvar:text-column))) ; same
+      (add-hook 'text-mode-hook '(lambda () (setq-local fill-column 72)))            ; blame Git
+      (add-hook 'text-mode-hook '(lambda () (setq-local whitespace-line-column 72))) ; same
       (add-hook 'text-mode-hook 'flyspell-mode)
       (add-to-list 'auto-mode-alist '("COMMIT_EDITMSG" . text-mode))
     #+END_SRC
@@ -237,7 +240,7 @@
    #+END_SRC
 
 ** Package Menu
-   Just sprinkle in some jk.
+   Just sprinkle in some jk, /etc./
 
    #+BEGIN_SRC emacs-lisp
      (add-hook 'package-menu-mode-hook 'hl-line-mode)
@@ -592,6 +595,7 @@
     #+END_SRC
 
 *** Org
+    Bullet journaling.
 
     #+BEGIN_SRC emacs-lisp
       (use-package org-bullets
@@ -817,48 +821,6 @@
         :diminish flycheck-mode)
     #+END_SRC
 
-*** Projectile
-    Project management. Note, you need to tell Emacs to use a POSIX shell for
-    this package to work correctly. It won't play nice with something like Fish
-    OOTB.
-
-    #+BEGIN_SRC emacs-lisp
-      (use-package projectile
-        :ensure t
-        :defer t
-        :bind (:map uvar:evil-leader-keymap
-                    ("pR" . projectile-replacae-regexp)
-                    ("pS" . projectile-switch-project)
-                    ("pa" . projectile-add-known-project)
-                    ("pb" . projectile-switch-to-buffer)
-                    ("pd" . projectile-remove-known-project)
-                    ("pf" . projectile-find-file)
-                    ("pk" . projectile-kill-buffers)
-                    ("pr" . projectile-replace)
-                    ("ps" . projectile-switch-open-project)
-                    ("pw" . projectile-save-project-buffers))
-        :config
-        (setq shell-file-name "/bin/sh")
-        (setq projectile-completion-system  'ido
-              projectile-indexing-method    'hybrid
-              projectile-mode-line-function '(lambda () (format " P[%s]" (ufun:projectile-display-project-name)))
-              projectile-sort-order         'recentf)
-        (projectile-mode +1))
-    #+END_SRC
-
-    User Projectile function(s).
-
-    #+BEGIN_SRC emacs-lisp
-      (defun ufun:projectile-display-project-name ()
-        "Return the project name as determined by Projectile if 10 characters or less.
-      Otherwise, truncate the name."
-        (let ((cutoff 20)
-              (name (projectile-project-name)))
-          (if (>= cutoff (string-width name))
-              name
-            (concat (truncate-string-to-width name cutoff) ".."))))
-    #+END_SRC
-
 *** Smex
     Extend Ido functionality for M-x.
 
@@ -886,7 +848,6 @@
               which-key-sort-order 'which-key-key-order-alpha)
 
         (which-key-add-keymap-based-replacements evil-motion-state-map
-          "<SPC> p" "project actions"
           "<SPC> l" "line actions"
           "<SPC> r" "visit last buffer"
           "<SPC> O" "open buffer in other window"
@@ -947,7 +908,7 @@
     #+END_SRC
 
 *** JSON
-    Yet another... Wait. That's the other one.
+    Yet (not) another markup language.
 
     #+BEGIN_SRC emacs-lisp
       (use-package json-mode
@@ -993,7 +954,7 @@
     #+END_SRC
 
 *** TypeScript
-    Hater, hater static type chaser.
+    Hater, hater. Static type chaser.
 
     #+BEGIN_SRC emacs-lisp
       (use-package typescript-mode
@@ -1007,7 +968,7 @@
     #+END_SRC
 
 *** YAML
-    Whitespace JSON?
+    JSON /sans/ curly braces.
 
     #+BEGIN_SRC emacs-lisp
       (use-package yaml-mode
