@@ -949,6 +949,7 @@
       (use-package swift-mode
         :ensure t
         :defer t
+        :hook ((swift-mode . flyspell-prog-mode))
         :config
         (setq swift-mode:basic-offset uvar:default-indent))
     #+END_SRC
