@@ -682,7 +682,8 @@
           (kbd "<SPC>") 'uvar:evil-leader-keymap)
 
         (setq uvar:evil-leader-bindings
-              '(("c"  . compile)
+              '(("."  . ibuffer)
+                ("c"  . compile)
                 ("r"  . ufun:goto-previous-buffer)
                 ("la" . align-regexp)
                 ("lc" . count-words-region)
@@ -695,8 +696,7 @@
                 ("E"  . find-file-other-window)
                 ("e"  . find-file)
                 ("n"  . yank-pop)
-                ("sp" . ufun:kill-filepath)
-                ("b"  . ibuffer)))
+                ("sp" . ufun:kill-filepath)))
 
         (dolist (keybindings uvar:evil-leader-bindings)
           (define-key uvar:evil-leader-keymap
@@ -757,7 +757,11 @@
 
          (setq uvar:evil-leader-bindings-org
                (append uvar:evil-leader-bindings
-                       '(("mi" . org-insert-heading))))
+                       '(("mc" . org-copy-subtree)
+                         ("md" . org-demote-subtree)
+                         ("mi" . org-insert-heading)
+                         ("mp" . org-promote-subtree)
+                         ("mx" . org-cut-subtree))))
 
          (dolist (keybindings uvar:evil-leader-bindings-org)
            (define-key uvar:evil-leader-org-keymap
