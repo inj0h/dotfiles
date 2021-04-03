@@ -1,5 +1,4 @@
 f,Documents/src/dotfiles/.rgignore,.config/.rgignore
 f,Documents/src/dotfiles/alacritty.yml,.config/alacritty/alacritty.yml
 f,Documents/src/dotfiles/config.fish,.config/fish/config.fish
-f,Documents/src/dotfiles/dotemacs.org,.config/emacs/dotemacs.org
-f,Documents/src/dotfiles/init.el,.config/emacs/init.el
+f,Documents/src/dotfiles/dotemacs_20210403031636.el,.config/emacs/init.el
