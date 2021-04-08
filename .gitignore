@@ -11,10 +11,10 @@
 !.gitignore
 !.rgignore
 !Brewfile
-!alacritty.yml
 !bootstrap.el
 !config.fish
 !dotemacs.org
 !dotemacs_[0-9]*.el
 !dotfiles.txt
+!mac.terminal
 !readme.md
