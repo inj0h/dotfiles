@@ -1,6 +1,5 @@
 # Filename: dotemacs.org
-# Note:     Emacs configuration, obviously.
-
+# Note:     My Emacs personality.
 * About
   My Emacs configuration written in literate programming style that would make
   Donald Knuth proud. Hopefully easier to read than a plain Elisp file. I keep a
@@ -512,24 +511,6 @@
     #+END_SRC
 ** Productivity
    Useful tools that didn't make it into core for whatever reason.
-*** Company
-    Emacs de facto completion framework.
-    #+BEGIN_SRC emacs-lisp
-      (use-package company
-        :ensure t
-        :defer t
-        :diminish company-mode
-        :init (global-company-mode)
-        :config
-        (setq company-idle-delay 0)
-        (setq-default company-dabbrev-downcase nil)
-        (setq-default company-dabbrev-ignore-case 1)
-        (with-eval-after-load 'company
-          (define-key company-active-map (kbd "M-n") nil)
-          (define-key company-active-map (kbd "M-p") nil)
-          (define-key company-active-map (kbd "C-n") #'company-select-next)
-          (define-key company-active-map (kbd "C-t") #'company-select-previous)))
-    #+END_SRC
 *** Evil
     Summon the Editor of the Beast - /vi vi vi./
     #+BEGIN_SRC emacs-lisp
@@ -597,6 +578,7 @@
                 ("o"  . switch-to-buffer)
                 ("E"  . find-file-other-window)
                 ("e"  . find-file)
+                ("t"  . execute-extended-command)
                 ("n"  . yank-pop)
                 ("sp" . ufun:kill-filepath)))
 
@@ -700,26 +682,6 @@
         :config
         (exec-path-from-shell-initialize))
     #+END_SRC
-*** Flycheck
-    Asynchronous linting, /etc./
-    #+BEGIN_SRC emacs-lisp
-      (use-package flycheck
-        :ensure t
-        :defer t
-        :diminish flycheck-mode)
-    #+END_SRC
-*** Smex
-    Extend Ido functionality for M-x.
-    #+BEGIN_SRC emacs-lisp
-      (use-package smex
-        :ensure t
-        :defer t
-        :bind (("M-x" . smex)
-               ("M-X" . execute-extended-command)
-               :map uvar:evil-leader-keymap
-               ("t" . smex)
-               ("T" . execute-extended-command)))
-    #+END_SRC
 *** Which Key
     Dynamic menu helpful for learning keybindings.
     #+BEGIN_SRC emacs-lisp
@@ -740,7 +702,6 @@
           "<SPC> o" "open buffer"
           "<SPC> E" "edit file in other window"
           "<SPC> e" "edit file"
-          "<SPC> T" "toplevel (fine)"
           "<SPC> t" "toplevel"
           "<SPC> s" "special actions")
 
@@ -782,8 +743,7 @@
       (use-package haskell-mode
         :ensure t
         :defer t
-        :hook ((haskell-mode . flycheck-mode)
-               (haskell-mode . flyspell-prog-mode)))
+        :hook ((haskell-mode . flyspell-prog-mode)))
     #+END_SRC
 *** JSON
     Because everyone's cool with JavaScript.
@@ -791,8 +751,7 @@
       (use-package json-mode
         :ensure t
         :defer t
-        :hook ((json-mode . flycheck-mode)
-               (json-mode . flyspell-prog-mode))
+        :hook ((json-mode . flyspell-prog-mode))
         :config
         (setq js-indent-level uvar:default-indent)
         (add-to-list 'auto-mode-alist '("\\.eslintrc\\'"   . json-mode))
@@ -806,8 +765,7 @@
         :defer t
         :commands (markdown-mode gfm-mode)
         :mode (("README\\.md\\'" . gfm-mode))
-        :hook ((markdown-mode . flycheck-mode)
-               (markdown-mode . flyspell-mode)
+        :hook ((markdown-mode . flyspell-mode)
                (markdown-mode . (lambda () (setq-local fill-column uvar:default-column)))
                (markdown-mode . (lambda () (setq-local whitespace-line-column uvar:default-column))))
         :config
@@ -833,7 +791,6 @@
         :ensure t
         :defer t
         :hook ((typescript-mode . (lambda () (push '("=>" . 8658) prettify-symbols-alist)))
-               (typescript-mode . flycheck-mode)
                (typescript-mode . flyspell-prog-mode)
                (typescript-mode . prettify-symbols-mode))
         :config (setq typescript-indent-level uvar:default-indent))
@@ -844,6 +801,5 @@
       (use-package yaml-mode
         :ensure t
         :defer t
-        :hook ((yaml-mode-hook . flycheck-mode)
-               (yaml-mode-hook . flyspell-prog-mode)))
+        :hook ((yaml-mode-hook . flyspell-prog-mode)))
     #+END_SRC
