@@ -159,7 +159,8 @@
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 
-(setq frame-title-format nil inhibit-startup-screen t)
+(setq frame-title-format nil
+      inhibit-startup-screen t)
 
 (set-frame-font "Inconsolata-15" nil t)
 
@@ -261,6 +262,21 @@
   :defer t
   :hook ((org-mode . hl-line-mode)
          (org-mode . org-bullets-mode)))
+
+(use-package company
+  :ensure t
+  :defer t
+  :diminish company-mode
+  :init (global-company-mode)
+  :config
+  (setq company-idle-delay 0)
+  (setq-default company-dabbrev-downcase nil)
+  (setq-default company-dabbrev-ignore-case 1)
+  (with-eval-after-load 'company
+    (define-key company-active-map (kbd "M-n") nil)
+    (define-key company-active-map (kbd "M-p") nil)
+    (define-key company-active-map (kbd "C-n") #'company-select-next)
+    (define-key company-active-map (kbd "C-t") #'company-select-previous)))
 
 (use-package evil
   :ensure t

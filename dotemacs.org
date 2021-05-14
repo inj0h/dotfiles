@@ -334,7 +334,8 @@
     #+END_SRC
     Don't display anything in the frame title and disable the startup screen.
     #+BEGIN_SRC emacs-lisp
-      (setq frame-title-format nil inhibit-startup-screen t)
+      (setq frame-title-format nil
+            inhibit-startup-screen t)
     #+END_SRC
 *** Font
     Make sure the OS has the font installed!
@@ -511,6 +512,24 @@
     #+END_SRC
 ** Productivity
    Useful tools that didn't make it into core for whatever reason.
+*** Company
+    Help me type less.
+    #+BEGIN_SRC emacs-lisp
+      (use-package company
+        :ensure t
+        :defer t
+        :diminish company-mode
+        :init (global-company-mode)
+        :config
+        (setq company-idle-delay 0)
+        (setq-default company-dabbrev-downcase nil)
+        (setq-default company-dabbrev-ignore-case 1)
+        (with-eval-after-load 'company
+          (define-key company-active-map (kbd "M-n") nil)
+          (define-key company-active-map (kbd "M-p") nil)
+          (define-key company-active-map (kbd "C-n") #'company-select-next)
+          (define-key company-active-map (kbd "C-t") #'company-select-previous)))
+    #+END_SRC
 *** Evil
     Summon the Editor of the Beast - /vi vi vi./
     #+BEGIN_SRC emacs-lisp

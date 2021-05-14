@@ -244,8 +244,12 @@
 	<false/>
 	<key>WindowTitle</key>
 	<string></string>
+	<key>columnCount</key>
+	<integer>90</integer>
 	<key>name</key>
 	<string>mac</string>
+	<key>rowCount</key>
+	<integer>35</integer>
 	<key>shellExitAction</key>
 	<integer>1</integer>
 	<key>type</key>
