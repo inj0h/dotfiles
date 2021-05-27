@@ -35,13 +35,17 @@
    #+END_SRC
 * Vanilla
   Stock Emacs settings.
-** Defaults
+** _Defaults
    Commonly referenced default settings. Note, make sure to set them /towards the
    beginning/ of this section to avoid undefined reference errors.
   #+BEGIN_SRC emacs-lisp
     (setq uvar:default-column 80
           uvar:default-indent 2)
   #+END_SRC
+** Bookmarks
+   #+BEGIN_SRC emacs-lisp
+     (add-hook 'bookmark-bmenu-mode-hook 'hl-line-mode)
+   #+END_SRC
 ** Custom Settings
    Designate a separate file for custom-set-variables under .emacs.d, name it
    custom.el, and load the file on startup.
@@ -55,13 +59,13 @@
      (add-hook 'dired-mode-hook 'hl-line-mode)
    #+END_SRC
 ** Encoding
-   Gotta have that 8-bit Unicode.
-
+   I want Unicode.
    #+BEGIN_SRC emacs-lisp
      (prefer-coding-system 'utf-8)
+     (set-default-coding-systems 'utf-8)
+     (set-language-environment "UTF-8")
      (setq default-buffer-file-coding-system 'utf-8)
    #+END_SRC
-
 ** Environment
 *** Default Directory (Mac)
     Since Emacs 27, Emacs doesn't set the default directory to home, at least on
@@ -186,6 +190,25 @@
       (add-hook 'text-mode-hook 'flyspell-mode)
       (add-to-list 'auto-mode-alist '("COMMIT_EDITMSG" . text-mode))
     #+END_SRC
+** Mode Line
+   The status bar thing at the bottom.
+   #+BEGIN_SRC emacs-lisp
+     (setq mode-line-format nil)
+     (setq-default mode-line-format
+                   (list
+                    "%e"
+                    mode-line-front-space
+                    '(:eval evil-mode-line-tag) ; will not work without Evil installed
+                    "  "
+                    mode-line-buffer-identification
+                    " "
+                    '(:eval (ufun:when-string (buffer-modified-p) "[+]"))
+                    "    "
+                    '(:eval (ufun:when-string defining-kbd-macro "(REC)"))
+                    '(:eval (ufun:mode-line-fill-right 20))
+                    mode-line-position
+                    mode-line-end-spaces))
+   #+END_SRC
 ** Mouse
 *** Selection
     Delete a selected region by simply typing any character(s).
@@ -422,14 +445,13 @@
                                 current-location))))
 
      (defun ufun:goto-previous-buffer ()
-       "Return to the previously visited buffer. This function is
-          interactive."
+       "Return to the previously visited buffer. This function is interactive."
        (interactive)
        (switch-to-buffer (other-buffer (current-buffer) 1)))
 
      (defun ufun:kill-filepath ()
-       "Copy the current buffer filename with path to clipboard. This
-          function is interactive."
+       "Copy the current buffer filename with path to clipboard. This function is
+     interactive."
        (interactive)
        (let ((filepath (if (equal major-mode 'dired-mode)
                            default-directory
@@ -437,6 +459,21 @@
          (when filepath
            (kill-new filepath)
            (message "Copied buffer filepath '%s' to clipboard." filepath))))
+
+     (defun ufun:mode-line-fill-right (offset)
+       "Fill the MODE-LINE with whitespace to the right, accounting for an OFFSET
+     value, i.e. number of columns, of printed items to the left."
+       (let ((fill
+              (-
+               (floor (* 0.9 (window-width)))
+               (length (buffer-name))
+               offset)))
+         (format (format "%%%ds" fill) "")))
+
+     (defun ufun:when-string (state string)
+       "Return STRING when STATE equals t."
+       (when state string))
+
    #+END_SRC
 ** Version Control
    Prefer the CLI for this sort of thing. Sorry, no Magit for me.
@@ -593,6 +630,7 @@
                 ("lo" . occur)
                 ("ls" . sort-lines)
                 ("lw" . whitespace-mode)
+                ("a"  . apropos)
                 ("O"  . switch-to-buffer-other-window)
                 ("o"  . switch-to-buffer)
                 ("E"  . find-file-other-window)
@@ -717,6 +755,7 @@
           "<SPC> ." "buffer menu"
           "<SPC> l" "line actions"
           "<SPC> r" "visit last buffer"
+          "<SPC> a" "apropos"
           "<SPC> O" "open buffer in other window"
           "<SPC> o" "open buffer"
           "<SPC> E" "edit file in other window"

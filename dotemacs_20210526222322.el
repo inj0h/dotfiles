@@ -13,12 +13,16 @@
 (setq uvar:default-column 80
       uvar:default-indent 2)
 
+(add-hook 'bookmark-bmenu-mode-hook 'hl-line-mode)
+
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file 'noerror)
 
 (add-hook 'dired-mode-hook 'hl-line-mode)
 
 (prefer-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8)
+(set-language-environment "UTF-8")
 (setq default-buffer-file-coding-system 'utf-8)
 
 (when (equal system-type 'darwin)
@@ -85,6 +89,22 @@
 (add-hook 'text-mode-hook '(lambda () (setq-local whitespace-line-column 72))) ; same
 (add-hook 'text-mode-hook 'flyspell-mode)
 (add-to-list 'auto-mode-alist '("COMMIT_EDITMSG" . text-mode))
+
+(setq mode-line-format nil)
+(setq-default mode-line-format
+              (list
+               "%e"
+               mode-line-front-space
+               '(:eval evil-mode-line-tag) ; will not work without Evil installed
+               "  "
+               mode-line-buffer-identification
+               " "
+               '(:eval (ufun:when-string (buffer-modified-p) "[+]"))
+               "    "
+               '(:eval (ufun:when-string defining-kbd-macro "(REC)"))
+               '(:eval (ufun:mode-line-fill-right 20))
+               mode-line-position
+               mode-line-end-spaces))
 
 (delete-selection-mode t)
 
@@ -202,14 +222,13 @@
                            current-location))))
 
 (defun ufun:goto-previous-buffer ()
-  "Return to the previously visited buffer. This function is
-     interactive."
+  "Return to the previously visited buffer. This function is interactive."
   (interactive)
   (switch-to-buffer (other-buffer (current-buffer) 1)))
 
 (defun ufun:kill-filepath ()
-  "Copy the current buffer filename with path to clipboard. This
-     function is interactive."
+  "Copy the current buffer filename with path to clipboard. This function is
+interactive."
   (interactive)
   (let ((filepath (if (equal major-mode 'dired-mode)
                       default-directory
@@ -217,6 +236,20 @@
     (when filepath
       (kill-new filepath)
       (message "Copied buffer filepath '%s' to clipboard." filepath))))
+
+(defun ufun:mode-line-fill-right (offset)
+  "Fill the MODE-LINE with whitespace to the right, accounting for an OFFSET
+value, i.e. number of columns, of printed items to the left."
+  (let ((fill
+         (-
+          (floor (* 0.9 (window-width)))
+          (length (buffer-name))
+          offset)))
+    (format (format "%%%ds" fill) "")))
+
+(defun ufun:when-string (state string)
+  "Return STRING when STATE equals t."
+  (when state string))
 
 (setq vc-handled-backends nil)
 
@@ -427,8 +460,8 @@
   (which-key-add-keymap-based-replacements evil-motion-state-map
     "<SPC> ," "bookmark actions"
     "<SPC> ." "buffer menu"
-    "<SPC> r" "visit last buffer"
     "<SPC> l" "line actions"
+    "<SPC> r" "visit last buffer"
     "<SPC> a" "apropos"
     "<SPC> O" "open buffer in other window"
     "<SPC> o" "open buffer"
@@ -506,52 +539,3 @@
   :ensure t
   :defer t
   :hook ((yaml-mode-hook . flyspell-prog-mode)))
-
-;; CHANGES - START
-;;
-;; TODO
-;; Bindings
-;; - [X] Bind apropos to leader.
-;;
-;; Modeline
-;; - [X] Reformat mode-line-modified.
-;; - [X] Indicate macro recording.
-;; - [X] Format mode-line-position at far right.
-;; - [ ] Figure out how format function works.
-;; - [ ] Refactor ufun:mode-line-fill-right.
-
-(set-language-environment "UTF-8")
-(set-default-coding-systems 'utf-8)
-
-(setq frame-title-format t)
-(setq icon-title-format t)
-
-(defun ufun:mode-line-show (state string)
-  "Return STRING when STATE equals t."
-  (when state string))
-
-(defun ufun:mode-line-fill-right (char offset)
-  ""
-  (let ((fill
-         (-
-          (floor (* 0.95 (window-width)))
-          (length (buffer-name))
-          offset)))
-    (format (format "%%%ds" fill) char)))
-
-(setq mode-line-format nil)
-(setq-default mode-line-format
-              (list
-               "%e"
-               mode-line-front-space
-               '(:eval evil-mode-line-tag)
-               "  "
-               mode-line-buffer-identification
-               " "
-               '(:eval (ufun:mode-line-show (buffer-modified-p) "[+]"))
-               "    "
-               '(:eval (ufun:mode-line-show defining-kbd-macro "(REC)"))
-               '(:eval (ufun:mode-line-fill-right "" 20))
-               mode-line-position
-               mode-line-end-spaces))
-;; CHANGES - END
