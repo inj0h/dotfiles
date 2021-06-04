@@ -19,9 +19,10 @@ abbr -a em  'emacsclient -n'
 abbr -a ff  'find . -type f -iname'
 abbr -a ffd 'find . -type d -iname'
 abbr -a ffi 'find . -iname'
-abbr -a o   'ls -AGho'
+abbr -a o   'ls -AGgho'
 abbr -a t   'tree -aC .'
 abbr -a u   'cd ..'
+abbr -a v   'nvim'
 
 #
 # Aliases
@@ -42,7 +43,7 @@ alias ls     ls # unset default flags
 # Environment Variables
 #
 
-set -Ux EDITOR "emacsclient -nw"
+set -Ux EDITOR "nvim"
 
 #
 # Greeting

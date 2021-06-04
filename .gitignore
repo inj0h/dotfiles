@@ -16,5 +16,7 @@
 !dotemacs.org
 !dotemacs_[0-9]*.el
 !dotfiles.txt
+!dotvim.lua
+!dotvim.vim
 !mac.terminal
 !readme.md
