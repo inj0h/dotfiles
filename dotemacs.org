@@ -138,17 +138,19 @@
                       (kbd (car bindings)) (cdr bindings)))))
    #+END_SRC
 ** Keybindings
-   Don't really need these when using vi bindings.
-   #+BEGIN_SRC emacs-lisp
-     (setq uvar:emacs-custom-keybindings
-           '(("<M-down>"  . windmove-down)
-             ("<M-left>"  . windmove-left)
-             ("<M-right>" . windmove-right)
-             ("<M-up>"    . windmove-up)))
-
-     (dolist (keybindings uvar:emacs-custom-keybindings)
-       (global-set-key (kbd (car keybindings)) (cdr keybindings)))
-   #+END_SRC
+   Really don't really need these when using vi bindings.
+*** Unbind
+    #+BEGIN_SRC emacs-lisp
+      (dolist (keybindings
+               (list
+                "<mouse-2>"
+                "<down-mouse-2>"
+                "<double-mouse-2>"
+                "<mouse-3>"
+                "<down-mouse-3>"
+                "<double-mouse-3>"))
+        (global-unset-key (kbd keybindings)))
+    #+END_SRC
 ** Language Modes
    Settings for default modes that support various languages, text, /etc./
 *** C/C++
@@ -215,9 +217,10 @@
     #+BEGIN_SRC emacs-lisp
       (delete-selection-mode t)
     #+END_SRC
-    Copy, /i.e./ save to kill ring, automatically when dragging mouse over region.
+    Disable copying, /i.e./ save to kill ring, when dragging the mouse over a
+    region.
     #+BEGIN_SRC emacs-lisp
-      (setq mouse-drag-copy-region 1)
+      (setq mouse-drag-copy-region nil)
     #+END_SRC
 ** Org
    One day, you'll get organizized.
@@ -355,10 +358,9 @@
       (scroll-bar-mode -1)
       (tool-bar-mode -1)
     #+END_SRC
-    Don't display anything in the frame title and disable the startup screen.
+    Disable the startup screen.
     #+BEGIN_SRC emacs-lisp
-      (setq frame-title-format nil
-            inhibit-startup-screen t)
+      (setq inhibit-startup-screen t)
     #+END_SRC
 *** Font
     Make sure the OS has the font installed!
@@ -501,7 +503,6 @@
    #+END_SRC
    Set remote package repositories.
    #+BEGIN_SRC emacs-lisp
-     (add-to-list 'package-archives '("gnu"   . "https://elpa.gnu.org/packages/") t)
      (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
    #+END_SRC
    Use use-package.
@@ -510,24 +511,10 @@
        (package-refresh-contents)
        (package-install 'use-package))
    #+END_SRC
-   Require bind and diminish.
+   Require bind.
    #+BEGIN_SRC emacs-lisp
      (use-package bind-key
        :ensure t)
-
-     (use-package diminish
-       :ensure t
-       :config
-       (setq uvar:diminished-modes
-             '(auto-fill-function ; = auto-fill-mode
-               eldoc-mode))
-
-       (dolist (diminished uvar:diminished-modes) (diminish diminished))
-
-       (setq uvar:forced-diminished-modes '((subword . subword-mode)))
-
-       (dolist (diminished uvar:forced-diminished-modes)
-         (with-eval-after-load (car diminished) (diminish (cdr diminished)))))
    #+END_SRC
 ** Aesthetic
 *** Theme
@@ -555,7 +542,6 @@
       (use-package company
         :ensure t
         :defer t
-        :diminish company-mode
         :init (global-company-mode)
         :config
         (setq company-idle-delay 0)
@@ -576,156 +562,140 @@
         :config
         (evil-mode 1)
         (evil-select-search-module 'evil-search-module 'evil-search)
+        (define-key evil-normal-state-map (kbd "<mouse-2>") nil) ; I don't like middle click.
+        (define-key evil-visual-state-map (kbd "<mouse-2>") nil) ; "
+        (define-key evil-insert-state-map (kbd "<mouse-2>") nil) ; "
         (use-package undo-fu ; No BS. Linear undo.
           :ensure t
           :config
           (define-key evil-normal-state-map "u"    'undo-fu-only-undo)
-          (define-key evil-normal-state-map "\C-r" 'undo-fu-only-redo)))
-    #+END_SRC
-**** Keybindings
-     Tuned for EN-Dvorak. Don't change default vi/Vim (too much).
-***** Basic
-      #+BEGIN_SRC emacs-lisp
-        (setq uvar:evil-motion-state-rebindings
-              '((";"  . evil-ex)
-                (":"  . evil-repeat-find-char)
-                ("gc" . comment-dwim)
-                ("zg" . ufun:add-word-to-dictionary)))
-
-        ;; TODO: Make this into a general function or macro.
-        (dolist (keybindings uvar:evil-motion-state-rebindings)
-          (define-key evil-motion-state-map
-            (kbd (car keybindings)) (cdr keybindings)))
-
-        (define-key evil-emacs-state-map  (kbd "C-M-s-m") 'evil-exit-emacs-state)
-        (define-key evil-motion-state-map (kbd "C-M-s-m") 'evil-emacs-state)
-
-        ;; Have Ctrl-z suspend the frame, i.e. reclaim STDIO with Emacsclient.
-        (define-key evil-emacs-state-map  (kbd "C-z") 'suspend-frame)
-        (define-key evil-motion-state-map (kbd "C-z") 'suspend-frame)
-      #+END_SRC
-***** Leader
-      Leader keybindings setup with vanilla Emacs. Plugins like Evil Leader,
-      General, /etc/ not needed. For mode-specific leader bindings, use
-      *evil-define-key* to make a binding for both an Evil State and a Major Mode.
-      Also, make sure to update the Which-Key labels accordingly.
-      #+BEGIN_SRC emacs-lisp
-        (define-prefix-command 'uvar:evil-leader-keymap)
-
-        ;; Using evil-define-key here will not bind additional mappings from other
-        ;; plugins via use-package :bind for whatever reason. Need to use define-key.
-        (define-key evil-motion-state-map
-          (kbd "<SPC>") 'uvar:evil-leader-keymap)
-
-        (setq uvar:evil-leader-bindings
-              '((",," . bookmark-bmenu-list)
-                (",d" . bookmark-delete)
-                (",s" . bookmark-set)
-                ("."  . ibuffer)
-                ("c"  . compile)
-                ("r"  . ufun:goto-previous-buffer)
-                ("la" . align-regexp)
-                ("lc" . count-words-region)
-                ("le" . ufun:evil-apply-macro-to-region-lines)
-                ("lo" . occur)
-                ("ls" . sort-lines)
-                ("lw" . whitespace-mode)
-                ("a"  . apropos)
-                ("O"  . switch-to-buffer-other-window)
-                ("o"  . switch-to-buffer)
-                ("E"  . find-file-other-window)
-                ("e"  . find-file)
-                ("t"  . execute-extended-command)
-                ("n"  . yank-pop)
-                ("sp" . ufun:kill-filepath)))
-
-        (dolist (keybindings uvar:evil-leader-bindings)
-          (define-key uvar:evil-leader-keymap
-            (kbd (car keybindings)) (cdr keybindings)))
-      #+END_SRC
-****** Dired
-       #+BEGIN_SRC emacs-lisp
-         (define-prefix-command 'uvar:evil-leader-dired-keymap)
-
-         (add-hook 'dired-mode-hook
-                   '(lambda ()
-                      (local-set-key (kbd "SPC") 'uvar:evil-leader-dired-keymap)))
-
-         (setq uvar:evil-leader-bindings-dired
-               (append uvar:evil-leader-bindings
-                       '(("mG" . end-of-buffer)
-                         ("mg" . beginning-of-buffer)
-                         ("mw" . wdired-change-to-wdired-mode))))
-
-         (dolist (keybindings uvar:evil-leader-bindings-dired)
-           (define-key uvar:evil-leader-dired-keymap
-             (kbd (car keybindings)) (cdr keybindings)))
-
-       #+END_SRC
-****** Ibuffer
-       #+BEGIN_SRC emacs-lisp
-         (add-hook 'ibuffer-mode-hook '(lambda () (local-set-key (kbd "SPC") 'uvar:evil-leader-keymap)))
-       #+END_SRC
-****** Elisp
-       #+BEGIN_SRC emacs-lisp
-         (define-prefix-command 'uvar:evil-leader-elisp-keymap)
-
-         (evil-define-key 'motion emacs-lisp-mode-map
-           (kbd "<SPC>") 'uvar:evil-leader-elisp-keymap)
-
-         (setq uvar:evil-leader-bindings-elisp
-               (append uvar:evil-leader-bindings
-                       '(("me" . eval-last-sexp))))
-
-         (dolist (keybindings uvar:evil-leader-bindings-elisp)
-           (define-key uvar:evil-leader-elisp-keymap
-             (kbd (car keybindings)) (cdr keybindings)))
-       #+END_SRC
-****** Org
-       #+BEGIN_SRC emacs-lisp
-         (define-prefix-command 'uvar:evil-leader-org-keymap)
-
-         (evil-define-key 'motion org-mode-map
-           (kbd "<SPC>") 'uvar:evil-leader-org-keymap)
-
-         (setq uvar:evil-leader-bindings-org
-               (append uvar:evil-leader-bindings
-                       '(("mc" . org-copy-subtree)
-                         ("md" . org-demote-subtree)
-                         ("mi" . org-insert-heading)
-                         ("mp" . org-promote-subtree)
-                         ("mx" . org-cut-subtree))))
-
-         (dolist (keybindings uvar:evil-leader-bindings-org)
-           (define-key uvar:evil-leader-org-keymap
-             (kbd (car keybindings)) (cdr keybindings)))
-       #+END_SRC
-**** Evil-based plugins
-***** Evil Escape
-      Nobody hits escape.
-      #+BEGIN_SRC emacs-lisp
-        (use-package evil-escape
+          (define-key evil-normal-state-map "\C-r" 'undo-fu-only-redo))
+        (use-package evil-escape ; Nobody hits escape, yeah.
           :ensure t
-          :diminish
           :config
           (evil-escape-mode t)
           (setq-default evil-escape-key-sequence "hh"
                         evil-escape-excluded-states '(normal visual motion)
-                        evil-escape-delay 0.2))
-      #+END_SRC
-***** Evil Numbers
-      Increment/decrement numbers like in vanilla Vim.
+                        evil-escape-delay 0.2)))
+    #+END_SRC
+**** Keybindings
+     Tuned for EN-Dvorak. Don't change default vi/Vim (too much).
+
+     Regarding setting up Leader keybindings with vanilla Emacs, you don't need
+     other plugins like Evil Leader, General, /etc/ to get basic functionality.
+     For mode-specific leader bindings, use *evil-define-key* to make a binding
+     for both an Evil State and a Major Mode. Also, make sure to update the
+     Which-Key labels accordingly.
+     #+BEGIN_SRC emacs-lisp
+       (dolist (keybindings
+                '((";"  . evil-ex)
+                  (":"  . evil-repeat-find-char)
+                  ("gc" . comment-dwim)
+                  ("zg" . ufun:add-word-to-dictionary)))
+         (define-key evil-motion-state-map
+           (kbd (car keybindings)) (cdr keybindings)))
+
+       (define-key evil-emacs-state-map  (kbd "C-M-s-m") 'evil-exit-emacs-state)
+       (define-key evil-motion-state-map (kbd "C-M-s-m") 'evil-emacs-state)
+
+       ;; Have Ctrl-z suspend the frame, i.e. reclaim STDIO with Emacsclient.
+       (define-key evil-emacs-state-map  (kbd "C-z") 'suspend-frame)
+       (define-key evil-motion-state-map (kbd "C-z") 'suspend-frame)
+
+       (define-prefix-command 'uvar:evil-leader-keymap)
+
+       ;; Using evil-define-key here will not bind additional mappings from other
+       ;; plugins via use-package :bind for whatever reason. Need to use define-key.
+       (define-key evil-motion-state-map (kbd "<SPC>") 'uvar:evil-leader-keymap)
+
+       (setq uvar:evil-leader-bindings
+             '((",," . bookmark-bmenu-list)
+               (",d" . bookmark-delete)
+               (",s" . bookmark-set)
+               ("."  . ibuffer)
+               ("c"  . compile)
+               ("r"  . ufun:goto-previous-buffer)
+               ("la" . align-regexp)
+               ("lc" . count-words-region)
+               ("le" . ufun:evil-apply-macro-to-region-lines)
+               ("lo" . occur)
+               ("ls" . sort-lines)
+               ("lw" . whitespace-mode)
+               ("a"  . apropos)
+               ("O"  . switch-to-buffer-other-window)
+               ("o"  . switch-to-buffer)
+               ("E"  . find-file-other-window)
+               ("e"  . find-file)
+               ("t"  . execute-extended-command)
+               ("n"  . yank-pop)
+               ("sp" . ufun:kill-filepath)))
+
+       (dolist (keybindings uvar:evil-leader-bindings)
+         (define-key uvar:evil-leader-keymap
+           (kbd (car keybindings)) (cdr keybindings)))
+     #+END_SRC
+***** Dired
       #+BEGIN_SRC emacs-lisp
-        (use-package evil-numbers
-          :ensure t
-          :config
-          (define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
-          (define-key evil-normal-state-map (kbd "C-x") 'evil-numbers/dec-at-pt))
+        (define-prefix-command 'uvar:evil-leader-dired-keymap)
+
+        (add-hook 'dired-mode-hook
+                  '(lambda () (local-set-key (kbd "SPC") 'uvar:evil-leader-dired-keymap)))
+
+        (setq uvar:evil-leader-bindings-dired
+              (append uvar:evil-leader-bindings
+                      '(("mG" . end-of-buffer)
+                        ("mg" . beginning-of-buffer)
+                        ("mw" . wdired-change-to-wdired-mode))))
+
+        (dolist (keybindings uvar:evil-leader-bindings-dired)
+          (define-key uvar:evil-leader-dired-keymap
+            (kbd (car keybindings)) (cdr keybindings)))
+
       #+END_SRC
-**** User functions, /Etc/
+***** Ibuffer
+      #+BEGIN_SRC emacs-lisp
+        (add-hook 'ibuffer-mode-hook '(lambda () (local-set-key (kbd "SPC") 'uvar:evil-leader-keymap)))
+      #+END_SRC
+***** Elisp
+      #+BEGIN_SRC emacs-lisp
+        (define-prefix-command 'uvar:evil-leader-elisp-keymap)
+
+        (evil-define-key 'motion emacs-lisp-mode-map
+          (kbd "<SPC>") 'uvar:evil-leader-elisp-keymap)
+
+        (setq uvar:evil-leader-bindings-elisp
+              (append uvar:evil-leader-bindings
+                      '(("me" . eval-last-sexp))))
+
+        (dolist (keybindings uvar:evil-leader-bindings-elisp)
+          (define-key uvar:evil-leader-elisp-keymap
+            (kbd (car keybindings)) (cdr keybindings)))
+      #+END_SRC
+***** Org
+      #+BEGIN_SRC emacs-lisp
+        (define-prefix-command 'uvar:evil-leader-org-keymap)
+
+        (evil-define-key 'motion org-mode-map
+          (kbd "<SPC>") 'uvar:evil-leader-org-keymap)
+
+        (setq uvar:evil-leader-bindings-org
+              (append uvar:evil-leader-bindings
+                      '(("mc" . org-copy-subtree)
+                        ("md" . org-demote-subtree)
+                        ("mi" . org-insert-heading)
+                        ("mp" . org-promote-subtree)
+                        ("mx" . org-cut-subtree))))
+
+        (dolist (keybindings uvar:evil-leader-bindings-org)
+          (define-key uvar:evil-leader-org-keymap
+            (kbd (car keybindings)) (cdr keybindings)))
+      #+END_SRC
+**** Methods
+     Mostly extra functionality to bind to some keys.
      #+BEGIN_SRC emacs-lisp
        (defun ufun:evil-apply-macro-to-region-lines ()
-         "Easy binding for running an Evil macro over some selected lines."
+         "Provides an easy binding for running an Evil macro over some selected lines.
+       This function is interactive."
          (interactive)
          (evil-ex "'<,'>norm@"))
      #+END_SRC
@@ -745,7 +715,6 @@
       (use-package which-key
         :ensure t
         :defer 2
-        :diminish which-key-mode
         :config
         (setq which-key-idle-delay 0.1
               which-key-sort-order 'which-key-key-order-alpha)

@@ -60,14 +60,15 @@
                (define-key isearch-mode-map
                  (kbd (car bindings)) (cdr bindings)))))
 
-(setq uvar:emacs-custom-keybindings
-      '(("<M-down>"  . windmove-down)
-        ("<M-left>"  . windmove-left)
-        ("<M-right>" . windmove-right)
-        ("<M-up>"    . windmove-up)))
-
-(dolist (keybindings uvar:emacs-custom-keybindings)
-  (global-set-key (kbd (car keybindings)) (cdr keybindings)))
+(dolist (keybindings
+         (list
+          "<mouse-2>"
+          "<down-mouse-2>"
+          "<double-mouse-2>"
+          "<mouse-3>"
+          "<down-mouse-3>"
+          "<double-mouse-3>"))
+  (global-unset-key (kbd keybindings)))
 
 (add-hook 'c-mode-hook   'flyspell-prog-mode)
 (add-hook 'c++-mode-hook 'flyspell-prog-mode)
@@ -108,7 +109,7 @@
 
 (delete-selection-mode t)
 
-(setq mouse-drag-copy-region 1)
+(setq mouse-drag-copy-region nil)
 
 (setq org-enforce-todo-dependencies t
       org-hide-emphasis-markers t
@@ -179,8 +180,7 @@
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 
-(setq frame-title-format nil
-      inhibit-startup-screen t)
+(setq inhibit-startup-screen t)
 
 (set-frame-font "Inconsolata-15" nil t)
 
@@ -261,7 +261,6 @@ value, i.e. number of columns, of printed items to the left."
 (require 'package)
 (package-initialize)
 
-(add-to-list 'package-archives '("gnu"   . "https://elpa.gnu.org/packages/") t)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 
 (unless (package-installed-p 'use-package)
@@ -270,20 +269,6 @@ value, i.e. number of columns, of printed items to the left."
 
 (use-package bind-key
   :ensure t)
-
-(use-package diminish
-  :ensure t
-  :config
-  (setq uvar:diminished-modes
-        '(auto-fill-function ; = auto-fill-mode
-          eldoc-mode))
-
-  (dolist (diminished uvar:diminished-modes) (diminish diminished))
-
-  (setq uvar:forced-diminished-modes '((subword . subword-mode)))
-
-  (dolist (diminished uvar:forced-diminished-modes)
-    (with-eval-after-load (car diminished) (diminish (cdr diminished)))))
 
 (use-package naysayer-theme
   :ensure t
@@ -299,7 +284,6 @@ value, i.e. number of columns, of printed items to the left."
 (use-package company
   :ensure t
   :defer t
-  :diminish company-mode
   :init (global-company-mode)
   :config
   (setq company-idle-delay 0)
@@ -317,20 +301,27 @@ value, i.e. number of columns, of printed items to the left."
   :config
   (evil-mode 1)
   (evil-select-search-module 'evil-search-module 'evil-search)
+  (define-key evil-normal-state-map (kbd "<mouse-2>") nil) ; I don't like middle click.
+  (define-key evil-visual-state-map (kbd "<mouse-2>") nil) ; "
+  (define-key evil-insert-state-map (kbd "<mouse-2>") nil) ; "
   (use-package undo-fu ; No BS. Linear undo.
     :ensure t
     :config
     (define-key evil-normal-state-map "u"    'undo-fu-only-undo)
-    (define-key evil-normal-state-map "\C-r" 'undo-fu-only-redo)))
+    (define-key evil-normal-state-map "\C-r" 'undo-fu-only-redo))
+  (use-package evil-escape ; Nobody hits escape, yeah.
+    :ensure t
+    :config
+    (evil-escape-mode t)
+    (setq-default evil-escape-key-sequence "hh"
+                  evil-escape-excluded-states '(normal visual motion)
+                  evil-escape-delay 0.2)))
 
-(setq uvar:evil-motion-state-rebindings
-      '((";"  . evil-ex)
-        (":"  . evil-repeat-find-char)
-        ("gc" . comment-dwim)
-        ("zg" . ufun:add-word-to-dictionary)))
-
-;; TODO: Make this into a general function or macro.
-(dolist (keybindings uvar:evil-motion-state-rebindings)
+(dolist (keybindings
+         '((";"  . evil-ex)
+           (":"  . evil-repeat-find-char)
+           ("gc" . comment-dwim)
+           ("zg" . ufun:add-word-to-dictionary)))
   (define-key evil-motion-state-map
     (kbd (car keybindings)) (cdr keybindings)))
 
@@ -345,8 +336,7 @@ value, i.e. number of columns, of printed items to the left."
 
 ;; Using evil-define-key here will not bind additional mappings from other
 ;; plugins via use-package :bind for whatever reason. Need to use define-key.
-(define-key evil-motion-state-map
-  (kbd "<SPC>") 'uvar:evil-leader-keymap)
+(define-key evil-motion-state-map (kbd "<SPC>") 'uvar:evil-leader-keymap)
 
 (setq uvar:evil-leader-bindings
       '((",," . bookmark-bmenu-list)
@@ -377,8 +367,7 @@ value, i.e. number of columns, of printed items to the left."
 (define-prefix-command 'uvar:evil-leader-dired-keymap)
 
 (add-hook 'dired-mode-hook
-          '(lambda ()
-             (local-set-key (kbd "SPC") 'uvar:evil-leader-dired-keymap)))
+          '(lambda () (local-set-key (kbd "SPC") 'uvar:evil-leader-dired-keymap)))
 
 (setq uvar:evil-leader-bindings-dired
       (append uvar:evil-leader-bindings
@@ -422,23 +411,9 @@ value, i.e. number of columns, of printed items to the left."
   (define-key uvar:evil-leader-org-keymap
     (kbd (car keybindings)) (cdr keybindings)))
 
-(use-package evil-escape
-  :ensure t
-  :diminish
-  :config
-  (evil-escape-mode t)
-  (setq-default evil-escape-key-sequence "hh"
-                evil-escape-excluded-states '(normal visual motion)
-                evil-escape-delay 0.2))
-
-(use-package evil-numbers
-  :ensure t
-  :config
-  (define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
-  (define-key evil-normal-state-map (kbd "C-x") 'evil-numbers/dec-at-pt))
-
 (defun ufun:evil-apply-macro-to-region-lines ()
-  "Easy binding for running an Evil macro over some selected lines."
+  "Provides an easy binding for running an Evil macro over some selected lines.
+This function is interactive."
   (interactive)
   (evil-ex "'<,'>norm@"))
 
@@ -452,7 +427,6 @@ value, i.e. number of columns, of printed items to the left."
 (use-package which-key
   :ensure t
   :defer 2
-  :diminish which-key-mode
   :config
   (setq which-key-idle-delay 0.1
         which-key-sort-order 'which-key-key-order-alpha)
