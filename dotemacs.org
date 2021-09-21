@@ -2,10 +2,10 @@
 # Note:     My Emacs personality.
 * About
   My Emacs configuration written in literate programming style that would make
-  Donald Knuth proud. Hopefully easier to read than a plain Elisp file. I keep a
-  (relatively) lightweight config, separating default and third party settings
-  for easier debugging. I don't like the idea of using too many plugins, so I
-  try to keep them spare.
+  Donald Knuth proud. Hopefully easier to read than a plain Elisp file. I try to
+  keep a lightweight config, separating default and third party settings for
+  easier debugging. I don't like the idea of using too many plugins, so I try to
+  keep them spare.
 * Launch
 ** Lexical Binding
    By default, Elisp does not have lexical binding, /i.e./ variable scope based on
@@ -40,7 +40,7 @@
    beginning/ of this section to avoid undefined reference errors.
   #+BEGIN_SRC emacs-lisp
     (setq uvar:default-column 80
-          uvar:default-indent 2)
+          uvar:default-indent 4)
   #+END_SRC
 ** Bookmarks
    #+BEGIN_SRC emacs-lisp
@@ -192,25 +192,6 @@
       (add-hook 'text-mode-hook 'flyspell-mode)
       (add-to-list 'auto-mode-alist '("COMMIT_EDITMSG" . text-mode))
     #+END_SRC
-** Mode Line
-   The status bar thing at the bottom.
-   #+BEGIN_SRC emacs-lisp
-     (setq mode-line-format nil)
-     (setq-default mode-line-format
-                   (list
-                    "%e"
-                    mode-line-front-space
-                    '(:eval evil-mode-line-tag) ; will not work without Evil installed
-                    "  "
-                    mode-line-buffer-identification
-                    " "
-                    '(:eval (ufun:when-string (buffer-modified-p) "[+]"))
-                    "    "
-                    '(:eval (ufun:when-string defining-kbd-macro "(REC)"))
-                    '(:eval (ufun:mode-line-fill-right 20))
-                    mode-line-position
-                    mode-line-end-spaces))
-   #+END_SRC
 ** Mouse
 *** Selection
     Delete a selected region by simply typing any character(s).
@@ -461,21 +442,6 @@
          (when filepath
            (kill-new filepath)
            (message "Copied buffer filepath '%s' to clipboard." filepath))))
-
-     (defun ufun:mode-line-fill-right (offset)
-       "Fill the MODE-LINE with whitespace to the right, accounting for an OFFSET
-     value, i.e. number of columns, of printed items to the left."
-       (let ((fill
-              (-
-               (floor (* 0.9 (window-width)))
-               (length (buffer-name))
-               offset)))
-         (format (format "%%%ds" fill) "")))
-
-     (defun ufun:when-string (state string)
-       "Return STRING when STATE equals t."
-       (when state string))
-
    #+END_SRC
 ** Version Control
    Prefer the CLI for this sort of thing. Sorry, no Magit for me.
@@ -610,7 +576,6 @@
 
        (setq uvar:evil-leader-bindings
              '((",," . bookmark-bmenu-list)
-               (",d" . bookmark-delete)
                (",s" . bookmark-set)
                ("."  . ibuffer)
                ("c"  . compile)
@@ -622,13 +587,11 @@
                ("ls" . sort-lines)
                ("lw" . whitespace-mode)
                ("a"  . apropos)
-               ("O"  . switch-to-buffer-other-window)
                ("o"  . switch-to-buffer)
-               ("E"  . find-file-other-window)
                ("e"  . find-file)
+               ("T"  . eval-expression)
                ("t"  . execute-extended-command)
-               ("n"  . yank-pop)
-               ("sp" . ufun:kill-filepath)))
+               ("n"  . yank-pop)))
 
        (dolist (keybindings uvar:evil-leader-bindings)
          (define-key uvar:evil-leader-keymap
@@ -709,52 +672,9 @@
         :config
         (exec-path-from-shell-initialize))
     #+END_SRC
-*** Which Key
-    Dynamic menu helpful for learning keybindings.
-    #+BEGIN_SRC emacs-lisp
-      (use-package which-key
-        :ensure t
-        :defer 2
-        :config
-        (setq which-key-idle-delay 0.1
-              which-key-sort-order 'which-key-key-order-alpha)
-
-        (which-key-add-keymap-based-replacements evil-motion-state-map
-          "<SPC> ," "bookmark actions"
-          "<SPC> ." "buffer menu"
-          "<SPC> l" "line actions"
-          "<SPC> r" "visit last buffer"
-          "<SPC> a" "apropos"
-          "<SPC> O" "open buffer in other window"
-          "<SPC> o" "open buffer"
-          "<SPC> E" "edit file in other window"
-          "<SPC> e" "edit file"
-          "<SPC> t" "toplevel"
-          "<SPC> s" "special actions")
-
-        (which-key-add-major-mode-key-based-replacements 'dired-mode
-          "<SPC> m" "dired actions")
-
-        (which-key-add-major-mode-key-based-replacements 'emacs-lisp-mode
-          "<SPC> m" "elisp actions")
-
-        (which-key-add-major-mode-key-based-replacements 'org-mode
-          "<SPC> m" "org actions")
-
-        (which-key-mode))
-    #+END_SRC
 ** Programming Languages
    Third party plugins for working with programming languages that core doesn't
    support.
-*** Fish
-    Gone fishing.
-    #+BEGIN_SRC emacs-lisp
-      (use-package fish-mode
-        :ensure t
-        :defer t
-        :hook ((fish-mode . flyspell-prog-mode))
-        :config (setq fish-indent-offset uvar:default-indent))
-    #+END_SRC
 *** Gitignore
     Yeah, this doesn't come outta the box.
     #+BEGIN_SRC emacs-lisp
@@ -762,15 +682,6 @@
         :ensure t
         :defer t
         :hook ((gitignore-mode . flyspell-prog-mode)))
-    #+END_SRC
-*** Haskell
-    The polymorphic, lazily evaluated, runtime lambda calculus with algebraic
-    data types.
-    #+BEGIN_SRC emacs-lisp
-      (use-package haskell-mode
-        :ensure t
-        :defer t
-        :hook ((haskell-mode . flyspell-prog-mode)))
     #+END_SRC
 *** JSON
     Because everyone's cool with JavaScript.
@@ -810,6 +721,14 @@
         :hook ((swift-mode . flyspell-prog-mode))
         :config
         (setq swift-mode:basic-offset uvar:default-indent))
+    #+END_SRC
+*** TOML
+    The Rust one.
+    #+BEGIN_SRC emacs-lisp
+      (use-package toml-mode
+        :ensure t
+        :defer t
+        :hook ((toml-mode-hook . flyspell-prog-mode)))
     #+END_SRC
 *** TypeScript
     Hater. Hater. Static type chaser.

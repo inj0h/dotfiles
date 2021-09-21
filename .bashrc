@@ -30,21 +30,21 @@ shopt -s histappend
 # 02. Prompt
 if command -v starship > /dev/null 2>&1;
 then
-  eval "$(starship init bash)"
+    eval "$(starship init bash)"
 else
-  # I.e. When you can't download starship.
-  # Colors
-  co_clear="\033[0m"
-  co_cyan="\033[0;36m"
-  co_green="\033[0;32m"
+    # I.e. When you can't download starship.
+    # Colors
+    co_clear="\033[0m"
+    co_cyan="\033[0;36m"
+    co_green="\033[0;32m"
 
-  # Unicode
-  sy_lambda="\u03bb"
-  sy_print() {
-    echo -en "$1"
-  }
+    # Unicode
+    sy_lambda="\u03bb"
+    sy_print() {
+        echo -en "$1"
+    }
 
-  export PS1="$co_cyan[$co_clear\W$co_cyan]$co_clear $co_green$(sy_print $sy_lambda):$co_clear "
+    export PS1="$co_cyan[$co_clear\W$co_cyan]$co_clear $co_green$(sy_print $sy_lambda):$co_clear "
 fi
 
 
@@ -70,14 +70,14 @@ alias gs="git status"
 # 04. Externalities
 # Completion
 case "$(uname -s)" in
-  "Darwin")
-    [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
-    ;;
-  "Linux")
-    [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
-    ;;
-  *)
-    echo "Error: Unlisted system detected. Deferring bash completion."
+    "Darwin")
+        [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
+        ;;
+    "Linux")
+        [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
+        ;;
+    *)
+        echo "Error: Unlisted system detected. Deferring bash completion."
 esac
 
 # Starship Prompt

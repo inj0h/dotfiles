@@ -207,10 +207,12 @@
 	<key>ShowActiveProcessInTitle</key>
 	<false/>
 	<key>ShowDimensionsInTitle</key>
-	<false/>
+	<true/>
 	<key>ShowRepresentedURLInTabTitle</key>
-	<false/>
+	<true/>
 	<key>ShowRepresentedURLInTitle</key>
+	<true/>
+	<key>ShowRepresentedURLPathInTabTitle</key>
 	<false/>
 	<key>ShowTTYNameInTabTitle</key>
 	<true/>
@@ -248,6 +250,8 @@
 	<integer>90</integer>
 	<key>name</key>
 	<string>mac</string>
+	<key>noWarnProcesses</key>
+	<array/>
 	<key>rowCount</key>
 	<integer>35</integer>
 	<key>shellExitAction</key>

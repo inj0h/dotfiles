@@ -11,7 +11,7 @@
                                           gc-cons-percentage 0.1)))
 
 (setq uvar:default-column 80
-      uvar:default-indent 2)
+      uvar:default-indent 4)
 
 (add-hook 'bookmark-bmenu-mode-hook 'hl-line-mode)
 
@@ -90,22 +90,6 @@
 (add-hook 'text-mode-hook '(lambda () (setq-local whitespace-line-column 72))) ; same
 (add-hook 'text-mode-hook 'flyspell-mode)
 (add-to-list 'auto-mode-alist '("COMMIT_EDITMSG" . text-mode))
-
-(setq mode-line-format nil)
-(setq-default mode-line-format
-              (list
-               "%e"
-               mode-line-front-space
-               '(:eval evil-mode-line-tag) ; will not work without Evil installed
-               "  "
-               mode-line-buffer-identification
-               " "
-               '(:eval (ufun:when-string (buffer-modified-p) "[+]"))
-               "    "
-               '(:eval (ufun:when-string defining-kbd-macro "(REC)"))
-               '(:eval (ufun:mode-line-fill-right 20))
-               mode-line-position
-               mode-line-end-spaces))
 
 (delete-selection-mode t)
 
@@ -237,20 +221,6 @@ interactive."
       (kill-new filepath)
       (message "Copied buffer filepath '%s' to clipboard." filepath))))
 
-(defun ufun:mode-line-fill-right (offset)
-  "Fill the MODE-LINE with whitespace to the right, accounting for an OFFSET
-value, i.e. number of columns, of printed items to the left."
-  (let ((fill
-         (-
-          (floor (* 0.9 (window-width)))
-          (length (buffer-name))
-          offset)))
-    (format (format "%%%ds" fill) "")))
-
-(defun ufun:when-string (state string)
-  "Return STRING when STATE equals t."
-  (when state string))
-
 (setq vc-handled-backends nil)
 
 ;; E.g.
@@ -340,7 +310,6 @@ value, i.e. number of columns, of printed items to the left."
 
 (setq uvar:evil-leader-bindings
       '((",," . bookmark-bmenu-list)
-        (",d" . bookmark-delete)
         (",s" . bookmark-set)
         ("."  . ibuffer)
         ("c"  . compile)
@@ -352,13 +321,11 @@ value, i.e. number of columns, of printed items to the left."
         ("ls" . sort-lines)
         ("lw" . whitespace-mode)
         ("a"  . apropos)
-        ("O"  . switch-to-buffer-other-window)
         ("o"  . switch-to-buffer)
-        ("E"  . find-file-other-window)
         ("e"  . find-file)
+        ("T"  . eval-expression)
         ("t"  . execute-extended-command)
-        ("n"  . yank-pop)
-        ("sp" . ufun:kill-filepath)))
+        ("n"  . yank-pop)))
 
 (dolist (keybindings uvar:evil-leader-bindings)
   (define-key uvar:evil-leader-keymap
@@ -424,52 +391,10 @@ This function is interactive."
   :config
   (exec-path-from-shell-initialize))
 
-(use-package which-key
-  :ensure t
-  :defer 2
-  :config
-  (setq which-key-idle-delay 0.1
-        which-key-sort-order 'which-key-key-order-alpha)
-
-  (which-key-add-keymap-based-replacements evil-motion-state-map
-    "<SPC> ," "bookmark actions"
-    "<SPC> ." "buffer menu"
-    "<SPC> l" "line actions"
-    "<SPC> r" "visit last buffer"
-    "<SPC> a" "apropos"
-    "<SPC> O" "open buffer in other window"
-    "<SPC> o" "open buffer"
-    "<SPC> E" "edit file in other window"
-    "<SPC> e" "edit file"
-    "<SPC> t" "toplevel"
-    "<SPC> s" "special actions")
-
-  (which-key-add-major-mode-key-based-replacements 'dired-mode
-    "<SPC> m" "dired actions")
-
-  (which-key-add-major-mode-key-based-replacements 'emacs-lisp-mode
-    "<SPC> m" "elisp actions")
-
-  (which-key-add-major-mode-key-based-replacements 'org-mode
-    "<SPC> m" "org actions")
-
-  (which-key-mode))
-
-(use-package fish-mode
-  :ensure t
-  :defer t
-  :hook ((fish-mode . flyspell-prog-mode))
-  :config (setq fish-indent-offset uvar:default-indent))
-
 (use-package gitignore-mode
   :ensure t
   :defer t
   :hook ((gitignore-mode . flyspell-prog-mode)))
-
-(use-package haskell-mode
-  :ensure t
-  :defer t
-  :hook ((haskell-mode . flyspell-prog-mode)))
 
 (use-package json-mode
   :ensure t
@@ -500,6 +425,11 @@ This function is interactive."
   :hook ((swift-mode . flyspell-prog-mode))
   :config
   (setq swift-mode:basic-offset uvar:default-indent))
+
+(use-package toml-mode
+  :ensure t
+  :defer t
+  :hook ((toml-mode-hook . flyspell-prog-mode)))
 
 (use-package typescript-mode
   :ensure t

@@ -10,9 +10,6 @@ disabled       = false
 success_symbol = "[\u03bb:](bold green)" # "\u03bb" draws Greek upper lambda.
 error_symbol   = "[\u03bb:](bold red)"
 
-[cmd_duration]
-disabled = false
-
 [directory]
 disabled          = false
 truncation_length = 1
@@ -39,9 +36,9 @@ untracked  = "[\u039d$count](red)"    # Greek upper nu.
 stashed    = "[\u03c2$count](blue)"   # Greek lower simga.
 modified   = "[\u0394$count](red)"    # Greek upper delta.
 staged     = "[\u03a3$count](yellow)" # Greek upper sigma.
-renamed    = "[\u03b4$count](red)"    # Greek lower delta.
+renamed    = "[\u03b4$count](yellow)" # Greek lower delta.
 deleted    = "[\u2718$count](red)"    # Cool cross (X).
-format     = "\\[[$conflicted$deleted$renamed$modified$untracked$stashed$staged$up_to_date$ahead_behind]($style)\\] "
+format     = "\\[[$conflicted$deleted$modified$untracked$stashed$staged$renamed$up_to_date$ahead_behind]($style)\\] "
 
 [hostname]
 disabled = false
@@ -57,6 +54,9 @@ disabled = true
 disabled = true
 
 [cmake]
+disabled = true
+
+[cmd_duration]
 disabled = true
 
 [conda]
