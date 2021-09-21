@@ -3,10 +3,9 @@
 (setq package-enable-at-startup nil
       site-run-file nil
       gc-cons-threshold most-positive-fixnum
-      gc-cons-percentage 0.6)
+      gc-cons-percentage 0.9)
 
-;; Revert the garbage collection to the default value, i.e. threshold = 800000
-;; and percentage at 0.1.
+;; Restore default garbage collection settings.
 (add-hook 'emacs-startup-hook (lambda () (setq gc-cons-threshold 800000
                                           gc-cons-percentage 0.1)))
 
