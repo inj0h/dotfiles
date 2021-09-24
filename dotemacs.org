@@ -345,7 +345,7 @@
 *** Font
     Make sure the OS has the font installed!
     #+BEGIN_SRC emacs-lisp
-      (set-frame-font "Inconsolata-15" nil t)
+      (set-frame-font "Iosevka-15" nil t)
     #+END_SRC
 *** Frames
     Basically windows in almost every other editor.

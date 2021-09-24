@@ -165,7 +165,7 @@
 
 (setq inhibit-startup-screen t)
 
-(set-frame-font "Inconsolata-15" nil t)
+(set-frame-font "Iosevka-15" nil t)
 
 (setq initial-frame-alist '((width . 100) (height . 48)))
 

@@ -28,12 +28,12 @@ disabled = false
 [git_status]
 disabled   = false
 conflicted = "\u03c7"                 # Greek small chi.
-ahead      = "[+$count](blue)"
+ahead      = "[+$count](green)"
 behind     = "[-$count](red)"
 diverged   = "\u03c8"                 # Greek small psi.
 up_to_date = "[\u2714](green)"        # Cool checkmark.
 untracked  = "[\u039d$count](red)"    # Greek upper nu.
-stashed    = "[\u03c2$count](blue)"   # Greek lower simga.
+stashed    = "[\u03c2$count](green)"  # Greek lower simga.
 modified   = "[\u0394$count](red)"    # Greek upper delta.
 staged     = "[\u03a3$count](yellow)" # Greek upper sigma.
 renamed    = "[\u03b4$count](yellow)" # Greek lower delta.
