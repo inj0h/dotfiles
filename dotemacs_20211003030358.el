@@ -1,0 +1,427 @@
+;; -*- lexical-binding: t -*-
+
+(setq package-enable-at-startup nil
+      site-run-file nil
+      gc-cons-threshold 50000000 ; 50 MB. If too big, we lose the speedup.
+      gc-cons-percentage 0.9)
+
+;; Restore default garbage collection settings.
+(add-hook 'emacs-startup-hook (lambda () (setq gc-cons-threshold 800000
+                                          gc-cons-percentage 0.1)))
+
+(setq initial-scratch-message
+      ";; God's in his heaven. All's right with the world. ")
+
+(setq uvar:default-column 80
+      uvar:default-indent 4)
+
+(defun ufun:add-word-to-dictionary ()
+  "Add the word-at-point to aspell's dictionary."
+  (interactive)
+  (let ((current-location (point)) (word (flyspell-get-word)))
+    (when (consp word)
+      (flyspell-do-correct 'save
+                           nil
+                           (car word)
+                           current-location
+                           (cadr word)
+                           (caddr word)
+                           current-location))))
+
+(defun ufun:goto-previous-buffer ()
+  "Return to the previously visited buffer. This function is interactive."
+  (interactive)
+  (switch-to-buffer (other-buffer (current-buffer) 1)))
+
+(defun ufun:kill-filepath ()
+  "Copy the current buffer filename with path to clipboard. This function is
+interactive."
+  (interactive)
+  (let ((filepath (if (equal major-mode 'dired-mode)
+                      default-directory
+                    (buffer-file-name))))
+    (when filepath
+      (kill-new filepath)
+      (message "Copied buffer filepath '%s' to clipboard." filepath))))
+
+(defun ufun:create-keybindings (keymap keybindings)
+  "Create KEYBINDINGS based on an existing KEYMAP."
+  (dolist (binding keybindings)
+    (define-key keymap
+      (kbd (car binding)) (cdr binding))))
+
+;; References on using backticks
+;; - https://stackoverflow.com/questions/30150186/what-does-backtick-mean-in-lisp
+;; - https://stackoverflow.com/questions/26613583/emacs-use-add-hook-inside-function-defun
+(defun ufun:create-leader-local-keybindings (leader hook keymap keybindings)
+  "TODO: Add documentation."
+  (progn
+    (define-prefix-command keymap)
+    (add-hook hook `(lambda () (local-set-key (kbd ,leader) ,keymap)))
+    (ufun:create-keybindings keymap keybindings)))
+
+(defun ufun:create-leader-evil-keybindings (leader mode vimode keymap keybindings)
+  "TODO: Add documentation."
+  (progn
+    (define-prefix-command keymap)
+    (evil-define-key* vimode mode (kbd leader) keymap) ; Tip - Don't use the macro!
+    (ufun:create-keybindings keymap keybindings)))
+
+(setq inhibit-startup-screen t
+      vc-handled-backends nil)
+
+(global-hl-line-mode -1)
+(menu-bar-mode -1)
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
+
+(add-hook 'bookmark-bmenu-mode-hook 'hl-line-mode)
+
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(load custom-file 'noerror)
+
+(add-hook 'dired-mode-hook 'hl-line-mode)
+
+(setq auto-save-default nil
+      create-lockfiles nil
+      make-backup-files nil)
+
+(global-auto-revert-mode 1) ; Auto-reload files on change.
+
+(add-hook 'ibuffer-mode-hook '(lambda () (local-set-key (kbd "G") 'end-of-buffer)))
+(add-hook 'ibuffer-mode-hook '(lambda () (local-set-key (kbd "R") 'ibuffer-do-replace-regexp)))
+(add-hook 'ibuffer-mode-hook '(lambda () (local-set-key (kbd "g") 'beginning-of-buffer)))
+(add-hook 'ibuffer-mode-hook '(lambda () (local-set-key (kbd "j") 'next-line)))
+(add-hook 'ibuffer-mode-hook '(lambda () (local-set-key (kbd "k") 'previous-line)))
+(add-hook 'ibuffer-mode-hook '(lambda () (local-set-key (kbd "r") 'ibuffer-update)))
+
+(add-hook 'ibuffer-mode-hook 'hl-line-mode)
+
+(setq ido-auto-merge-work-directories-length -1
+      ido-case-fold t
+      ido-enable-flex-matching t
+      ido-everywhere t)
+
+(ido-mode 1)
+
+(setq uvar:isearch-mode-keybindings
+      '(("<up>"   . isearch-repeat-backward)
+        ("<down>" . isearch-repeat-forward)))
+
+(add-hook 'isearch-mode-hook
+          '(lambda ()
+             (dolist (bindings uvar:isearch-mode-keybindings)
+               (define-key isearch-mode-map
+                 (kbd (car bindings)) (cdr bindings)))))
+
+(dolist (keybindings
+         (list
+          "<mouse-2>"
+          "<down-mouse-2>"
+          "<double-mouse-2>"
+          "<mouse-3>"
+          "<down-mouse-3>"
+          "<double-mouse-3>"))
+  (global-unset-key (kbd keybindings)))
+
+(setq org-enforce-todo-dependencies t
+      org-hide-emphasis-markers t
+      org-src-fontify-natively t
+      org-src-tab-acts-natively t
+      org-time-stamp-formats '("<%Y_%m_%d %a>" .
+                               "<%Y_%m_%d %a %H:%M>")
+      org-todo-keywords '((sequence "TODO(t)"
+                                    "IN-PROGRESS(p!)"
+                                    "BLOCKED(b@/!)"
+                                    "SOMEDAY(s@/!)"
+                                    "|"
+                                    "DONE(d!)"
+                                    "CANCELED(c@/!)"))
+      org-use-fast-todo-selection t)
+
+(add-hook 'org-mode-hook 'hl-line-mode)
+(add-hook 'org-mode-hook '(lambda () (setq-local fill-column uvar:default-column)))
+
+(add-hook 'package-menu-mode-hook 'hl-line-mode)
+(add-hook 'package-menu-mode-hook '(lambda () (local-set-key (kbd "G")  'end-of-buffer)))
+(add-hook 'package-menu-mode-hook '(lambda () (local-set-key (kbd "gg") 'beginning-of-buffer)))
+(add-hook 'package-menu-mode-hook '(lambda () (local-set-key (kbd "j")  'next-line)))
+(add-hook 'package-menu-mode-hook '(lambda () (local-set-key (kbd "k")  'previous-line)))
+
+(add-hook 'c-mode-hook   'flyspell-prog-mode)
+(add-hook 'c++-mode-hook 'flyspell-prog-mode)
+
+(add-hook 'emacs-lisp-mode-hook 'flyspell-prog-mode)
+(add-hook 'emacs-lisp-mode-hook 'prettify-symbols-mode)
+
+(add-hook 'java-mode-hook '(lambda () (setq-local fill-column 120)))
+(add-hook 'java-mode-hook 'flyspell-prog-mode)
+
+(add-hook 'latex-mode-hook '(lambda () (setq-local fill-column uvar:default-column)))
+(add-hook 'latex-mode-hook 'flyspell-mode)
+
+(setq sh-indentation uvar:default-indent)
+(add-hook 'sh-mode-hook 'flyspell-prog-mode)
+
+(add-hook 'text-mode-hook '(lambda () (setq-local fill-column 72))) ; Blame Git.
+(add-hook 'text-mode-hook 'flyspell-mode)
+(add-to-list 'auto-mode-alist '("COMMIT_EDITMSG" . text-mode))
+
+(require 'server)
+(unless (server-running-p) (server-start))
+
+(add-hook 'tetris-mode-hook
+          '(lambda () (ufun:create-keybindings
+                  tetris-mode-map
+                  '(("," . tetris-rotate-prev)
+                    ("a" . tetris-move-left)
+                    ("o" . tetris-move-down)
+                    ("e" . tetris-move-right)))))
+
+(prefer-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8)
+(set-language-environment "UTF-8")
+(setq default-buffer-file-coding-system 'utf-8)
+
+(set-frame-font "Iosevka-14" nil t) ; Make sure the OS has this installed!
+
+(setq backward-delete-char-untabify-method 'hungry
+      require-final-newline t
+      show-paren-delay 0
+      sentence-end-double-space nil)
+
+(show-paren-mode 1)
+(add-hook 'prog-mode-hook 'subword-mode)
+
+(setq-default indent-tabs-mode nil           ; No tabs!
+              tab-width uvar:default-indent) ; Use four spaces!
+(setq c-basic-offset uvar:default-indent)
+
+(cond ((equal system-type 'gnu/linux)
+       (setq ispell-program-name "/usr/bin/aspell"))
+      ((equal system-type 'darwin)
+       (setq ispell-program-name "/usr/local/bin/aspell")))
+
+(setq-default whitespace-line-column nil) ; Use fill-column setting.
+(add-hook 'before-save-hook 'whitespace-cleanup)
+
+(setq mouse-drag-copy-region nil
+      blink-cursor-blinks 30)
+
+(blink-cursor-mode 1)
+(delete-selection-mode t)
+
+(add-hook 'server-visit-hook '(lambda () (xterm-mouse-mode 1))) ; Terminal mousing.
+
+(setq scroll-bar-adjust-thumb-portion nil) ; No over-scrolling (X11 only).
+
+;; Supposed to configure smooth scrolling, but not sure if it works anymore.
+(setq mouse-wheel-scroll-amount '(1 ((shift) . 1))
+      mouse-wheel-progressive-speed nil
+      mouse-wheel-follow-mouse 't
+      scroll-preserve-screen-position t
+      scroll-step 1)
+
+;; Dimensions of the frame on load.
+(setq initial-frame-alist '((width . 90) (height . 35)))
+
+;; Render non-focused frames transparent.
+;;
+;; I.e. when setting the alpha (transparency level), the first and second
+;; numbers indicate focused and unfocused transparency respectively. 100 alpha
+;; means opaque.
+(set-frame-parameter (selected-frame) 'alpha '(100 . 95))
+(add-to-list 'default-frame-alist '(alpha . (100 . 95)))
+
+(setq-default column-number-indicator-zero-based nil ; Count columns starting from 1, /i.e./ the default is 0.
+              fill-column uvar:default-column)
+(setq column-number-mode t)
+
+;; Keep uniform width. I.e. if the file has 100 lines then single and double
+;; digit numbers take up 3 spaces.
+(setq display-line-numbers-grow-only t)
+
+(add-hook 'minibuffer-setup-hook '(lambda () (setq truncate-lines nil))) ; No minibuffer line wrapping.
+
+(defalias 'yes-or-no-p 'y-or-n-p)
+(setq visible-bell 1)
+
+;; E.g.
+;; (setq url-proxy-services
+;;       '(("http"  . "work.proxy.com:8080")
+;;         ("https" . "work.proxy.com:8080")))
+
+(require 'package)
+(package-initialize)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+
+(when (not package-archive-contents)
+  (package-refresh-contents))
+
+(dolist (packages '(company
+                    evil
+                    evil-escape
+                    gitignore-mode
+                    json-mode
+                    markdown-mode
+                    naysayer-theme
+                    org-bullets
+                    swift-mode
+                    toml-mode
+                    typescript-mode
+                    undo-fu
+                    yaml-mode))
+  (when (not (package-installed-p packages))
+    (package-install packages)))
+
+;; Theme
+(load-theme 'naysayer t) ; This is (not) a compiler stream.
+
+;; Org
+(require 'org-bullets)
+(add-hook 'org-mode-hook 'org-bullets-mode)
+
+(require 'company)
+(setq company-idle-delay 0)
+(setq-default company-dabbrev-downcase nil
+              company-dabbrev-ignore-case 1)
+
+(global-company-mode)
+(with-eval-after-load 'company
+  (define-key company-active-map (kbd "M-n") nil)
+  (define-key company-active-map (kbd "M-p") nil)
+  (define-key company-active-map (kbd "C-n") #'company-select-next)
+  (define-key company-active-map (kbd "C-t") #'company-select-previous))
+
+(require 'evil)
+(require 'undo-fu)
+(require 'evil-escape)
+(evil-mode 1)
+(evil-escape-mode t)
+(evil-select-search-module 'evil-search-module 'evil-search)
+
+(define-key evil-normal-state-map (kbd "<mouse-2>") nil) ; I don't like middle click.
+(define-key evil-visual-state-map (kbd "<mouse-2>") nil) ; "
+(define-key evil-insert-state-map (kbd "<mouse-2>") nil) ; "
+(define-key evil-normal-state-map "u"    'undo-fu-only-undo)
+(define-key evil-normal-state-map "\C-r" 'undo-fu-only-redo)
+
+(setq-default evil-escape-key-sequence "hh"
+              evil-escape-excluded-states '(normal visual motion)
+              evil-escape-delay 0.2)
+
+(ufun:create-keybindings
+ evil-motion-state-map
+ '((";"  . evil-ex)
+   (":"  . evil-repeat-find-char)
+   ("gc" . comment-dwim)
+   ("zg" . ufun:add-word-to-dictionary)))
+
+(define-key evil-emacs-state-map  (kbd "C-M-s-m") 'evil-exit-emacs-state)
+(define-key evil-motion-state-map (kbd "C-M-s-m") 'evil-emacs-state)
+
+;; Have Ctrl-z suspend the frame, i.e. reclaim STDIO with Emacsclient.
+(define-key evil-emacs-state-map  (kbd "C-z") 'suspend-frame)
+(define-key evil-motion-state-map (kbd "C-z") 'suspend-frame)
+
+(define-prefix-command 'uvar:evil-leader-keymap)
+
+;; Using evil-define-key here will not bind additional mappings from other
+;; plugins via use-package :bind for whatever reason. Need to use define-key.
+(define-key evil-motion-state-map (kbd "<SPC>") 'uvar:evil-leader-keymap)
+
+(setq uvar:evil-leader-bindings
+      '((",," . bookmark-bmenu-list)
+        (",s" . bookmark-set)
+        ("."  . ibuffer)
+        ("c"  . compile)
+        ("r"  . ufun:goto-previous-buffer)
+        ("la" . align-regexp)
+        ("lc" . count-words-region)
+        ("le" . ufun:evil-apply-macro-to-region-lines)
+        ("lo" . occur)
+        ("ls" . sort-lines)
+        ("lw" . whitespace-mode)
+        ("a"  . apropos)
+        ("o"  . switch-to-buffer)
+        ("e"  . find-file)
+        ("T"  . eval-expression)
+        ("t"  . execute-extended-command)
+        ("n"  . yank-pop)))
+
+(ufun:create-keybindings uvar:evil-leader-keymap uvar:evil-leader-bindings)
+
+;; Dired
+(ufun:create-leader-local-keybindings
+ "SPC"
+ 'dired-mode-hook
+ 'uvar:evil-leader-dired-keymap
+ (append uvar:evil-leader-bindings
+         '(("mG" . end-of-buffer)
+           ("mg" . beginning-of-buffer)
+           ("mw" . wdired-change-to-wdired-mode))))
+
+;; Ibuffer
+(add-hook 'ibuffer-mode-hook
+          '(lambda () (local-set-key (kbd "SPC") 'uvar:evil-leader-keymap)))
+
+;; Elisp
+(ufun:create-leader-evil-keybindings
+ "SPC"
+ emacs-lisp-mode-map
+ 'motion
+ 'uvar:evil-leader-elisp-keymap
+ (append uvar:evil-leader-bindings '(("me" . eval-last-sexp))))
+
+;; Org
+(ufun:create-leader-evil-keybindings
+ "SPC"
+ org-mode-map
+ 'motion
+ 'uvar:evil-leader-org-keymap
+ (append uvar:evil-leader-bindings
+         '(("mc" . org-copy-subtree)
+           ("md" . org-demote-subtree)
+           ("mi" . org-insert-heading)
+           ("mp" . org-promote-subtree)
+           ("mx" . org-cut-subtree))))
+
+(defun ufun:evil-apply-macro-to-region-lines ()
+  "Provides an easy binding for running an Evil macro over some selected lines.
+This function is interactive."
+  (interactive)
+  (evil-ex "'<,'>norm@"))
+
+(require 'gitignore-mode)
+(add-hook 'gitignore-mode-hook 'flyspell-prog-mode)
+
+(require 'json-mode)
+(add-hook 'json-mode-hook 'flyspell-prog-mode)
+(setq js-indent-level uvar:default-indent)
+(add-to-list 'auto-mode-alist '("\\.eslintrc\\'"   . json-mode))
+(add-to-list 'auto-mode-alist '("\\.prettierrc\\'" . json-mode))
+
+(require 'markdown-mode)
+(add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode)) ; Use GitHub flavored Markdown.
+(add-hook 'markdown-mode-hook 'flyspell-mode)
+(add-hook 'markdown-mode-hook '(lambda () (setq-local fill-column uvar:default-column)))
+(cond ((string-equal system-type "gnu/linux")
+       (setq markdown-command "/usr/bin/pandoc"))
+      ((string-equal system-type "darwin")
+       (setq markdown-command "/usr/local/bin/pandoc")))
+
+(require 'swift-mode)
+(add-hook 'swift-mode-hook 'flyspell-prog-mode)
+(setq swift-mode:basic-offset uvar:default-indent)
+
+(require 'toml-mode)
+(add-hook 'toml-mode-hook 'flyspell-prog-mode)
+
+(require 'typescript-mode)
+(add-hook 'typescript-mode 'flyspell-prog-mode)
+(add-hook 'typescript-mode 'prettify-symbols-mode)
+(add-hook 'typescript-mode '(lambda () (push '("=>" . 8658) prettify-symbols-alist)))
+(setq typescript-indent-level uvar:default-indent)
+
+(require 'yaml-mode)
+(add-hook 'yaml-mode-hook 'flyspell-prog-mode)

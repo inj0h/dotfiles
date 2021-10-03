@@ -16,6 +16,7 @@
 !bootstrap.el
 !dotemacs.org
 !dotemacs_[0-9]*.el
+!dotemacs_sans_usepackage.el
 !dotfiles.txt
 !mac.terminal
 !readme.md
