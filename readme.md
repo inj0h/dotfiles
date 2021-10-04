@@ -1,15 +1,17 @@
-# Dotfiles
-My programming configuration files. Unix. Emacs. _Etc._ Share. Steal. Blah,
-blah, blah. To get the most out of these files, it would help to do your
-computing on a Unix system. Not tested on Windows (YMMV).
+# Mostly Emacs
+But also Bash, ripgrep, starship, and some other configs. I use these files to
+do most of my programming, usually on some Unix environment.
+
+Maybe Windows one day.
 
 ## Emacs
 I keep a literate configuration with `dotemacs.org`, and use `bootstrap.el` to
 output a __timestamped Elisp file,__ which I can then symlink against. The
-timestamped Elisp file gets committed to this repository where it hopefully
-serves as a backup (hopefully).
+timestamped file gets committed to this repository where it hopefully
+:crossed_fingers: serves as a backup.
 
 ``` shell
-$ emacs --script bootstrap.el
-$ ln -s /PATH/TO/TIMESTAMPPED/CONFIG ~/.config/emacs/init.el
+$ ./bootstrap.el dotemacs.org
+$ "Success! Tangled: dotemacs.org -> dotemacs_YYYYMMDD.el"
+$ ln -s ~/.dotfiles/dotemacs_YYYYMMDD.el ~/.config/emacs/init.el
 ```

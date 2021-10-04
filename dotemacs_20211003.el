@@ -75,33 +75,63 @@ interactive."
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 
+;; Highlight the current line.
 (add-hook 'bookmark-bmenu-mode-hook 'hl-line-mode)
+(add-hook 'dired-mode-hook          'hl-line-mode)
+(add-hook 'ibuffer-mode-hook        'hl-line-mode)
+(add-hook 'org-mode-hook            'hl-line-mode)
+(add-hook 'package-menu-mode-hook   'hl-line-mode)
+
+(setq mouse-drag-copy-region nil
+      blink-cursor-blinks 30)
+
+(blink-cursor-mode 1)
+(delete-selection-mode t)
+
+(add-hook 'server-visit-hook '(lambda () (xterm-mouse-mode 1))) ; Terminal mousing.
+
+(setq scroll-bar-adjust-thumb-portion nil) ; No over-scrolling (X11 only).
+
+;; Supposed to configure smooth scrolling, but not sure if it works anymore.
+(setq mouse-wheel-scroll-amount '(1 ((shift) . 1))
+      mouse-wheel-progressive-speed nil
+      mouse-wheel-follow-mouse 't
+      scroll-preserve-screen-position t
+      scroll-step 1)
 
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file 'noerror)
 
-(add-hook 'dired-mode-hook 'hl-line-mode)
+;; Dimensions of the frame on load.
+(setq initial-frame-alist '((width . 90) (height . 35)))
+
+;; Render non-focused frames transparent.
+;;
+;; I.e. when setting the alpha (transparency level), the first and second
+;; numbers indicate focused and unfocused transparency respectively. 100 alpha
+;; means opaque.
+(set-frame-parameter (selected-frame) 'alpha '(100 . 95))
+(add-to-list 'default-frame-alist '(alpha . (100 . 95)))
+
+(setq-default column-number-indicator-zero-based nil ; Count columns starting from 1, /i.e./ the default is 0.
+              fill-column uvar:default-column)
+(setq column-number-mode t)
+
+;; Keep uniform width. I.e. if the file has 100 lines then single and double
+;; digit numbers take up 3 spaces.
+(setq display-line-numbers-grow-only t)
+
+(add-hook 'minibuffer-setup-hook '(lambda () (setq truncate-lines nil))) ; No minibuffer line wrapping.
 
 (setq auto-save-default nil
-      create-lockfiles nil
+      create-lockfiles  nil
       make-backup-files nil)
-
 (global-auto-revert-mode 1) ; Auto-reload files on change.
 
-(add-hook 'ibuffer-mode-hook '(lambda () (local-set-key (kbd "G") 'end-of-buffer)))
-(add-hook 'ibuffer-mode-hook '(lambda () (local-set-key (kbd "R") 'ibuffer-do-replace-regexp)))
-(add-hook 'ibuffer-mode-hook '(lambda () (local-set-key (kbd "g") 'beginning-of-buffer)))
-(add-hook 'ibuffer-mode-hook '(lambda () (local-set-key (kbd "j") 'next-line)))
-(add-hook 'ibuffer-mode-hook '(lambda () (local-set-key (kbd "k") 'previous-line)))
-(add-hook 'ibuffer-mode-hook '(lambda () (local-set-key (kbd "r") 'ibuffer-update)))
-
-(add-hook 'ibuffer-mode-hook 'hl-line-mode)
-
 (setq ido-auto-merge-work-directories-length -1
-      ido-case-fold t
-      ido-enable-flex-matching t
-      ido-everywhere t)
-
+      ido-case-fold                           t
+      ido-enable-flex-matching                t
+      ido-everywhere                          t)
 (ido-mode 1)
 
 (setq uvar:isearch-mode-keybindings
@@ -114,39 +144,25 @@ interactive."
                (define-key isearch-mode-map
                  (kbd (car bindings)) (cdr bindings)))))
 
-(dolist (keybindings
-         (list
-          "<mouse-2>"
-          "<down-mouse-2>"
-          "<double-mouse-2>"
-          "<mouse-3>"
-          "<down-mouse-3>"
-          "<double-mouse-3>"))
-  (global-unset-key (kbd keybindings)))
+(add-hook 'ibuffer-mode-hook      '(lambda () (local-set-key (kbd "j") 'next-line)))
+(add-hook 'ibuffer-mode-hook      '(lambda () (local-set-key (kbd "k") 'previous-line)))
+(add-hook 'package-menu-mode-hook '(lambda () (local-set-key (kbd "j") 'next-line)))
+(add-hook 'package-menu-mode-hook '(lambda () (local-set-key (kbd "k") 'previous-line)))
 
 (setq org-enforce-todo-dependencies t
-      org-hide-emphasis-markers t
-      org-src-fontify-natively t
-      org-src-tab-acts-natively t
-      org-time-stamp-formats '("<%Y_%m_%d %a>" .
-                               "<%Y_%m_%d %a %H:%M>")
-      org-todo-keywords '((sequence "TODO(t)"
-                                    "IN-PROGRESS(p!)"
-                                    "BLOCKED(b@/!)"
-                                    "SOMEDAY(s@/!)"
-                                    "|"
-                                    "DONE(d!)"
-                                    "CANCELED(c@/!)"))
-      org-use-fast-todo-selection t)
-
-(add-hook 'org-mode-hook 'hl-line-mode)
+      org-hide-emphasis-markers     t
+      org-src-fontify-natively      t
+      org-src-tab-acts-natively     t
+      org-time-stamp-formats        '("<%Y_%m_%d %a>" . "<%Y_%m_%d %a %H:%M>")
+      org-todo-keywords             '((sequence "TODO(t)"
+                                                "IN-PROGRESS(p!)"
+                                                "BLOCKED(b@/!)"
+                                                "SOMEDAY(s@/!)"
+                                                "|"
+                                                "DONE(d!)"
+                                                "CANCELED(c@/!)"))
+      org-use-fast-todo-selection   t)
 (add-hook 'org-mode-hook '(lambda () (setq-local fill-column uvar:default-column)))
-
-(add-hook 'package-menu-mode-hook 'hl-line-mode)
-(add-hook 'package-menu-mode-hook '(lambda () (local-set-key (kbd "G")  'end-of-buffer)))
-(add-hook 'package-menu-mode-hook '(lambda () (local-set-key (kbd "gg") 'beginning-of-buffer)))
-(add-hook 'package-menu-mode-hook '(lambda () (local-set-key (kbd "j")  'next-line)))
-(add-hook 'package-menu-mode-hook '(lambda () (local-set-key (kbd "k")  'previous-line)))
 
 (add-hook 'c-mode-hook   'flyspell-prog-mode)
 (add-hook 'c++-mode-hook 'flyspell-prog-mode)
@@ -205,44 +221,6 @@ interactive."
 (setq-default whitespace-line-column nil) ; Use fill-column setting.
 (add-hook 'before-save-hook 'whitespace-cleanup)
 
-(setq mouse-drag-copy-region nil
-      blink-cursor-blinks 30)
-
-(blink-cursor-mode 1)
-(delete-selection-mode t)
-
-(add-hook 'server-visit-hook '(lambda () (xterm-mouse-mode 1))) ; Terminal mousing.
-
-(setq scroll-bar-adjust-thumb-portion nil) ; No over-scrolling (X11 only).
-
-;; Supposed to configure smooth scrolling, but not sure if it works anymore.
-(setq mouse-wheel-scroll-amount '(1 ((shift) . 1))
-      mouse-wheel-progressive-speed nil
-      mouse-wheel-follow-mouse 't
-      scroll-preserve-screen-position t
-      scroll-step 1)
-
-;; Dimensions of the frame on load.
-(setq initial-frame-alist '((width . 90) (height . 35)))
-
-;; Render non-focused frames transparent.
-;;
-;; I.e. when setting the alpha (transparency level), the first and second
-;; numbers indicate focused and unfocused transparency respectively. 100 alpha
-;; means opaque.
-(set-frame-parameter (selected-frame) 'alpha '(100 . 95))
-(add-to-list 'default-frame-alist '(alpha . (100 . 95)))
-
-(setq-default column-number-indicator-zero-based nil ; Count columns starting from 1, /i.e./ the default is 0.
-              fill-column uvar:default-column)
-(setq column-number-mode t)
-
-;; Keep uniform width. I.e. if the file has 100 lines then single and double
-;; digit numbers take up 3 spaces.
-(setq display-line-numbers-grow-only t)
-
-(add-hook 'minibuffer-setup-hook '(lambda () (setq truncate-lines nil))) ; No minibuffer line wrapping.
-
 (defalias 'yes-or-no-p 'y-or-n-p)
 (setq visible-bell 1)
 
@@ -300,15 +278,12 @@ interactive."
 (evil-escape-mode t)
 (evil-select-search-module 'evil-search-module 'evil-search)
 
-(define-key evil-normal-state-map (kbd "<mouse-2>") nil) ; I don't like middle click.
-(define-key evil-visual-state-map (kbd "<mouse-2>") nil) ; "
-(define-key evil-insert-state-map (kbd "<mouse-2>") nil) ; "
 (define-key evil-normal-state-map "u"    'undo-fu-only-undo)
 (define-key evil-normal-state-map "\C-r" 'undo-fu-only-redo)
 
-(setq-default evil-escape-key-sequence "hh"
+(setq-default evil-escape-key-sequence    "hh"
               evil-escape-excluded-states '(normal visual motion)
-              evil-escape-delay 0.2)
+              evil-escape-delay           0.2)
 
 (ufun:create-keybindings
  evil-motion-state-map
@@ -328,7 +303,7 @@ interactive."
 
 ;; Using evil-define-key here will not bind additional mappings from other
 ;; plugins via use-package :bind for whatever reason. Need to use define-key.
-(define-key evil-motion-state-map (kbd "<SPC>") 'uvar:evil-leader-keymap)
+(define-key evil-motion-state-map (kbd "SPC") 'uvar:evil-leader-keymap)
 
 (setq uvar:evil-leader-bindings
       '((",," . bookmark-bmenu-list)

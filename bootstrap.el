@@ -1,53 +1,53 @@
-;; -*- lexical-binding: t -*-
+#!/bin/sh
+":"; exec emacs --quick --script "$0" "$@" # -*- mode: emacs-lisp; lexical-binding: t; -*-
 ;; Filename: bootstrap.el
 ;; Note:     Initialization script to bootstrap a pure Elisp configuration from
 ;;           an Org configuration.
+;;
+;;           Checkout the following link to a GitHub Gist about creating the
+;;           proper shebang. I.e. The first two lines at the top of this file.
+;;
+;;           https://gist.github.com/ctarbide/99b0ac9f7d6bef19cdd3e9f71b4cbcf7
 
 (require 'org)
 
-(defun ufun:string-valid-p (string)
-  "Return t if string is both non-nil and not blank, i.e. (string-blank-p
-string) returns non-nil. Otherwise, return nil."
-  (if (and string
-           (not (string-blank-p string)))
-      t
-    nil))
+(defun ufun:file-extension-p (filename extension)
+  "Return t if FILENAME contains no \".\" and its extension equals EXTENSION.
+  Otherwise return nil."
+  (let ((split-filename (split-string filename "\\.")))
+    (if (and (equal (length split-filename) 2)
+             (equal (car (cdr split-filename)) extension))
+        t
+      nil)))
 
-(defun ufun:file-extension-p (file)
-  "Return t if exactly two substrings can be created by splitting file at
-delimiter '.' and file is a valid string, i.e. (ufun:string-valid-p string)
-returns t. Otherwise, return nil."
-  (if (and (ufun:string-valid-p file)
-           (equal (length (split-string file "\\.")) 2))
-      t
-    nil))
+(defun ufun:tangle-emacs-org-config (filename)
+  "Tangle FILENAME file into a \"dotemacs_year-month-day.el\" output file.
 
-(defun ufun:org-name-tangle-file (file extension &optional timestamp)
-  "Replace the file 'extension' with extension. Note for correct functionality,
-this method assumes file has a name such that (ufun:file-extension-p file)
-returns t.
+This method will print a message accordingly for the following error cases.
+0. FILENAME is null or its file does not exist.
+1. FILENAME does not have a \".org\" extension.
+2. The output file already exists.
 
-If timestamp is non-nil, concatenate a timestamp between file and extension. Use
-the format year-month-day-hour-minute-second."
-  (when (and (ufun:string-valid-p file)
-             (ufun:string-valid-p extension))
-    (if timestamp
-        (let ((tstamp (format-time-string "_%Y%m%d%H%M%S")))
-          (concat (car (split-string file "\\.")) tstamp "." extension))
-      (concat (car (split-string file "\\.")) "." extension))))
+Note, it does not return a non-zero exit code to STDOUT when printing these
+error messages.
 
-(defun ufun:config-bootstrap (source-file target-extension)
-  "Produce an Elisp file by extracting Elisp source blocks from an Org file.
-Note, this method is meant to fit a personal workflow for bootstrapping a pure
-Elisp configuration from an Org source file which can then easily become
-symlinked."
-  (if (and (ufun:string-valid-p source-file)
-           (ufun:string-valid-p target-extension)
-           (ufun:file-extension-p source-file)
-           (file-exists-p source-file))
-      (let ((target-file (ufun:org-name-tangle-file source-file target-extension 1)))
-        (org-babel-tangle-file source-file target-file))
-    (print
-     (concat "Error: failed to load file - " source-file))))
+This method assumes that FILENAME contains Elisp code. If it does not, this
+method will still produce an output file with the tangled source code."
+  (let ((output-filename (concat "dotemacs"
+                                 (format-time-string "_%Y%m%d") ".el")))
+    (cond ((or (equal nil filename)
+               (not (file-exists-p filename)))
+           (message "Error: Failed to find file."))
+          ((not (ufun:file-extension-p filename "org"))
+           (message "Error: File does not have \".org\" extension."))
+          ((file-exists-p output-filename)
+           (message
+            "Error: File %s already exists! Please remove it to continue."
+            output-filename))
+          (t
+           (progn
+             (org-babel-tangle-file filename output-filename)
+             (message
+              "Success! Tangled: %s -> %s" filename output-filename))))))
 
-(ufun:config-bootstrap "dotemacs.org" "el")
+(ufun:tangle-emacs-org-config (pop argv))
