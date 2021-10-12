@@ -402,6 +402,7 @@
                          markdown-mode
                          naysayer-theme
                          org-bullets
+                         rust-mode
                          swift-mode
                          toml-mode
                          typescript-mode
@@ -445,6 +446,14 @@
 *** Evil
     Summon the Editor of the Beast - /VI VI VI./
 
+    Keybindings tuned for EN-Dvorak. Don't change default vi/Vim (too much).
+
+    Regarding setting up Leader keybindings with vanilla Emacs, you don't need
+    other plugins like Evil Leader, General, /etc/ to get basic functionality. For
+    mode-specific leader bindings, use *evil-define-key* to make a binding for
+    both an Evil State and a Major Mode. Also, make sure to update the Which-Key
+    labels accordingly.
+
     #+BEGIN_SRC emacs-lisp
       (require 'evil)
       (require 'undo-fu)
@@ -452,111 +461,90 @@
       (evil-mode 1)
       (evil-escape-mode t)
       (evil-select-search-module 'evil-search-module 'evil-search)
-    #+END_SRC
 
-**** Keybindings
-     Tuned for EN-Dvorak. Don't change default vi/Vim (too much).
+      (define-key evil-normal-state-map "u"    'undo-fu-only-undo)
+      (define-key evil-normal-state-map "\C-r" 'undo-fu-only-redo)
 
-     Regarding setting up Leader keybindings with vanilla Emacs, you don't need
-     other plugins like Evil Leader, General, /etc/ to get basic functionality.
-     For mode-specific leader bindings, use *evil-define-key* to make a binding
-     for both an Evil State and a Major Mode. Also, make sure to update the
-     Which-Key labels accordingly.
+      (setq-default evil-escape-key-sequence    "hh"
+                    evil-escape-excluded-states '(normal visual motion)
+                    evil-escape-delay           0.2)
 
-     #+BEGIN_SRC emacs-lisp
-       (define-key evil-normal-state-map "u"    'undo-fu-only-undo)
-       (define-key evil-normal-state-map "\C-r" 'undo-fu-only-redo)
+      (ufun:create-keybindings
+       evil-motion-state-map
+       '((";"  . evil-ex)
+         (":"  . evil-repeat-find-char)
+         ("gc" . comment-dwim)
+         ("zg" . ufun:add-word-to-dictionary)))
 
-       (setq-default evil-escape-key-sequence    "hh"
-                     evil-escape-excluded-states '(normal visual motion)
-                     evil-escape-delay           0.2)
+      (define-key evil-emacs-state-map  (kbd "C-M-s-m") 'evil-exit-emacs-state)
+      (define-key evil-motion-state-map (kbd "C-M-s-m") 'evil-emacs-state)
 
-       (ufun:create-keybindings
-        evil-motion-state-map
-        '((";"  . evil-ex)
-          (":"  . evil-repeat-find-char)
-          ("gc" . comment-dwim)
-          ("zg" . ufun:add-word-to-dictionary)))
+      ;; Have Ctrl-z suspend the frame, i.e. reclaim STDIO with Emacsclient.
+      (define-key evil-emacs-state-map  (kbd "C-z") 'suspend-frame)
+      (define-key evil-motion-state-map (kbd "C-z") 'suspend-frame)
 
-       (define-key evil-emacs-state-map  (kbd "C-M-s-m") 'evil-exit-emacs-state)
-       (define-key evil-motion-state-map (kbd "C-M-s-m") 'evil-emacs-state)
+      (define-prefix-command 'uvar:evil-leader-keymap)
 
-       ;; Have Ctrl-z suspend the frame, i.e. reclaim STDIO with Emacsclient.
-       (define-key evil-emacs-state-map  (kbd "C-z") 'suspend-frame)
-       (define-key evil-motion-state-map (kbd "C-z") 'suspend-frame)
+      ;; Using evil-define-key here will not bind additional mappings from other
+      ;; plugins via use-package :bind for whatever reason. Need to use define-key.
+      (define-key evil-motion-state-map (kbd "SPC") 'uvar:evil-leader-keymap)
 
-       (define-prefix-command 'uvar:evil-leader-keymap)
+      (setq uvar:evil-leader-bindings
+            '((",," . bookmark-bmenu-list)
+              (",s" . bookmark-set)
+              ("."  . ibuffer)
+              ("c"  . compile)
+              ("r"  . ufun:goto-previous-buffer)
+              ("la" . align-regexp)
+              ("lc" . count-words-region)
+              ("ls" . sort-lines)
+              ("a"  . apropos)
+              ("O"  . occur)
+              ("o"  . switch-to-buffer)
+              ("e"  . find-file)
+              ("T"  . eval-expression)
+              ("t"  . execute-extended-command)
+              ("n"  . yank-pop)
+              ("w"  . whitespace-mode)))
 
-       ;; Using evil-define-key here will not bind additional mappings from other
-       ;; plugins via use-package :bind for whatever reason. Need to use define-key.
-       (define-key evil-motion-state-map (kbd "SPC") 'uvar:evil-leader-keymap)
+      (ufun:create-keybindings uvar:evil-leader-keymap uvar:evil-leader-bindings)
 
-       (setq uvar:evil-leader-bindings
-             '((",," . bookmark-bmenu-list)
-               (",s" . bookmark-set)
-               ("."  . ibuffer)
-               ("c"  . compile)
-               ("r"  . ufun:goto-previous-buffer)
-               ("la" . align-regexp)
-               ("lc" . count-words-region)
-               ("le" . ufun:evil-apply-macro-to-region-lines)
-               ("lo" . occur)
-               ("ls" . sort-lines)
-               ("lw" . whitespace-mode)
-               ("a"  . apropos)
-               ("o"  . switch-to-buffer)
-               ("e"  . find-file)
-               ("T"  . eval-expression)
-               ("t"  . execute-extended-command)
-               ("n"  . yank-pop)))
+      ;; The following keybindings only affect the particular mode.
 
-       (ufun:create-keybindings uvar:evil-leader-keymap uvar:evil-leader-bindings)
+      ;; Dired
+      (ufun:create-leader-local-keybindings
+       "SPC"
+       'dired-mode-hook
+       'uvar:evil-leader-dired-keymap
+       (append uvar:evil-leader-bindings
+               '(("mG" . end-of-buffer)
+                 ("mg" . beginning-of-buffer)
+                 ("mw" . wdired-change-to-wdired-mode))))
 
-       ;; Dired
-       (ufun:create-leader-local-keybindings
-        "SPC"
-        'dired-mode-hook
-        'uvar:evil-leader-dired-keymap
-        (append uvar:evil-leader-bindings
-                '(("mG" . end-of-buffer)
-                  ("mg" . beginning-of-buffer)
-                  ("mw" . wdired-change-to-wdired-mode))))
+      ;; Ibuffer
+      (add-hook 'ibuffer-mode-hook
+                '(lambda () (local-set-key (kbd "SPC") 'uvar:evil-leader-keymap)))
 
-       ;; Ibuffer
-       (add-hook 'ibuffer-mode-hook
-                 '(lambda () (local-set-key (kbd "SPC") 'uvar:evil-leader-keymap)))
+      ;; Elisp
+      (ufun:create-leader-evil-keybindings
+       "SPC"
+       emacs-lisp-mode-map
+       'motion
+       'uvar:evil-leader-elisp-keymap
+       (append uvar:evil-leader-bindings '(("me" . eval-last-sexp))))
 
-       ;; Elisp
-       (ufun:create-leader-evil-keybindings
-        "SPC"
-        emacs-lisp-mode-map
-        'motion
-        'uvar:evil-leader-elisp-keymap
-        (append uvar:evil-leader-bindings '(("me" . eval-last-sexp))))
-
-       ;; Org
-       (ufun:create-leader-evil-keybindings
-        "SPC"
-        org-mode-map
-        'motion
-        'uvar:evil-leader-org-keymap
-        (append uvar:evil-leader-bindings
-                '(("mc" . org-copy-subtree)
-                  ("md" . org-demote-subtree)
-                  ("mi" . org-insert-heading)
-                  ("mp" . org-promote-subtree)
-                  ("mx" . org-cut-subtree))))
-     #+END_SRC
-
-**** Functions
-     Mostly extra functionality to bind to some keys.
-
-     #+BEGIN_SRC emacs-lisp
-       (defun ufun:evil-apply-macro-to-region-lines ()
-         "Provides an easy binding for running an Evil macro over some selected lines.
-       This function is interactive."
-         (interactive)
-         (evil-ex "'<,'>norm@"))
+      ;; Org
+      (ufun:create-leader-evil-keybindings
+       "SPC"
+       org-mode-map
+       'motion
+       'uvar:evil-leader-org-keymap
+       (append uvar:evil-leader-bindings
+               '(("mc" . org-copy-subtree)
+                 ("md" . org-demote-subtree)
+                 ("mi" . org-insert-heading)
+                 ("mp" . org-promote-subtree)
+                 ("mx" . org-cut-subtree))))
      #+END_SRC
 
 ** Programming Languages
@@ -578,6 +566,9 @@
             (setq markdown-command "/usr/bin/pandoc"))
            ((string-equal system-type "darwin")
             (setq markdown-command "/usr/local/bin/pandoc")))
+
+     (require 'rust-mode)
+     (add-hook 'rust-mode-hook 'flyspell-prog-mode)
 
      (require 'swift-mode)
      (add-hook 'swift-mode-hook 'flyspell-prog-mode)

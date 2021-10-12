@@ -244,6 +244,7 @@ interactive."
                     markdown-mode
                     naysayer-theme
                     org-bullets
+                    rust-mode
                     swift-mode
                     toml-mode
                     typescript-mode
@@ -313,18 +314,19 @@ interactive."
         ("r"  . ufun:goto-previous-buffer)
         ("la" . align-regexp)
         ("lc" . count-words-region)
-        ("le" . ufun:evil-apply-macro-to-region-lines)
-        ("lo" . occur)
         ("ls" . sort-lines)
-        ("lw" . whitespace-mode)
         ("a"  . apropos)
+        ("O"  . occur)
         ("o"  . switch-to-buffer)
         ("e"  . find-file)
         ("T"  . eval-expression)
         ("t"  . execute-extended-command)
-        ("n"  . yank-pop)))
+        ("n"  . yank-pop)
+        ("w"  . whitespace-mode)))
 
 (ufun:create-keybindings uvar:evil-leader-keymap uvar:evil-leader-bindings)
+
+;; The following keybindings only affect the particular mode.
 
 ;; Dired
 (ufun:create-leader-local-keybindings
@@ -361,12 +363,6 @@ interactive."
            ("mp" . org-promote-subtree)
            ("mx" . org-cut-subtree))))
 
-(defun ufun:evil-apply-macro-to-region-lines ()
-  "Provides an easy binding for running an Evil macro over some selected lines.
-This function is interactive."
-  (interactive)
-  (evil-ex "'<,'>norm@"))
-
 (require 'gitignore-mode)
 (add-hook 'gitignore-mode-hook 'flyspell-prog-mode)
 
@@ -384,6 +380,9 @@ This function is interactive."
        (setq markdown-command "/usr/bin/pandoc"))
       ((string-equal system-type "darwin")
        (setq markdown-command "/usr/local/bin/pandoc")))
+
+(require 'rust-mode)
+(add-hook 'rust-mode-hook 'flyspell-prog-mode)
 
 (require 'swift-mode)
 (add-hook 'swift-mode-hook 'flyspell-prog-mode)
