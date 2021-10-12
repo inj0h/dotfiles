@@ -44,6 +44,13 @@ format     = "\\[[$conflicted$deleted$modified$untracked$stashed$staged$renamed$
 disabled = false
 ssh_only = true
 
+[jobs]
+disabled         = false
+symbol           = "\u4ED5\u4E8B"
+symbol_threshold = 1
+number_threshold = 2
+format           = "[$symbol$number ](blue)"
+
 
 # 01. No Want
 
@@ -105,9 +112,6 @@ disabled = true
 disabled = true
 
 [java]
-disabled = true
-
-[jobs]
 disabled = true
 
 [julia]
