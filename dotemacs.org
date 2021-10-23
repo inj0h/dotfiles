@@ -288,6 +288,9 @@
      (add-hook 'latex-mode-hook '(lambda () (setq-local fill-column uvar:default-column)))
      (add-hook 'latex-mode-hook 'flyspell-mode)
 
+     (add-hook 'nxml-mode-hook '(lambda () (setq nxml-attribute-indent uvar:default-indent)))
+     (add-hook 'nxml-mode-hook '(lambda () (setq nxml-child-indent     uvar:default-indent)))
+
      (setq sh-indentation uvar:default-indent)
      (add-hook 'sh-mode-hook 'flyspell-prog-mode)
 
@@ -553,35 +556,35 @@
      (add-hook 'gitignore-mode-hook 'flyspell-prog-mode)
 
      (require 'json-mode)
-     (add-hook 'json-mode-hook 'flyspell-prog-mode)
      (setq js-indent-level uvar:default-indent)
      (add-to-list 'auto-mode-alist '("\\.eslintrc\\'"   . json-mode))
      (add-to-list 'auto-mode-alist '("\\.prettierrc\\'" . json-mode))
+     (add-hook 'json-mode-hook 'flyspell-prog-mode)
 
      (require 'markdown-mode)
-     (add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode)) ; Use GitHub flavored Markdown.
-     (add-hook 'markdown-mode-hook 'flyspell-mode)
-     (add-hook 'markdown-mode-hook '(lambda () (setq-local fill-column uvar:default-column)))
      (cond ((string-equal system-type "gnu/linux")
             (setq markdown-command "/usr/bin/pandoc"))
            ((string-equal system-type "darwin")
             (setq markdown-command "/usr/local/bin/pandoc")))
+     (add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode)) ; Use GitHub flavored Markdown.
+     (add-hook 'markdown-mode-hook 'flyspell-mode)
+     (add-hook 'markdown-mode-hook '(lambda () (setq-local fill-column uvar:default-column)))
 
      (require 'rust-mode)
      (add-hook 'rust-mode-hook 'flyspell-prog-mode)
 
      (require 'swift-mode)
-     (add-hook 'swift-mode-hook 'flyspell-prog-mode)
      (setq swift-mode:basic-offset uvar:default-indent)
+     (add-hook 'swift-mode-hook 'flyspell-prog-mode)
 
      (require 'toml-mode)
      (add-hook 'toml-mode-hook 'flyspell-prog-mode)
 
      (require 'typescript-mode)
-     (add-hook 'typescript-mode 'flyspell-prog-mode)
-     (add-hook 'typescript-mode 'prettify-symbols-mode)
-     (add-hook 'typescript-mode '(lambda () (push '("=>" . 8658) prettify-symbols-alist)))
      (setq typescript-indent-level uvar:default-indent)
+     (add-hook 'typescript-mode-hook 'flyspell-prog-mode)
+     (add-hook 'typescript-mode-hook 'prettify-symbols-mode)
+     (add-hook 'typescript-mode-hook '(lambda () (push '("=>" . "\u21d2") prettify-symbols-alist)))
 
      (require 'yaml-mode)
      (add-hook 'yaml-mode-hook 'flyspell-prog-mode)
