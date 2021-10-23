@@ -51,10 +51,10 @@ fi
 # 03. Aliases
 # Basic
 alias ec="emacsclient -n"
-alias ff="find . -type f -iname"
-alias ffd="find . -type d -iname"
+alias go="pwd | pbcopy"
+alias here='cd $(pbpaste)'
 alias o="ls -AGgho"
-alias t="tree -aC ."
+alias t="tree -aC -I '.git|node_modules|target' ."
 alias u="cd .."
 
 # Git
@@ -64,7 +64,9 @@ alias gc="git commit"
 alias gch="git checkout"
 alias gd="git diff"
 alias gl="git log"
+alias groot='cd $(git rev-parse --show-toplevel)'
 alias gs="git status"
+alias gsroot='cd $(git rev-parse --show-superproject-working-tree)'
 
 
 # 04. Externalities
