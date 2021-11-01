@@ -242,7 +242,6 @@ interactive."
 (dolist (packages '(company
                     evil
                     evil-escape
-                    gitignore-mode
                     json-mode
                     markdown-mode
                     naysayer-theme
@@ -365,9 +364,6 @@ interactive."
            ("mi" . org-insert-heading)
            ("mp" . org-promote-subtree)
            ("mx" . org-cut-subtree))))
-
-(require 'gitignore-mode)
-(add-hook 'gitignore-mode-hook 'flyspell-prog-mode)
 
 (require 'json-mode)
 (setq js-indent-level uvar:default-indent)

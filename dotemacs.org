@@ -400,7 +400,6 @@
      (dolist (packages '(company
                          evil
                          evil-escape
-                         gitignore-mode
                          json-mode
                          markdown-mode
                          naysayer-theme
@@ -552,9 +551,6 @@
 
 ** Programming Languages
    #+BEGIN_SRC emacs-lisp
-     (require 'gitignore-mode)
-     (add-hook 'gitignore-mode-hook 'flyspell-prog-mode)
-
      (require 'json-mode)
      (setq js-indent-level uvar:default-indent)
      (add-to-list 'auto-mode-alist '("\\.eslintrc\\'"   . json-mode))
