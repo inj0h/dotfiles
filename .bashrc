@@ -28,24 +28,18 @@ shopt -s histappend
 
 
 # 02. Prompt
-if command -v starship > /dev/null 2>&1;
-then
-    eval "$(starship init bash)"
-else
-    # I.e. When you can't download starship.
-    # Colors
-    co_clear="\033[0m"
-    co_cyan="\033[0;36m"
-    co_green="\033[0;32m"
+# Colors
+co_clear="\033[0m"
+co_cyan="\033[0;36m"
+co_green="\033[0;32m"
 
-    # Unicode
-    sy_lambda="\u03bb"
-    sy_print() {
-        echo -en "$1"
-    }
+# Unicode
+sy_lambda="\u03bb"
+sy_print() {
+    echo -en "$1"
+}
 
-    export PS1="$co_cyan[$co_clear\W$co_cyan]$co_clear $co_green$(sy_print $sy_lambda):$co_clear "
-fi
+export PS1="\[$co_cyan\][\[$co_clear\]\W\[$co_cyan\]]\[$co_clear\] \[$co_green\]$(sy_print $sy_lambda):\[$co_clear\] "
 
 
 # 03. Aliases
@@ -64,6 +58,7 @@ alias gc="git commit"
 alias gch="git checkout"
 alias gd="git diff"
 alias gl="git log"
+alias go="git stash"
 alias groot='cd $(git rev-parse --show-toplevel)'
 alias gs="git status"
 alias gsroot='cd $(git rev-parse --show-superproject-working-tree)'
@@ -81,9 +76,3 @@ case "$(uname -s)" in
     *)
         echo "Error: Unlisted system detected. Deferring bash completion."
 esac
-
-# Starship Prompt
-# Cf. 02. Prompt section.
-
-export STARSHIP_CACHE=~/.config/starship/cache
-export STARSHIP_CONFIG=~/.config/starship/config.toml

@@ -1,6 +1,6 @@
 # Mostly Emacs
-But also Bash, ripgrep, starship, and some other configs. I use these files to
-do most of my programming, usually on some Unix environment.
+But also Bash, ripgrep, and some other stuff. I use these files to do most of my
+programming, usually on some Unix environment.
 
 Maybe Windows one day.
 
