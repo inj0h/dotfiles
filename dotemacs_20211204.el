@@ -164,14 +164,9 @@ interactive."
       org-use-fast-todo-selection   t)
 (add-hook 'org-mode-hook '(lambda () (setq-local fill-column uvar:default-column)))
 
-(add-hook 'c-mode-hook   'flyspell-prog-mode)
-(add-hook 'c++-mode-hook 'flyspell-prog-mode)
-
-(add-hook 'emacs-lisp-mode-hook 'flyspell-prog-mode)
 (add-hook 'emacs-lisp-mode-hook 'prettify-symbols-mode)
 
 (add-hook 'java-mode-hook '(lambda () (setq-local fill-column 120)))
-(add-hook 'java-mode-hook 'flyspell-prog-mode)
 
 (add-hook 'latex-mode-hook '(lambda () (setq-local fill-column uvar:default-column)))
 (add-hook 'latex-mode-hook 'flyspell-mode)
@@ -180,7 +175,6 @@ interactive."
 (add-hook 'nxml-mode-hook '(lambda () (setq nxml-child-indent     uvar:default-indent)))
 
 (setq sh-indentation uvar:default-indent)
-(add-hook 'sh-mode-hook 'flyspell-prog-mode)
 
 (add-hook 'text-mode-hook '(lambda () (setq-local fill-column 72))) ; Blame Git.
 (add-hook 'text-mode-hook 'flyspell-mode)
@@ -369,7 +363,6 @@ interactive."
 (setq js-indent-level uvar:default-indent)
 (add-to-list 'auto-mode-alist '("\\.eslintrc\\'"   . json-mode))
 (add-to-list 'auto-mode-alist '("\\.prettierrc\\'" . json-mode))
-(add-hook 'json-mode-hook 'flyspell-prog-mode)
 
 (require 'markdown-mode)
 (cond ((string-equal system-type "gnu/linux")
@@ -381,20 +374,15 @@ interactive."
 (add-hook 'markdown-mode-hook '(lambda () (setq-local fill-column uvar:default-column)))
 
 (require 'rust-mode)
-(add-hook 'rust-mode-hook 'flyspell-prog-mode)
 
 (require 'swift-mode)
 (setq swift-mode:basic-offset uvar:default-indent)
-(add-hook 'swift-mode-hook 'flyspell-prog-mode)
 
 (require 'toml-mode)
-(add-hook 'toml-mode-hook 'flyspell-prog-mode)
 
 (require 'typescript-mode)
 (setq typescript-indent-level uvar:default-indent)
-(add-hook 'typescript-mode-hook 'flyspell-prog-mode)
 (add-hook 'typescript-mode-hook 'prettify-symbols-mode)
 (add-hook 'typescript-mode-hook '(lambda () (push '("=>" . "\u21d2") prettify-symbols-alist)))
 
 (require 'yaml-mode)
-(add-hook 'yaml-mode-hook 'flyspell-prog-mode)
