@@ -2,21 +2,29 @@
 # Filename: .bashrc
 # Note:     A good enough bashrc.
 
-# 00. Startup Message - Neon Genesis Shell Session
+# 00. Shared
 # Colors
 co_clear="\033[0m"
+co_cyan="\033[0;36m"
+co_green="\033[0;32m"
 co_red="\033[0;31m"
 
 # Unicode
-sy_kanji_kido="\u8d77\u52d5"
+sy_kanji_de="\u51fa"         # exit
+sy_kanji_kido="\u8d77\u52d5" # start
+sy_kanji_kuchi="\u53e3"      # mouth
+sy_kanji_mon="\u9580"        # gate
+sy_lambda="\u03bb"
 sy_quotel_ja="\u300e"
 sy_quoter_ja="\u300f"
 
-echo -e "${co_red}$sy_kanji_kido${co_clear}"
+
+# 01. Startup Message - Neon Genesis Shell Session
+echo -e "${co_red}$sy_kanji_kido$sy_kanji_mon$sy_kanji_kuchi${co_clear}"
 echo -e "\"Entering Terminal Dogma.\" | $sy_quotel_ja ターミナルドグマに入る。$sy_quoter_ja | \"터미널 도그마에 들어간다.\""
 
 
-# 01. Preemption. I.e. stolen copypastas (mostly from Ubuntu defaults).
+# 02. Preemption (I.e. Stolen Ubuntu Defaults)
 # If not running interactively, don't do anything.
 case $- in
     *i*) ;;
@@ -27,14 +35,7 @@ esac
 shopt -s histappend
 
 
-# 02. Prompt
-# Colors
-co_clear="\033[0m"
-co_cyan="\033[0;36m"
-co_green="\033[0;32m"
-
-# Unicode
-sy_lambda="\u03bb"
+# 03. Prompt
 sy_print() {
     echo -en "$1"
 }
@@ -42,7 +43,7 @@ sy_print() {
 export PS1="\[$co_cyan\][\[$co_clear\]\W\[$co_cyan\]]\[$co_clear\] \[$co_green\]$(sy_print $sy_lambda):\[$co_clear\] "
 
 
-# 03. Aliases
+# 04. Aliases
 # Basic
 alias ec="emacsclient -n"
 alias go="pwd | pbcopy"
@@ -57,14 +58,14 @@ alias gb="git branch"
 alias gc="git commit"
 alias gch="git checkout"
 alias gd="git diff"
+alias ge="git stash"
 alias gl="git log"
-alias go="git stash"
 alias groot='cd $(git rev-parse --show-toplevel)'
 alias gs="git status"
 alias gsroot='cd $(git rev-parse --show-superproject-working-tree)'
 
 
-# 04. Externalities
+# 05. Externalities
 # Completion
 case "$(uname -s)" in
     "Darwin")

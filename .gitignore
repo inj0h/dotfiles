@@ -17,5 +17,6 @@
 !dotemacs.org
 !dotemacs_[0-9]*.el
 !dotfiles.txt
-!mac.terminal
+!mac_earth.terminal
+!mac_nord.terminal
 !readme.md
