@@ -1,3 +1,4 @@
+f,Code/dotfiles/.bash_profile,.bash_profile
+f,Code/dotfiles/.bashrc,.bashrc
 f,Code/dotfiles/.rgignore,.config/.rgignore
-f,Code/dotfiles/config.fish,.config/fish/config.fish
-f,Code/dotfiles/dotemacs_20210526222322.el,.config/emacs/init.el
+f,Code/dotfiles/dotemacs_20211204.el,.config/emacs/init.el
