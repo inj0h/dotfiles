@@ -54,14 +54,25 @@ interactive."
 ;; - https://stackoverflow.com/questions/30150186/what-does-backtick-mean-in-lisp
 ;; - https://stackoverflow.com/questions/26613583/emacs-use-add-hook-inside-function-defun
 (defun ufun:create-leader-local-keybindings (leader hook keymap keybindings)
-  "TODO: Add documentation."
+  "Create KEYBINDINGS associated with a LEADER key based on an extant KEYMAP for
+an extant HOOK.
+
+This function exists to provide a (hopefully) lightweight solution to third
+party packages like Evil-Leader and General."
   (progn
     (define-prefix-command keymap)
     (add-hook hook `(lambda () (local-set-key (kbd ,leader) ,keymap)))
     (ufun:create-keybindings keymap keybindings)))
 
 (defun ufun:create-leader-evil-keybindings (leader mode vimode keymap keybindings)
-  "TODO: Add documentation."
+  "Create KEYBINDINGS associated with a LEADER key based on an extant KEYMAP for
+an extant MODE map under a VIMODE context.
+
+This function will only work for Evil keybindings and exacts a vi motion state
+i.e. VIMODE for which these keybindings apply.
+
+This function exists to provide a (hopefully) lightweight solution to third
+party packages like Evil-Leader and General."
   (progn
     (define-prefix-command keymap)
     (evil-define-key* vimode mode (kbd leader) keymap) ; Tip - Don't use the macro!
@@ -267,6 +278,10 @@ interactive."
   (define-key company-active-map (kbd "M-p") nil)
   (define-key company-active-map (kbd "C-n") #'company-select-next)
   (define-key company-active-map (kbd "C-t") #'company-select-previous))
+
+(add-hook 'markdown-mode-hook '(lambda () (company-mode -1)))
+(add-hook 'tex-mode-hook      '(lambda () (company-mode -1)))
+(add-hook 'text-mode-hook     '(lambda () (company-mode -1)))
 
 (require 'evil)
 (require 'undo-fu)
