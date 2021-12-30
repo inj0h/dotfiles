@@ -128,13 +128,14 @@
    Shut. It. Off!
 
    #+BEGIN_SRC emacs-lisp
-     (setq inhibit-startup-screen t
-           vc-handled-backends nil)
+     (setq flyspell-duplicate-distance 0 ; Does not work on Emacs 27.2 on Mac.
+           inhibit-startup-screen      t
+           vc-handled-backends         nil)
 
      (global-hl-line-mode -1)
-     (menu-bar-mode -1)
-     (scroll-bar-mode -1)
-     (tool-bar-mode -1)
+     (menu-bar-mode       -1)
+     (scroll-bar-mode     -1)
+     (tool-bar-mode       -1)
    #+END_SRC
 
 ** Buffer
@@ -177,6 +178,12 @@
    #+BEGIN_SRC emacs-lisp
      (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
      (load custom-file 'noerror)
+   #+END_SRC
+** Dired
+   Better than NETRW.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq dired-listing-switches "-alo")
    #+END_SRC
 
 ** Frame

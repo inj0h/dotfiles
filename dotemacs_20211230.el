@@ -78,13 +78,14 @@ party packages like Evil-Leader and General."
     (evil-define-key* vimode mode (kbd leader) keymap) ; Tip - Don't use the macro!
     (ufun:create-keybindings keymap keybindings)))
 
-(setq inhibit-startup-screen t
-      vc-handled-backends nil)
+(setq flyspell-duplicate-distance 0 ; Does not work on Emacs 27.2 on Mac.
+      inhibit-startup-screen      t
+      vc-handled-backends         nil)
 
 (global-hl-line-mode -1)
-(menu-bar-mode -1)
-(scroll-bar-mode -1)
-(tool-bar-mode -1)
+(menu-bar-mode       -1)
+(scroll-bar-mode     -1)
+(tool-bar-mode       -1)
 
 ;; Highlight the current line.
 (add-hook 'bookmark-bmenu-mode-hook 'hl-line-mode)
@@ -112,6 +113,8 @@ party packages like Evil-Leader and General."
 
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file 'noerror)
+
+(setq dired-listing-switches "-alo")
 
 ;; Dimensions of the frame on load.
 (setq initial-frame-alist '((width . 90) (height . 35)))
