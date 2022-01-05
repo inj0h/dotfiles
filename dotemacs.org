@@ -571,8 +571,8 @@
        'motion
        'uvar:evil-leader-org-keymap
        (append uvar:evil-leader-bindings
-               '(("ma" . org-archive-subtree)
-                 ("mA" . ufun:org-archive-confirm)
+               '(("mA" . ufun:org-archive-confirm)
+                 ("ma" . org-archive-subtree)
                  ("mc" . org-copy-subtree)
                  ("md" . org-demote-subtree)
                  ("mi" . org-insert-heading)

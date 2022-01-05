@@ -381,8 +381,8 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
  'motion
  'uvar:evil-leader-org-keymap
  (append uvar:evil-leader-bindings
-         '(("ma" . org-archive-subtree)
-           ("mA" . ufun:org-archive-confirm)
+         '(("mA" . ufun:org-archive-confirm)
+           ("ma" . org-archive-subtree)
            ("mc" . org-copy-subtree)
            ("md" . org-demote-subtree)
            ("mi" . org-insert-heading)
