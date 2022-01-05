@@ -28,37 +28,22 @@
                            (caddr word)
                            current-location))))
 
-(defun ufun:goto-previous-buffer ()
-  "Return to the previously visited buffer. This function is interactive."
-  (interactive)
-  (switch-to-buffer (other-buffer (current-buffer) 1)))
-
-(defun ufun:kill-filepath ()
-  "Copy the current buffer filename with path to clipboard. This function is
-interactive."
-  (interactive)
-  (let ((filepath (if (equal major-mode 'dired-mode)
-                      default-directory
-                    (buffer-file-name))))
-    (when filepath
-      (kill-new filepath)
-      (message "Copied buffer filepath '%s' to clipboard." filepath))))
-
 (defun ufun:create-keybindings (keymap keybindings)
   "Create KEYBINDINGS based on an existing KEYMAP."
   (dolist (binding keybindings)
     (define-key keymap
       (kbd (car binding)) (cdr binding))))
 
-;; References on using backticks
-;; - https://stackoverflow.com/questions/30150186/what-does-backtick-mean-in-lisp
-;; - https://stackoverflow.com/questions/26613583/emacs-use-add-hook-inside-function-defun
 (defun ufun:create-leader-local-keybindings (leader hook keymap keybindings)
   "Create KEYBINDINGS associated with a LEADER key based on an extant KEYMAP for
 an extant HOOK.
 
 This function exists to provide a (hopefully) lightweight solution to third
-party packages like Evil-Leader and General."
+party packages like Evil-Leader and General.
+
+Online resources used to learn about backticks in Emacs Lisp.
+- https://stackoverflow.com/questions/30150186/what-does-backtick-mean-in-lisp
+- https://stackoverflow.com/questions/26613583/emacs-use-add-hook-inside-function-defun"
   (progn
     (define-prefix-command keymap)
     (add-hook hook `(lambda () (local-set-key (kbd ,leader) ,keymap)))
@@ -77,6 +62,32 @@ party packages like Evil-Leader and General."
     (define-prefix-command keymap)
     (evil-define-key* vimode mode (kbd leader) keymap) ; Tip - Don't use the macro!
     (ufun:create-keybindings keymap keybindings)))
+
+(defun ufun:goto-previous-buffer ()
+  "Return to the previously visited buffer. This function is interactive."
+  (interactive)
+  (switch-to-buffer (other-buffer (current-buffer) 1)))
+
+(defun ufun:kill-filepath ()
+  "Copy the current buffer filename with path to clipboard. This function is
+interactive."
+  (interactive)
+  (let ((filepath (if (equal major-mode 'dired-mode)
+                      default-directory
+                    (buffer-file-name))))
+    (when filepath
+      (kill-new filepath)
+      (message "Copied buffer filepath '%s' to clipboard." filepath))))
+
+(defun ufun:org-archive-confirm ()
+  "Provide an interactive call to `org-archive-subtree' with a single prefix
+argument, C-u in this case.
+
+Programmatically, passing 4 as an argument to `org-archive-subtree' achieves the
+same thing as calling C-u once. I.e. a single FIND-DONE for the
+`org-archive-subtree' method."
+  (interactive)
+  (org-archive-subtree '(4)))
 
 (setq flyspell-duplicate-distance 0 ; Does not work on Emacs 27.2 on Mac.
       inhibit-startup-screen      t
@@ -212,8 +223,7 @@ party packages like Evil-Leader and General."
 
 (set-frame-font "Iosevka-14" nil t) ; Make sure the OS has this installed!
 
-(setq backward-delete-char-untabify-method 'hungry
-      require-final-newline t
+(setq require-final-newline t
       show-paren-delay 0
       sentence-end-double-space nil)
 
@@ -371,7 +381,9 @@ party packages like Evil-Leader and General."
  'motion
  'uvar:evil-leader-org-keymap
  (append uvar:evil-leader-bindings
-         '(("mc" . org-copy-subtree)
+         '(("ma" . org-archive-subtree)
+           ("mA" . ufun:org-archive-confirm)
+           ("mc" . org-copy-subtree)
            ("md" . org-demote-subtree)
            ("mi" . org-insert-heading)
            ("mp" . org-promote-subtree)
