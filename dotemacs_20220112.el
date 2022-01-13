@@ -115,12 +115,11 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 
 (setq scroll-bar-adjust-thumb-portion nil) ; No over-scrolling (X11 only).
 
-;; Supposed to configure smooth scrolling, but not sure if it works anymore.
-(setq mouse-wheel-scroll-amount '(1 ((shift) . 1))
+;; Smooth scrolling kinda...
+;; NOTE: scroll-preserve-screen-position gets really weird with Evil.
+(setq mouse-wheel-follow-mouse t
       mouse-wheel-progressive-speed nil
-      mouse-wheel-follow-mouse 't
-      scroll-preserve-screen-position t
-      scroll-step 1)
+      mouse-wheel-scroll-amount '(2 ((shift) . 1)))
 
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file 'noerror)
@@ -181,6 +180,7 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
       org-hide-emphasis-markers     t
       org-src-fontify-natively      t
       org-src-tab-acts-natively     t
+      org-startup-folded            t
       org-time-stamp-formats        '("<%Y_%m_%d %a>" . "<%Y_%m_%d %a %H:%M>")
       org-todo-keywords             '((sequence "TODO(t)"
                                                 "IN-PROGRESS(p!)"
