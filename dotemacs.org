@@ -13,11 +13,9 @@
    text position which virtually every other mainstream language has. So let's
    enable it. Note, make sure to have them set /at the beginning/ of this section
    to affect the rest of this config.
-
    #+BEGIN_SRC emacs-lisp
      ;; -*- lexical-binding: t -*-
    #+END_SRC
-
 ** Speedup Startup - /You Can (Not) Hack This GC/
    Speedup that init time by overloading the garbage collector.
 
@@ -25,7 +23,6 @@
    - https://github.com/daviwil/emacs-from-scratch/blob/master/Emacs.org
    - https://github.com/hlissner/doom-emacs/blob/develop/docs/faq.org#how-does-doom-start-up-so-quickly
    - https://so.nwalsh.com/2020/02/29/dot-emacs
-
    #+BEGIN_SRC emacs-lisp
      (setq package-enable-at-startup nil
            site-run-file nil
@@ -36,15 +33,12 @@
      (add-hook 'emacs-startup-hook (lambda () (setq gc-cons-threshold 800000
                                                gc-cons-percentage 0.1)))
    #+END_SRC
-
 ** Scratch Buffer
    Get in the text editor, 碇君!
-
    #+BEGIN_SRC emacs-lisp
      (setq initial-scratch-message
            ";; God's in his heaven. All's right with the world. ")
    #+END_SRC
-
 * Vanilla
   Stock Emacs settings.
 ** _Defaults
@@ -55,10 +49,8 @@
       (setq uvar:default-column 80
             uvar:default-indent 4)
     #+END_SRC
-
 *** Functions
     Homebrewed Lisp.
-
     #+BEGIN_SRC emacs-lisp
       (defun ufun:add-word-to-dictionary ()
         "Add the word-at-point to aspell's dictionary."
@@ -134,10 +126,8 @@
         (interactive)
         (org-archive-subtree '(4)))
     #+END_SRC
-
 ** _Disable
    Shut. It. Off!
-
    #+BEGIN_SRC emacs-lisp
      (setq flyspell-duplicate-distance 0 ; Does not work on Emacs 27.2 on Mac.
            inhibit-startup-screen      t
@@ -148,10 +138,8 @@
      (scroll-bar-mode     -1)
      (tool-bar-mode       -1)
    #+END_SRC
-
 ** Buffer
    Where all the magic happens.
-
    #+BEGIN_SRC emacs-lisp
      ;; Highlight the current line.
      (add-hook 'bookmark-bmenu-mode-hook 'hl-line-mode)
@@ -160,10 +148,8 @@
      (add-hook 'org-mode-hook            'hl-line-mode)
      (add-hook 'package-menu-mode-hook   'hl-line-mode)
    #+END_SRC
-
 ** Cursor
    Mousing around.
-
    #+BEGIN_SRC emacs-lisp
      (setq mouse-drag-copy-region nil
            blink-cursor-blinks 30)
@@ -185,18 +171,15 @@
 ** Custom Settings
    Designate a separate file for custom-set-variables under .emacs.d, name it
    custom.el, and load the file on startup.
-
    #+BEGIN_SRC emacs-lisp
      (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
      (load custom-file 'noerror)
    #+END_SRC
 ** Dired
    Better than NETRW.
-
    #+BEGIN_SRC emacs-lisp
      (setq dired-listing-switches "-alo")
    #+END_SRC
-
 ** Frame
    Emacs Frames are basically Windows in almost every other editor. A Frame
    contains a Buffer, where all the magic happens.
@@ -207,7 +190,6 @@
    02. Scroll Bar
    03. Line Numbers
    04. Minibuffer (bar at the bottom of a Frame)
-
    #+BEGIN_SRC emacs-lisp
      ;; Dimensions of the frame on load.
      (setq initial-frame-alist '((width . 90) (height . 35)))
@@ -230,20 +212,22 @@
 
      (add-hook 'minibuffer-setup-hook '(lambda () (setq truncate-lines nil))) ; No minibuffer line wrapping.
    #+END_SRC
-
 ** File IO
    Emacs file loading behavior.
-
    #+BEGIN_SRC emacs-lisp
      (setq auto-save-default nil
            create-lockfiles  nil
            make-backup-files nil)
      (global-auto-revert-mode 1) ; Auto-reload files on change.
    #+END_SRC
-
+** Ibuffer
+   Interactive buffer menu.
+   #+BEGIN_SRC emacs-lisp
+     (setq ibuffer-default-sorting-mode 'filename/process
+           ibuffer-default-sorting-reversep t)
+   #+END_SRC
 ** Ido
    Interactive do.
-
    #+BEGIN_SRC emacs-lisp
      (setq ido-auto-merge-work-directories-length -1
            ido-case-fold                           t
@@ -251,10 +235,8 @@
            ido-everywhere                          t)
      (ido-mode 1)
    #+END_SRC
-
 ** Isearch
    Be really cool if you didn't have to keep spamming Ctrl.
-
    #+BEGIN_SRC emacs-lisp
      (setq uvar:isearch-mode-keybindings
            '(("<up>"   . isearch-repeat-backward)
@@ -266,20 +248,16 @@
                     (define-key isearch-mode-map
                       (kbd (car bindings)) (cdr bindings)))))
    #+END_SRC
-
 ** Keybindings
    A pinch of jk.
-
    #+BEGIN_SRC emacs-lisp
      (add-hook 'ibuffer-mode-hook      '(lambda () (local-set-key (kbd "j") 'next-line)))
      (add-hook 'ibuffer-mode-hook      '(lambda () (local-set-key (kbd "k") 'previous-line)))
      (add-hook 'package-menu-mode-hook '(lambda () (local-set-key (kbd "j") 'next-line)))
      (add-hook 'package-menu-mode-hook '(lambda () (local-set-key (kbd "k") 'previous-line)))
    #+END_SRC
-
 ** Org
-   One day, you'll get organizized.
-
+   One of these days, I'm gonna get organizized.
    #+BEGIN_SRC emacs-lisp
      (setq org-enforce-todo-dependencies t
            org-hide-emphasis-markers     t
@@ -296,14 +274,12 @@
            org-use-fast-todo-selection   t)
      (add-hook 'org-mode-hook '(lambda () (setq-local fill-column uvar:default-column)))
    #+END_SRC
-
 ** Platform
    Mac, Linux, Windows Trinity.
 
    Nothing here. Anymore.
 ** Programming Language Modes
    Settings for default programming languages modes and anything text.
-
    #+BEGIN_SRC emacs-lisp
      (add-hook 'emacs-lisp-mode-hook 'prettify-symbols-mode)
 
@@ -321,18 +297,14 @@
      (add-hook 'text-mode-hook 'flyspell-mode)
      (add-to-list 'auto-mode-alist '("COMMIT_EDITMSG" . text-mode))
    #+END_SRC
-
 ** Server
    イーマックスの悪魔!
-
    #+BEGIN_SRC emacs-lisp
      (require 'server)
      (unless (server-running-p) (server-start))
    #+END_SRC
-
 ** Tetris
    We needed this.
-
    #+BEGIN_SRC emacs-lisp
      (add-hook 'tetris-mode-hook
                '(lambda () (ufun:create-keybindings
@@ -342,22 +314,18 @@
                          ("o" . tetris-move-down)
                          ("e" . tetris-move-right)))))
    #+END_SRC
-
 ** Text
    Plain text behavior.
 *** Encoding
-    I want Unicode.
-
+    We want Unicode!
     #+BEGIN_SRC emacs-lisp
       (prefer-coding-system 'utf-8)
       (set-default-coding-systems 'utf-8)
       (set-language-environment "UTF-8")
       (setq default-buffer-file-coding-system 'utf-8)
     #+END_SRC
-
 *** Formatting
     Like how it looks and such.
-
     #+BEGIN_SRC emacs-lisp
       (set-frame-font "Iosevka-14" nil t) ; Make sure the OS has this installed!
 
@@ -372,45 +340,37 @@
                     tab-width uvar:default-indent) ; Use four spaces!
       (setq c-basic-offset uvar:default-indent)
     #+END_SRC
-
 *** Spellcheck
     I need the computer to tell me!
-
     #+BEGIN_SRC emacs-lisp
       (cond ((equal system-type 'gnu/linux)
              (setq ispell-program-name "/usr/bin/aspell"))
             ((equal system-type 'darwin)
              (setq ispell-program-name "/usr/local/bin/aspell")))
     #+END_SRC
-
 *** Whitespace
     #+BEGIN_SRC emacs-lisp
       (setq-default whitespace-line-column nil) ; Use fill-column setting.
       (add-hook 'before-save-hook 'whitespace-cleanup)
     #+END_SRC
-
 ** User Input
    #+BEGIN_SRC emacs-lisp
      (defalias 'yes-or-no-p 'y-or-n-p)
      (setq visible-bell 1)
    #+END_SRC
-
 * Not Vanilla
   Settings for third party Elisp packages.
 ** Proxy Configuration
    Configure proxy settings /before/ attempting to install any third party
    packages.
-
    #+BEGIN_SRC emacs-lisp
      ;; E.g.
      ;; (setq url-proxy-services
      ;;       '(("http"  . "work.proxy.com:8080")
      ;;         ("https" . "work.proxy.com:8080")))
    #+END_SRC
-
 ** Packages
    Milky Postman Store.
-
    #+BEGIN_SRC emacs-lisp
      (require 'package)
      (package-initialize)
@@ -435,10 +395,8 @@
        (when (not (package-installed-p packages))
          (package-install packages)))
    #+END_SRC
-
 ** Aesthetic
    Make it look /cool./
-
    #+BEGIN_SRC emacs-lisp
      ;; Theme
      (load-theme 'naysayer t) ; This is (not) a compiler stream.
@@ -447,12 +405,10 @@
      (require 'org-bullets)
      (add-hook 'org-mode-hook 'org-bullets-mode)
    #+END_SRC
-
 ** Productivity
    Useful tools that didn't make it into core. For reasons.
 *** Company
     Help me type less.
-
     #+BEGIN_SRC emacs-lisp
       (require 'company)
       (setq company-idle-delay 0)
@@ -470,7 +426,6 @@
       (add-hook 'tex-mode-hook      '(lambda () (company-mode -1)))
       (add-hook 'text-mode-hook     '(lambda () (company-mode -1)))
     #+END_SRC
-
 *** Evil
     Summon the Editor of the Beast - /VI VI VI./
 
@@ -484,7 +439,6 @@
     - ufun:create-keybindings
     - ufun:create-leader-local-keybindings
     - ufun:create-leader-evil-keybindings
-
     #+BEGIN_SRC emacs-lisp
       (require 'evil)
       (require 'undo-fu)
@@ -579,7 +533,6 @@
                  ("mp" . org-promote-subtree)
                  ("mx" . org-cut-subtree))))
      #+END_SRC
-
 ** Programming Languages
    #+BEGIN_SRC emacs-lisp
      (require 'json-mode)

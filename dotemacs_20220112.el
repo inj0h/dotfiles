@@ -153,6 +153,9 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
       make-backup-files nil)
 (global-auto-revert-mode 1) ; Auto-reload files on change.
 
+(setq ibuffer-default-sorting-mode 'filename/process
+      ibuffer-default-sorting-reversep t)
+
 (setq ido-auto-merge-work-directories-length -1
       ido-case-fold                           t
       ido-enable-flex-matching                t
