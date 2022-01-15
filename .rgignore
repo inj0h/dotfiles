@@ -1,10 +1,9 @@
+**/.git/**
+**/build/**
+**/node_modules/**
+**/target/**
+
 **.lib
 **.tag
 **GTAGS
 **TAGS
-
-**/.git/**
-**/.stack-work/**
-**/build/**
-**/node_modules/**
-**/target/**
