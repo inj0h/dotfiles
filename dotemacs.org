@@ -351,7 +351,6 @@
 *** Whitespace
     #+BEGIN_SRC emacs-lisp
       (setq-default whitespace-line-column nil) ; Use fill-column setting.
-      (add-hook 'before-save-hook 'whitespace-cleanup)
     #+END_SRC
 ** User Input
    #+BEGIN_SRC emacs-lisp
@@ -490,6 +489,7 @@
               ("T"  . eval-expression)
               ("t"  . execute-extended-command)
               ("n"  . yank-pop)
+              ("W"  . whitespace-cleanup)
               ("w"  . whitespace-mode)))
 
       (ufun:create-keybindings uvar:evil-leader-keymap uvar:evil-leader-bindings)
