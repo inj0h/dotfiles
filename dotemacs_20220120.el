@@ -6,8 +6,9 @@
       gc-cons-percentage 0.9)
 
 ;; Restore default garbage collection settings.
-(add-hook 'emacs-startup-hook (lambda () (setq gc-cons-threshold 800000
-                                          gc-cons-percentage 0.1)))
+(add-hook 'emacs-startup-hook (lambda ()
+                                (setq gc-cons-threshold 800000
+                                      gc-cons-percentage 0.1)))
 
 (setq initial-scratch-message
       ";; God's in his heaven. All's right with the world. ")
@@ -212,12 +213,13 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 (unless (server-running-p) (server-start))
 
 (add-hook 'tetris-mode-hook
-          '(lambda () (ufun:create-keybindings
-                  tetris-mode-map
-                  '(("," . tetris-rotate-prev)
-                    ("a" . tetris-move-left)
-                    ("o" . tetris-move-down)
-                    ("e" . tetris-move-right)))))
+          '(lambda ()
+             (ufun:create-keybindings
+              tetris-mode-map
+              '(("," . tetris-rotate-prev)
+                ("a" . tetris-move-left)
+                ("o" . tetris-move-down)
+                ("e" . tetris-move-right)))))
 
 (prefer-coding-system 'utf-8)
 (set-default-coding-systems 'utf-8)
@@ -243,6 +245,7 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
        (setq ispell-program-name "/usr/local/bin/aspell")))
 
 (setq-default whitespace-line-column nil) ; Use fill-column setting.
+(add-hook 'before-save-hook 'whitespace-cleanup)
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 (setq visible-bell 1)
@@ -419,3 +422,4 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 (add-hook 'typescript-mode-hook '(lambda () (push '("=>" . "\u21d2") prettify-symbols-alist)))
 
 (require 'yaml-mode)
+(setq yaml-indent-offset uvar:default-indent)
