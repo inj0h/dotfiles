@@ -16,7 +16,6 @@
 !bootstrap.el
 !dotemacs.org
 !dotemacs_[0-9]*.el
-!dotfiles.txt
 !dotvim.vim
 !mac_earth.terminal
 !mac_nord.terminal
