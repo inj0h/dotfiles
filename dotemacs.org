@@ -139,16 +139,6 @@
      (scroll-bar-mode     -1)
      (tool-bar-mode       -1)
    #+END_SRC
-** Buffer
-   Where all the magic happens.
-   #+BEGIN_SRC emacs-lisp
-     ;; Highlight the current line.
-     (add-hook 'bookmark-bmenu-mode-hook 'hl-line-mode)
-     (add-hook 'dired-mode-hook          'hl-line-mode)
-     (add-hook 'ibuffer-mode-hook        'hl-line-mode)
-     (add-hook 'org-mode-hook            'hl-line-mode)
-     (add-hook 'package-menu-mode-hook   'hl-line-mode)
-   #+END_SRC
 ** Cursor
    Mousing around.
    #+BEGIN_SRC emacs-lisp

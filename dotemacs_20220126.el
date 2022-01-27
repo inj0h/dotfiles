@@ -99,13 +99,6 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 (scroll-bar-mode     -1)
 (tool-bar-mode       -1)
 
-;; Highlight the current line.
-(add-hook 'bookmark-bmenu-mode-hook 'hl-line-mode)
-(add-hook 'dired-mode-hook          'hl-line-mode)
-(add-hook 'ibuffer-mode-hook        'hl-line-mode)
-(add-hook 'org-mode-hook            'hl-line-mode)
-(add-hook 'package-menu-mode-hook   'hl-line-mode)
-
 (setq mouse-drag-copy-region nil
       blink-cursor-blinks 30)
 
