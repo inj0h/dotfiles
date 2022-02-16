@@ -3,9 +3,8 @@
 # Note:     A good enough bash_profile.
 
 # 00. Variables
-export EDITOR="emacsclient -nw"
-export VISUAL="$EDITOR"
-
+EDITOR="vi"
+VISUAL="$EDITOR"
 HISTCONTROL=ignoreboth
 HISTSIZE=100000
 
