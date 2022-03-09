@@ -1,13 +1,7 @@
-#!/bin/sh
-":"; exec emacs --quick --script "$0" "$@" # -*- mode: emacs-lisp; lexical-binding: t; -*-
+#!/usr/bin/emacs --script
 ;; Filename: bootstrap.el
-;; Note:     Initialization script to bootstrap a pure Elisp configuration from
-;;           an Org configuration.
-;;
-;;           Checkout the following link to a GitHub Gist about creating the
-;;           proper shebang. I.e. The first two lines at the top of this file.
-;;
-;;           https://gist.github.com/ctarbide/99b0ac9f7d6bef19cdd3e9f71b4cbcf7
+;; Note:     Deserialization script to bootstrap a pure Elisp configuration from
+;;           an Org-Elisp literate configuration.
 
 (require 'org)
 

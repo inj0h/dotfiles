@@ -2,10 +2,10 @@
 
 (setq package-enable-at-startup nil
       site-run-file nil
-      gc-cons-threshold 50000000 ; 50 MB. If too big, we lose the speedup.
+      gc-cons-threshold 50000000 ; NOTE: 50 MB. If too big, we lose the speedup.
       gc-cons-percentage 0.9)
 
-;; Restore default garbage collection settings.
+;; NOTE: Restore default garbage collection settings.
 (add-hook 'emacs-startup-hook (lambda ()
                                 (setq gc-cons-threshold 800000
                                       gc-cons-percentage 0.1)))
@@ -61,7 +61,7 @@ This function exists to provide a (hopefully) lightweight solution to third
 party packages like Evil-Leader and General."
   (progn
     (define-prefix-command keymap)
-    (evil-define-key* vimode mode (kbd leader) keymap) ; Tip - Don't use the macro!
+    (evil-define-key* vimode mode (kbd leader) keymap) ; NOTE: Don't use the macro!
     (ufun:create-keybindings keymap keybindings)))
 
 (defun ufun:goto-previous-buffer ()
@@ -90,7 +90,7 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
   (interactive)
   (org-archive-subtree '(4)))
 
-(setq flyspell-duplicate-distance 0 ; Does not work on Emacs 27.2 on Mac.
+(setq flyspell-duplicate-distance 0 ; NOTE: Does not work on Emacs 27.2 on Mac.
       inhibit-startup-screen      t
       vc-handled-backends         nil)
 
@@ -105,11 +105,8 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 (blink-cursor-mode 1)
 (delete-selection-mode t)
 
-(add-hook 'server-visit-hook '(lambda () (xterm-mouse-mode 1))) ; Terminal mousing.
+(setq scroll-bar-adjust-thumb-portion nil) ; NOTE: No over-scrolling (X11 only).
 
-(setq scroll-bar-adjust-thumb-portion nil) ; No over-scrolling (X11 only).
-
-;; Smooth scrolling kinda...
 ;; NOTE: scroll-preserve-screen-position gets really weird with Evil.
 (setq mouse-wheel-follow-mouse t
       mouse-wheel-progressive-speed nil
@@ -120,31 +117,23 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 
 (setq dired-listing-switches "-alo")
 
-;; Dimensions of the frame on load.
 (setq initial-frame-alist '((width . 90) (height . 35)))
 
-;; Render non-focused frames transparent.
-;;
-;; I.e. when setting the alpha (transparency level), the first and second
-;; numbers indicate focused and unfocused transparency respectively. 100 alpha
-;; means opaque.
+;; NOTE: Render non-focused frames transparent. I.e. when setting the alpha (transparency level), the first and second numbers indicate focused and unfocused transparency respectively. 100 alpha means opaque.
 (set-frame-parameter (selected-frame) 'alpha '(100 . 95))
 (add-to-list 'default-frame-alist '(alpha . (100 . 95)))
 
-(setq-default column-number-indicator-zero-based nil ; Count columns starting from 1, /i.e./ the default is 0.
+(setq-default column-number-indicator-zero-based nil
               fill-column uvar:default-column)
-(setq column-number-mode t)
+(setq column-number-mode t
+      display-line-numbers-grow-only t)
 
-;; Keep uniform width. I.e. if the file has 100 lines then single and double
-;; digit numbers take up 3 spaces.
-(setq display-line-numbers-grow-only t)
-
-(add-hook 'minibuffer-setup-hook '(lambda () (setq truncate-lines nil))) ; No minibuffer line wrapping.
+(add-hook 'minibuffer-setup-hook '(lambda () (setq truncate-lines nil)))
 
 (setq auto-save-default nil
       create-lockfiles  nil
       make-backup-files nil)
-(global-auto-revert-mode 1) ; Auto-reload files on change.
+(global-auto-revert-mode 1)
 
 (setq ibuffer-default-sorting-mode 'filename/process
       ibuffer-default-sorting-reversep t)
@@ -188,7 +177,8 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 
 (add-hook 'emacs-lisp-mode-hook 'prettify-symbols-mode)
 
-(add-hook 'java-mode-hook '(lambda () (setq-local fill-column 120)))
+(add-hook 'js-mode-hook 'prettify-symbols-mode)
+(add-hook 'js-mode-hook '(lambda () (push '("=>" . "\u21d2") prettify-symbols-alist))) ; TODO: Move symbol codes into separate section.
 
 (add-hook 'latex-mode-hook '(lambda () (setq-local fill-column uvar:default-column)))
 (add-hook 'latex-mode-hook 'flyspell-mode)
@@ -198,7 +188,7 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 
 (setq sh-indentation uvar:default-indent)
 
-(add-hook 'text-mode-hook '(lambda () (setq-local fill-column 72))) ; Blame Git.
+(add-hook 'text-mode-hook '(lambda () (setq-local fill-column 72))) ; NOTE: Blame Git!
 (add-hook 'text-mode-hook 'flyspell-mode)
 (add-to-list 'auto-mode-alist '("COMMIT_EDITMSG" . text-mode))
 
@@ -219,7 +209,7 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 (set-language-environment "UTF-8")
 (setq default-buffer-file-coding-system 'utf-8)
 
-(set-frame-font "Iosevka-14" nil t) ; Make sure the OS has this installed!
+(set-frame-font "Iosevka-14" nil t) ; NOTE: Make sure the OS has this installed!
 
 (setq require-final-newline t
       show-paren-delay 0
@@ -228,8 +218,8 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 (show-paren-mode 1)
 (add-hook 'prog-mode-hook 'subword-mode)
 
-(setq-default indent-tabs-mode nil           ; No tabs!
-              tab-width uvar:default-indent) ; Use four spaces!
+(setq-default indent-tabs-mode nil
+              tab-width uvar:default-indent)
 (setq c-basic-offset uvar:default-indent)
 
 (cond ((equal system-type 'gnu/linux)
@@ -237,7 +227,7 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
       ((equal system-type 'darwin)
        (setq ispell-program-name "/usr/local/bin/aspell")))
 
-(setq-default whitespace-line-column nil) ; Use fill-column setting.
+(setq-default whitespace-line-column nil) ; NOTE: Use fill-column setting.
 (add-hook 'before-save-hook 'whitespace-cleanup)
 
 (defalias 'yes-or-no-p 'y-or-n-p)
@@ -248,6 +238,7 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 ;;       '(("http"  . "work.proxy.com:8080")
 ;;         ("https" . "work.proxy.com:8080")))
 
+;; TODO: Refactor this code so that it correctly installs missing packages.
 (require 'package)
 (package-initialize)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
@@ -255,44 +246,22 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 (when (not package-archive-contents)
   (package-refresh-contents))
 
-(dolist (packages '(company
-                    evil
+(dolist (packages '(evil
                     evil-escape
                     json-mode
                     markdown-mode
-                    naysayer-theme
+                    kuronami-theme
                     org-bullets
                     rust-mode
-                    swift-mode
                     toml-mode
-                    typescript-mode
-                    undo-fu
-                    yaml-mode))
+                    undo-fu))
   (when (not (package-installed-p packages))
     (package-install packages)))
 
-;; Theme
-(load-theme 'naysayer t) ; This is (not) a compiler stream.
+(load-theme 'kuronami t)
 
-;; Org
 (require 'org-bullets)
 (add-hook 'org-mode-hook 'org-bullets-mode)
-
-(require 'company)
-(setq company-idle-delay 0)
-(setq-default company-dabbrev-downcase nil
-              company-dabbrev-ignore-case 1)
-
-(global-company-mode)
-(with-eval-after-load 'company
-  (define-key company-active-map (kbd "M-n") nil)
-  (define-key company-active-map (kbd "M-p") nil)
-  (define-key company-active-map (kbd "C-n") #'company-select-next)
-  (define-key company-active-map (kbd "C-t") #'company-select-previous))
-
-(add-hook 'markdown-mode-hook '(lambda () (company-mode -1)))
-(add-hook 'tex-mode-hook      '(lambda () (company-mode -1)))
-(add-hook 'text-mode-hook     '(lambda () (company-mode -1)))
 
 (require 'evil)
 (require 'undo-fu)
@@ -301,6 +270,7 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 (evil-escape-mode t)
 (evil-select-search-module 'evil-search-module 'evil-search)
 
+(define-key evil-insert-state-map "\M-n" 'hippie-expand)
 (define-key evil-normal-state-map "u"    'undo-fu-only-undo)
 (define-key evil-normal-state-map "\C-r" 'undo-fu-only-redo)
 
@@ -315,43 +285,35 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
    ("gc" . comment-dwim)
    ("zg" . ufun:add-word-to-dictionary)))
 
-(define-key evil-emacs-state-map  (kbd "C-M-s-m") 'evil-exit-emacs-state)
-(define-key evil-motion-state-map (kbd "C-M-s-m") 'evil-emacs-state)
-
-;; Have Ctrl-z suspend the frame, i.e. reclaim STDIO with Emacsclient.
-(define-key evil-emacs-state-map  (kbd "C-z") 'suspend-frame)
-(define-key evil-motion-state-map (kbd "C-z") 'suspend-frame)
-
 (define-prefix-command 'uvar:evil-leader-keymap)
 
-;; Using evil-define-key here will not bind additional mappings from other
-;; plugins via use-package :bind for whatever reason. Need to use define-key.
+;; NOTE: Using evil-define-key here will not bind additional mappings from other plugins for some reason. We need to use define-key.
 (define-key evil-motion-state-map (kbd "SPC") 'uvar:evil-leader-keymap)
 
 (setq uvar:evil-leader-bindings
-      '((",," . bookmark-bmenu-list)
-        (",s" . bookmark-set)
-        ("."  . ibuffer)
-        ("c"  . compile)
-        ("r"  . ufun:goto-previous-buffer)
-        ("la" . align-regexp)
-        ("lc" . count-words-region)
-        ("ls" . sort-lines)
-        ("a"  . apropos)
-        ("O"  . occur)
-        ("o"  . switch-to-buffer)
-        ("e"  . find-file)
-        ("T"  . eval-expression)
-        ("t"  . execute-extended-command)
-        ("n"  . yank-pop)
-        ("W"  . whitespace-cleanup)
-        ("w"  . whitespace-mode)))
+      '(("<" . bookmark-set)
+        ("," . bookmark-bmenu-list)
+        ("." . ibuffer)
+        ("C" . count-words-region)
+        ("c" . compile)
+        ("r" . ufun:goto-previous-buffer)
+        ("A" . apropos)
+        ("a" . align-regexp)
+        ("O" . occur)
+        ("o" . switch-to-buffer)
+        ("E" . server-edit)
+        ("e" . find-file)
+        ("T" . eval-expression)
+        ("t" . execute-extended-command)
+        ("n" . yank-pop)
+        ("s" . sort-lines)
+        ("W" . whitespace-cleanup)
+        ("w" . whitespace-mode)))
 
 (ufun:create-keybindings uvar:evil-leader-keymap uvar:evil-leader-bindings)
 
-;; The following keybindings only affect the particular mode.
+;; NOTE: The following keybindings only affect the particular mode.
 
-;; Dired
 (ufun:create-leader-local-keybindings
  "SPC"
  'dired-mode-hook
@@ -361,11 +323,9 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
            ("mg" . beginning-of-buffer)
            ("mw" . wdired-change-to-wdired-mode))))
 
-;; Ibuffer
 (add-hook 'ibuffer-mode-hook
           '(lambda () (local-set-key (kbd "SPC") 'uvar:evil-leader-keymap)))
 
-;; Elisp
 (ufun:create-leader-evil-keybindings
  "SPC"
  emacs-lisp-mode-map
@@ -373,7 +333,6 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
  'uvar:evil-leader-elisp-keymap
  (append uvar:evil-leader-bindings '(("me" . eval-last-sexp))))
 
-;; Org
 (ufun:create-leader-evil-keybindings
  "SPC"
  org-mode-map
@@ -398,21 +357,9 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
        (setq markdown-command "/usr/bin/pandoc"))
       ((string-equal system-type "darwin")
        (setq markdown-command "/usr/local/bin/pandoc")))
-(add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode)) ; Use GitHub flavored Markdown.
+(add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode)) ; NOTE: Use GitHub flavored Markdown.
 (add-hook 'markdown-mode-hook 'flyspell-mode)
 (add-hook 'markdown-mode-hook '(lambda () (setq-local fill-column uvar:default-column)))
 
 (require 'rust-mode)
-
-(require 'swift-mode)
-(setq swift-mode:basic-offset uvar:default-indent)
-
 (require 'toml-mode)
-
-(require 'typescript-mode)
-(setq typescript-indent-level uvar:default-indent)
-(add-hook 'typescript-mode-hook 'prettify-symbols-mode)
-(add-hook 'typescript-mode-hook '(lambda () (push '("=>" . "\u21d2") prettify-symbols-alist)))
-
-(require 'yaml-mode)
-(setq yaml-indent-offset uvar:default-indent)
