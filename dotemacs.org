@@ -131,29 +131,25 @@
    Shut. It. Off!
    #+BEGIN_SRC emacs-lisp
      (setq flyspell-duplicate-distance 0 ; NOTE: Does not work on Emacs 27.2 on Mac.
-           inhibit-startup-screen      t
-           vc-handled-backends         nil)
+           inhibit-startup-screen t
+           vc-handled-backends nil)
 
      (global-hl-line-mode -1)
-     (menu-bar-mode       -1)
-     (scroll-bar-mode     -1)
-     (tool-bar-mode       -1)
+     (menu-bar-mode -1)
+     (scroll-bar-mode -1)
+     (tool-bar-mode -1)
    #+END_SRC
 ** Cursor
    Mousing around.
    #+BEGIN_SRC emacs-lisp
-     (setq mouse-drag-copy-region nil
-           blink-cursor-blinks 30)
-
      (blink-cursor-mode 1)
      (delete-selection-mode t)
-
-     (setq scroll-bar-adjust-thumb-portion nil) ; NOTE: No over-scrolling (X11 only).
-
-     ;; NOTE: scroll-preserve-screen-position gets really weird with Evil.
-     (setq mouse-wheel-follow-mouse t
+     (setq blink-cursor-blinks 30
+           mouse-drag-copy-region nil
+           mouse-wheel-follow-mouse t
            mouse-wheel-progressive-speed nil
-           mouse-wheel-scroll-amount '(2 ((shift) . 1)))
+           mouse-wheel-scroll-amount '(2 ((shift) . 1))
+           scroll-bar-adjust-thumb-portion nil) ; NOTE: This only works on X11.
    #+END_SRC
 ** Custom Settings
    Designate a separate file for custom-set-variables under .emacs.d, name it
@@ -195,7 +191,7 @@
    Emacs file loading behavior.
    #+BEGIN_SRC emacs-lisp
      (setq auto-save-default nil
-           create-lockfiles  nil
+           create-lockfiles nil
            make-backup-files nil)
      (global-auto-revert-mode 1)
    #+END_SRC
@@ -209,9 +205,9 @@
    Interactive do.
    #+BEGIN_SRC emacs-lisp
      (setq ido-auto-merge-work-directories-length -1
-           ido-case-fold                           t
-           ido-enable-flex-matching                t
-           ido-everywhere                          t)
+           ido-case-fold t
+           ido-enable-flex-matching t
+           ido-everywhere t)
      (ido-mode 1)
    #+END_SRC
 ** Isearch
@@ -230,8 +226,9 @@
 ** Keybindings
    A pinch of jk.
    #+BEGIN_SRC emacs-lisp
-     (add-hook 'ibuffer-mode-hook      '(lambda () (local-set-key (kbd "j") 'next-line)))
-     (add-hook 'ibuffer-mode-hook      '(lambda () (local-set-key (kbd "k") 'previous-line)))
+     (add-hook 'ibuffer-mode-hook '(lambda () (local-set-key (kbd "j") 'next-line)))
+     (add-hook 'ibuffer-mode-hook '(lambda () (local-set-key (kbd "k") 'previous-line)))
+
      (add-hook 'package-menu-mode-hook '(lambda () (local-set-key (kbd "j") 'next-line)))
      (add-hook 'package-menu-mode-hook '(lambda () (local-set-key (kbd "k") 'previous-line)))
    #+END_SRC
@@ -239,19 +236,19 @@
    One of these days, I'm gonna get organizized.
    #+BEGIN_SRC emacs-lisp
      (setq org-enforce-todo-dependencies t
-           org-hide-emphasis-markers     t
-           org-src-fontify-natively      t
-           org-src-tab-acts-natively     t
-           org-startup-folded            t
-           org-time-stamp-formats        '("<%Y_%m_%d %a>" . "<%Y_%m_%d %a %H:%M>")
-           org-todo-keywords             '((sequence "TODO(t)"
-                                                     "IN-PROGRESS(p!)"
-                                                     "BLOCKED(b@/!)"
-                                                     "SOMEDAY(s@/!)"
-                                                     "|"
-                                                     "DONE(d!)"
-                                                     "CANCELED(c@/!)"))
-           org-use-fast-todo-selection   t)
+           org-hide-emphasis-markers t
+           org-src-fontify-natively t
+           org-src-tab-acts-natively t
+           org-startup-folded t
+           org-time-stamp-formats '("<%Y_%m_%d %a>" . "<%Y_%m_%d %a %H:%M>")
+           org-todo-keywords '((sequence "TODO(t)"
+                                         "IN-PROGRESS(p!)"
+                                         "BLOCKED(b@/!)"
+                                         "SOMEDAY(s@/!)"
+                                         "|"
+                                         "DONE(d!)"
+                                         "CANCELED(c@/!)"))
+           org-use-fast-todo-selection t)
      (add-hook 'org-mode-hook '(lambda () (setq-local fill-column uvar:default-column)))
    #+END_SRC
 ** Platform
@@ -410,12 +407,12 @@
      (evil-select-search-module 'evil-search-module 'evil-search)
 
      (define-key evil-insert-state-map "\M-n" 'hippie-expand)
-     (define-key evil-normal-state-map "u"    'undo-fu-only-undo)
+     (define-key evil-normal-state-map "u" 'undo-fu-only-undo)
      (define-key evil-normal-state-map "\C-r" 'undo-fu-only-redo)
 
-     (setq-default evil-escape-key-sequence    "hh"
+     (setq-default evil-escape-key-sequence "hh"
                    evil-escape-excluded-states '(normal visual motion)
-                   evil-escape-delay           0.2)
+                   evil-escape-delay 0.2)
 
      (ufun:create-keybindings
       evil-motion-state-map
@@ -498,7 +495,7 @@
             (setq markdown-command "/usr/bin/pandoc"))
            ((string-equal system-type "darwin")
             (setq markdown-command "/usr/local/bin/pandoc")))
-     (add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode)) ; NOTE: Use GitHub flavored Markdown.
+     (add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
      (add-hook 'markdown-mode-hook 'flyspell-mode)
      (add-hook 'markdown-mode-hook '(lambda () (setq-local fill-column uvar:default-column)))
 

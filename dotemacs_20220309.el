@@ -91,26 +91,22 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
   (org-archive-subtree '(4)))
 
 (setq flyspell-duplicate-distance 0 ; NOTE: Does not work on Emacs 27.2 on Mac.
-      inhibit-startup-screen      t
-      vc-handled-backends         nil)
+      inhibit-startup-screen t
+      vc-handled-backends nil)
 
 (global-hl-line-mode -1)
-(menu-bar-mode       -1)
-(scroll-bar-mode     -1)
-(tool-bar-mode       -1)
-
-(setq mouse-drag-copy-region nil
-      blink-cursor-blinks 30)
+(menu-bar-mode -1)
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
 
 (blink-cursor-mode 1)
 (delete-selection-mode t)
-
-(setq scroll-bar-adjust-thumb-portion nil) ; NOTE: No over-scrolling (X11 only).
-
-;; NOTE: scroll-preserve-screen-position gets really weird with Evil.
-(setq mouse-wheel-follow-mouse t
+(setq blink-cursor-blinks 30
+      mouse-drag-copy-region nil
+      mouse-wheel-follow-mouse t
       mouse-wheel-progressive-speed nil
-      mouse-wheel-scroll-amount '(2 ((shift) . 1)))
+      mouse-wheel-scroll-amount '(2 ((shift) . 1))
+      scroll-bar-adjust-thumb-portion nil) ; NOTE: This only works on X11.
 
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file 'noerror)
@@ -131,7 +127,7 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 (add-hook 'minibuffer-setup-hook '(lambda () (setq truncate-lines nil)))
 
 (setq auto-save-default nil
-      create-lockfiles  nil
+      create-lockfiles nil
       make-backup-files nil)
 (global-auto-revert-mode 1)
 
@@ -139,9 +135,9 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
       ibuffer-default-sorting-reversep t)
 
 (setq ido-auto-merge-work-directories-length -1
-      ido-case-fold                           t
-      ido-enable-flex-matching                t
-      ido-everywhere                          t)
+      ido-case-fold t
+      ido-enable-flex-matching t
+      ido-everywhere t)
 (ido-mode 1)
 
 (setq uvar:isearch-mode-keybindings
@@ -154,25 +150,26 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
                (define-key isearch-mode-map
                  (kbd (car bindings)) (cdr bindings)))))
 
-(add-hook 'ibuffer-mode-hook      '(lambda () (local-set-key (kbd "j") 'next-line)))
-(add-hook 'ibuffer-mode-hook      '(lambda () (local-set-key (kbd "k") 'previous-line)))
+(add-hook 'ibuffer-mode-hook '(lambda () (local-set-key (kbd "j") 'next-line)))
+(add-hook 'ibuffer-mode-hook '(lambda () (local-set-key (kbd "k") 'previous-line)))
+
 (add-hook 'package-menu-mode-hook '(lambda () (local-set-key (kbd "j") 'next-line)))
 (add-hook 'package-menu-mode-hook '(lambda () (local-set-key (kbd "k") 'previous-line)))
 
 (setq org-enforce-todo-dependencies t
-      org-hide-emphasis-markers     t
-      org-src-fontify-natively      t
-      org-src-tab-acts-natively     t
-      org-startup-folded            t
-      org-time-stamp-formats        '("<%Y_%m_%d %a>" . "<%Y_%m_%d %a %H:%M>")
-      org-todo-keywords             '((sequence "TODO(t)"
-                                                "IN-PROGRESS(p!)"
-                                                "BLOCKED(b@/!)"
-                                                "SOMEDAY(s@/!)"
-                                                "|"
-                                                "DONE(d!)"
-                                                "CANCELED(c@/!)"))
-      org-use-fast-todo-selection   t)
+      org-hide-emphasis-markers t
+      org-src-fontify-natively t
+      org-src-tab-acts-natively t
+      org-startup-folded t
+      org-time-stamp-formats '("<%Y_%m_%d %a>" . "<%Y_%m_%d %a %H:%M>")
+      org-todo-keywords '((sequence "TODO(t)"
+                                    "IN-PROGRESS(p!)"
+                                    "BLOCKED(b@/!)"
+                                    "SOMEDAY(s@/!)"
+                                    "|"
+                                    "DONE(d!)"
+                                    "CANCELED(c@/!)"))
+      org-use-fast-todo-selection t)
 (add-hook 'org-mode-hook '(lambda () (setq-local fill-column uvar:default-column)))
 
 (add-hook 'emacs-lisp-mode-hook 'prettify-symbols-mode)
@@ -271,12 +268,12 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 (evil-select-search-module 'evil-search-module 'evil-search)
 
 (define-key evil-insert-state-map "\M-n" 'hippie-expand)
-(define-key evil-normal-state-map "u"    'undo-fu-only-undo)
+(define-key evil-normal-state-map "u" 'undo-fu-only-undo)
 (define-key evil-normal-state-map "\C-r" 'undo-fu-only-redo)
 
-(setq-default evil-escape-key-sequence    "hh"
+(setq-default evil-escape-key-sequence "hh"
               evil-escape-excluded-states '(normal visual motion)
-              evil-escape-delay           0.2)
+              evil-escape-delay 0.2)
 
 (ufun:create-keybindings
  evil-motion-state-map
@@ -357,7 +354,7 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
        (setq markdown-command "/usr/bin/pandoc"))
       ((string-equal system-type "darwin")
        (setq markdown-command "/usr/local/bin/pandoc")))
-(add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode)) ; NOTE: Use GitHub flavored Markdown.
+(add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
 (add-hook 'markdown-mode-hook 'flyspell-mode)
 (add-hook 'markdown-mode-hook '(lambda () (setq-local fill-column uvar:default-column)))
 
