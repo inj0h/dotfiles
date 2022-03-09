@@ -246,8 +246,8 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 (dolist (packages '(evil
                     evil-escape
                     json-mode
-                    markdown-mode
                     kuronami-theme
+                    markdown-mode
                     org-bullets
                     rust-mode
                     toml-mode

@@ -362,8 +362,8 @@
      (dolist (packages '(evil
                          evil-escape
                          json-mode
-                         markdown-mode
                          kuronami-theme
+                         markdown-mode
                          org-bullets
                          rust-mode
                          toml-mode
