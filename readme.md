@@ -8,7 +8,7 @@ I keep a literate configuration with `dotemacs.org`, and use `bootstrap.el` to o
 
 ``` shell
 $ emacs -batch -l bootstrap.el dotemacs.org
-$ Tangled N code blocks from dotemacs.org
-$ Success! Tangled: dotemacs.org -> dotemacs_YYYYMMDD.el
+$ "Tangled N code blocks from dotemacs.org"
+$ "Success! Tangled: dotemacs.org -> dotemacs_YYYYMMDD.el"
 $ ln -s ~/.dotfiles/dotemacs_YYYYMMDD.el ~/.config/emacs/init.el
 ```
