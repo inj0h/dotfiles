@@ -343,7 +343,6 @@
    Configure proxy settings /before/ attempting to install any third party
    packages.
    #+BEGIN_SRC emacs-lisp
-     ;; E.g.
      ;; (setq url-proxy-services
      ;;       '(("http"  . "work.proxy.com:8080")
      ;;         ("https" . "work.proxy.com:8080")))
@@ -361,7 +360,6 @@
 
      (dolist (packages '(evil
                          evil-escape
-                         json-mode
                          kuronami-theme
                          markdown-mode
                          org-bullets
@@ -485,11 +483,6 @@
     #+END_SRC
 ** Programming Languages
    #+BEGIN_SRC emacs-lisp
-     (require 'json-mode)
-     (setq js-indent-level uvar:default-indent)
-     (add-to-list 'auto-mode-alist '("\\.eslintrc\\'"   . json-mode))
-     (add-to-list 'auto-mode-alist '("\\.prettierrc\\'" . json-mode))
-
      (require 'markdown-mode)
      (cond ((string-equal system-type "gnu/linux")
             (setq markdown-command "/usr/bin/pandoc"))

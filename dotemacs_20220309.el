@@ -230,7 +230,6 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 (defalias 'yes-or-no-p 'y-or-n-p)
 (setq visible-bell 1)
 
-;; E.g.
 ;; (setq url-proxy-services
 ;;       '(("http"  . "work.proxy.com:8080")
 ;;         ("https" . "work.proxy.com:8080")))
@@ -245,7 +244,6 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 
 (dolist (packages '(evil
                     evil-escape
-                    json-mode
                     kuronami-theme
                     markdown-mode
                     org-bullets
@@ -343,11 +341,6 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
            ("mi" . org-insert-heading)
            ("mp" . org-promote-subtree)
            ("mx" . org-cut-subtree))))
-
-(require 'json-mode)
-(setq js-indent-level uvar:default-indent)
-(add-to-list 'auto-mode-alist '("\\.eslintrc\\'"   . json-mode))
-(add-to-list 'auto-mode-alist '("\\.prettierrc\\'" . json-mode))
 
 (require 'markdown-mode)
 (cond ((string-equal system-type "gnu/linux")
