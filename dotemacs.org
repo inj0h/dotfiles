@@ -255,13 +255,16 @@
    Mac, Linux, Windows Trinity.
 
    Nothing here. Anymore.
-** Programming Language Modes
-   Settings for default programming languages modes and anything text.
+** Programming Languages
+   Settings for default programming language modes and anything text.
    #+BEGIN_SRC emacs-lisp
      (add-hook 'emacs-lisp-mode-hook 'prettify-symbols-mode)
 
      (add-hook 'js-mode-hook 'prettify-symbols-mode)
      (add-hook 'js-mode-hook '(lambda () (push '("=>" . "\u21d2") prettify-symbols-alist))) ; TODO: Move symbol codes into separate section.
+     (add-to-list 'auto-mode-alist '("\\.eslintrc\\'" . js-mode))
+     (add-to-list 'auto-mode-alist '("\\.prettierrc\\'" . js-mode))
+     (add-to-list 'auto-mode-alist '("\\.ts\\'" . js-mode))
 
      (add-hook 'latex-mode-hook '(lambda () (setq-local fill-column uvar:default-column)))
      (add-hook 'latex-mode-hook 'flyspell-mode)
@@ -358,7 +361,8 @@
      (when (not package-archive-contents)
        (package-refresh-contents))
 
-     (dolist (packages '(evil
+     (dolist (packages '(diminish
+                         evil
                          evil-escape
                          kuronami-theme
                          markdown-mode
@@ -481,6 +485,13 @@
                 ("mp" . org-promote-subtree)
                 ("mx" . org-cut-subtree))))
     #+END_SRC
+** Diminish
+   Tell. Don't show.
+   #+BEGIN_SRC emacs-lisp
+     (require 'diminish)
+     (diminish 'evil-escape-mode)
+     (with-eval-after-load 'subword (diminish 'subword-mode))
+   #+END_SRC
 ** Programming Languages
    #+BEGIN_SRC emacs-lisp
      (require 'markdown-mode)

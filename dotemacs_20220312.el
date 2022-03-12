@@ -176,6 +176,9 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 
 (add-hook 'js-mode-hook 'prettify-symbols-mode)
 (add-hook 'js-mode-hook '(lambda () (push '("=>" . "\u21d2") prettify-symbols-alist))) ; TODO: Move symbol codes into separate section.
+(add-to-list 'auto-mode-alist '("\\.eslintrc\\'" . js-mode))
+(add-to-list 'auto-mode-alist '("\\.prettierrc\\'" . js-mode))
+(add-to-list 'auto-mode-alist '("\\.ts\\'" . js-mode))
 
 (add-hook 'latex-mode-hook '(lambda () (setq-local fill-column uvar:default-column)))
 (add-hook 'latex-mode-hook 'flyspell-mode)
@@ -242,7 +245,8 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 (when (not package-archive-contents)
   (package-refresh-contents))
 
-(dolist (packages '(evil
+(dolist (packages '(diminish
+                    evil
                     evil-escape
                     kuronami-theme
                     markdown-mode
@@ -341,6 +345,10 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
            ("mi" . org-insert-heading)
            ("mp" . org-promote-subtree)
            ("mx" . org-cut-subtree))))
+
+(require 'diminish)
+(diminish 'evil-escape-mode)
+(with-eval-after-load 'subword (diminish 'subword-mode))
 
 (require 'markdown-mode)
 (cond ((string-equal system-type "gnu/linux")

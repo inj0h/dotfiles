@@ -1,4 +1,3 @@
-#!/usr/bin/emacs --script
 ;; Filename: bootstrap.el
 ;; Note:     Deserialization script to bootstrap a pure Elisp configuration from
 ;;           an Org-Elisp literate configuration.
