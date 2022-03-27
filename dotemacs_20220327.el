@@ -17,7 +17,8 @@
       uvar:default-indent 4)
 
 (defun ufun:add-word-to-dictionary ()
-  "Add the word-at-point to aspell's dictionary."
+  "Add the word-at-point to aspell's dictionary. You can call this function
+interactively."
   (interactive)
   (let ((current-location (point)) (word (flyspell-get-word)))
     (when (consp word)
@@ -77,13 +78,14 @@ See https://masteringemacs.org/article/searching-buffers-occur-mode."
     buffer-mode-matches))
 
 (defun ufun:goto-previous-buffer ()
-  "Return to the previously visited buffer. This function is interactive."
+  "Return to the previously visited buffer. You can call this function
+interactively."
   (interactive)
   (switch-to-buffer (other-buffer (current-buffer) 1)))
 
 (defun ufun:kill-filepath ()
-  "Copy the current buffer filename with path to clipboard. This function is
-interactive."
+  "Copy the current buffer filename with path to clipboard. You can call this
+function interactively."
   (interactive)
   (let ((filepath (if (equal major-mode 'dired-mode)
                       default-directory
@@ -93,7 +95,8 @@ interactive."
       (message "Copied buffer filepath '%s' to clipboard." filepath))))
 
 (defun ufun:multi-occur-in-this-mode ()
-  "Show all lines matching REGEXP in buffers with this major mode.
+  "Show all lines matching REGEXP in buffers with this major mode. You can call
+this function interactively.
 
 Stolen from Mickey Petersen (Mastering Emacs author).
 See https://masteringemacs.org/article/searching-buffers-occur-mode."
@@ -103,8 +106,8 @@ See https://masteringemacs.org/article/searching-buffers-occur-mode."
    (car (occur-read-primary-args))))
 
 (defun ufun:org-archive-confirm ()
-  "Provide an interactive call to `org-archive-subtree' with a single prefix
-argument, C-u in this case.
+  "Invoke `org-archive-subtree' with a single prefix argument, C-u in this case.
+You can call this function interactively.
 
 Programmatically, passing 4 as an argument to `org-archive-subtree' achieves the
 same thing as calling C-u once. I.e. a single FIND-DONE for the
@@ -334,8 +337,8 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
       '(("<" . bookmark-set)
         ("," . bookmark-bmenu-list)
         ("." . ibuffer)
-        ("p" . ufun:multi-occur-in-this-mode)
         ("P" . multi-occur-in-matching-buffers)
+        ("p" . ufun:multi-occur-in-this-mode)
         ("C" . count-words-region)
         ("c" . compile)
         ("r" . ufun:goto-previous-buffer)
