@@ -101,6 +101,18 @@
           (evil-define-key* vimode mode (kbd leader) keymap) ; NOTE: Don't use the macro!
           (ufun:create-keybindings keymap keybindings)))
 
+      (defun ufun:get-buffers-matching-mode (mode)
+        "Return a list of buffers where their major-mode is equal to MODE.
+
+      Stolen from Mickey Petersen (Mastering Emacs author).
+      See https://masteringemacs.org/article/searching-buffers-occur-mode."
+        (let ((buffer-mode-matches '()))
+          (dolist (buf (buffer-list))
+            (with-current-buffer buf
+              (when (eq mode major-mode)
+                (push buf buffer-mode-matches))))
+          buffer-mode-matches))
+
       (defun ufun:goto-previous-buffer ()
         "Return to the previously visited buffer. This function is interactive."
         (interactive)
@@ -116,6 +128,16 @@
           (when filepath
             (kill-new filepath)
             (message "Copied buffer filepath '%s' to clipboard." filepath))))
+
+      (defun ufun:multi-occur-in-this-mode ()
+        "Show all lines matching REGEXP in buffers with this major mode.
+
+      Stolen from Mickey Petersen (Mastering Emacs author).
+      See https://masteringemacs.org/article/searching-buffers-occur-mode."
+        (interactive)
+        (multi-occur
+         (get-buffers-matching-mode major-mode)
+         (car (occur-read-primary-args))))
 
       (defun ufun:org-archive-confirm ()
         "Provide an interactive call to `org-archive-subtree' with a single prefix
@@ -139,6 +161,25 @@
      (scroll-bar-mode -1)
      (tool-bar-mode -1)
    #+END_SRC
+** Auto-Complete
+   What was that one thing called again?
+   #+BEGIN_SRC emacs-lisp
+     (setq dabbrev-case-distinction nil
+           dabbrev-case-fold-search t
+           dabbrev-case-replace nil)
+
+     (setq hippie-expand-try-functions-list
+           '(try-expand-dabbrev
+             try-expand-dabbrev-all-buffers
+             try-expand-dabbrev-from-kill
+             try-complete-file-name-partially
+             try-complete-file-name
+             try-expand-all-abbrevs
+             try-expand-list
+             try-expand-line
+             try-complete-lisp-symbol-partially
+             try-complete-lisp-symbol))
+   #+END_SRC
 ** Cursor
    Mousing around.
    #+BEGIN_SRC emacs-lisp
@@ -149,7 +190,8 @@
            mouse-wheel-follow-mouse t
            mouse-wheel-progressive-speed nil
            mouse-wheel-scroll-amount '(2 ((shift) . 1))
-           scroll-bar-adjust-thumb-portion nil) ; NOTE: This only works on X11.
+           scroll-bar-adjust-thumb-portion nil ; NOTE: This only works on X11.
+           scroll-preserve-screen-position t)
    #+END_SRC
 ** Custom Settings
    Designate a separate file for custom-set-variables under .emacs.d, name it
@@ -166,13 +208,6 @@
 ** Frame
    Emacs Frames are basically Windows in almost every other editor. A Frame
    contains a Buffer, where all the magic happens.
-
-   These settings configure things within a Frame except the Buffer like...
-   00. Startup Frame size
-   01. Transparency
-   02. Scroll bar
-   03. Line numbers column width
-   04. Minibuffer line truncation
    #+BEGIN_SRC emacs-lisp
      (setq initial-frame-alist '((width . 90) (height . 35)))
 
@@ -347,8 +382,8 @@
    packages.
    #+BEGIN_SRC emacs-lisp
      ;; (setq url-proxy-services
-     ;;       '(("http"  . "work.proxy.com:8080")
-     ;;         ("https" . "work.proxy.com:8080")))
+     ;;       '(("http"  . "proxy:port")
+     ;;         ("https" . "proxy:port")))
    #+END_SRC
 ** Packages
    Milkypostman Store.
@@ -366,10 +401,12 @@
                          evil-escape
                          kuronami-theme
                          markdown-mode
+                         nix-mode
                          org-bullets
                          rust-mode
                          toml-mode
-                         undo-fu))
+                         undo-fu
+                         zig-mode))
        (when (not (package-installed-p packages))
          (package-install packages)))
    #+END_SRC
@@ -432,6 +469,8 @@
            '(("<" . bookmark-set)
              ("," . bookmark-bmenu-list)
              ("." . ibuffer)
+             ("p" . ufun:multi-occur-in-this-mode)
+             ("P" . multi-occur-in-matching-buffers)
              ("C" . count-words-region)
              ("c" . compile)
              ("r" . ufun:goto-previous-buffer)
@@ -503,6 +542,8 @@
      (add-hook 'markdown-mode-hook 'flyspell-mode)
      (add-hook 'markdown-mode-hook '(lambda () (setq-local fill-column uvar:default-column)))
 
+     (require 'nix-mode)
      (require 'rust-mode)
      (require 'toml-mode)
+     (require 'zig-mode)
    #+END_SRC

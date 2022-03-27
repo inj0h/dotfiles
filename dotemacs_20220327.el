@@ -64,6 +64,18 @@ party packages like Evil-Leader and General."
     (evil-define-key* vimode mode (kbd leader) keymap) ; NOTE: Don't use the macro!
     (ufun:create-keybindings keymap keybindings)))
 
+(defun ufun:get-buffers-matching-mode (mode)
+  "Return a list of buffers where their major-mode is equal to MODE.
+
+Stolen from Mickey Petersen (Mastering Emacs author).
+See https://masteringemacs.org/article/searching-buffers-occur-mode."
+  (let ((buffer-mode-matches '()))
+    (dolist (buf (buffer-list))
+      (with-current-buffer buf
+        (when (eq mode major-mode)
+          (push buf buffer-mode-matches))))
+    buffer-mode-matches))
+
 (defun ufun:goto-previous-buffer ()
   "Return to the previously visited buffer. This function is interactive."
   (interactive)
@@ -79,6 +91,16 @@ interactive."
     (when filepath
       (kill-new filepath)
       (message "Copied buffer filepath '%s' to clipboard." filepath))))
+
+(defun ufun:multi-occur-in-this-mode ()
+  "Show all lines matching REGEXP in buffers with this major mode.
+
+Stolen from Mickey Petersen (Mastering Emacs author).
+See https://masteringemacs.org/article/searching-buffers-occur-mode."
+  (interactive)
+  (multi-occur
+   (get-buffers-matching-mode major-mode)
+   (car (occur-read-primary-args))))
 
 (defun ufun:org-archive-confirm ()
   "Provide an interactive call to `org-archive-subtree' with a single prefix
@@ -99,6 +121,22 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 
+(setq dabbrev-case-distinction nil
+      dabbrev-case-fold-search t
+      dabbrev-case-replace nil)
+
+(setq hippie-expand-try-functions-list
+      '(try-expand-dabbrev
+        try-expand-dabbrev-all-buffers
+        try-expand-dabbrev-from-kill
+        try-complete-file-name-partially
+        try-complete-file-name
+        try-expand-all-abbrevs
+        try-expand-list
+        try-expand-line
+        try-complete-lisp-symbol-partially
+        try-complete-lisp-symbol))
+
 (blink-cursor-mode 1)
 (delete-selection-mode t)
 (setq blink-cursor-blinks 30
@@ -106,7 +144,8 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
       mouse-wheel-follow-mouse t
       mouse-wheel-progressive-speed nil
       mouse-wheel-scroll-amount '(2 ((shift) . 1))
-      scroll-bar-adjust-thumb-portion nil) ; NOTE: This only works on X11.
+      scroll-bar-adjust-thumb-portion nil ; NOTE: This only works on X11.
+      scroll-preserve-screen-position t)
 
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file 'noerror)
@@ -234,8 +273,8 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 (setq visible-bell 1)
 
 ;; (setq url-proxy-services
-;;       '(("http"  . "work.proxy.com:8080")
-;;         ("https" . "work.proxy.com:8080")))
+;;       '(("http"  . "proxy:port")
+;;         ("https" . "proxy:port")))
 
 ;; TODO: Refactor this code so that it correctly installs missing packages.
 (require 'package)
@@ -250,10 +289,12 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
                     evil-escape
                     kuronami-theme
                     markdown-mode
+                    nix-mode
                     org-bullets
                     rust-mode
                     toml-mode
-                    undo-fu))
+                    undo-fu
+                    zig-mode))
   (when (not (package-installed-p packages))
     (package-install packages)))
 
@@ -293,6 +334,8 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
       '(("<" . bookmark-set)
         ("," . bookmark-bmenu-list)
         ("." . ibuffer)
+        ("p" . ufun:multi-occur-in-this-mode)
+        ("P" . multi-occur-in-matching-buffers)
         ("C" . count-words-region)
         ("c" . compile)
         ("r" . ufun:goto-previous-buffer)
@@ -359,5 +402,7 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 (add-hook 'markdown-mode-hook 'flyspell-mode)
 (add-hook 'markdown-mode-hook '(lambda () (setq-local fill-column uvar:default-column)))
 
+(require 'nix-mode)
 (require 'rust-mode)
 (require 'toml-mode)
+(require 'zig-mode)
