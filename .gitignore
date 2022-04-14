@@ -16,6 +16,5 @@
 !bootstrap.el
 !dotemacs.org
 !dotemacs_[0-9]*.el
-!mac_earth.terminal
-!mac_nord.terminal
+!mac.terminal
 !readme.md
