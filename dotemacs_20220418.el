@@ -16,6 +16,14 @@
 (setq uvar:default-column 80
       uvar:default-indent 4)
 
+(defun ufun:add-local-vi-bindings (bind-modes)
+  (dolist (mode bind-modes)
+    (add-hook mode
+              '(lambda ()
+                 (progn
+                   (local-set-key (kbd "j") 'next-line)
+                   (local-set-key (kbd "k") 'previous-line))))))
+
 (defun ufun:add-word-to-dictionary ()
   "Add the word-at-point to aspell's dictionary. You can call this function
 interactively."
@@ -102,7 +110,7 @@ Stolen from Mickey Petersen (Mastering Emacs author).
 See https://masteringemacs.org/article/searching-buffers-occur-mode."
   (interactive)
   (multi-occur
-   (get-buffers-matching-mode major-mode)
+   (ufun:get-buffers-matching-mode major-mode)
    (car (occur-read-primary-args))))
 
 (defun ufun:org-archive-confirm ()
@@ -115,9 +123,9 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
   (interactive)
   (org-archive-subtree '(4)))
 
-(setq flyspell-duplicate-distance 0 ; NOTE: Does not work on Emacs 27.2 on Mac.
-      inhibit-startup-screen t
-      vc-handled-backends nil)
+(setq bookmark-set-fringe-mark nil
+      flyspell-duplicate-distance 0 ; NOTE: Does not work on Mac.
+      inhibit-startup-screen t)
 
 (global-hl-line-mode -1)
 (menu-bar-mode -1)
@@ -155,6 +163,8 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 
 (setq dired-listing-switches "-alo")
 
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)
+
 (setq initial-frame-alist '((width . 90) (height . 35)))
 
 ;; NOTE: Render non-focused frames transparent. I.e. when setting the alpha (transparency level), the first and second numbers indicate focused and unfocused transparency respectively. 100 alpha means opaque.
@@ -173,8 +183,7 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
       make-backup-files nil)
 (global-auto-revert-mode 1)
 
-(setq ibuffer-default-sorting-mode 'filename/process
-      ibuffer-default-sorting-reversep t)
+(setq ibuffer-default-sorting-mode 'filename/process)
 
 (setq ido-auto-merge-work-directories-length -1
       ido-case-fold t
@@ -192,14 +201,14 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
                (define-key isearch-mode-map
                  (kbd (car bindings)) (cdr bindings)))))
 
-(add-hook 'ibuffer-mode-hook '(lambda () (local-set-key (kbd "j") 'next-line)))
-(add-hook 'ibuffer-mode-hook '(lambda () (local-set-key (kbd "k") 'previous-line)))
-
-(add-hook 'package-menu-mode-hook '(lambda () (local-set-key (kbd "j") 'next-line)))
-(add-hook 'package-menu-mode-hook '(lambda () (local-set-key (kbd "k") 'previous-line)))
+(ufun:add-local-vi-bindings
+ '(ibuffer-mode-hook
+   org-agenda-mode-hook
+   package-menu-mode-hook))
 
 (setq org-enforce-todo-dependencies t
       org-hide-emphasis-markers t
+      org-indent-indentation-per-level 2
       org-src-fontify-natively t
       org-src-tab-acts-natively t
       org-startup-folded t
@@ -212,21 +221,61 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
                                     "DONE(d!)"
                                     "CANCELED(c@/!)"))
       org-use-fast-todo-selection t)
+
 (add-hook 'org-mode-hook '(lambda () (setq-local fill-column uvar:default-column)))
+(add-hook 'org-mode-hook 'org-indent-mode)
+
+(with-eval-after-load 'org-agenda
+  (progn
+    (setq org-agenda-custom-commands
+          `(("A" "Agenda view that I like to use."
+             ((agenda "" ((org-agenda-overriding-header "You Can (Not) Do It\n\nToday:")
+                          (org-agenda-span 1)
+                          (org-deadline-warning-days 0)
+                          (org-agenda-block-separator nil)
+                          (org-scheduled-past-days 0)
+                          (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
+                          (org-agenda-format-date "%Y.%m.%d %A")))
+              (agenda "" ((org-agenda-overriding-header "\nNext Five Days:")
+                          (org-agenda-start-on-weekday nil)
+                          (org-agenda-start-day "+1d") ; Start after 1 day to avid overlap with the previous section.
+                          (org-agenda-span 5)
+                          (org-deadline-warning-days 0)
+                          (org-agenda-block-separator nil)
+                          (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                          (org-agenda-format-date "%Y.%m.%d %A")))
+              (agenda "" ((org-agenda-overriding-header "\nNext Thirty Days:")
+                          (org-agenda-time-grid nil)
+                          (org-agenda-start-on-weekday nil)
+                          (org-agenda-start-day "+6d") ; Start after 5 days to avid overlap with the previous section.
+                          (org-agenda-span 30)
+                          (org-agenda-show-all-dates nil)
+                          (org-deadline-warning-days 0)
+                          (org-agenda-block-separator nil)
+                          (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                          (org-agenda-format-date "%Y.%m.%d %A")))))))
+    (setq org-agenda-files '("~/Documents"))))
+
+(setq org-capture-templates
+      '(("m" "File Meeting" entry (file+headline "~/Documents/todo.org" "Meetings")
+         "* %?\n** Topic [/]\n** Note ")
+        ("t" "File Task" entry (file+headline "~/Documents/todo.org" "Tasks")
+         "* TODO %?\n** Note ")))
 
 (add-hook 'emacs-lisp-mode-hook 'prettify-symbols-mode)
 
+(add-hook 'java-mode-hook '(lambda () (setq-local fill-column 120)))
+
 (add-hook 'js-mode-hook 'prettify-symbols-mode)
-(add-hook 'js-mode-hook '(lambda () (push '("=>" . "\u21d2") prettify-symbols-alist))) ; TODO: Move symbol codes into separate section.
-(add-to-list 'auto-mode-alist '("\\.eslintrc\\'" . js-mode))
-(add-to-list 'auto-mode-alist '("\\.prettierrc\\'" . js-mode))
-(add-to-list 'auto-mode-alist '("\\.ts\\'" . js-mode))
+(add-hook 'js-mode-hook '(lambda () (push '("=>" . "\u21d2") prettify-symbols-alist)))
 
 (add-hook 'latex-mode-hook '(lambda () (setq-local fill-column uvar:default-column)))
 (add-hook 'latex-mode-hook 'flyspell-mode)
 
-(add-hook 'nxml-mode-hook '(lambda () (setq nxml-attribute-indent uvar:default-indent)))
-(add-hook 'nxml-mode-hook '(lambda () (setq nxml-child-indent     uvar:default-indent)))
+(add-hook 'nxml-mode-hook
+          '(lambda ()
+             (setq nxml-attribute-indent uvar:default-indent
+                   nxml-child-indent uvar:default-indent)))
 
 (setq sh-indentation uvar:default-indent)
 
@@ -269,8 +318,12 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
       ((equal system-type 'darwin)
        (setq ispell-program-name "/usr/local/bin/aspell")))
 
+(setq flyspell-default-dictionary "en_US")
+
 (setq-default whitespace-line-column nil) ; NOTE: Use fill-column setting.
 (add-hook 'before-save-hook 'whitespace-cleanup)
+
+(setq tramp-default-method "ssh")
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 (setq visible-bell 1)
@@ -290,32 +343,35 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 (dolist (packages '(diminish
                     evil
                     evil-escape
+                    json-mode
                     kuronami-theme
                     markdown-mode
                     nix-mode
                     org-bullets
                     rust-mode
+                    swift-mode
                     toml-mode
-                    undo-fu
+                    typescript-mode
+                    yaml-mode
                     zig-mode))
   (when (not (package-installed-p packages))
     (package-install packages)))
 
 (load-theme 'kuronami t)
 
-(require 'org-bullets)
 (add-hook 'org-mode-hook 'org-bullets-mode)
 
 (require 'evil)
-(require 'undo-fu)
 (require 'evil-escape)
 (evil-mode 1)
 (evil-escape-mode t)
 (evil-select-search-module 'evil-search-module 'evil-search)
 
-(define-key evil-insert-state-map "\M-n" 'hippie-expand)
-(define-key evil-normal-state-map "u" 'undo-fu-only-undo)
-(define-key evil-normal-state-map "\C-r" 'undo-fu-only-redo)
+(define-key evil-insert-state-map "\C-n" 'hippie-expand)
+(define-key evil-normal-state-map "\C-r" 'undo-redo)
+
+(with-eval-after-load 'org
+  (evil-define-key 'motion org-mode-map (kbd "<tab>") 'org-cycle))
 
 (setq-default evil-escape-key-sequence "hh"
               evil-escape-excluded-states '(normal visual motion)
@@ -334,26 +390,36 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 (define-key evil-motion-state-map (kbd "SPC") 'uvar:evil-leader-keymap)
 
 (setq uvar:evil-leader-bindings
-      '(("<" . bookmark-set)
-        ("," . bookmark-bmenu-list)
-        ("." . ibuffer)
-        ("P" . multi-occur-in-matching-buffers)
-        ("p" . ufun:multi-occur-in-this-mode)
-        ("C" . count-words-region)
-        ("c" . compile)
-        ("r" . ufun:goto-previous-buffer)
-        ("A" . apropos)
-        ("a" . align-regexp)
-        ("O" . occur)
-        ("o" . switch-to-buffer)
-        ("E" . server-edit)
-        ("e" . find-file)
-        ("T" . eval-expression)
-        ("t" . execute-extended-command)
-        ("n" . yank-pop)
-        ("s" . sort-lines)
-        ("W" . whitespace-cleanup)
-        ("w" . whitespace-mode)))
+      '((",," . org-capture)
+        (",m" . (lambda () (interactive) (org-capture nil "m")))
+        (",t" . (lambda () (interactive) (org-capture nil "t")))
+        ("."  . ibuffer)
+        ("pb" . project-display-buffer)
+        ("pc" . project-compile)
+        ("pf" . project-find-file)
+        ("pk" . project-kill-buffers)
+        ("pr" . project-forget-project)
+        ("ps" . project-switch-project)
+        ("c"  . compile)
+        ("r"  . ufun:goto-previous-buffer)
+        ("la" . align-regexp)
+        ("lc" . count-words-region)
+        ("lo" . occur)
+        ("lP" . multi-occur-in-matching-buffers)
+        ("lp" . ufun:multi-occur-in-this-mode)
+        ("ls" . sort-lines)
+        ("A"  . (lambda () (interactive) (org-agenda nil "A")))
+        ("a"  . apropos)
+        ("o"  . switch-to-buffer)
+        ("E"  . server-edit)
+        ("e"  . find-file)
+        ("T"  . eval-expression)
+        ("t"  . execute-extended-command)
+        ("n"  . yank-pop)
+        ("bl" . bookmark-bmenu-list)
+        ("bs" . bookmark-set)
+        ("W"  . whitespace-cleanup)
+        ("w"  . whitespace-mode)))
 
 (ufun:create-keybindings uvar:evil-leader-keymap uvar:evil-leader-bindings)
 
@@ -378,34 +444,52 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
  'uvar:evil-leader-elisp-keymap
  (append uvar:evil-leader-bindings '(("me" . eval-last-sexp))))
 
-(ufun:create-leader-evil-keybindings
- "SPC"
- org-mode-map
- 'motion
- 'uvar:evil-leader-org-keymap
- (append uvar:evil-leader-bindings
-         '(("mA" . ufun:org-archive-confirm)
-           ("ma" . org-archive-subtree)
-           ("mc" . org-copy-subtree)
-           ("md" . org-demote-subtree)
-           ("mi" . org-insert-heading)
-           ("mp" . org-promote-subtree)
-           ("mx" . org-cut-subtree))))
+(with-eval-after-load 'org
+  (ufun:create-leader-evil-keybindings
+   "SPC"
+   org-mode-map
+   'motion
+   'uvar:evil-leader-org-keymap
+   (append uvar:evil-leader-bindings
+           '(("mA" . ufun:org-archive-confirm)
+             ("ma" . org-archive-subtree)
+             ("mc" . org-copy-subtree)
+             ("mD" . (lambda () (interactive) (org-deadline '(4))))
+             ("md" . org-deadline)
+             ("mi" . org-insert-heading)
+             ("mS" . (lambda () (interactive) (org-schedule '(4))))
+             ("ms" . org-schedule)
+             ("mx" . org-cut-subtree)))))
 
 (require 'diminish)
 (diminish 'evil-escape-mode)
+(with-eval-after-load 'org-indent (diminish 'org-indent-mode))
 (with-eval-after-load 'subword (diminish 'subword-mode))
 
-(require 'markdown-mode)
-(cond ((string-equal system-type "gnu/linux")
-       (setq markdown-command "/usr/bin/pandoc"))
-      ((string-equal system-type "darwin")
-       (setq markdown-command "/usr/local/bin/pandoc")))
-(add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
-(add-hook 'markdown-mode-hook 'flyspell-mode)
-(add-hook 'markdown-mode-hook '(lambda () (setq-local fill-column uvar:default-column)))
+(with-eval-after-load 'json-mode
+  (progn
+    (setq js-indent-level uvar:default-indent)
+    (add-to-list 'auto-mode-alist '("\\.eslintrc\\'"   . json-mode))
+    (add-to-list 'auto-mode-alist '("\\.prettierrc\\'" . json-mode))))
 
-(require 'nix-mode)
-(require 'rust-mode)
-(require 'toml-mode)
-(require 'zig-mode)
+(with-eval-after-load 'markdown-mode
+  (progn
+    (cond ((string-equal system-type "gnu/linux")
+           (setq markdown-command "/usr/bin/pandoc"))
+          ((string-equal system-type "darwin")
+           (setq markdown-command "/usr/local/bin/pandoc")))
+    (add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
+    (add-hook 'markdown-mode-hook 'flyspell-mode)
+    (add-hook 'markdown-mode-hook '(lambda () (setq-local fill-column uvar:default-column)))))
+
+(with-eval-after-load 'swift-mode
+  (setq swift-mode:basic-offset uvar:default-indent))
+
+(with-eval-after-load 'typescript-mode
+  (progn
+    (setq typescript-indent-level uvar:default-indent)
+    (add-hook 'typescript-mode-hook 'prettify-symbols-mode)
+    (add-hook 'typescript-mode-hook '(lambda () (push '("=>" . "\u21d2") prettify-symbols-alist)))))
+
+(with-eval-after-load 'yaml-mode
+  (setq yaml-indent-offset uvar:default-indent))

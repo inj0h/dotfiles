@@ -11,8 +11,8 @@ keep them spare.
 ** Lexical Binding
 By default, Elisp does not have lexical binding, /i.e./ variable scope based on
 text position which virtually every other mainstream language has. So let's
-enable it. Note, make sure to have them set /at the beginning/ of this section
-to affect the rest of this config.
+enable it. Note, make sure to have them set /at the beginning/ of this section to
+affect the rest of this config.
 #+BEGIN_SRC emacs-lisp
   ;; -*- lexical-binding: t -*-
 #+END_SRC
@@ -53,6 +53,14 @@ beginning/ of this section to avoid undefined reference errors.
 *** Functions
 Homebrewed Lisp.
 #+BEGIN_SRC emacs-lisp
+  (defun ufun:add-local-vi-bindings (bind-modes)
+    (dolist (mode bind-modes)
+      (add-hook mode
+                '(lambda ()
+                   (progn
+                     (local-set-key (kbd "j") 'next-line)
+                     (local-set-key (kbd "k") 'previous-line))))))
+
   (defun ufun:add-word-to-dictionary ()
     "Add the word-at-point to aspell's dictionary. You can call this function
   interactively."
@@ -139,7 +147,7 @@ Homebrewed Lisp.
   See https://masteringemacs.org/article/searching-buffers-occur-mode."
     (interactive)
     (multi-occur
-     (get-buffers-matching-mode major-mode)
+     (ufun:get-buffers-matching-mode major-mode)
      (car (occur-read-primary-args))))
 
   (defun ufun:org-archive-confirm ()
@@ -155,9 +163,9 @@ Homebrewed Lisp.
 ** _Disable
 Shut. It. Off!
 #+BEGIN_SRC emacs-lisp
-  (setq flyspell-duplicate-distance 0 ; NOTE: Does not work on Emacs 27.2 on Mac.
-        inhibit-startup-screen t
-        vc-handled-backends nil)
+  (setq bookmark-set-fringe-mark nil
+        flyspell-duplicate-distance 0 ; NOTE: Does not work on Mac.
+        inhibit-startup-screen t)
 
   (global-hl-line-mode -1)
   (menu-bar-mode -1)
@@ -208,9 +216,12 @@ Better than NETRW.
 #+BEGIN_SRC emacs-lisp
   (setq dired-listing-switches "-alo")
 #+END_SRC
+** Ediff
+Never use a separate frame when diffing.
+#+BEGIN_SRC emacs-lisp
+  (setq ediff-window-setup-function 'ediff-setup-windows-plain)
+#+END_SRC
 ** Frame
-Emacs Frames are basically Windows in almost every other editor. A Frame
-contains a Buffer, where all the magic happens.
 #+BEGIN_SRC emacs-lisp
   (setq initial-frame-alist '((width . 90) (height . 35)))
 
@@ -236,8 +247,7 @@ Emacs file loading behavior.
 ** Ibuffer
 Interactive buffer menu.
 #+BEGIN_SRC emacs-lisp
-  (setq ibuffer-default-sorting-mode 'filename/process
-        ibuffer-default-sorting-reversep t)
+  (setq ibuffer-default-sorting-mode 'filename/process)
 #+END_SRC
 ** Ido
 Interactive do.
@@ -264,17 +274,18 @@ Be really cool if you didn't have to keep spamming Ctrl.
 ** Keybindings
 A pinch of jk.
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'ibuffer-mode-hook '(lambda () (local-set-key (kbd "j") 'next-line)))
-  (add-hook 'ibuffer-mode-hook '(lambda () (local-set-key (kbd "k") 'previous-line)))
-
-  (add-hook 'package-menu-mode-hook '(lambda () (local-set-key (kbd "j") 'next-line)))
-  (add-hook 'package-menu-mode-hook '(lambda () (local-set-key (kbd "k") 'previous-line)))
+  (ufun:add-local-vi-bindings
+   '(ibuffer-mode-hook
+     org-agenda-mode-hook
+     package-menu-mode-hook))
 #+END_SRC
 ** Org
 One of these days, I'm gonna get organizized.
+*** Org Basics
 #+BEGIN_SRC emacs-lisp
   (setq org-enforce-todo-dependencies t
         org-hide-emphasis-markers t
+        org-indent-indentation-per-level 2
         org-src-fontify-natively t
         org-src-tab-acts-natively t
         org-startup-folded t
@@ -287,7 +298,50 @@ One of these days, I'm gonna get organizized.
                                       "DONE(d!)"
                                       "CANCELED(c@/!)"))
         org-use-fast-todo-selection t)
+
   (add-hook 'org-mode-hook '(lambda () (setq-local fill-column uvar:default-column)))
+  (add-hook 'org-mode-hook 'org-indent-mode)
+#+END_SRC
+*** Org Agenda
+#+BEGIN_SRC emacs-lisp
+  (with-eval-after-load 'org-agenda
+    (progn
+      (setq org-agenda-custom-commands
+            `(("A" "Agenda view that I like to use."
+               ((agenda "" ((org-agenda-overriding-header "You Can (Not) Do It\n\nToday:")
+                            (org-agenda-span 1)
+                            (org-deadline-warning-days 0)
+                            (org-agenda-block-separator nil)
+                            (org-scheduled-past-days 0)
+                            (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
+                            (org-agenda-format-date "%Y.%m.%d %A")))
+                (agenda "" ((org-agenda-overriding-header "\nNext Five Days:")
+                            (org-agenda-start-on-weekday nil)
+                            (org-agenda-start-day "+1d") ; Start after 1 day to avid overlap with the previous section.
+                            (org-agenda-span 5)
+                            (org-deadline-warning-days 0)
+                            (org-agenda-block-separator nil)
+                            (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                            (org-agenda-format-date "%Y.%m.%d %A")))
+                (agenda "" ((org-agenda-overriding-header "\nNext Thirty Days:")
+                            (org-agenda-time-grid nil)
+                            (org-agenda-start-on-weekday nil)
+                            (org-agenda-start-day "+6d") ; Start after 5 days to avid overlap with the previous section.
+                            (org-agenda-span 30)
+                            (org-agenda-show-all-dates nil)
+                            (org-deadline-warning-days 0)
+                            (org-agenda-block-separator nil)
+                            (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                            (org-agenda-format-date "%Y.%m.%d %A")))))))
+      (setq org-agenda-files '("~/Documents"))))
+#+END_SRC
+*** Org Capture
+#+BEGIN_SRC emacs-lisp
+  (setq org-capture-templates
+        '(("m" "File Meeting" entry (file+headline "~/Documents/todo.org" "Meetings")
+           "* %?\n** Topic [/]\n** Note ")
+          ("t" "File Task" entry (file+headline "~/Documents/todo.org" "Tasks")
+           "* TODO %?\n** Note ")))
 #+END_SRC
 ** Platform
 Mac, Linux, Windows Trinity.
@@ -298,17 +352,18 @@ Settings for default programming language modes and anything text.
 #+BEGIN_SRC emacs-lisp
   (add-hook 'emacs-lisp-mode-hook 'prettify-symbols-mode)
 
+  (add-hook 'java-mode-hook '(lambda () (setq-local fill-column 120)))
+
   (add-hook 'js-mode-hook 'prettify-symbols-mode)
-  (add-hook 'js-mode-hook '(lambda () (push '("=>" . "\u21d2") prettify-symbols-alist))) ; TODO: Move symbol codes into separate section.
-  (add-to-list 'auto-mode-alist '("\\.eslintrc\\'" . js-mode))
-  (add-to-list 'auto-mode-alist '("\\.prettierrc\\'" . js-mode))
-  (add-to-list 'auto-mode-alist '("\\.ts\\'" . js-mode))
+  (add-hook 'js-mode-hook '(lambda () (push '("=>" . "\u21d2") prettify-symbols-alist)))
 
   (add-hook 'latex-mode-hook '(lambda () (setq-local fill-column uvar:default-column)))
   (add-hook 'latex-mode-hook 'flyspell-mode)
 
-  (add-hook 'nxml-mode-hook '(lambda () (setq nxml-attribute-indent uvar:default-indent)))
-  (add-hook 'nxml-mode-hook '(lambda () (setq nxml-child-indent     uvar:default-indent)))
+  (add-hook 'nxml-mode-hook
+            '(lambda ()
+               (setq nxml-attribute-indent uvar:default-indent
+                     nxml-child-indent uvar:default-indent)))
 
   (setq sh-indentation uvar:default-indent)
 
@@ -367,11 +422,17 @@ I need the computer to tell me!
          (setq ispell-program-name "/usr/bin/aspell"))
         ((equal system-type 'darwin)
          (setq ispell-program-name "/usr/local/bin/aspell")))
+
+  (setq flyspell-default-dictionary "en_US")
 #+END_SRC
 *** Whitespace
 #+BEGIN_SRC emacs-lisp
   (setq-default whitespace-line-column nil) ; NOTE: Use fill-column setting.
   (add-hook 'before-save-hook 'whitespace-cleanup)
+#+END_SRC
+** Tramp
+#+BEGIN_SRC emacs-lisp
+  (setq tramp-default-method "ssh")
 #+END_SRC
 ** User Input
 #+BEGIN_SRC emacs-lisp
@@ -381,8 +442,7 @@ I need the computer to tell me!
 * Not Vanilla
 Settings for third party Elisp packages.
 ** Proxy Configuration
-Configure proxy settings /before/ attempting to install any third party
-packages.
+Configure proxy settings /before/ attempting to install any third party packages.
 #+BEGIN_SRC emacs-lisp
   ;; (setq url-proxy-services
   ;;       '(("http"  . "proxy:port")
@@ -402,13 +462,16 @@ Milkypostman Store.
   (dolist (packages '(diminish
                       evil
                       evil-escape
+                      json-mode
                       kuronami-theme
                       markdown-mode
                       nix-mode
                       org-bullets
                       rust-mode
+                      swift-mode
                       toml-mode
-                      undo-fu
+                      typescript-mode
+                      yaml-mode
                       zig-mode))
     (when (not (package-installed-p packages))
       (package-install packages)))
@@ -424,7 +487,6 @@ Forever.
 
 What are you trying to tell me? That I can dodge bullets?!
 #+BEGIN_SRC emacs-lisp
-  (require 'org-bullets)
   (add-hook 'org-mode-hook 'org-bullets-mode)
 #+END_SRC
 ** Evil
@@ -433,86 +495,93 @@ Summon the Editor of the Beast - /VI VI VI./
 Keybindings tuned for EN-Dvorak. Don't change default vi/Vim (too much).
 
 This configuration uses custom vanilla Emacs Lisp code to recreate vi leader
-keybinding features that third party packages like "Evil Leader" and
-"General" provide using a lot more code (I /think/).
+keybinding features that third party packages like "Evil Leader" and "General"
+provide using a lot more code (I /think/).
+#+BEGIN_SRC emacs-lisp
+  (require 'evil)
+  (require 'evil-escape)
+  (evil-mode 1)
+  (evil-escape-mode t)
+  (evil-select-search-module 'evil-search-module 'evil-search)
 
-/C.f./ functions
-- ufun:create-keybindings
-- ufun:create-leader-local-keybindings
-- ufun:create-leader-evil-keybindings
-  #+BEGIN_SRC emacs-lisp
-    (require 'evil)
-    (require 'undo-fu)
-    (require 'evil-escape)
-    (evil-mode 1)
-    (evil-escape-mode t)
-    (evil-select-search-module 'evil-search-module 'evil-search)
+  (define-key evil-insert-state-map "\C-n" 'hippie-expand)
+  (define-key evil-normal-state-map "\C-r" 'undo-redo)
 
-    (define-key evil-insert-state-map "\M-n" 'hippie-expand)
-    (define-key evil-normal-state-map "u" 'undo-fu-only-undo)
-    (define-key evil-normal-state-map "\C-r" 'undo-fu-only-redo)
+  (with-eval-after-load 'org
+    (evil-define-key 'motion org-mode-map (kbd "<tab>") 'org-cycle))
 
-    (setq-default evil-escape-key-sequence "hh"
-                  evil-escape-excluded-states '(normal visual motion)
-                  evil-escape-delay 0.2)
+  (setq-default evil-escape-key-sequence "hh"
+                evil-escape-excluded-states '(normal visual motion)
+                evil-escape-delay 0.2)
 
-    (ufun:create-keybindings
-     evil-motion-state-map
-     '((";"  . evil-ex)
-       (":"  . evil-repeat-find-char)
-       ("gc" . comment-dwim)
-       ("zg" . ufun:add-word-to-dictionary)))
+  (ufun:create-keybindings
+   evil-motion-state-map
+   '((";"  . evil-ex)
+     (":"  . evil-repeat-find-char)
+     ("gc" . comment-dwim)
+     ("zg" . ufun:add-word-to-dictionary)))
 
-    (define-prefix-command 'uvar:evil-leader-keymap)
+  (define-prefix-command 'uvar:evil-leader-keymap)
 
-    ;; NOTE: Using evil-define-key here will not bind additional mappings from other plugins for some reason. We need to use define-key.
-    (define-key evil-motion-state-map (kbd "SPC") 'uvar:evil-leader-keymap)
+  ;; NOTE: Using evil-define-key here will not bind additional mappings from other plugins for some reason. We need to use define-key.
+  (define-key evil-motion-state-map (kbd "SPC") 'uvar:evil-leader-keymap)
 
-    (setq uvar:evil-leader-bindings
-          '(("<" . bookmark-set)
-            ("," . bookmark-bmenu-list)
-            ("." . ibuffer)
-            ("P" . multi-occur-in-matching-buffers)
-            ("p" . ufun:multi-occur-in-this-mode)
-            ("C" . count-words-region)
-            ("c" . compile)
-            ("r" . ufun:goto-previous-buffer)
-            ("A" . apropos)
-            ("a" . align-regexp)
-            ("O" . occur)
-            ("o" . switch-to-buffer)
-            ("E" . server-edit)
-            ("e" . find-file)
-            ("T" . eval-expression)
-            ("t" . execute-extended-command)
-            ("n" . yank-pop)
-            ("s" . sort-lines)
-            ("W" . whitespace-cleanup)
-            ("w" . whitespace-mode)))
+  (setq uvar:evil-leader-bindings
+        '((",," . org-capture)
+          (",m" . (lambda () (interactive) (org-capture nil "m")))
+          (",t" . (lambda () (interactive) (org-capture nil "t")))
+          ("."  . ibuffer)
+          ("pb" . project-display-buffer)
+          ("pc" . project-compile)
+          ("pf" . project-find-file)
+          ("pk" . project-kill-buffers)
+          ("pr" . project-forget-project)
+          ("ps" . project-switch-project)
+          ("c"  . compile)
+          ("r"  . ufun:goto-previous-buffer)
+          ("la" . align-regexp)
+          ("lc" . count-words-region)
+          ("lo" . occur)
+          ("lP" . multi-occur-in-matching-buffers)
+          ("lp" . ufun:multi-occur-in-this-mode)
+          ("ls" . sort-lines)
+          ("A"  . (lambda () (interactive) (org-agenda nil "A")))
+          ("a"  . apropos)
+          ("o"  . switch-to-buffer)
+          ("E"  . server-edit)
+          ("e"  . find-file)
+          ("T"  . eval-expression)
+          ("t"  . execute-extended-command)
+          ("n"  . yank-pop)
+          ("bl" . bookmark-bmenu-list)
+          ("bs" . bookmark-set)
+          ("W"  . whitespace-cleanup)
+          ("w"  . whitespace-mode)))
 
-    (ufun:create-keybindings uvar:evil-leader-keymap uvar:evil-leader-bindings)
+  (ufun:create-keybindings uvar:evil-leader-keymap uvar:evil-leader-bindings)
 
-    ;; NOTE: The following keybindings only affect the particular mode.
+  ;; NOTE: The following keybindings only affect the particular mode.
 
-    (ufun:create-leader-local-keybindings
-     "SPC"
-     'dired-mode-hook
-     'uvar:evil-leader-dired-keymap
-     (append uvar:evil-leader-bindings
-             '(("mG" . end-of-buffer)
-               ("mg" . beginning-of-buffer)
-               ("mw" . wdired-change-to-wdired-mode))))
+  (ufun:create-leader-local-keybindings
+   "SPC"
+   'dired-mode-hook
+   'uvar:evil-leader-dired-keymap
+   (append uvar:evil-leader-bindings
+           '(("mG" . end-of-buffer)
+             ("mg" . beginning-of-buffer)
+             ("mw" . wdired-change-to-wdired-mode))))
 
-    (add-hook 'ibuffer-mode-hook
-              '(lambda () (local-set-key (kbd "SPC") 'uvar:evil-leader-keymap)))
+  (add-hook 'ibuffer-mode-hook
+            '(lambda () (local-set-key (kbd "SPC") 'uvar:evil-leader-keymap)))
 
-    (ufun:create-leader-evil-keybindings
-     "SPC"
-     emacs-lisp-mode-map
-     'motion
-     'uvar:evil-leader-elisp-keymap
-     (append uvar:evil-leader-bindings '(("me" . eval-last-sexp))))
+  (ufun:create-leader-evil-keybindings
+   "SPC"
+   emacs-lisp-mode-map
+   'motion
+   'uvar:evil-leader-elisp-keymap
+   (append uvar:evil-leader-bindings '(("me" . eval-last-sexp))))
 
+  (with-eval-after-load 'org
     (ufun:create-leader-evil-keybindings
      "SPC"
      org-mode-map
@@ -522,31 +591,48 @@ keybinding features that third party packages like "Evil Leader" and
              '(("mA" . ufun:org-archive-confirm)
                ("ma" . org-archive-subtree)
                ("mc" . org-copy-subtree)
-               ("md" . org-demote-subtree)
+               ("mD" . (lambda () (interactive) (org-deadline '(4))))
+               ("md" . org-deadline)
                ("mi" . org-insert-heading)
-               ("mp" . org-promote-subtree)
-               ("mx" . org-cut-subtree))))
+               ("mS" . (lambda () (interactive) (org-schedule '(4))))
+               ("ms" . org-schedule)
+               ("mx" . org-cut-subtree)))))
   #+END_SRC
 ** Diminish
 Tell. Don't show.
 #+BEGIN_SRC emacs-lisp
   (require 'diminish)
   (diminish 'evil-escape-mode)
+  (with-eval-after-load 'org-indent (diminish 'org-indent-mode))
   (with-eval-after-load 'subword (diminish 'subword-mode))
 #+END_SRC
 ** Programming Languages
 #+BEGIN_SRC emacs-lisp
-  (require 'markdown-mode)
-  (cond ((string-equal system-type "gnu/linux")
-         (setq markdown-command "/usr/bin/pandoc"))
-        ((string-equal system-type "darwin")
-         (setq markdown-command "/usr/local/bin/pandoc")))
-  (add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
-  (add-hook 'markdown-mode-hook 'flyspell-mode)
-  (add-hook 'markdown-mode-hook '(lambda () (setq-local fill-column uvar:default-column)))
+  (with-eval-after-load 'json-mode
+    (progn
+      (setq js-indent-level uvar:default-indent)
+      (add-to-list 'auto-mode-alist '("\\.eslintrc\\'"   . json-mode))
+      (add-to-list 'auto-mode-alist '("\\.prettierrc\\'" . json-mode))))
 
-  (require 'nix-mode)
-  (require 'rust-mode)
-  (require 'toml-mode)
-  (require 'zig-mode)
+  (with-eval-after-load 'markdown-mode
+    (progn
+      (cond ((string-equal system-type "gnu/linux")
+             (setq markdown-command "/usr/bin/pandoc"))
+            ((string-equal system-type "darwin")
+             (setq markdown-command "/usr/local/bin/pandoc")))
+      (add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
+      (add-hook 'markdown-mode-hook 'flyspell-mode)
+      (add-hook 'markdown-mode-hook '(lambda () (setq-local fill-column uvar:default-column)))))
+
+  (with-eval-after-load 'swift-mode
+    (setq swift-mode:basic-offset uvar:default-indent))
+
+  (with-eval-after-load 'typescript-mode
+    (progn
+      (setq typescript-indent-level uvar:default-indent)
+      (add-hook 'typescript-mode-hook 'prettify-symbols-mode)
+      (add-hook 'typescript-mode-hook '(lambda () (push '("=>" . "\u21d2") prettify-symbols-alist)))))
+
+  (with-eval-after-load 'yaml-mode
+    (setq yaml-indent-offset uvar:default-indent))
 #+END_SRC
