@@ -23,17 +23,18 @@ You stole these ideas from.
 - https://github.com/daviwil/emacs-from-scratch/blob/master/Emacs.org
 - https://github.com/hlissner/doom-emacs/blob/develop/docs/faq.org#how-does-doom-start-up-so-quickly
 - https://so.nwalsh.com/2020/02/29/dot-emacs
-  #+BEGIN_SRC emacs-lisp
-    (setq package-enable-at-startup nil
-          site-run-file nil
-          gc-cons-threshold 50000000 ; NOTE: 50 MB. If too big, we lose the speedup.
-          gc-cons-percentage 0.9)
 
-    ;; NOTE: Restore default garbage collection settings.
-    (add-hook 'emacs-startup-hook (lambda ()
-                                    (setq gc-cons-threshold 800000
-                                          gc-cons-percentage 0.1)))
-  #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (setq package-enable-at-startup nil
+        site-run-file nil
+        gc-cons-threshold 50000000 ; NOTE: 50 MB. If too big, we lose the speedup.
+        gc-cons-percentage 0.9)
+
+  ;; NOTE: Restore default garbage collection settings.
+  (add-hook 'emacs-startup-hook (lambda ()
+                                  (setq gc-cons-threshold 800000
+                                        gc-cons-percentage 0.1)))
+#+END_SRC
 ** Scratch Buffer
 Get in the text editor, 碇君!
 #+BEGIN_SRC emacs-lisp
