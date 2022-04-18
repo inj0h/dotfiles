@@ -54,6 +54,8 @@ beginning/ of this section to avoid undefined reference errors.
 Homebrewed Lisp.
 #+BEGIN_SRC emacs-lisp
   (defun ufun:add-local-vi-bindings (bind-modes)
+    "Add vi-like local keybindings to BIND-MODES where BIND-MODES is a list of
+  mode hooks."
     (dolist (mode bind-modes)
       (add-hook mode
                 '(lambda ()
