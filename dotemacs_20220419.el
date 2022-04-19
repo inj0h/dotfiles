@@ -17,6 +17,8 @@
       uvar:default-indent 4)
 
 (defun ufun:add-local-vi-bindings (bind-modes)
+  "Add vi-like local keybindings to BIND-MODES where BIND-MODES is a list of
+mode hooks."
   (dolist (mode bind-modes)
     (add-hook mode
               '(lambda ()
@@ -206,21 +208,23 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
    org-agenda-mode-hook
    package-menu-mode-hook))
 
-(setq org-enforce-todo-dependencies t
+(setq org-directory "~/Documents"
+      org-enforce-todo-dependencies t
       org-hide-emphasis-markers t
       org-indent-indentation-per-level 2
       org-src-fontify-natively t
       org-src-tab-acts-natively t
       org-startup-folded t
-      org-time-stamp-formats '("<%Y_%m_%d %a>" . "<%Y_%m_%d %a %H:%M>")
+      org-time-stamp-custom-formats '("<%Y.%m.%d %A>" . "<%Y.%m.%d %A %H:%M>")
       org-todo-keywords '((sequence "TODO(t)"
-                                    "IN-PROGRESS(p!)"
+                                    "ACTIVE(a!)"
                                     "BLOCKED(b@/!)"
-                                    "SOMEDAY(s@/!)"
+                                    "SHELVED(s@/!)"
                                     "|"
                                     "DONE(d!)"
                                     "CANCELED(c@/!)"))
       org-use-fast-todo-selection t)
+(setq-default org-display-custom-times t)
 
 (add-hook 'org-mode-hook '(lambda () (setq-local fill-column uvar:default-column)))
 (add-hook 'org-mode-hook 'org-indent-mode)
@@ -228,39 +232,39 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 (with-eval-after-load 'org-agenda
   (progn
     (setq org-agenda-custom-commands
-          `(("A" "Agenda view that I like to use."
-             ((agenda "" ((org-agenda-overriding-header "You Can (Not) Do It\n\nToday:")
+          `(("A" "Custom Agenda"
+             ((todo "ACTIVE\|BLOCKED" ((org-agenda-overriding-header "You Can (Not) Do It\n\nCurrent:")))
+              (agenda "" ((org-agenda-block-separator ?-)
+                          (org-agenda-overriding-header "\nToday:")
                           (org-agenda-span 1)
                           (org-deadline-warning-days 0)
-                          (org-agenda-block-separator nil)
                           (org-scheduled-past-days 0)
                           (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
                           (org-agenda-format-date "%Y.%m.%d %A")))
-              (agenda "" ((org-agenda-overriding-header "\nNext Five Days:")
+              (agenda "" ((org-agenda-block-separator nil)
+                          (org-agenda-overriding-header "\nNext Five Days:")
                           (org-agenda-start-on-weekday nil)
                           (org-agenda-start-day "+1d") ; Start after 1 day to avid overlap with the previous section.
                           (org-agenda-span 5)
                           (org-deadline-warning-days 0)
-                          (org-agenda-block-separator nil)
                           (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
                           (org-agenda-format-date "%Y.%m.%d %A")))
-              (agenda "" ((org-agenda-overriding-header "\nNext Thirty Days:")
+              (agenda "" ((org-agenda-block-separator nil)
+                          (org-agenda-overriding-header "\nNext Thirty Days:")
                           (org-agenda-time-grid nil)
                           (org-agenda-start-on-weekday nil)
                           (org-agenda-start-day "+6d") ; Start after 5 days to avid overlap with the previous section.
                           (org-agenda-span 30)
                           (org-agenda-show-all-dates nil)
                           (org-deadline-warning-days 0)
-                          (org-agenda-block-separator nil)
                           (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
                           (org-agenda-format-date "%Y.%m.%d %A")))))))
-    (setq org-agenda-files '("~/Documents"))))
+    (setq org-agenda-files (list org-directory))))
 
 (setq org-capture-templates
-      '(("m" "File Meeting" entry (file+headline "~/Documents/todo.org" "Meetings")
-         "* %?\n** Topic [/]\n** Note ")
-        ("t" "File Task" entry (file+headline "~/Documents/todo.org" "Tasks")
-         "* TODO %?\n** Note ")))
+      '(("m" "File Meeting" entry (file+headline "meetings.org" "Meetings") "* %?\n** Topics [/]\n** Notes ")
+        ("n" "File Note" entry (file+headline "notes.org" "Jotted") "* %?")
+        ("t" "File Task" entry (file+headline "todos.org" "Tasks") "* TODO %?\n** Subtasks [/]\n** Notes ")))
 
 (add-hook 'emacs-lisp-mode-hook 'prettify-symbols-mode)
 
@@ -392,6 +396,7 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 (setq uvar:evil-leader-bindings
       '((",," . org-capture)
         (",m" . (lambda () (interactive) (org-capture nil "m")))
+        (",n" . (lambda () (interactive) (org-capture nil "n")))
         (",t" . (lambda () (interactive) (org-capture nil "t")))
         ("."  . ibuffer)
         ("pb" . project-display-buffer)
