@@ -85,8 +85,9 @@ Homebrewed Lisp.
         (kbd (car binding)) (cdr binding))))
 
   (defun ufun:create-leader-local-keybindings (leader hook keymap keybindings)
-    "Create KEYBINDINGS associated with a LEADER key based on an extant KEYMAP for
-  an extant HOOK.
+    "Create KEYBINDINGS associated with a LEADER key based on a new KEYMAP for an
+  extant HOOK. Note for KEYMAP, the caller provides a new name with which this
+  function will create a new keymap. E.g. 'new-keymap-name.
 
   This function exists to provide a (hopefully) lightweight solution to third
   party packages like Evil-Leader and General.
@@ -100,8 +101,10 @@ Homebrewed Lisp.
       (ufun:create-keybindings keymap keybindings)))
 
   (defun ufun:create-leader-evil-keybindings (leader mode vimode keymap keybindings)
-    "Create KEYBINDINGS associated with a LEADER key based on an extant KEYMAP for
-  an extant MODE map under a VIMODE context.
+    "Create KEYBINDINGS associated with a LEADER key based on a new KEYMAP for an
+  extant MODE map under a VIMODE context. Note for KEYMAP, the caller provides a
+  new name with which this function will create a new keymap. E.g.
+  'new-keymap-name.
 
   This function will only work for Evil keybindings and exacts a vi motion state
   i.e. VIMODE for which these keybindings apply.
@@ -537,7 +540,7 @@ provide using a lot more code (I /think/).
           (",n" . (lambda () (interactive) (org-capture nil "n")))
           (",t" . (lambda () (interactive) (org-capture nil "t")))
           ("."  . ibuffer)
-          ("pb" . project-display-buffer)
+          ("pb" . project-switch-to-buffer)
           ("pc" . project-compile)
           ("pf" . project-find-file)
           ("pk" . project-kill-buffers)
@@ -567,6 +570,13 @@ provide using a lot more code (I /think/).
   (ufun:create-keybindings uvar:evil-leader-keymap uvar:evil-leader-bindings)
 
   ;; NOTE: The following keybindings only affect the particular mode.
+
+  (ufun:create-leader-local-keybindings
+   "SPC"
+   'compilation-mode-hook
+   'uvar:evil-leader-compilation-keymap
+   (append uvar:evil-leader-bindings
+           '(("mr" . recompile))))
 
   (ufun:create-leader-local-keybindings
    "SPC"
