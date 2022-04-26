@@ -128,6 +128,19 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
   (interactive)
   (org-archive-subtree '(4)))
 
+(defun ufun:project-recompile ()
+  "Invoke `compilation-mode' on the current project with the previous settings
+or return an appropriate error message in the minibuffer on failure.
+
+You can call this function interactively."
+  (interactive)
+  (let ((comp-buffer "*compilation*"))
+    (if (get-buffer comp-buffer)
+        (progn
+          (project-switch-to-buffer comp-buffer)
+          (recompile))
+      (message "Error: You have not tried to compile this project yet."))))
+
 (setq bookmark-set-fringe-mark nil
       flyspell-duplicate-distance 0 ; NOTE: Does not work on Mac.
       inhibit-startup-screen t)
@@ -404,9 +417,10 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
         ("."  . ibuffer)
         ("pb" . project-switch-to-buffer)
         ("pc" . project-compile)
+        ("pd" . project-forget-project)
         ("pf" . project-find-file)
         ("pk" . project-kill-buffers)
-        ("pr" . project-forget-project)
+        ("pr" . ufun:project-recompile)
         ("ps" . project-switch-project)
         ("c"  . compile)
         ("r"  . ufun:goto-previous-buffer)

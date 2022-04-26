@@ -165,6 +165,20 @@ Homebrewed Lisp.
   `org-archive-subtree' method."
     (interactive)
     (org-archive-subtree '(4)))
+
+  (defun ufun:project-recompile ()
+    "Invoke `compilation-mode' on the current project with the previous settings
+  or return an appropriate error message in the minibuffer on failure.
+
+  You can call this function interactively."
+    (interactive)
+    (let ((comp-buffer "*compilation*"))
+      (if (get-buffer comp-buffer)
+          (progn
+            (project-switch-to-buffer comp-buffer)
+            (recompile))
+        (message "Error: You have not tried to compile this project yet."))))
+
 #+END_SRC
 ** _Disable
 Shut. It. Off!
@@ -542,9 +556,10 @@ provide using a lot more code (I /think/).
           ("."  . ibuffer)
           ("pb" . project-switch-to-buffer)
           ("pc" . project-compile)
+          ("pd" . project-forget-project)
           ("pf" . project-find-file)
           ("pk" . project-kill-buffers)
-          ("pr" . project-forget-project)
+          ("pr" . ufun:project-recompile)
           ("ps" . project-switch-project)
           ("c"  . compile)
           ("r"  . ufun:goto-previous-buffer)
