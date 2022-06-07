@@ -138,7 +138,8 @@ You can call this function interactively."
     (if (get-buffer comp-buffer)
         (progn
           (project-switch-to-buffer comp-buffer)
-          (recompile))
+          (recompile)
+          (evil-goto-line))
       (message "Error: You have not tried to compile this project yet."))))
 
 (setq bookmark-set-fringe-mark nil
@@ -372,6 +373,7 @@ You can call this function interactively."
                     swift-mode
                     toml-mode
                     typescript-mode
+                    undo-fu
                     yaml-mode
                     zig-mode))
   (when (not (package-installed-p packages))
@@ -388,7 +390,8 @@ You can call this function interactively."
 (evil-select-search-module 'evil-search-module 'evil-search)
 
 (define-key evil-insert-state-map "\C-n" 'hippie-expand)
-(define-key evil-normal-state-map "\C-r" 'undo-redo)
+(define-key evil-normal-state-map "\C-r" 'undo-fu-only-redo)
+(define-key evil-normal-state-map "u" 'undo-fu-only-undo)
 
 (with-eval-after-load 'org
   (evil-define-key 'motion org-mode-map (kbd "<tab>") 'org-cycle))
