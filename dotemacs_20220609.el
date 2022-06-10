@@ -236,7 +236,7 @@ You can call this function interactively."
       org-todo-keywords '((sequence "TODO(t)"
                                     "ACTIVE(a!)"
                                     "BLOCKED(b@/!)"
-                                    "SHELVED(s@/!)"
+                                    "SHELVED(s!)"
                                     "|"
                                     "DONE(d!)"
                                     "CANCELED(c@/!)"))
@@ -261,7 +261,7 @@ You can call this function interactively."
               (agenda "" ((org-agenda-block-separator nil)
                           (org-agenda-overriding-header "\nNext Five Days:")
                           (org-agenda-start-on-weekday nil)
-                          (org-agenda-start-day "+1d") ; Start after 1 day to avid overlap with the previous section.
+                          (org-agenda-start-day "+1d") ; Start after 1 day to avoid overlap with the previous section.
                           (org-agenda-span 5)
                           (org-deadline-warning-days 0)
                           (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
@@ -270,7 +270,7 @@ You can call this function interactively."
                           (org-agenda-overriding-header "\nNext Thirty Days:")
                           (org-agenda-time-grid nil)
                           (org-agenda-start-on-weekday nil)
-                          (org-agenda-start-day "+6d") ; Start after 5 days to avid overlap with the previous section.
+                          (org-agenda-start-day "+6d") ; Start after 5 days to avoid overlap with the previous section.
                           (org-agenda-span 30)
                           (org-agenda-show-all-dates nil)
                           (org-deadline-warning-days 0)
@@ -455,7 +455,8 @@ You can call this function interactively."
  'compilation-mode-hook
  'uvar:evil-leader-compilation-keymap
  (append uvar:evil-leader-bindings
-         '(("mr" . recompile))))
+         '(("mr" . (lambda ()
+                     (interactive) (progn (recompile) (evil-goto-line)))))))
 
 (ufun:create-leader-local-keybindings
  "SPC"

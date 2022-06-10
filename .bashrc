@@ -79,6 +79,14 @@ d2() {
                             --colors refine-added:foreground:black
 }
 
+gr() {
+    grep --color\
+         --exclude-dir={.git,build,dist,node_modules,target}\
+         --exclude 'Cargo.lock'\
+         --exclude 'package-lock.json'\
+         -Iinr "$1" .
+}
+
 # 06. Externalities
 # Completion
 case "$(uname -s)" in

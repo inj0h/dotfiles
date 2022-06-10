@@ -11,7 +11,6 @@
 !.bash_profile
 !.bashrc
 !.gitignore
-!.rgignore
 !Brewfile
 !bootstrap.el
 !dotemacs.org
