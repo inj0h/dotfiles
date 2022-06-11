@@ -526,3 +526,6 @@ You can call this function interactively."
 
 (with-eval-after-load 'yaml-mode
   (setq yaml-indent-offset uvar:default-indent))
+
+(with-eval-after-load 'zig-mode
+  (setq zig-format-on-save nil))

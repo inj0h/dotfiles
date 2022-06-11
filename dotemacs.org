@@ -670,4 +670,7 @@ Tell. Don't show.
 
   (with-eval-after-load 'yaml-mode
     (setq yaml-indent-offset uvar:default-indent))
+
+  (with-eval-after-load 'zig-mode
+    (setq zig-format-on-save nil))
 #+END_SRC
