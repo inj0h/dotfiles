@@ -1,8 +1,9 @@
 #!/bin/bash
-# Filename: .bashrc
-# Note:     A good enough bashrc.
 
-# 00. Shared
+#
+# 00. User Variables:
+#
+
 # Colors
 co_clear="\033[0m"
 co_cyan="\033[0;36m"
@@ -17,11 +18,17 @@ sy_lambda="\u03bb"
 sy_quotel_ja="\u300e"
 sy_quoter_ja="\u300f"
 
-# 01. Startup Message - Neon Genesis Shell Session
+#
+# 01. Startup Message:
+#
+
 echo -e "${co_red}$sy_kanji_kido$sy_kanji_iri$sy_kanji_kuchi${co_clear}"
 echo -e "\"Entering Terminal Dogma.\" | $sy_quotel_ja ターミナルドグマに入る。$sy_quoter_ja | \"터미널 도그마에 들어간다.\""
 
-# 02. Preemption (I.e. Stolen Ubuntu Defaults)
+#
+# 02. Preemption (I.e. Stolen Ubuntu Defaults, etc):
+#
+
 # If not running interactively, don't do anything.
 case $- in
     *i*) ;;
@@ -31,14 +38,20 @@ esac
 # Append to the history file rather than overwriting it.
 shopt -s histappend
 
-# 03. Prompt
+#
+# 03. Prompt:
+#
+
 sy_print() {
     echo -en "$1"
 }
 
 export PS1="\[$co_cyan\][\[$co_clear\]\w\[$co_cyan\]]\[$co_clear\]\[$co_green\]$(sy_print $sy_lambda):\[$co_clear\]"
 
-# 04. Aliases
+#
+# 04. Aliases:
+#
+
 # Basic
 alias ec="emacsclient -n"
 alias o="ls -AGgho"
@@ -70,7 +83,10 @@ case "$(uname -s)" in
         # N/A.
 esac
 
-# 05. Functions
+#
+# 05. Functions:
+#
+
 d2() {
     # Basically an alias for piping two files from diff to diffr but passing
     # some flags to the latter to improve visibility.
@@ -78,6 +94,7 @@ d2() {
                             --colors refine-removed:foreground:black\
                             --colors refine-added:foreground:black
 }
+
 
 gr() {
     grep --color\
@@ -87,7 +104,11 @@ gr() {
          -Iinr "$1" .
 }
 
-# 06. Externalities
+
+#
+# 06. Externalities:
+#
+
 # Completion
 case "$(uname -s)" in
     "Darwin")
