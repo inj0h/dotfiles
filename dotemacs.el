@@ -82,6 +82,7 @@ You can call this function interactively."
     (if (get-buffer comp-buffer)
         (progn
           (switch-to-buffer comp-buffer)
+          (delete-other-windows)
           (recompile)
           (evil-goto-line))
       (message "Error: You have not tried to compile anything yet."))))
@@ -350,7 +351,11 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 
 (add-hook 'emacs-lisp-mode-hook 'prettify-symbols-mode)
 
-(add-hook 'java-mode-hook '(lambda () (setq-local fill-column 120)))
+(add-hook 'java-mode-hook '(lambda ()
+                             (let ((java-indent 2))
+                               (setq-local c-basic-offset java-indent
+                                           tab-width java-indent
+                                           fill-column 100))))
 
 (add-hook 'js-mode-hook 'prettify-symbols-mode)
 (add-hook 'js-mode-hook '(lambda () (push '("=>" . "\u21d2") prettify-symbols-alist)))

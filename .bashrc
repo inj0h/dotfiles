@@ -98,10 +98,10 @@ d2() {
 
 gr() {
     grep --color\
-         --exclude-dir={.git,build,dist,node_modules,target}\
+         --exclude-dir={.git,.idea,build,dist,node_modules,target}\
          --exclude 'Cargo.lock'\
          --exclude 'package-lock.json'\
-         -Iinr "$1" .
+         -Inr "$1" .
 }
 
 
