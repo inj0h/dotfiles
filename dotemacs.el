@@ -60,9 +60,8 @@ interactively."
 
 
 (defun injh:compile (dir)
-  "Invoke `compilation-mode' after selecting a directory and compilation command.
-
-You can call this function interactively."
+  "Invoke `compilation-mode' after selecting a directory and compilation
+command. You can call this function interactively."
   (interactive "DSelect directory:") ; Need this "D" in the string.
   (let ((default-directory dir))
     (progn
@@ -74,9 +73,7 @@ You can call this function interactively."
 
 (defun injh:compile-again ()
   "Invoke `compilation-mode' with the previous settings or return an appropriate
-error message in the minibuffer .
-
-You can call this function interactively."
+error message in the minibuffer. You can call this function interactively."
   (interactive)
   (let ((comp-buffer "*compilation*"))
     (if (get-buffer comp-buffer)
@@ -98,7 +95,7 @@ You can call this function interactively."
 (defun injh:create-leader-local-keybindings (leader hook keymap keybindings)
   "Create KEYBINDINGS associated with a LEADER key based on a new KEYMAP for an
 extant HOOK. Note for KEYMAP, the caller provides a new name with which this
-function will create a new keymap. E.g. 'new-keymap-name.
+function will create a new keymap.
 
 This function exists to provide a (hopefully) lightweight solution to third
 party packages like Evil-Leader and General.
@@ -115,8 +112,7 @@ Online resources used to learn about backticks in Emacs Lisp.
 (defun injh:create-leader-evil-keybindings (leader mode vimode keymap keybindings)
   "Create KEYBINDINGS associated with a LEADER key based on a new KEYMAP for an
 extant MODE map under a VIMODE context. Note for KEYMAP, the caller provides a
-new name with which this function will create a new keymap. E.g.
-'new-keymap-name.
+new name with which this function will create a new keymap.
 
 This function will only work for Evil keybindings and exacts a vi motion state
 i.e. VIMODE for which these keybindings apply.
