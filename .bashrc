@@ -95,7 +95,6 @@ d2() {
                             --colors refine-added:foreground:black
 }
 
-
 gr() {
     grep --color\
          --exclude-dir={.git,.idea,build,dist,node_modules,target}\
@@ -103,7 +102,6 @@ gr() {
          --exclude 'package-lock.json'\
          -Inr "$1" .
 }
-
 
 #
 # 06. Externalities:
