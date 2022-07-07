@@ -43,7 +43,6 @@ mode hooks."
                    (local-set-key (kbd "j") 'next-line)
                    (local-set-key (kbd "k") 'previous-line))))))
 
-
 (defun injh:add-word-to-dictionary ()
   "Add the word-at-point to aspell's dictionary. You can call this function
 interactively."
@@ -58,7 +57,6 @@ interactively."
                            (caddr word)
                            current-location))))
 
-
 (defun injh:compile (dir)
   "Invoke `compilation-mode' after selecting a directory and compilation
 command. You can call this function interactively."
@@ -69,7 +67,6 @@ command. You can call this function interactively."
       (switch-to-buffer "*compilation*")
       (delete-other-windows)
       (evil-goto-line))))
-
 
 (defun injh:compile-again ()
   "Invoke `compilation-mode' with the previous settings or return an appropriate
@@ -84,13 +81,11 @@ error message in the minibuffer. You can call this function interactively."
           (evil-goto-line))
       (message "Error: You have not tried to compile anything yet."))))
 
-
 (defun injh:create-keybindings (keymap keybindings)
   "Create KEYBINDINGS based on an existing KEYMAP."
   (dolist (binding keybindings)
     (define-key keymap
       (kbd (car binding)) (cdr binding))))
-
 
 (defun injh:create-leader-local-keybindings (leader hook keymap keybindings)
   "Create KEYBINDINGS associated with a LEADER key based on a new KEYMAP for an
@@ -108,7 +103,6 @@ Online resources used to learn about backticks in Emacs Lisp.
     (add-hook hook `(lambda () (local-set-key (kbd ,leader) ,keymap)))
     (injh:create-keybindings keymap keybindings)))
 
-
 (defun injh:create-leader-evil-keybindings (leader mode vimode keymap keybindings)
   "Create KEYBINDINGS associated with a LEADER key based on a new KEYMAP for an
 extant MODE map under a VIMODE context. Note for KEYMAP, the caller provides a
@@ -124,7 +118,6 @@ party packages like Evil-Leader and General."
     (evil-define-key* vimode mode (kbd leader) keymap) ; Don't use the macro!
     (injh:create-keybindings keymap keybindings)))
 
-
 (defun injh:get-buffers-matching-mode (mode)
   "Return a list of buffers where their major-mode is equal to MODE.
 
@@ -137,20 +130,17 @@ See https://masteringemacs.org/article/searching-buffers-occur-mode."
           (push buf buffer-mode-matches))))
     buffer-mode-matches))
 
-
 (defun injh:goto-previous-buffer ()
   "Return to the previously visited buffer. You can call this function
 interactively."
   (interactive)
   (switch-to-buffer (other-buffer (current-buffer) 1)))
 
-
 ;; TODO: Finish implementing this method.
 ;; (defun injh:grep (dir)
 ;;   (interactive "DIn directory:")
 ;;   (let ((default-directory dir))
 ;;     (call-interactively 'execute-extended-command)))
-
 
 (defun injh:kill-filepath ()
   "Copy the current buffer filename with path to clipboard. You can call this
@@ -163,7 +153,6 @@ function interactively."
       (kill-new filepath)
       (message "Copied buffer filepath '%s' to clipboard." filepath))))
 
-
 (defun injh:multi-occur-in-this-mode ()
   "Show all lines matching REGEXP in buffers with this major mode. You can call
 this function interactively.
@@ -175,7 +164,6 @@ See https://masteringemacs.org/article/searching-buffers-occur-mode."
    (injh:get-buffers-matching-mode major-mode)
    (car (occur-read-primary-args))))
 
-
 (defun injh:org-archive-confirm ()
   "Invoke `org-archive-subtree' with a single prefix argument, C-u in this case.
 You can call this function interactively.
@@ -185,7 +173,6 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 `org-archive-subtree' method."
   (interactive)
   (org-archive-subtree '(4)))
-
 
 ;;
 ;; 03. Disable:
@@ -451,6 +438,7 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 (dolist (packages '(diminish
                     evil
                     evil-escape
+                    go-mode
                     json-mode
                     kuronami-theme
                     markdown-mode
@@ -598,6 +586,9 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 ;;
 ;; 11. Non-Vanilla Programming Language Packages:
 ;;
+
+(with-eval-after-load 'go-mode
+  (add-hook 'go-mode-hook '(lambda () (setq-local tab-width 2))))
 
 (with-eval-after-load 'json-mode
   (progn
