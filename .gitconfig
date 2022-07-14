@@ -1,0 +1,16 @@
+[user]
+    name = inj0h
+    email = 14225024+inj0h@users.noreply.github.com
+[core]
+    editor = emacsclient
+    pager = diffr --colors refine-removed:foreground:black\
+                  --colors refine-added:foreground:black | less -R
+[init]
+    defaultBranch = main
+[interactive]
+    difffilter = diffr --colors refine-removed:foreground:black\
+                       --colors refine-added:foreground:black
+[merge]
+    conflictstyle = diff3
+[push]
+    autoSetupRemote = true

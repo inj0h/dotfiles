@@ -10,6 +10,7 @@
 # And mind the whitelist!
 !.bash_profile
 !.bashrc
+!.gitconfig
 !.gitignore
 !Brewfile
 !dotemacs.el
