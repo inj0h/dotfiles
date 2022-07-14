@@ -183,6 +183,7 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
       create-lockfiles nil
       flyspell-duplicate-distance 0 ; Broken on Mac.
       inhibit-startup-screen t
+      kill-ring-max 1
       make-backup-files nil)
 (global-hl-line-mode -1)
 (menu-bar-mode -1)
@@ -514,10 +515,9 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
         ("e"  . find-file)
         ("T"  . eval-expression)
         ("t"  . execute-extended-command)
-        ("n"  . yank-pop)
         ("s"  . server-edit)
-        ("bl" . bookmark-bmenu-list)
-        ("bs" . bookmark-set)
+        ("N"  . bookmark-set)
+        ("n"  . bookmark-bmenu-list)
         ("W"  . whitespace-cleanup)
         ("w"  . whitespace-mode)))
 
