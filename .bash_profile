@@ -3,5 +3,5 @@
 EDITOR="vi"
 VISUAL="$EDITOR"
 HISTCONTROL=ignoreboth
-HISTSIZE=100000
+HISTSIZE=1000
 [ -r ~/.bashrc ] && . ~/.bashrc

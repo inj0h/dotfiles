@@ -3,14 +3,19 @@
     email = 14225024+inj0h@users.noreply.github.com
 [core]
     editor = emacsclient
-    pager = diffr --colors refine-removed:foreground:black\
-                  --colors refine-added:foreground:black | less -R
+    pager = delta
 [init]
     defaultBranch = main
 [interactive]
-    difffilter = diffr --colors refine-removed:foreground:black\
-                       --colors refine-added:foreground:black
+    diffFilter = delta --color-only
+[add.interactive]
+    useBuiltin = false
 [merge]
     conflictstyle = diff3
+[delta]
+    navigate = true
+    light = false
+[diff]
+    colorMoved = default
 [push]
     autoSetupRemote = true

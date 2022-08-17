@@ -274,18 +274,6 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 
 (global-auto-revert-mode 1)
 
-(setq hippie-expand-try-functions-list
-      '(try-expand-dabbrev
-        try-expand-dabbrev-all-buffers
-        try-expand-dabbrev-from-kill
-        try-complete-file-name-partially
-        try-complete-file-name
-        try-expand-all-abbrevs
-        try-expand-list
-        try-expand-line
-        try-complete-lisp-symbol-partially
-        try-complete-lisp-symbol))
-
 (setq ibuffer-default-sorting-mode 'filename/process)
 
 (setq ido-auto-merge-work-directories-length -1
@@ -436,7 +424,8 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 (when (not package-archive-contents)
   (package-refresh-contents))
 
-(dolist (packages '(diminish
+(dolist (packages '(corfu
+                    diminish
                     evil
                     evil-escape
                     go-mode
@@ -472,7 +461,7 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 (evil-escape-mode t)
 (evil-select-search-module 'evil-search-module 'evil-search)
 
-(define-key evil-insert-state-map "\C-n" 'hippie-expand)
+(define-key evil-insert-state-map "\C-n" '(lambda () (interactive) (dabbrev-completion 1))) ; Search in same Major Mode Buffers.
 (define-key evil-normal-state-map "\C-r" 'undo-fu-only-redo)
 (define-key evil-normal-state-map "u" 'undo-fu-only-undo)
 
@@ -496,28 +485,26 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 (define-key evil-motion-state-map (kbd "SPC") 'injh:evil-leader-keymap)
 
 (setq injh:evil-leader-bindings
-      '((",," . org-capture)
-        (",m" . (lambda () (interactive) (org-capture nil "m")))
-        (",n" . (lambda () (interactive) (org-capture nil "n")))
-        (",t" . (lambda () (interactive) (org-capture nil "t")))
+      '(("<"  . org-capture)
+        (","  . (lambda () (interactive) (org-capture nil "t")))
         ("."  . ibuffer)
         ("C"  . injh:compile)
         ("c"  . injh:compile-again)
         ("r"  . injh:goto-previous-buffer)
-        ("la" . align-regexp)
-        ("lc" . count-words-region)
-        ("lo" . occur)
-        ("lp" . injh:multi-occur-in-this-mode)
-        ("ls" . sort-lines)
+        ("L"  . bookmark-set)
+        ("l"  . bookmark-bmenu-list)
         ("A"  . (lambda () (interactive) (org-agenda nil "A")))
         ("a"  . apropos)
         ("o"  . switch-to-buffer)
         ("e"  . find-file)
         ("T"  . eval-expression)
         ("t"  . execute-extended-command)
+        ("na" . align-regexp)
+        ("nc" . count-words-region)
+        ("no" . occur)
+        ("np" . injh:multi-occur-in-this-mode)
+        ("ns" . sort-lines)
         ("s"  . server-edit)
-        ("N"  . bookmark-set)
-        ("n"  . bookmark-bmenu-list)
         ("W"  . whitespace-cleanup)
         ("w"  . whitespace-mode)))
 
@@ -574,6 +561,16 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 ;; 10. Non-Vanilla Packages:
 ;;
 
+(require 'corfu)
+(setq corfu-auto nil
+      corfu-cycle t
+      corfu-excluded-modes '(bookmark-bmenu-mode
+                             compilation-mode
+                             dired-mode
+                             ibuffer-mode))
+(define-key corfu-map (kbd "M-t") 'corfu-previous)
+(global-corfu-mode)
+
 (require 'diminish)
 (diminish 'evil-escape-mode)
 (with-eval-after-load 'org-indent (diminish 'org-indent-mode))
@@ -592,7 +589,7 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 
 (with-eval-after-load 'json-mode
   (progn
-    (setq js-indent-level injh:default-indent)
+    (setq js-indent-level 2)
     (add-to-list 'auto-mode-alist '("\\.eslintrc\\'"   . json-mode))
     (add-to-list 'auto-mode-alist '("\\.prettierrc\\'" . json-mode))))
 
@@ -619,7 +616,7 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
     (add-hook 'typescript-mode-hook '(lambda () (push '("=>" . "\u21d2") prettify-symbols-alist)))))
 
 (with-eval-after-load 'yaml-mode
-  (setq yaml-indent-offset injh:default-indent))
+  (setq yaml-indent-offset 2))
 
 (with-eval-after-load 'zig-mode
   (progn
