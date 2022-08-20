@@ -3,19 +3,25 @@
     email = 14225024+inj0h@users.noreply.github.com
 [core]
     editor = emacsclient
-    pager = delta
+    # Point to diff-highlight installation location on OS.
+    pager = /usr/local/share/git-core/contrib/diff-highlight/diff-highlight | less -R
+
+[color]
+    ui = always
+[color "diff-highlight"]
+    # Based on 256 colors: value = fg + style + bg
+    oldNormal = red
+    oldHighlight = red bold 216
+    newNormal = green
+    newHighlight = 22 bold 157
+[diff]
+    colorMoved = plain
 [init]
     defaultBranch = main
 [interactive]
-    diffFilter = delta --color-only
-[add.interactive]
-    useBuiltin = false
+    # Point to diff-highlight installation location on OS.
+    diffFilter = /usr/local/share/git-core/contrib/diff-highlight/diff-highlight | less -R
 [merge]
     conflictstyle = diff3
-[delta]
-    navigate = true
-    light = false
-[diff]
-    colorMoved = default
 [push]
     autoSetupRemote = true
