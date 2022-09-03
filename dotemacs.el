@@ -326,11 +326,17 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 (add-hook 'java-mode-hook '(lambda ()
                              (let ((java-indent 2))
                                (setq-local c-basic-offset java-indent
+                                           evil-shift-width java-indent
                                            tab-width java-indent
                                            fill-column 100))))
 
 (add-hook 'js-mode-hook 'prettify-symbols-mode)
-(add-hook 'js-mode-hook '(lambda () (push '("=>" . "\u21d2") prettify-symbols-alist)))
+(add-hook 'js-mode-hook '(lambda ()
+                           (let ((js-indent injh:default-indent))
+                             (setq-local evil-shift-width js-indent
+                                         js-indent-level js-indent
+                                         tab-width js-indent))
+                           (push '("=>" . "\u21d2") prettify-symbols-alist)))
 
 (add-hook 'latex-mode-hook '(lambda () (setq-local fill-column injh:default-column)))
 (add-hook 'latex-mode-hook 'flyspell-mode)
@@ -585,11 +591,18 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 ;;
 
 (with-eval-after-load 'go-mode
-  (add-hook 'go-mode-hook '(lambda () (setq-local tab-width 2))))
+  (add-hook 'go-mode-hook '(lambda ()
+                             (let ((go-indent 2))
+                               (setq-local evil-shift-width go-indent
+                                           tab-width go-indent)))))
 
 (with-eval-after-load 'json-mode
   (progn
-    (setq js-indent-level 2)
+    (add-hook 'json-mode-hook '(lambda ()
+                                 (let ((json-indent 2))
+                                   (setq-local evil-shift-width json-indent
+                                               js-indent-level json-indent
+                                               tab-width json-indent))))
     (add-to-list 'auto-mode-alist '("\\.eslintrc\\'"   . json-mode))
     (add-to-list 'auto-mode-alist '("\\.prettierrc\\'" . json-mode))))
 
@@ -601,7 +614,8 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
            (setq markdown-command "/usr/local/bin/pandoc")))
     (add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
     (add-hook 'markdown-mode-hook 'flyspell-mode)
-    (add-hook 'markdown-mode-hook '(lambda () (setq-local fill-column injh:default-column)))))
+    (add-hook 'markdown-mode-hook
+              '(lambda () (setq-local fill-column injh:default-column)))))
 
 (with-eval-after-load 'rust-mode
   (add-hook 'rust-mode-hook '(lambda () (setq-local fill-column 99))))
@@ -613,10 +627,16 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
   (progn
     (setq typescript-indent-level injh:default-indent)
     (add-hook 'typescript-mode-hook 'prettify-symbols-mode)
-    (add-hook 'typescript-mode-hook '(lambda () (push '("=>" . "\u21d2") prettify-symbols-alist)))))
+    (add-hook 'typescript-mode-hook
+              '(lambda () (push '("=>" . "\u21d2") prettify-symbols-alist)))))
 
 (with-eval-after-load 'yaml-mode
-  (setq yaml-indent-offset 2))
+  (add-hook 'yaml-mode-hook
+            '(lambda ()
+               (let ((yaml-indent 2))
+                 (setq yaml-indent-offset yaml-indent)
+                 (setq-local evil-shift-width yaml-indent
+                             tab-width yaml-indent)))))
 
 (with-eval-after-load 'zig-mode
   (progn
