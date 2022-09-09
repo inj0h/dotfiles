@@ -232,7 +232,7 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
       mouse-wheel-progressive-speed nil
       mouse-wheel-scroll-amount '(2 ((shift) . 1))
       scroll-bar-adjust-thumb-portion nil ; This only works on X11.
-      scroll-preserve-screen-position 1)
+      scroll-preserve-screen-position nil)
 
 ;; Windows/Frames
 (setq initial-frame-alist '((width . 90) (height . 35)))
