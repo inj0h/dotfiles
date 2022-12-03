@@ -29,7 +29,6 @@ export PS1="\w/>"
 alias ec="emacsclient -n"
 alias o="ls -AGgho"
 alias t="tree -aC -I '.git|node_modules|target' ."
-alias u="cd .."
 
 # Git
 alias ga="git add"
@@ -37,7 +36,6 @@ alias gb="git branch"
 alias gc="git commit"
 alias gch="git checkout"
 alias gd="git diff"
-alias ge="git stash"
 alias gl="git log"
 alias groot='cd $(git rev-parse --show-toplevel)'
 alias gs="git status"
@@ -83,3 +81,6 @@ case "$(uname -s)" in
     *)
         echo "Error: Unlisted system detected. Deferring bash completion."
 esac
+
+# ripgrep
+export RIPGREP_CONFIG_PATH="$HOME/.config/.rgrc"

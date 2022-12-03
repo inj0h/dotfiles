@@ -26,14 +26,14 @@
 ;; 01. User Variables:
 ;;
 
-(setq injh:default-column 80
-      injh:default-indent 4)
+(setq inj0h:default-column 80
+      inj0h:default-indent 4)
 
 ;;
 ;; 02. User Functions:
 ;;
 
-(defun injh:add-local-vi-bindings (bind-modes)
+(defun inj0h:add-local-vi-bindings (bind-modes)
   "Add vi-like local keybindings to BIND-MODES where BIND-MODES is a list of
 mode hooks."
   (dolist (mode bind-modes)
@@ -43,7 +43,7 @@ mode hooks."
                    (local-set-key (kbd "j") 'next-line)
                    (local-set-key (kbd "k") 'previous-line))))))
 
-(defun injh:add-word-to-dictionary ()
+(defun inj0h:add-word-to-dictionary ()
   "Add the word-at-point to aspell's dictionary. You can call this function
 interactively."
   (interactive)
@@ -57,7 +57,7 @@ interactively."
                            (caddr word)
                            current-location))))
 
-(defun injh:compile (dir)
+(defun inj0h:compile (dir)
   "Invoke `compilation-mode' after selecting a directory and compilation
 command. You can call this function interactively."
   (interactive "DSelect directory:") ; Need this "D" in the string.
@@ -68,7 +68,7 @@ command. You can call this function interactively."
       (delete-other-windows)
       (evil-goto-line))))
 
-(defun injh:compile-again ()
+(defun inj0h:compile-again ()
   "Invoke `compilation-mode' with the previous settings or return an appropriate
 error message in the minibuffer. You can call this function interactively."
   (interactive)
@@ -81,13 +81,13 @@ error message in the minibuffer. You can call this function interactively."
           (evil-goto-line))
       (message "Error: You have not tried to compile anything yet."))))
 
-(defun injh:create-keybindings (keymap keybindings)
+(defun inj0h:create-keybindings (keymap keybindings)
   "Create KEYBINDINGS based on an existing KEYMAP."
   (dolist (binding keybindings)
     (define-key keymap
       (kbd (car binding)) (cdr binding))))
 
-(defun injh:create-leader-local-keybindings (leader hook keymap keybindings)
+(defun inj0h:create-leader-local-keybindings (leader hook keymap keybindings)
   "Create KEYBINDINGS associated with a LEADER key based on a new KEYMAP for an
 extant HOOK. Note for KEYMAP, the caller provides a new name with which this
 function will create a new keymap.
@@ -101,9 +101,9 @@ Online resources used to learn about backticks in Emacs Lisp.
   (progn
     (define-prefix-command keymap)
     (add-hook hook `(lambda () (local-set-key (kbd ,leader) ,keymap)))
-    (injh:create-keybindings keymap keybindings)))
+    (inj0h:create-keybindings keymap keybindings)))
 
-(defun injh:create-leader-evil-keybindings (leader mode vimode keymap keybindings)
+(defun inj0h:create-leader-evil-keybindings (leader mode vimode keymap keybindings)
   "Create KEYBINDINGS associated with a LEADER key based on a new KEYMAP for an
 extant MODE map under a VIMODE context. Note for KEYMAP, the caller provides a
 new name with which this function will create a new keymap.
@@ -116,9 +116,9 @@ party packages like Evil-Leader and General."
   (progn
     (define-prefix-command keymap)
     (evil-define-key* vimode mode (kbd leader) keymap) ; Don't use the macro!
-    (injh:create-keybindings keymap keybindings)))
+    (inj0h:create-keybindings keymap keybindings)))
 
-(defun injh:get-buffers-matching-mode (mode)
+(defun inj0h:get-buffers-matching-mode (mode)
   "Return a list of buffers where their major-mode is equal to MODE.
 
 Stolen from Mickey Petersen (Mastering Emacs author).
@@ -130,19 +130,19 @@ See https://masteringemacs.org/article/searching-buffers-occur-mode."
           (push buf buffer-mode-matches))))
     buffer-mode-matches))
 
-(defun injh:goto-previous-buffer ()
+(defun inj0h:goto-previous-buffer ()
   "Return to the previously visited buffer. You can call this function
 interactively."
   (interactive)
   (switch-to-buffer (other-buffer (current-buffer) 1)))
 
 ;; TODO: Finish implementing this method.
-;; (defun injh:grep (dir)
+;; (defun inj0h:grep (dir)
 ;;   (interactive "DIn directory:")
 ;;   (let ((default-directory dir))
 ;;     (call-interactively 'execute-extended-command)))
 
-(defun injh:kill-filepath ()
+(defun inj0h:kill-filepath ()
   "Copy the current buffer filename with path to clipboard. You can call this
 function interactively."
   (interactive)
@@ -153,7 +153,7 @@ function interactively."
       (kill-new filepath)
       (message "Copied buffer filepath '%s' to clipboard." filepath))))
 
-(defun injh:multi-occur-in-this-mode ()
+(defun inj0h:multi-occur-in-this-mode ()
   "Show all lines matching REGEXP in buffers with this major mode. You can call
 this function interactively.
 
@@ -161,10 +161,10 @@ Stolen from Mickey Petersen (Mastering Emacs author).
 See https://masteringemacs.org/article/searching-buffers-occur-mode."
   (interactive)
   (multi-occur
-   (injh:get-buffers-matching-mode major-mode)
+   (inj0h:get-buffers-matching-mode major-mode)
    (car (occur-read-primary-args))))
 
-(defun injh:org-archive-confirm ()
+(defun inj0h:org-archive-confirm ()
   "Invoke `org-archive-subtree' with a single prefix argument, C-u in this case.
 You can call this function interactively.
 
@@ -208,15 +208,15 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 (set-frame-font "Iosevka-14" nil t) ; Make sure the OS has this installed!
 
 ;; Formatting
-(setq c-basic-offset injh:default-indent
+(setq c-basic-offset inj0h:default-indent
       require-final-newline t
       sentence-end-double-space nil)
-(setq-default fill-column injh:default-column
+(setq-default fill-column inj0h:default-column
               indent-tabs-mode nil
-              tab-width injh:default-indent)
+              tab-width inj0h:default-indent)
 
 ;; Keybindings
-(injh:add-local-vi-bindings
+(inj0h:add-local-vi-bindings
  '(bookmark-bmenu-mode-hook
    ibuffer-mode-hook
    org-agenda-mode-hook
@@ -282,12 +282,12 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
       ido-everywhere t)
 (ido-mode 1)
 
-(setq injh:isearch-mode-keybindings
+(setq inj0h:isearch-mode-keybindings
       '(("<up>"   . isearch-repeat-backward)
         ("<down>" . isearch-repeat-forward)))
 (add-hook 'isearch-mode-hook
           '(lambda ()
-             (dolist (bindings injh:isearch-mode-keybindings)
+             (dolist (bindings inj0h:isearch-mode-keybindings)
                (define-key isearch-mode-map
                  (kbd (car bindings)) (cdr bindings)))))
 
@@ -302,7 +302,7 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 
 (add-hook 'tetris-mode-hook
           '(lambda ()
-             (injh:create-keybindings
+             (inj0h:create-keybindings
               tetris-mode-map
               '(("," . tetris-rotate-prev)
                 ("a" . tetris-move-left)
@@ -332,21 +332,21 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 
 (add-hook 'js-mode-hook 'prettify-symbols-mode)
 (add-hook 'js-mode-hook '(lambda ()
-                           (let ((js-indent injh:default-indent))
+                           (let ((js-indent inj0h:default-indent))
                              (setq-local evil-shift-width js-indent
                                          js-indent-level js-indent
                                          tab-width js-indent))
                            (push '("=>" . "\u21d2") prettify-symbols-alist)))
 
-(add-hook 'latex-mode-hook '(lambda () (setq-local fill-column injh:default-column)))
+(add-hook 'latex-mode-hook '(lambda () (setq-local fill-column inj0h:default-column)))
 (add-hook 'latex-mode-hook 'flyspell-mode)
 
 (add-hook 'nxml-mode-hook
           '(lambda ()
-             (setq nxml-attribute-indent injh:default-indent
-                   nxml-child-indent injh:default-indent)))
+             (setq nxml-attribute-indent inj0h:default-indent
+                   nxml-child-indent inj0h:default-indent)))
 
-(setq sh-indentation injh:default-indent)
+(setq sh-indentation inj0h:default-indent)
 
 (add-hook 'text-mode-hook '(lambda () (setq-local fill-column 72))) ; Blame Git!
 (add-hook 'text-mode-hook 'flyspell-mode)
@@ -366,22 +366,22 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
       org-time-stamp-custom-formats '("<%Y.%m.%d %A>" . "<%Y.%m.%d %A %H:%M>")
       org-todo-keywords '((sequence "TODO(t)"
                                     "ACTIVE(a!)"
+                                    "PAUSED(p!)"
                                     "BLOCKED(b@/!)"
-                                    "SHELVED(s!)"
                                     "|"
                                     "DONE(d!)"
                                     "CANCELED(c@/!)"))
       org-use-fast-todo-selection t)
 (setq-default org-display-custom-times t)
 
-(add-hook 'org-mode-hook '(lambda () (setq-local fill-column injh:default-column)))
+(add-hook 'org-mode-hook '(lambda () (setq-local fill-column inj0h:default-column)))
 (add-hook 'org-mode-hook 'org-indent-mode)
 
 (with-eval-after-load 'org-agenda
   (progn
     (setq org-agenda-custom-commands
           `(("A" "Custom Agenda"
-             ((todo "ACTIVE\|BLOCKED" ((org-agenda-overriding-header "You Can (Not) Do It\n\nCurrent:")))
+             ((todo "ACTIVE\|BLOCKED\|PAUSED" ((org-agenda-overriding-header "You Can (Not) Do It\n\nCurrent:")))
               (agenda "" ((org-agenda-block-separator ?-)
                           (org-agenda-overriding-header "\nToday:")
                           (org-agenda-span 1)
@@ -451,7 +451,7 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
     (package-install packages)))
 
 ;;
-;; 09. Evil Mode:
+;; 09. Evil Mode (Non-Vanilla settings begins here):
 ;;
 
 ;; Summon the Editor of the Beast - VI VI VI.
@@ -478,28 +478,28 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
               evil-escape-excluded-states '(normal visual motion)
               evil-escape-delay 0.2)
 
-(injh:create-keybindings
+(inj0h:create-keybindings
  evil-motion-state-map
  '((";"  . evil-ex)
    (":"  . evil-repeat-find-char)
    ("gc" . comment-dwim)
-   ("zg" . injh:add-word-to-dictionary)))
+   ("zg" . inj0h:add-word-to-dictionary)))
 
-(define-prefix-command 'injh:evil-leader-keymap)
+(define-prefix-command 'inj0h:evil-leader-keymap)
 
 ;; Using evil-define-key here will not bind additional mappings from other plugins for some reason. We need to use define-key.
-(define-key evil-motion-state-map (kbd "SPC") 'injh:evil-leader-keymap)
+(define-key evil-motion-state-map (kbd "SPC") 'inj0h:evil-leader-keymap)
 
-(setq injh:evil-leader-bindings
+(setq inj0h:evil-leader-bindings
       '(("<"  . org-capture)
-        (","  . (lambda () (interactive) (org-capture nil "t")))
+        (","  . (lambda () (interactive) (org-capture nil "t") (delete-other-windows)))
         ("."  . ibuffer)
-        ("C"  . injh:compile)
-        ("c"  . injh:compile-again)
-        ("r"  . injh:goto-previous-buffer)
+        ("C"  . inj0h:compile)
+        ("c"  . inj0h:compile-again)
+        ("r"  . inj0h:goto-previous-buffer)
         ("L"  . bookmark-set)
         ("l"  . bookmark-bmenu-list)
-        ("A"  . (lambda () (interactive) (org-agenda nil "A")))
+        ("A"  . (lambda () (interactive) (org-agenda nil "A") (delete-other-windows)))
         ("a"  . apropos)
         ("o"  . switch-to-buffer)
         ("e"  . find-file)
@@ -508,52 +508,52 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
         ("na" . align-regexp)
         ("nc" . count-words-region)
         ("no" . occur)
-        ("np" . injh:multi-occur-in-this-mode)
+        ("np" . inj0h:multi-occur-in-this-mode)
         ("ns" . sort-lines)
         ("s"  . server-edit)
         ("W"  . whitespace-cleanup)
         ("w"  . whitespace-mode)))
 
-(injh:create-keybindings injh:evil-leader-keymap injh:evil-leader-bindings)
+(inj0h:create-keybindings inj0h:evil-leader-keymap inj0h:evil-leader-bindings)
 
 ;; The following keybindings only affect the particular mode.
 
-(injh:create-leader-local-keybindings
+(inj0h:create-leader-local-keybindings
  "SPC"
  'compilation-mode-hook
- 'injh:evil-leader-compilation-keymap
- (append injh:evil-leader-bindings
+ 'inj0h:evil-leader-compilation-keymap
+ (append inj0h:evil-leader-bindings
          '(("mk" . kill-compilation)
            ("mr" . (lambda ()
                      (interactive) (progn (recompile) (evil-goto-line)))))))
 
-(injh:create-leader-local-keybindings
+(inj0h:create-leader-local-keybindings
  "SPC"
  'dired-mode-hook
- 'injh:evil-leader-dired-keymap
- (append injh:evil-leader-bindings
+ 'inj0h:evil-leader-dired-keymap
+ (append inj0h:evil-leader-bindings
          '(("mG" . end-of-buffer)
            ("mg" . beginning-of-buffer)
            ("mw" . wdired-change-to-wdired-mode))))
 
 (add-hook 'ibuffer-mode-hook
-          '(lambda () (local-set-key (kbd "SPC") 'injh:evil-leader-keymap)))
+          '(lambda () (local-set-key (kbd "SPC") 'inj0h:evil-leader-keymap)))
 
-(injh:create-leader-evil-keybindings
+(inj0h:create-leader-evil-keybindings
  "SPC"
  emacs-lisp-mode-map
  'motion
- 'injh:evil-leader-elisp-keymap
- (append injh:evil-leader-bindings '(("me" . eval-last-sexp))))
+ 'inj0h:evil-leader-elisp-keymap
+ (append inj0h:evil-leader-bindings '(("me" . eval-last-sexp))))
 
 (with-eval-after-load 'org
-  (injh:create-leader-evil-keybindings
+  (inj0h:create-leader-evil-keybindings
    "SPC"
    org-mode-map
    'motion
-   'injh:evil-leader-org-keymap
-   (append injh:evil-leader-bindings
-           '(("mA" . injh:org-archive-confirm)
+   'inj0h:evil-leader-org-keymap
+   (append inj0h:evil-leader-bindings
+           '(("mA" . inj0h:org-archive-confirm)
              ("ma" . org-archive-subtree)
              ("mc" . org-copy-subtree)
              ("mD" . (lambda () (interactive) (org-deadline '(4))))
@@ -615,17 +615,17 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
     (add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
     (add-hook 'markdown-mode-hook 'flyspell-mode)
     (add-hook 'markdown-mode-hook
-              '(lambda () (setq-local fill-column injh:default-column)))))
+              '(lambda () (setq-local fill-column inj0h:default-column)))))
 
 (with-eval-after-load 'rust-mode
   (add-hook 'rust-mode-hook '(lambda () (setq-local fill-column 99))))
 
 (with-eval-after-load 'swift-mode
-  (setq swift-mode:basic-offset injh:default-indent))
+  (setq swift-mode:basic-offset inj0h:default-indent))
 
 (with-eval-after-load 'typescript-mode
   (progn
-    (setq typescript-indent-level injh:default-indent)
+    (setq typescript-indent-level inj0h:default-indent)
     (add-hook 'typescript-mode-hook 'prettify-symbols-mode)
     (add-hook 'typescript-mode-hook
               '(lambda () (push '("=>" . "\u21d2") prettify-symbols-alist)))))

@@ -12,6 +12,7 @@
 !.bashrc
 !.gitconfig
 !.gitignore
+!.rgrc
 !Brewfile
 !dotemacs.el
 !mac.terminal
