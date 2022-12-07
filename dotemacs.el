@@ -118,17 +118,11 @@ party packages like Evil-Leader and General."
     (evil-define-key* vimode mode (kbd leader) keymap) ; Don't use the macro!
     (inj0h:create-keybindings keymap keybindings)))
 
-(defun inj0h:get-buffers-matching-mode (mode)
-  "Return a list of buffers where their major-mode is equal to MODE.
-
-Stolen from Mickey Petersen (Mastering Emacs author).
-See https://masteringemacs.org/article/searching-buffers-occur-mode."
-  (let ((buffer-mode-matches '()))
-    (dolist (buf (buffer-list))
-      (with-current-buffer buf
-        (when (eq mode major-mode)
-          (push buf buffer-mode-matches))))
-    buffer-mode-matches))
+(defun inj0h:evil-apply-macro-to-region-lines ()
+  "Provide an easy binding for running an Evil macro over the selected region.
+You can call this function interactively."
+  (interactive)
+  (evil-ex "'<,'>norm@"))
 
 (defun inj0h:goto-previous-buffer ()
   "Return to the previously visited buffer. You can call this function
@@ -136,11 +130,21 @@ interactively."
   (interactive)
   (switch-to-buffer (other-buffer (current-buffer) 1)))
 
-;; TODO: Finish implementing this method.
-;; (defun inj0h:grep (dir)
-;;   (interactive "DIn directory:")
-;;   (let ((default-directory dir))
-;;     (call-interactively 'execute-extended-command)))
+(defun inj0h:grep-from-here (query)
+  "Run system grep from the current buffer's directory against the QUERY regexp.
+Correct behavior assumes an installation of grep. Please refer to the function
+implementation for included grep arguments.
+
+You can call this function interactively."
+  (interactive "sgrep:")
+  (let ((grep-args (concat "grep"
+                          " --color"
+                          " --exclude-dir={.git,.idea,build,dist,node_modules,target}"
+                          " --exclude 'Cargo.lock'"
+                          " -Iinr "
+                          "\"" query "\""
+                          " .")))
+    (grep grep-args)))
 
 (defun inj0h:kill-filepath ()
   "Copy the current buffer filename with path to clipboard. You can call this
@@ -152,17 +156,6 @@ function interactively."
     (when filepath
       (kill-new filepath)
       (message "Copied buffer filepath '%s' to clipboard." filepath))))
-
-(defun inj0h:multi-occur-in-this-mode ()
-  "Show all lines matching REGEXP in buffers with this major mode. You can call
-this function interactively.
-
-Stolen from Mickey Petersen (Mastering Emacs author).
-See https://masteringemacs.org/article/searching-buffers-occur-mode."
-  (interactive)
-  (multi-occur
-   (inj0h:get-buffers-matching-mode major-mode)
-   (car (occur-read-primary-args))))
 
 (defun inj0h:org-archive-confirm ()
   "Invoke `org-archive-subtree' with a single prefix argument, C-u in this case.
@@ -184,7 +177,8 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
       flyspell-duplicate-distance 0 ; Broken on Mac.
       inhibit-startup-screen t
       kill-ring-max 1
-      make-backup-files nil)
+      make-backup-files nil
+      split-width-threshold nil)
 (global-hl-line-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
@@ -263,7 +257,12 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 
 (setq display-line-numbers-grow-only t)
 
-(setq ediff-window-setup-function 'ediff-setup-windows-plain)
+(setq ediff-split-window-function 'split-window-horizontally
+      ediff-window-setup-function 'ediff-setup-windows-plain)
+; Return to the buffer where the user called ediff-buffers.
+(add-hook 'ediff-quit-hook '(lambda ()
+                              (other-window 1)
+                              (delete-other-windows)))
 
 ;; Flyspell/Ispell
 (setq flyspell-default-dictionary "en_US")
@@ -343,8 +342,11 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 
 (add-hook 'nxml-mode-hook
           '(lambda ()
-             (setq nxml-attribute-indent inj0h:default-indent
-                   nxml-child-indent inj0h:default-indent)))
+             (let ((xml-indent 2))
+               (setq nxml-attribute-indent xml-indent
+                     nxml-child-indent xml-indent)
+               (setq-local evil-shift-width xml-indent
+                           tab-width xml-indent))))
 
 (setq sh-indentation inj0h:default-indent)
 
@@ -381,7 +383,7 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
   (progn
     (setq org-agenda-custom-commands
           `(("A" "Custom Agenda"
-             ((todo "ACTIVE\|BLOCKED\|PAUSED" ((org-agenda-overriding-header "You Can (Not) Do It\n\nCurrent:")))
+             ((todo "ACTIVE\|BLOCKED" ((org-agenda-overriding-header "You Can (Not) Do It\n\nCurrent:")))
               (agenda "" ((org-agenda-block-separator ?-)
                           (org-agenda-overriding-header "\nToday:")
                           (org-agenda-span 1)
@@ -494,6 +496,7 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
       '(("<"  . org-capture)
         (","  . (lambda () (interactive) (org-capture nil "t") (delete-other-windows)))
         ("."  . ibuffer)
+        ("p"  . occur)
         ("C"  . inj0h:compile)
         ("c"  . inj0h:compile-again)
         ("r"  . inj0h:goto-previous-buffer)
@@ -507,8 +510,8 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
         ("t"  . execute-extended-command)
         ("na" . align-regexp)
         ("nc" . count-words-region)
-        ("no" . occur)
-        ("np" . inj0h:multi-occur-in-this-mode)
+        ("ne" . inj0h:evil-apply-macro-to-region-lines)
+        ("no" . inj0h:grep-from-here)
         ("ns" . sort-lines)
         ("s"  . server-edit)
         ("W"  . whitespace-cleanup)

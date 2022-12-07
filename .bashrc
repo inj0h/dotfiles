@@ -63,7 +63,7 @@ gr() {
          --exclude-dir={.git,.idea,build,dist,node_modules,target}\
          --exclude 'Cargo.lock'\
          --exclude 'package-lock.json'\
-         -Inr "$1" .
+         -Iinr "$1" .
 }
 
 #
