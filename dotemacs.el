@@ -26,7 +26,7 @@
 ;; 01. User Variables:
 ;;
 
-(setq inj0h:default-column 80
+(setq inj0h:default-column 100
       inj0h:default-indent 4)
 
 ;;
@@ -350,7 +350,6 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 
 (setq sh-indentation inj0h:default-indent)
 
-(add-hook 'text-mode-hook '(lambda () (setq-local fill-column 72))) ; Blame Git!
 (add-hook 'text-mode-hook 'flyspell-mode)
 (add-to-list 'auto-mode-alist '("COMMIT_EDITMSG" . text-mode))
 
@@ -620,9 +619,6 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
     (add-hook 'markdown-mode-hook
               '(lambda () (setq-local fill-column inj0h:default-column)))))
 
-(with-eval-after-load 'rust-mode
-  (add-hook 'rust-mode-hook '(lambda () (setq-local fill-column 99))))
-
 (with-eval-after-load 'swift-mode
   (setq swift-mode:basic-offset inj0h:default-indent))
 
@@ -643,5 +639,4 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 
 (with-eval-after-load 'zig-mode
   (progn
-    (setq zig-format-on-save nil)
-    (add-hook 'zig-mode-hook '(lambda () (setq-local fill-column 100)))))
+    (setq zig-format-on-save nil)))
