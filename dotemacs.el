@@ -34,8 +34,7 @@
 ;;
 
 (defun inj0h:add-local-vi-bindings (bind-modes)
-  "Add vi-like local keybindings to BIND-MODES where BIND-MODES is a list of
-mode hooks."
+  "Add vi-like local keybindings to BIND-MODES where BIND-MODES is a list of mode hooks."
   (dolist (mode bind-modes)
     (add-hook mode
               '(lambda ()
@@ -44,8 +43,7 @@ mode hooks."
                    (local-set-key (kbd "k") 'previous-line))))))
 
 (defun inj0h:add-word-to-dictionary ()
-  "Add the word-at-point to aspell's dictionary. You can call this function
-interactively."
+  "Add the word-at-point to aspell's dictionary. You can call this function interactively."
   (interactive)
   (let ((current-location (point)) (word (flyspell-get-word)))
     (when (consp word)
@@ -58,8 +56,8 @@ interactively."
                            current-location))))
 
 (defun inj0h:compile (dir)
-  "Invoke `compilation-mode' after selecting a directory and compilation
-command. You can call this function interactively."
+  "Invoke `compilation-mode' after selecting a directory and compilation command. You can call this
+function interactively."
   (interactive "DSelect directory:") ; Need this "D" in the string.
   (let ((default-directory dir))
     (progn
@@ -69,8 +67,8 @@ command. You can call this function interactively."
       (evil-goto-line))))
 
 (defun inj0h:compile-again ()
-  "Invoke `compilation-mode' with the previous settings or return an appropriate
-error message in the minibuffer. You can call this function interactively."
+  "Invoke `compilation-mode' with the previous settings or return an appropriate error message in
+the minibuffer. You can call this function interactively."
   (interactive)
   (let ((comp-buffer "*compilation*"))
     (if (get-buffer comp-buffer)
@@ -88,12 +86,11 @@ error message in the minibuffer. You can call this function interactively."
       (kbd (car binding)) (cdr binding))))
 
 (defun inj0h:create-leader-local-keybindings (leader hook keymap keybindings)
-  "Create KEYBINDINGS associated with a LEADER key based on a new KEYMAP for an
-extant HOOK. Note for KEYMAP, the caller provides a new name with which this
-function will create a new keymap.
+  "Create KEYBINDINGS associated with a LEADER key based on a new KEYMAP for an extant HOOK. Note
+for KEYMAP, the caller provides a new name with which this function will create a new keymap.
 
-This function exists to provide a (hopefully) lightweight solution to third
-party packages like Evil-Leader and General.
+This function exists to provide a (hopefully) lightweight solution to third party packages like
+Evil-Leader and General.
 
 Online resources used to learn about backticks in Emacs Lisp.
 - https://stackoverflow.com/questions/30150186/what-does-backtick-mean-in-lisp
@@ -104,36 +101,35 @@ Online resources used to learn about backticks in Emacs Lisp.
     (inj0h:create-keybindings keymap keybindings)))
 
 (defun inj0h:create-leader-evil-keybindings (leader mode vimode keymap keybindings)
-  "Create KEYBINDINGS associated with a LEADER key based on a new KEYMAP for an
-extant MODE map under a VIMODE context. Note for KEYMAP, the caller provides a
-new name with which this function will create a new keymap.
+  "Create KEYBINDINGS associated with a LEADER key based on a new KEYMAP for an extant MODE map
+under a VIMODE context. Note for KEYMAP, the caller provides a new name with which this function
+will create a new keymap.
 
-This function will only work for Evil keybindings and exacts a vi motion state
-i.e. VIMODE for which these keybindings apply.
+This function will only work for Evil keybindings and exacts a vi motion state i.e. VIMODE for which
+these keybindings apply.
 
-This function exists to provide a (hopefully) lightweight solution to third
-party packages like Evil-Leader and General."
+This function exists to provide a (hopefully) lightweight solution to third party packages like
+Evil-Leader and General."
   (progn
     (define-prefix-command keymap)
     (evil-define-key* vimode mode (kbd leader) keymap) ; Don't use the macro!
     (inj0h:create-keybindings keymap keybindings)))
 
 (defun inj0h:evil-apply-macro-to-region-lines ()
-  "Provide an easy binding for running an Evil macro over the selected region.
-You can call this function interactively."
+  "Provide an easy binding for running an Evil macro over the selected region. You can call this
+function interactively."
   (interactive)
   (evil-ex "'<,'>norm@"))
 
 (defun inj0h:goto-previous-buffer ()
-  "Return to the previously visited buffer. You can call this function
-interactively."
+  "Return to the previously visited buffer. You can call this function interactively."
   (interactive)
   (switch-to-buffer (other-buffer (current-buffer) 1)))
 
 (defun inj0h:grep-from-here (query)
-  "Run system grep from the current buffer's directory against the QUERY regexp.
-Correct behavior assumes an installation of grep. Please refer to the function
-implementation for included grep arguments.
+  "Run system grep from the current buffer's directory against the QUERY regexp. Correct behavior
+assumes an installation of grep. Please refer to the function implementation for included grep
+arguments.
 
 You can call this function interactively."
   (interactive "sgrep:")
@@ -147,8 +143,8 @@ You can call this function interactively."
     (grep grep-args)))
 
 (defun inj0h:kill-filepath ()
-  "Copy the current buffer filename with path to clipboard. You can call this
-function interactively."
+  "Copy the current buffer filename with path to clipboard. You can call this function
+interactively."
   (interactive)
   (let ((filepath (if (equal major-mode 'dired-mode)
                       default-directory
@@ -158,12 +154,11 @@ function interactively."
       (message "Copied buffer filepath '%s' to clipboard." filepath))))
 
 (defun inj0h:org-archive-confirm ()
-  "Invoke `org-archive-subtree' with a single prefix argument, C-u in this case.
-You can call this function interactively.
+  "Invoke `org-archive-subtree' with a single prefix argument, C-u in this case. You can call this
+function interactively.
 
-Programmatically, passing 4 as an argument to `org-archive-subtree' achieves the
-same thing as calling C-u once. I.e. a single FIND-DONE for the
-`org-archive-subtree' method."
+Programmatically, passing 4 as an argument to `org-archive-subtree' achieves the same thing as
+calling C-u once. I.e. a single FIND-DONE for the `org-archive-subtree' method."
   (interactive)
   (org-archive-subtree '(4)))
 
@@ -231,9 +226,9 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 ;; Windows/Frames
 (setq initial-frame-alist '((width . 90) (height . 35)))
 
-;; Render non-focused frames transparent. I.e. when setting the alpha
-;; (transparency level), the first and second numbers indicate focused and
-;; unfocused transparency respectively. 100 alpha means opaque.
+;; Render non-focused frames transparent. I.e. when setting the alpha (transparency level), the
+;; first and second numbers indicate focused and unfocused transparency respectively. 100 alpha
+;; means opaque.
 (set-frame-parameter (selected-frame) 'alpha '(100 . 95))
 (add-to-list 'default-frame-alist '(alpha . (100 . 95)))
 
@@ -410,10 +405,10 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
                           (org-agenda-format-date "%Y.%m.%d %A")))))))
     (setq org-agenda-files (list org-directory))))
 
+;; For some reason, adding a whitespace char and newline after the last node in a template that gets
+;; appended to a file (not under a node) fixes that file not loading its buffer from disk properly.
 (setq org-capture-templates
-      '(("m" "File Meeting" entry (file+headline "meetings.org" "Meetings") "* %?\n** Topics [/]\n** Notes ")
-        ("n" "File Note" entry (file+headline "notes.org" "Jotted") "* %?")
-        ("t" "File Task" entry (file+headline "todos.org" "Tasks") "* TODO %?\n** Subtasks [/]\n** Notes ")))
+      '(("t" "File TODO" entry (file "todos.org") "* TODO %?\n** Subtasks [/]\n** Notes \n")))
 
 ;;
 ;; 08. Package Management:
@@ -459,8 +454,8 @@ same thing as calling C-u once. I.e. a single FIND-DONE for the
 ;;
 ;; Keybindings tuned for EN-Dvorak. Don’t change default vi/Vim too much!
 ;;
-;; This configuration uses custom Elisp code to recreate Vim leader keybinding
-;; features that third party packages like “Evil Leader” and “General” provide.
+;; This configuration uses custom Elisp code to recreate Vim leader keybinding features that third
+;; party packages like “Evil Leader” and “General” provide.
 (require 'evil)
 (require 'evil-escape)
 (require 'undo-fu)
