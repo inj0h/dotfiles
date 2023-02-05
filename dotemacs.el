@@ -63,8 +63,7 @@ function interactively."
     (progn
       (call-interactively 'compile)
       (switch-to-buffer "*compilation*")
-      (delete-other-windows)
-      (evil-goto-line))))
+      (delete-other-windows))))
 
 (defun inj0h:compile-again ()
   "Invoke `compilation-mode' with the previous settings or return an appropriate error message in
@@ -75,8 +74,7 @@ the minibuffer. You can call this function interactively."
         (progn
           (switch-to-buffer comp-buffer)
           (delete-other-windows)
-          (recompile)
-          (evil-goto-line))
+          (recompile))
       (message "Error: You have not tried to compile anything yet."))))
 
 (defun inj0h:create-keybindings (keymap keybindings)
@@ -242,6 +240,8 @@ calling C-u once. I.e. a single FIND-DONE for the `org-archive-subtree' method."
 (setq column-number-mode t)
 (setq-default column-number-indicator-zero-based nil)
 
+(setq compilation-scroll-output 'first-error)
+
 (setq dabbrev-case-distinction nil
       dabbrev-case-fold-search t
       dabbrev-case-replace nil)
@@ -321,8 +321,7 @@ calling C-u once. I.e. a single FIND-DONE for the `org-archive-subtree' method."
                              (let ((java-indent 2))
                                (setq-local c-basic-offset java-indent
                                            evil-shift-width java-indent
-                                           tab-width java-indent
-                                           fill-column 100))))
+                                           tab-width java-indent))))
 
 (add-hook 'js-mode-hook 'prettify-symbols-mode)
 (add-hook 'js-mode-hook '(lambda ()
