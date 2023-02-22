@@ -1,5 +1,0 @@
-# Ignore these directories:
---glob=!build/*
---glob=!git/*
---glob=!node_modules/*
---glob=!target/*

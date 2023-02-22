@@ -70,17 +70,19 @@ gr() {
 # 04. Externalities:
 #
 
-# Completion
+# OS stuff
 case "$(uname -s)" in
     "Darwin")
+        # Bash completion
         [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
+
+        # Homebrew
+        export PATH="/usr/local/sbin:$PATH"
         ;;
     "Linux")
+        # Bash completion
         [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
         ;;
     *)
         echo "Error: Unlisted system detected. Deferring bash completion."
 esac
-
-# ripgrep
-export RIPGREP_CONFIG_PATH="$HOME/.config/.rgrc"

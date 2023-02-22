@@ -83,7 +83,7 @@
 	AAAZAAAAAAAAAAAAAAAAAAAA2Q==
 	</data>
 	<key>BackgroundAlphaInactive</key>
-	<real>0.94695262707014505</real>
+	<real>0.97641289112606144</real>
 	<key>BackgroundBlur</key>
 	<real>0.0</real>
 	<key>BackgroundBlurInactive</key>
@@ -299,17 +299,17 @@
 	<key>ShowActivityIndicatorInTab</key>
 	<true/>
 	<key>ShowDimensionsInTitle</key>
-	<true/>
+	<false/>
 	<key>ShowRepresentedURLInTabTitle</key>
-	<true/>
+	<false/>
 	<key>ShowRepresentedURLInTitle</key>
-	<true/>
+	<false/>
 	<key>ShowRepresentedURLPathInTabTitle</key>
 	<false/>
 	<key>ShowTTYNameInTabTitle</key>
-	<true/>
+	<false/>
 	<key>ShowTTYNameInTitle</key>
-	<true/>
+	<false/>
 	<key>ShowWindowSettingsNameInTitle</key>
 	<false/>
 	<key>TextBoldColor</key>
