@@ -77,6 +77,14 @@ the minibuffer. You can call this function interactively."
           (recompile))
       (message "Error: You have not tried to compile anything yet."))))
 
+(defun inj0h:compile-with-color ()
+  "Colorize from `compilation-filter-start' to `point'.
+
+Not original, but stolen from someplace on the Internet."
+  (let ((inhibit-read-only t))
+    (ansi-color-apply-on-region
+     compilation-filter-start (point))))
+
 (defun inj0h:create-keybindings (keymap keybindings)
   "Create KEYBINDINGS based on an existing KEYMAP."
   (dolist (binding keybindings)
@@ -113,11 +121,12 @@ Evil-Leader and General."
     (evil-define-key* vimode mode (kbd leader) keymap) ; Don't use the macro!
     (inj0h:create-keybindings keymap keybindings)))
 
+;; TODO: Figure out how to invoke the return key after "'<,'>norm@@".
 (defun inj0h:evil-apply-macro-to-region-lines ()
   "Provide an easy binding for running an Evil macro over the selected region. You can call this
 function interactively."
   (interactive)
-  (evil-ex "'<,'>norm@"))
+  (evil-ex "'<,'>norm@@"))
 
 (defun inj0h:goto-previous-buffer ()
   "Return to the previously visited buffer. You can call this function interactively."
@@ -186,10 +195,11 @@ calling C-u once. I.e. a single FIND-DONE for the `org-archive-subtree' method."
 (load custom-file 'noerror)
 
 ;; Encoding
-(prefer-coding-system 'utf-8)
-(set-default-coding-systems 'utf-8)
+;; TODO: Test how to thoroughly set this up to conveniently adapt for both Windows and Unix.
+(prefer-coding-system 'utf-8-unix)
+(set-default-coding-systems 'utf-8-unix)
 (set-language-environment "UTF-8")
-(setq default-buffer-file-coding-system 'utf-8)
+(setq default-buffer-file-coding-system 'utf-8-unix)
 
 ;; Font
 (set-frame-font "Iosevka-14" nil t) ; Make sure the OS has this installed!
@@ -240,7 +250,9 @@ calling C-u once. I.e. a single FIND-DONE for the `org-archive-subtree' method."
 (setq column-number-mode t)
 (setq-default column-number-indicator-zero-based nil)
 
+(require 'ansi-color)
 (setq compilation-scroll-output 'first-error)
+(add-hook 'compilation-filter-hook #'inj0h:compile-with-color)
 
 (setq dabbrev-case-distinction nil
       dabbrev-case-fold-search t
@@ -404,10 +416,9 @@ calling C-u once. I.e. a single FIND-DONE for the `org-archive-subtree' method."
                           (org-agenda-format-date "%Y.%m.%d %A")))))))
     (setq org-agenda-files (list org-directory))))
 
-;; For some reason, adding a whitespace char and newline after the last node in a template that gets
-;; appended to a file (not under a node) fixes that file not loading its buffer from disk properly.
+;; NOTE: Creating TODOs doesn't always auto-revert the TODO Org buffer (Emacs 28.2, macOS 11).
 (setq org-capture-templates
-      '(("t" "File TODO" entry (file "todos.org") "* TODO %?\n** Subtasks [/]\n** Notes \n")))
+      '(("t" "File TODO" entry (file "todos.org") "* TODO %?\n** Subtasks [/]\n** Notes\n")))
 
 ;;
 ;; 08. Package Management:
@@ -446,7 +457,7 @@ calling C-u once. I.e. a single FIND-DONE for the `org-archive-subtree' method."
     (package-install packages)))
 
 ;;
-;; 09. Evil Mode (Non-Vanilla settings begins here):
+;; 09. Evil Mode (Non-Vanilla settings begin here):
 ;;
 
 ;; Summon the Editor of the Beast - VI VI VI.
