@@ -27,8 +27,7 @@ export PS1="\w/>"
 
 # Basic
 alias ec="emacsclient -n"
-alias o="ls -AGgho"
-alias t="tree -aC -I '.git|node_modules|target' ."
+alias treee="tree -aC -I '.git|node_modules|target' ."
 
 # Git
 alias ga="git add"
