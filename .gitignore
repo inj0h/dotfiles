@@ -1,19 +1,11 @@
-# Filename: gitignore
-# Note:     A gitignore for this repository. Duh.
-
-# Ignore everything!
 *
-
-# But descend into directories.
 !*/
 
-# And mind the whitelist!
 !.bash_profile
 !.bashrc
 !.gitconfig
 !.gitignore
-!.rgrc
 !Brewfile
 !dotemacs.el
 !mac.terminal
-!readme.md
+!readme.txt

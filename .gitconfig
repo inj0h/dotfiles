@@ -25,3 +25,5 @@
     conflictstyle = diff3
 [push]
     autoSetupRemote = true
+[gpg]
+    format = ssh
