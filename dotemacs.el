@@ -54,7 +54,7 @@ interactively."
 (defun inj0h:compile (dir)
   "Invoke `compilation-mode' after selecting a directory and compilation
 command. You can call this function interactively."
-  (interactive "DSelect directory: ") ; Need this "D" in the string
+  (interactive "Ddirectory:") ; Need this "D" in the string
   (let ((default-directory dir))
     (progn
       (call-interactively 'compile)
@@ -76,48 +76,17 @@ error message in the minibuffer. You can call this function interactively."
 (defun inj0h:compile-with-color ()
   "Colorize from `compilation-filter-start' to `point'.
 
-Not original, but stolen from someplace on the Internet."
+Not original, but stolen from somewhere on the Internet."
   (let ((inhibit-read-only t))
     (ansi-color-apply-on-region
      compilation-filter-start (point))))
 
 (defun inj0h:create-keybindings (keymap keybindings)
   "Create KEYBINDINGS based on an existing KEYMAP."
-  (dolist (binding keybindings)
-    (define-key keymap
-      (kbd (car binding)) (cdr binding))))
-
-(defun inj0h:create-leader-local-keybindings (leader hook keymap keybindings)
-  "Create KEYBINDINGS associated with a LEADER key based on a new KEYMAP for an
-extant HOOK. Note for KEYMAP, the caller provides a new name with which this
-function will create a new keymap.
-
-This function exists to provide a (hopefully) lightweight solution to third
-party packages like Evil-Leader and General.
-
-Online resources used to learn about backticks in Emacs Lisp.
-- https://stackoverflow.com/questions/30150186/what-does-backtick-mean-in-lisp
-- https://stackoverflow.com/questions/26613583/emacs-use-add-hook-inside-function-defun"
-  (progn
-    (define-prefix-command keymap)
-    (add-hook hook `(lambda () (local-set-key (kbd ,leader) ,keymap)))
-    (inj0h:create-keybindings keymap keybindings)))
-
-(defun inj0h:create-leader-evil-keybindings (leader mode vimode keymap
-                                                    keybindings)
-  "Create KEYBINDINGS associated with a LEADER key based on a new KEYMAP for an
-extant MODE map under a VIMODE context. Note for KEYMAP, the caller provides a
-new name with which this function will create a new keymap.
-
-This function will only work for Evil keybindings and exacts a vi motion state
-i.e. VIMODE for which these keybindings apply.
-
-This function exists to provide a (hopefully) lightweight solution to third
-party packages like Evil-Leader and General."
-  (progn
-    (define-prefix-command keymap)
-    (evil-define-key* vimode mode (kbd leader) keymap) ; Don't use the macro!
-    (inj0h:create-keybindings keymap keybindings)))
+  (dolist (kb keybindings)
+    (let ((keybinding (kbd (car kb)))
+          (function (cdr kb)))
+      (define-key keymap keybinding function))))
 
 (defun inj0h:get-from-list-else (list match else)
   "Given that LIST is a list of cons cells - E.g. returned from
@@ -137,19 +106,36 @@ its element's car value equals MATCH. Otherwise, return ELSE."
 
 (defun inj0h:grep-from-here (query)
   "Run system grep from the current buffer's directory against the QUERY regexp.
-Correct behavior assumes an installation of grep. Please refer to the function
-implementation for included grep arguments.
+Correct behavior assumes an installation of POSIX \"grep\" such that Emacs can
+call it. Please refer to the function implementation for included grep
+arguments.
 
 You can call this function interactively."
-  (interactive "sgrep: ")
+  (interactive "sgrep:")
   (let ((grep-args (concat "grep"
-                          " --color"
-                          " --exclude-dir={.git,.idea,build,dist,node_modules,target}"
-                          " --exclude 'Cargo.lock'"
-                          " -Iinr "
-                          "\"" query "\""
-                          " .")))
+                           " --color"
+                           " --exclude-dir={.git,.idea,build,dist,node_modules,target}"
+                           " --exclude 'Cargo.lock'"
+                           " -Iinr "
+                           "\"" query "\""
+                           " .")))
     (grep grep-args)))
+
+;; TODO(): Check this works on Windows (CMD and PowerShell)
+(defun inj0h:tag-files (dir filetype)
+  "Create then load an etags \"TAGS\" file for FILETYPE recursively searched
+under DIR. This method will create the etags file under DIR. Correct behavior
+assumes an installation of POSIX \"find\" such that Emacs can call it.
+
+You can call this function interactively."
+  (interactive "Ddirectory:\nsfiletype:")
+  (let ((original-buffer-dir default-directory)
+        (tag-file-dir dir))
+    (cd dir)
+    (async-shell-command
+     (format "find %s -type f -iname \"*.%s\" | etags -" dir filetype))
+    (visit-tags-table "TAGS")
+    (cd original-buffer-dir)))
 
 (defun inj0h:zip-pair (list)
   "Return a list of cons cells from LIST.
@@ -180,8 +166,8 @@ For a LIST of size 1 or size 0 - I.e. the empty list, return nil."
 
 ;; TODO(): Refactor error handling for bad argument values, E.g. a mode that
 ;;         doesn't exist
-(defmacro inj0h:setup-mode (&rest args)
-  "Setup an extant mode with the following parameters:
+(defmacro inj0h:setup (&rest args)
+  "Set up an extant mode with the following parameters:
 
 - :mode (required) = Name of an extant mode
 - :hook            = Name of the hook for :mode; do not provide unless the
@@ -197,12 +183,11 @@ macro to setup modes that Emacs loads by default.
 
 E.g.
 
-(inj0h:setup-mode
+(inj0h:setup
  :mode text-mode
  :assf (\"COMMIT_EDITMSG\")
  :assm (flyspell-mode)
- :conf ((setq-local fill-column 80)))
-"
+ :conf ((setq-local fill-column 80)))"
   (let* ((parsed-list (inj0h:zip-pair args))
          (labels (mapcar '(lambda (pl) (symbol-name (car pl))) parsed-list))
          (required-labels '(":mode" ":conf"))
@@ -225,16 +210,14 @@ E.g.
             (mode-name (if mode (symbol-name mode) "INVALID_MODE")))
        (cond (,invalid-args
               (message
-               "Found invalid arguments labels while calling inj0h:setup-mode
+               "Found invalid arguments labels while calling inj0h:setup
                for %s!" mode-name))
              (,incomplete-args
               (message
-               "Missing required argument labels while calling inj0h:setup-mode
+               "Missing required argument labels while calling inj0h:setup
                for %s!" mode-name))
              (t
-              ;; TODO(): Move this to the end of the macro?
-              (message
-               "Calling inj0h:setup-mode for %s" mode-name)
+              (message "Calling inj0h:setup for %s..." mode-name)
               (let* ((hook ',(inj0h:get-from-list-else parsed-list ":hook" nil))
                      (assf ',(inj0h:get-from-list-else parsed-list ":assf" nil))
                      (assf-mode
@@ -258,7 +241,88 @@ E.g.
                     (when assm
                       (dolist (md assm) (add-hook use-hook md)))
 
-                    (add-hook use-hook conf)))))))))
+                    (add-hook use-hook conf))))
+              (message "Completed inj0h:setup for %s" mode-name))))))
+
+(defmacro inj0h:evil-leader (:key key :bindings binds :per-mode permode)
+  "For Evil mode, create Vim style leader bindings using the following
+parameters (all required):
+
+- :key      = (keyboard) key to serve as the leader
+- :bindings = Default bindings, active on every mode
+- :per-mode = Bindings only active per designated mode; each of these will
+              become prefixed with the \"m\" key - I.e. The function tied to
+              \"w\" will activate on keystrokes \"leader\" + \"m\" + \"w\"
+
+E.g.
+
+(inj0h:evil-leader
+ :key \"SPC\"
+ :bindings ((\"a\" . apropos)
+            (\"o\" . switch-to-buffer)
+            (\"e\" . find-file))
+ :per-mode (dired . ((\"w\" . wdired-change-to-wdired-mode))))
+
+Additionally, this macro creates the following variables:
+
+- inj0h:evil-leader-keymap
+- inj0h:evil-leader-modename-keymap
+
+Where \"modename\" refers to the modes designated in the \"per-mode\" parameter
+such that each mode creates a variable with its name."
+  `(let* ((leaderkey (kbd ,key))
+          (keymap-prefix "inj0h:evil-leader")
+          (keymap (intern (concat keymap-prefix "-keymap"))))
+     (define-prefix-command keymap)
+     ;; Using evil-define-key here will not bind additional mappings from other
+     ;; plugins for some reason, whereas define-key does what we want
+     (define-key evil-motion-state-map leaderkey keymap)
+
+     ;; Setup default bindings
+     (inj0h:create-keybindings keymap ',binds)
+
+     ;; Setup mode-specific bindings
+     (dolist (pmb ',permode)
+       (let* ((modename (symbol-name (car pmb)))
+              (pmbinds (cdr pmb))
+              (mkeymap (intern (concat keymap-prefix "-" modename "-keymap")))
+              (hook (intern (concat modename "-mode-hook"))))
+         (define-prefix-command mkeymap)
+         (cond ((string= "org" modename)
+                ;; local-set-key breaks SPC for insert mode in Org... ㅜㅜ
+                (evil-define-key 'motion org-mode-map leaderkey mkeymap))
+               (t
+                (add-hook hook (lambda () (local-set-key leaderkey mkeymap)))))
+         (when pmbinds
+           (dolist (b pmbinds)
+             (let ((binding (concat "m" (car b))) ; Prefix with "m"
+                   (function (cdr b)))
+               (define-key mkeymap binding function))))))))
+
+(defmacro inj0h:evil-local-overload (:mode mode :bindings bindings)
+  "For Evil mode, create Vim style bindings locally for an extant mode using the
+following parameters (all required):
+
+- :mode     = Extant mode name as a symbol such that the mode has a hook
+- :bindings = A list of cons cells outlining the vi state, keybinding, and
+              function in that order
+
+Note, the vi state must match one of the states provided by Evil - emacs,
+insert, motion, normal, operator, replace, visual.
+
+E.g.
+
+(inj0h:evil-local-overload
+ :mode org
+ :bindings ((insert . (\"C-c b\" . inj0h:insert-custom-bracket))))"
+  `(let ((modehook (intern (concat (symbol-name ',mode) "-mode-hook"))))
+     (add-hook modehook
+               (lambda ()
+                 (dolist (b ',bindings)
+                   (let ((vimode (car b))
+                         (key (cadr b))
+                         (function (cddr b)))
+                     (evil-local-set-key vimode (kbd key) function)))))))
 
 ;;; 04. Disable:
 
@@ -303,7 +367,6 @@ E.g.
 ;; Keybindings
 (inj0h:add-local-vi-bindings
  '(bookmark-bmenu-mode-hook
-   ibuffer-mode-hook
    org-agenda-mode-hook
    package-menu-mode-hook))
 
@@ -367,6 +430,9 @@ E.g.
 (global-auto-revert-mode 1)
 
 (setq ibuffer-default-sorting-mode 'filename/process)
+(inj0h:evil-local-overload
+ :mode ibuffer
+ :bindings ((motion . ("<return>" . ibuffer-visit-buffer))))
 
 (setq ido-auto-merge-work-directories-length -1
       ido-case-fold t
@@ -401,6 +467,10 @@ E.g.
    mode-line-misc-info
    mode-line-end-spaces))
 
+(inj0h:evil-local-overload
+ :mode occur
+ :bindings ((motion . ("<return>" . occur-mode-goto-occurrence))))
+
 (require 'server)
 (unless (server-running-p) (server-start))
 
@@ -421,11 +491,19 @@ E.g.
 
 (setq tramp-default-method "ssh")
 
+(inj0h:evil-local-overload
+ :mode vc-annotate
+ :bindings ((motion . ("<return>" . vc-annotate-goto-line))))
+
 (setq visible-bell 1)
 
 ;; Whitespace Mode
 (setq-default whitespace-line-column nil) ; Use fill-column value
 (add-hook 'before-save-hook 'whitespace-cleanup)
+
+(inj0h:evil-local-overload
+ :mode xref--xref-buffer
+ :bindings ((motion . ("<return>" . xref-goto-xref))))
 
 ;;; 07. Vanilla Programming Language Packages:
 
@@ -456,11 +534,13 @@ E.g.
 
 (setq sh-indentation inj0h:default-indent)
 
-(inj0h:setup-mode
+(inj0h:setup
  :mode text-mode
  :assf ("COMMIT_EDITMSG")
  :assm (flyspell-mode)
- :conf ((setq-local fill-column inj0h:default-column)))
+ :conf ((setq-local evil-shift-width 2
+                    fill-column inj0h:default-column
+                    tab-width 2)))
 
 ;;; 08. Org Mode:
 
@@ -502,10 +582,10 @@ E.g.
                            (lambda (date) 'org-agenda-date))
                           (org-agenda-format-date "%Y.%m.%d %A")))
               (agenda "" ((org-agenda-block-separator nil)
-                          (org-agenda-overriding-header "\nNext Five Days:")
+                          (org-agenda-overriding-header "\nNext Two Weeks:")
                           (org-agenda-start-on-weekday nil)
-                          (org-agenda-start-day "+1d") ; Start after 1 day to avoid overlap with the previous section
-                          (org-agenda-span 5)
+                          (org-agenda-start-day "+1d") ; Start after 1 day to avoid overlap
+                          (org-agenda-span 14)
                           (org-deadline-warning-days 0)
                           (org-agenda-skip-function
                            '(org-agenda-skip-entry-if 'todo 'done))
@@ -514,7 +594,7 @@ E.g.
                           (org-agenda-overriding-header "\nNext Thirty Days:")
                           (org-agenda-time-grid nil)
                           (org-agenda-start-on-weekday nil)
-                          (org-agenda-start-day "+6d") ; Start after 5 days to avoid overlap with the previous section
+                          (org-agenda-start-day "+15d") ; Start after 1+14 days to avoid overlap
                           (org-agenda-span 30)
                           (org-agenda-show-all-dates nil)
                           (org-deadline-warning-days 0)
@@ -526,11 +606,17 @@ E.g.
 ;; NOTE: Creating TODOs doesn't always auto-revert the TODO Org buffer
 ;;       (Emacs 28.2, macOS 11)
 (setq org-capture-templates
-      '(("t"
-         "File TODO"
+      '(("a"
+         "TODO Default"
          entry
          (file "todos.org")
-         "* TODO %?\n** Subtasks [/]\n** Notes\n")))
+         "* TODO %?\n** Subtasks [/]\n** Notes\n")
+        ("b"
+         "TODO PR Code Change"
+         entry
+         (file "todos.org")
+         "* TODO Complete %?\n** Subtasks [/]\n- [ ] Implement\n- [ ] Test\n- [ ] Merge\n- [ ] Update Tickets\n** Notes\n")
+        ))
 
 ;;; 09. Package Management:
 
@@ -554,7 +640,7 @@ E.g.
                     json-mode
                     kuronami-theme
                     markdown-mode
-                    ; nix-mode ; (ㅜㅜ)
+                    ; nix-mode ; ㅜㅜ
                     org-bullets
                     rust-mode
                     swift-mode
@@ -580,8 +666,18 @@ E.g.
 (evil-mode 1)
 (evil-escape-mode t)
 (evil-select-search-module 'evil-search-module 'evil-search)
-(setq evil-ex-complete-emacs-commands 'never ; Broken
+(setq evil-ex-complete-emacs-commands 'never ; Broken on Mac
       evil-want-empty-ex-last-command nil)
+
+;; Remove the following modes from evil-emacs-state-modes and add them to
+;; evil-motion-state-modes instead
+(dolist (mode '(ibuffer-mode
+                occur-mode
+                vc-annotate-mode
+                xref--xref-buffer-mode))
+  (delq mode evil-emacs-state-modes)
+  (add-to-list 'evil-motion-state-modes mode))
+(setq evil-emacs-state-modes evil-emacs-state-modes)
 
 (define-key evil-insert-state-map (kbd "\C-n")
   '(lambda ()
@@ -610,71 +706,40 @@ E.g.
               evil-escape-excluded-states '(normal visual motion)
               evil-escape-delay 0.2)
 
-(define-prefix-command 'inj0h:evil-leader-keymap)
-
-;; Using evil-define-key here will not bind additional mappings from other
-;; plugins for some reason, whereas define-key does what we want
-(define-key evil-motion-state-map (kbd "SPC") 'inj0h:evil-leader-keymap)
-
-;; TODO(): Refactor these using Evil Mode's leader API
-(setq inj0h:evil-leader-bindings
-      '(("'" . (lambda ()
-                 (interactive) (org-agenda nil "A") (delete-other-windows)))
-        ("," . (lambda ()
-                 (interactive) (org-capture nil "t") (delete-other-windows)))
-        ("." . xref-find-definitions)
-        ("p" . occur)
-        ("g" . inj0h:grep-from-here)
-        ("C" . inj0h:compile)
-        ("c" . inj0h:compile-again)
-        ("r" . align-regexp)
-        ("a" . apropos)
-        ("o" . switch-to-buffer)
-        ("e" . find-file)
-        ("n" . count-words-region)
-        ("s" . sort-lines)
-        (";" . server-edit)
-        ("b" . ibuffer)
-        ("w" . whitespace-mode)))
-
-(inj0h:create-keybindings inj0h:evil-leader-keymap inj0h:evil-leader-bindings)
-
-;; The following keybindings only affect the particular mode
-
-(inj0h:create-leader-local-keybindings
- "SPC"
- 'compilation-mode-hook
- 'inj0h:evil-leader-compilation-keymap
- (append inj0h:evil-leader-bindings
-         '(("mk" . kill-compilation)
-           ("mr" . recompile))))
-
-(inj0h:create-leader-local-keybindings
- "SPC"
- 'dired-mode-hook
- 'inj0h:evil-leader-dired-keymap
- (append inj0h:evil-leader-bindings
-         '(("mw" . wdired-change-to-wdired-mode))))
-
-(add-hook 'ibuffer-mode-hook
-          '(lambda () (local-set-key (kbd "SPC") 'inj0h:evil-leader-keymap)))
-
-(with-eval-after-load 'org
-  (inj0h:create-leader-evil-keybindings
-   "SPC"
-   org-mode-map
-   'motion
-   'inj0h:evil-leader-org-keymap
-   (append inj0h:evil-leader-bindings
-           '(("ma" . org-archive-subtree)
-             ("mc" . org-copy-subtree)
-             ("mD" . (lambda () (interactive) (org-deadline '(4))))
-             ("md" . org-deadline)
-             ("mi" . org-insert-heading)
-             ("mp" . org-paste-subtree)
-             ("mS" . (lambda () (interactive) (org-schedule '(4))))
-             ("ms" . org-schedule)
-             ("mx" . org-cut-subtree)))))
+(inj0h:evil-leader
+ :key "SPC"
+ :bindings (("'" . (lambda ()
+                     (interactive) (org-agenda nil "A") (delete-other-windows)))
+            ("," . org-capture)
+            ("." . xref-find-definitions)
+            ("p" . occur)
+            ("g" . inj0h:grep-from-here)
+            ("C" . inj0h:compile)
+            ("c" . inj0h:compile-again)
+            ("r" . align-regexp)
+            ("a" . apropos)
+            ("o" . switch-to-buffer)
+            ("e" . find-file)
+            ("n" . count-words-region)
+            ("s" . sort-lines)
+            (";" . server-edit)
+            ("b" . ibuffer)
+            ("w" . whitespace-mode))
+ :per-mode ((compilation . (("k" . kill-compilation)
+                            ("r" . recompile)))
+            (dired       . (("w" . wdired-change-to-wdired-mode)))
+            (ibuffer     . ())
+            (org         . (("a" . org-archive-subtree)
+                            ("c" . org-copy-subtree)
+                            ("D" . (lambda ()
+                                     (interactive) (org-deadline '(4))))
+                            ("d" . org-deadline)
+                            ("i" . org-insert-heading)
+                            ("p" . org-paste-subtree)
+                            ("S" . (lambda ()
+                                     (interactive) (org-schedule '(4))))
+                            ("s" . org-schedule)
+                            ("x" . org-cut-subtree)))))
 
 ;;; 11. Non-Vanilla Packages:
 
@@ -699,13 +764,13 @@ E.g.
 
 ;;; 12. Non-Vanilla Programming Language Packages:
 
-(inj0h:setup-mode
+(inj0h:setup
  :mode go-mode
  :conf ((let ((go-indent 2))
           (setq-local evil-shift-width go-indent
                       tab-width go-indent))))
 
-(inj0h:setup-mode
+(inj0h:setup
  :mode json-mode
  :assf ("\\.eslintrc\\'" "\\.prettierrc\\'")
  :conf ((let ((json-indent 2))
@@ -713,7 +778,7 @@ E.g.
                       js-indent-level json-indent
                       tab-width json-indent))))
 
-(inj0h:setup-mode
+(inj0h:setup
  :mode markdown-mode
  :assf-mode gfm-mode
  :assf ("\\.md\\'" )
@@ -724,19 +789,18 @@ E.g.
                (setq markdown-command "/usr/local/bin/pandoc")))
         (setq-local fill-column inj0h:default-column)))
 
-(inj0h:setup-mode
+(inj0h:setup
  :mode rust-mode
  :conf ((setq-local fill-column 99)))
 
-
-(inj0h:setup-mode
+(inj0h:setup
  :mode yaml-mode
  :conf ((let ((yaml-indent 2))
           (setq yaml-indent-offset yaml-indent)
           (setq-local evil-shift-width yaml-indent
                       tab-width yaml-indent))))
 
-(inj0h:setup-mode
+(inj0h:setup
  :mode zig-mode
  :conf ((setq zig-format-on-save nil)
         (setq-local fill-column 100)))
