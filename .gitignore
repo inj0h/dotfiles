@@ -6,6 +6,7 @@
 !.gitconfig
 !.gitignore
 !Brewfile
+!chrome_plug.sh
 !dotemacs.el
 !mac.terminal
 !readme.txt
