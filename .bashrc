@@ -14,6 +14,7 @@ alias gl="git log"
 alias groot='cd $(git rev-parse --show-toplevel)'
 alias gs="git status"
 alias gsroot='cd $(git rev-parse --show-superproject-working-tree)'
+alias gundo='git reset HEAD~'
 alias treee="tree -aC -I '.git|node_modules|target' ."
 case "$(uname -s)" in
     "Darwin")

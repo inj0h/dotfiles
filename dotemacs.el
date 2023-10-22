@@ -71,7 +71,7 @@ error message in the minibuffer. You can call this function interactively."
           (switch-to-buffer comp-buffer)
           (delete-other-windows)
           (recompile))
-      (message "Error: You have not tried to compile anything yet."))))
+      (message "ERROR: You have not tried to compile anything yet."))))
 
 (defun inj0h:compile-with-color ()
   "Colorize from `compilation-filter-start' to `point'.
@@ -120,6 +120,23 @@ You can call this function interactively."
                            "\"" query "\""
                            " .")))
     (grep grep-args)))
+
+(defun inj0h:org-insert-sourceblock (lang)
+  "For Org mode, insert Org language source blocks using the user-specified
+language mode text.
+
+You can call this function interactively."
+  (if (eq major-mode 'org-mode)
+      (interactive "sLanguage mode:")
+    (insert
+     (format "#+BEGIN_SRC %s\n\n#+END_SRC" lang))
+    (forward-line -1)
+    (goto-char (line-end-position))
+    (when (bound-and-true-p evil-mode)
+      (progn
+        (evil-insert-state)
+        (message "INSERT mode enabled")))
+    (message "ERROR: You can only call this function in Org mode")))
 
 ;; TODO(): Check this works on Windows (CMD and PowerShell)
 (defun inj0h:tag-files (dir filetype)
@@ -354,7 +371,7 @@ E.g.
 (setq default-buffer-file-coding-system 'utf-8-unix)
 
 ;; Font
-(set-frame-font "Iosevka-14" nil t) ; Make sure the OS has this installed!
+(set-frame-font "Iosevka Fixed-14" nil t) ; Make sure the OS has this installed!
 
 ;; Formatting
 (setq c-basic-offset inj0h:default-indent
@@ -432,7 +449,8 @@ E.g.
 (setq ibuffer-default-sorting-mode 'filename/process)
 (inj0h:evil-local-overload
  :mode ibuffer
- :bindings ((motion . ("<return>" . ibuffer-visit-buffer))))
+ :bindings ((motion . ("<return>" . ibuffer-visit-buffer))
+            (motion . ("g"        . ibuffer-update))))
 
 (setq ido-auto-merge-work-directories-length -1
       ido-case-fold t
@@ -469,7 +487,8 @@ E.g.
 
 (inj0h:evil-local-overload
  :mode occur
- :bindings ((motion . ("<return>" . occur-mode-goto-occurrence))))
+ :bindings ((motion . ("<return>" . occur-mode-goto-occurrence))
+            (motion . ("g"        . revert-buffer))))
 
 (require 'server)
 (unless (server-running-p) (server-start))
@@ -711,6 +730,7 @@ E.g.
  :bindings (("'" . (lambda ()
                      (interactive) (org-agenda nil "A") (delete-other-windows)))
             ("," . org-capture)
+            (">" . inj0h:tag-files)
             ("." . xref-find-definitions)
             ("p" . occur)
             ("g" . inj0h:grep-from-here)
@@ -724,7 +744,8 @@ E.g.
             ("s" . sort-lines)
             (";" . server-edit)
             ("b" . ibuffer)
-            ("w" . whitespace-mode))
+            ("w" . whitespace-mode)
+            ("v" . vc-annotate))
  :per-mode ((compilation . (("k" . kill-compilation)
                             ("r" . recompile)))
             (dired       . (("w" . wdired-change-to-wdired-mode)))
