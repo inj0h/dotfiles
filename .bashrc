@@ -10,10 +10,12 @@ alias gb="git branch"
 alias gc="git commit"
 alias gch="git checkout"
 alias gd="git diff"
-alias gl="git log"
+alias gL="git log"
+alias gl="git --no-pager log | head -n 30"
 alias groot='cd $(git rev-parse --show-toplevel)'
 alias gs="git status"
 alias gsroot='cd $(git rev-parse --show-superproject-working-tree)'
+alias gt="git stash"
 alias gundo='git reset HEAD~'
 alias treee="tree -aC -I '.git|node_modules|target' ."
 case "$(uname -s)" in
@@ -36,6 +38,10 @@ gr() {
          --exclude 'Cargo.lock'\
          --exclude 'package-lock.json'\
          -Iinr "$1" .
+}
+
+gT() {
+    git stash show -p stash@{"$1"}
 }
 
 ### (More) OS Specific Stuff:

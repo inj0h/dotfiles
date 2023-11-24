@@ -12,9 +12,9 @@
       gc-cons-percentage 0.9)
 
 ;; Restore default garbage collection settings
-(add-hook 'emacs-startup-hook '(lambda ()
-                                 (setq gc-cons-threshold 800000
-                                       gc-cons-percentage 0.1)))
+(add-hook 'emacs-startup-hook #'(lambda ()
+                                  (setq gc-cons-threshold 800000
+                                        gc-cons-percentage 0.1)))
 
 ;; Get in the text editor!
 (setq initial-scratch-message
@@ -32,10 +32,10 @@
 mode hooks."
   (dolist (mode bind-modes)
     (add-hook mode
-              '(lambda ()
-                 (progn
-                   (local-set-key (kbd "j") 'next-line)
-                   (local-set-key (kbd "k") 'previous-line))))))
+              #'(lambda ()
+                  (progn
+                    (local-set-key (kbd "j") 'next-line)
+                    (local-set-key (kbd "k") 'previous-line))))))
 
 (defun inj0h:add-word-to-dictionary ()
   "Add the word-at-point to aspell's dictionary. You can call this function
@@ -122,23 +122,23 @@ You can call this function interactively."
     (grep grep-args)))
 
 (defun inj0h:org-insert-sourceblock (lang)
-  "For Org mode, insert Org language source blocks using the user-specified
-language mode text.
+  "Insert Org language source blocks using the user-specified language mode and
+open the `org-edit-special' buffer accordingly. This function assumes the user
+has enabled `org-mode' for the current buffer. When the user has enabled
+`evil-mode', then switch to INSERT mode.
 
 You can call this function interactively."
-  (if (eq major-mode 'org-mode)
-      (interactive "sLanguage mode:")
-    (insert
-     (format "#+BEGIN_SRC %s\n\n#+END_SRC" lang))
-    (forward-line -1)
-    (goto-char (line-end-position))
-    (when (bound-and-true-p evil-mode)
-      (progn
-        (evil-insert-state)
-        (message "INSERT mode enabled")))
-    (message "ERROR: You can only call this function in Org mode")))
+  (interactive "sLanguage mode:")
+  (insert
+   (format "#+BEGIN_SRC %s\n\n#+END_SRC" lang))
+  (forward-line -1)
+  (org-edit-special)
+  (when (bound-and-true-p evil-mode)
+    (progn
+      (evil-insert-state)
+      (message "INSERT mode enabled"))))
 
-;; TODO(): Check this works on Windows (CMD and PowerShell)
+;; TODO() Check this works on Windows (CMD and PowerShell)
 (defun inj0h:tag-files (dir filetype)
   "Create then load an etags \"TAGS\" file for FILETYPE recursively searched
 under DIR. This method will create the etags file under DIR. Correct behavior
@@ -181,8 +181,8 @@ For a LIST of size 1 or size 0 - I.e. the empty list, return nil."
 
 ;;; 03. User Macros:
 
-;; TODO(): Refactor error handling for bad argument values, E.g. a mode that
-;;         doesn't exist
+;; TODO() Refactor error handling for bad argument values, E.g. a mode that
+;;        doesn't exist
 (defmacro inj0h:setup (&rest args)
   "Set up an extant mode with the following parameters:
 
@@ -206,7 +206,7 @@ E.g.
  :assm (flyspell-mode)
  :conf ((setq-local fill-column 80)))"
   (let* ((parsed-list (inj0h:zip-pair args))
-         (labels (mapcar '(lambda (pl) (symbol-name (car pl))) parsed-list))
+         (labels (mapcar #'(lambda (pl) (symbol-name (car pl))) parsed-list))
          (required-labels '(":mode" ":conf"))
          (valid-labels (append required-labels
                                '(":hook" ":assf" ":assf-mode" ":assm")))
@@ -389,7 +389,7 @@ E.g.
 
 ;; Minibuffer
 (defalias 'yes-or-no-p 'y-or-n-p)
-(add-hook 'minibuffer-setup-hook '(lambda () (setq truncate-lines nil)))
+(add-hook 'minibuffer-setup-hook #'(lambda () (setq truncate-lines nil)))
 
 ;; Mouse
 (setq mouse-drag-copy-region nil
@@ -433,9 +433,9 @@ E.g.
 (setq ediff-split-window-function 'split-window-horizontally
       ediff-window-setup-function 'ediff-setup-windows-plain)
 ;; Return to the buffer where the user called ediff-buffers
-(add-hook 'ediff-quit-hook '(lambda ()
-                              (other-window 1)
-                              (delete-other-windows)))
+(add-hook 'ediff-quit-hook #'(lambda ()
+                               (other-window 1)
+                               (delete-other-windows)))
 
 ;; Flyspell/Ispell
 (setq flyspell-default-dictionary "en_US")
@@ -462,10 +462,10 @@ E.g.
       '(("<up>"   . isearch-repeat-backward)
         ("<down>" . isearch-repeat-forward)))
 (add-hook 'isearch-mode-hook
-          '(lambda ()
-             (dolist (bindings inj0h:isearch-mode-keybindings)
-               (define-key isearch-mode-map
-                 (kbd (car bindings)) (cdr bindings)))))
+          #'(lambda ()
+              (dolist (bindings inj0h:isearch-mode-keybindings)
+                (define-key isearch-mode-map
+                  (kbd (car bindings)) (cdr bindings)))))
 
 (setq-default ; Mostly to remove vc stuff
  mode-line-format
@@ -500,13 +500,13 @@ E.g.
 (add-hook 'prog-mode-hook 'subword-mode)
 
 (add-hook 'tetris-mode-hook
-          '(lambda ()
-             (inj0h:create-keybindings
-              tetris-mode-map
-              '(("," . tetris-rotate-prev)
-                ("a" . tetris-move-left)
-                ("o" . tetris-move-down)
-                ("e" . tetris-move-right)))))
+          #'(lambda ()
+              (inj0h:create-keybindings
+               tetris-mode-map
+               '(("," . tetris-rotate-prev)
+                 ("a" . tetris-move-left)
+                 ("o" . tetris-move-down)
+                 ("e" . tetris-move-right)))))
 
 (setq tramp-default-method "ssh")
 
@@ -526,36 +526,36 @@ E.g.
 
 ;;; 07. Vanilla Programming Language Packages:
 
-(add-hook 'java-mode-hook '(lambda ()
-                             (let ((java-indent 2)) ; Blame Google
-                               (setq-local c-basic-offset java-indent
-                                           fill-column 100
-                                           evil-shift-width java-indent
-                                           tab-width java-indent))))
+(add-hook 'java-mode-hook #'(lambda ()
+                              (let ((java-indent 2)) ; Blame Google
+                                (setq-local c-basic-offset java-indent
+                                            fill-column 100
+                                            evil-shift-width java-indent
+                                            tab-width java-indent))))
 
-(add-hook 'js-mode-hook '(lambda ()
-                           (let ((js-indent inj0h:default-indent))
-                             (setq-local evil-shift-width js-indent
-                                         js-indent-level js-indent
-                                         tab-width js-indent))))
+(add-hook 'js-mode-hook #'(lambda ()
+                            (let ((js-indent inj0h:default-indent))
+                              (setq-local evil-shift-width js-indent
+                                          js-indent-level js-indent
+                                          tab-width js-indent))))
 
 (add-hook 'latex-mode-hook
-          '(lambda () (setq-local fill-column inj0h:default-column)))
+          #'(lambda () (setq-local fill-column inj0h:default-column)))
 (add-hook 'latex-mode-hook 'flyspell-mode)
 
 (add-hook 'nxml-mode-hook
-          '(lambda ()
-             (let ((xml-indent 2))
-               (setq nxml-attribute-indent xml-indent
-                     nxml-child-indent xml-indent)
-               (setq-local evil-shift-width xml-indent
-                           tab-width xml-indent))))
+          #'(lambda ()
+              (let ((xml-indent 2))
+                (setq nxml-attribute-indent xml-indent
+                      nxml-child-indent xml-indent)
+                (setq-local evil-shift-width xml-indent
+                            tab-width xml-indent))))
 
 (setq sh-indentation inj0h:default-indent)
 
 (inj0h:setup
  :mode text-mode
- :assf ("COMMIT_EDITMSG")
+ :assf ("COMMIT_EDITMSG" "\\.journal\\'")
  :assm (flyspell-mode)
  :conf ((setq-local evil-shift-width 2
                     fill-column inj0h:default-column
@@ -582,7 +582,7 @@ E.g.
 (setq-default org-display-custom-times t)
 
 (add-hook 'org-mode-hook
-          '(lambda () (setq-local fill-column inj0h:default-column)))
+          #'(lambda () (setq-local fill-column inj0h:default-column)))
 (add-hook 'org-mode-hook 'org-indent-mode)
 
 (with-eval-after-load 'org-agenda
@@ -643,7 +643,7 @@ E.g.
 ;;       '(("http"  . "proxy:port")
 ;;         ("https" . "proxy:port")))
 
-;; TODO(): Refactor this code so that it correctly installs missing packages
+;; TODO() Refactor this code so that it correctly installs missing packages
 (require 'package)
 (package-initialize)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
@@ -653,6 +653,8 @@ E.g.
 
 (dolist (packages '(corfu
                     diminish
+                    drag-stuff
+                    edit-indirect
                     evil
                     evil-escape
                     go-mode
@@ -699,8 +701,8 @@ E.g.
 (setq evil-emacs-state-modes evil-emacs-state-modes)
 
 (define-key evil-insert-state-map (kbd "\C-n")
-  '(lambda ()
-     (interactive) (dabbrev-completion 1))) ; Search in same Major Mode Buffers
+  #'(lambda ()
+      (interactive) (dabbrev-completion 1))) ; Search in same Major Mode Buffers
 (define-key evil-normal-state-map (kbd "\C-r") 'undo-fu-only-redo)
 (define-key evil-normal-state-map "u" 'undo-fu-only-undo)
 
@@ -737,6 +739,7 @@ E.g.
             ("C" . inj0h:compile)
             ("c" . inj0h:compile-again)
             ("r" . align-regexp)
+            ("l" . global-display-line-numbers-mode)
             ("a" . apropos)
             ("o" . switch-to-buffer)
             ("e" . find-file)
@@ -755,6 +758,7 @@ E.g.
                             ("D" . (lambda ()
                                      (interactive) (org-deadline '(4))))
                             ("d" . org-deadline)
+                            ("e" . inj0h:org-insert-sourceblock)
                             ("i" . org-insert-heading)
                             ("p" . org-paste-subtree)
                             ("S" . (lambda ()
@@ -778,6 +782,13 @@ E.g.
 (diminish 'evil-escape-mode)
 (with-eval-after-load 'org-indent (diminish 'org-indent-mode))
 (with-eval-after-load 'subword (diminish 'subword-mode))
+
+(require 'drag-stuff)
+(diminish 'drag-stuff-mode)
+(drag-stuff-global-mode 1)
+(add-hook 'org-mode-hook #'(lambda () (drag-stuff-mode -1)))
+(define-key drag-stuff-mode-map (kbd "M-<up>") 'drag-stuff-up)
+(define-key drag-stuff-mode-map (kbd "M-<down>") 'drag-stuff-down)
 
 (load-theme 'kuronami t)
 
