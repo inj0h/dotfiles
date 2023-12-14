@@ -124,8 +124,8 @@ You can call this function interactively."
 (defun inj0h:org-insert-sourceblock (lang)
   "Insert Org language source blocks using the user-specified language mode and
 open the `org-edit-special' buffer accordingly. This function assumes the user
-has enabled `org-mode' for the current buffer. When the user has enabled
-`evil-mode', then switch to INSERT mode.
+has enabled `org-mode' for the current buffer. When the user has `evil-mode'
+enabled, then switch to INSERT mode.
 
 You can call this function interactively."
   (interactive "sLanguage mode:")
@@ -153,6 +153,30 @@ You can call this function interactively."
      (format "find %s -type f -iname \"*.%s\" | etags -" dir filetype))
     (visit-tags-table "TAGS")
     (cd original-buffer-dir)))
+
+(defun inj0h:todo (name)
+  "At the current cursor position, insert the text \"TODO('NAME') 'POINT'\" such
+that the user provides a string value for NAME and the cursor moves to POINT
+after the insertion.
+
+When called from `prog-mode' derived modes, insert the relevant comment symbols
+before the \"TODO('NAME') \" text.
+
+When the user has `evil-mode' enabled, then switch to INSERT mode.
+
+You can call this function interactively."
+  (interactive "sName:")
+  (insert comment-start)
+  (if (= (length comment-start) 1) ; Adjust start padding
+      (insert comment-start " "))
+  (insert (format "TODO(%s) " name) comment-end)
+  (let ((shift-left (length comment-end))) ; Adjust for end padding
+    (when (> shift-left 0)
+      (backward-char shift-left)))
+  (when (bound-and-true-p evil-mode)
+    (progn
+      (evil-insert-state)
+      (message "INSERT mode enabled"))))
 
 (defun inj0h:zip-pair (list)
   "Return a list of cons cells from LIST.
@@ -363,8 +387,8 @@ E.g.
 (load custom-file 'noerror)
 
 ;; Encoding
-;; TODO: Test how to thoroughly set this up to conveniently adapt for both
-;;       Windows and Unix
+;; TODO() Test how to thoroughly set this up to conveniently adapt for both
+;;        Windows and Unix
 (prefer-coding-system 'utf-8-unix)
 (set-default-coding-systems 'utf-8-unix)
 (set-language-environment "UTF-8")
@@ -700,6 +724,7 @@ E.g.
   (add-to-list 'evil-motion-state-modes mode))
 (setq evil-emacs-state-modes evil-emacs-state-modes)
 
+(define-key evil-insert-state-map (kbd "\C-c t") 'inj0h:todo)
 (define-key evil-insert-state-map (kbd "\C-n")
   #'(lambda ()
       (interactive) (dabbrev-completion 1))) ; Search in same Major Mode Buffers
