@@ -121,22 +121,24 @@ You can call this function interactively."
                            " .")))
     (grep grep-args)))
 
-(defun inj0h:org-insert-sourceblock (lang)
-  "Insert Org language source blocks using the user-specified language mode and
-open the `org-edit-special' buffer accordingly. This function assumes the user
-has enabled `org-mode' for the current buffer. When the user has `evil-mode'
-enabled, then switch to INSERT mode.
+(defun inj0h:md-insert-sourceblock (lang)
+  "When in `markdown-mode', insert Markdown language source blocks using the
+user-specified language mode and open the `edit-indirect' buffer accordingly.
+Otherwise, output an error message.
+
+Correct functionality assumes the user has both `markdown-mode' and
+`edit-indirect' installed.
 
 You can call this function interactively."
   (interactive "sLanguage mode:")
-  (insert
-   (format "#+BEGIN_SRC %s\n\n#+END_SRC" lang))
-  (forward-line -1)
-  (org-edit-special)
-  (when (bound-and-true-p evil-mode)
-    (progn
-      (evil-insert-state)
-      (message "INSERT mode enabled"))))
+  (let ((md-mode "markdown-mode"))
+    (if (string= md-mode (print major-mode))
+        (progn
+          (insert
+           (format "```%s\n```" lang))
+          (previous-line 1)
+          (markdown-edit-code-block))
+      (message "You can only call this function from %s!" md-mode))))
 
 ;; TODO() Check this works on Windows (CMD and PowerShell)
 (defun inj0h:tag-files (dir filetype)
@@ -166,13 +168,16 @@ When the user has `evil-mode' enabled, then switch to INSERT mode.
 
 You can call this function interactively."
   (interactive "sName:")
-  (insert comment-start)
-  (if (= (length comment-start) 1) ; Adjust start padding
-      (insert comment-start " "))
-  (insert (format "TODO(%s) " name) comment-end)
-  (let ((shift-left (length comment-end))) ; Adjust for end padding
-    (when (> shift-left 0)
-      (backward-char shift-left)))
+  (if (derived-mode-p 'prog-mode)
+      (progn
+        (insert comment-start)
+        (when (= (length comment-start) 1) ; Adjust start padding
+          (insert comment-start " "))
+        (insert (format "TODO(%s) " name) comment-end)
+        (let ((shift-left (length comment-end))) ; Adjust end padding
+          (when (> shift-left 0)
+            (backward-char shift-left))))
+    (insert (format "TODO(%s) " name)))
   (when (bound-and-true-p evil-mode)
     (progn
       (evil-insert-state)
@@ -204,86 +209,6 @@ For a LIST of size 1 or size 0 - I.e. the empty list, return nil."
       (nreverse acc))))
 
 ;;; 03. User Macros:
-
-;; TODO() Refactor error handling for bad argument values, E.g. a mode that
-;;        doesn't exist
-(defmacro inj0h:setup (&rest args)
-  "Set up an extant mode with the following parameters:
-
-- :mode (required) = Name of an extant mode
-- :hook            = Name of the hook for :mode; do not provide unless the
-                     mode's hook name differs from the \"modename-hook\" naming
-                     convention
-- :assf            = List of filenames or extensions to associate with :mode
-- :assf-mode       = Override :mode with this value for :assf
-- :assm            = List of other modes to load with :mode
-- :conf (required) = List of expressions to evaluate when first loading :mode
-
-These arguments will evaluate lazily - After loading the mode. Do not use this
-macro to setup modes that Emacs loads by default.
-
-E.g.
-
-(inj0h:setup
- :mode text-mode
- :assf (\"COMMIT_EDITMSG\")
- :assm (flyspell-mode)
- :conf ((setq-local fill-column 80)))"
-  (let* ((parsed-list (inj0h:zip-pair args))
-         (labels (mapcar #'(lambda (pl) (symbol-name (car pl))) parsed-list))
-         (required-labels '(":mode" ":conf"))
-         (valid-labels (append required-labels
-                               '(":hook" ":assf" ":assf-mode" ":assm")))
-         (invalid-args nil)
-         (incomplete-args nil))
-
-    ;; Check that arguments are valid:
-    (dolist (l labels)
-      (when (not (member l valid-labels))
-        (setq invalid-args t)))
-
-    ;; Check required arguments:
-    (dolist (rl required-labels)
-      (when (not (member rl labels))
-        (setq incomplete-args t)))
-
-    `(let* ((mode ',(inj0h:get-from-list-else parsed-list ":mode" nil))
-            (mode-name (if mode (symbol-name mode) "INVALID_MODE")))
-       (cond (,invalid-args
-              (message
-               "Found invalid arguments labels while calling inj0h:setup
-               for %s!" mode-name))
-             (,incomplete-args
-              (message
-               "Missing required argument labels while calling inj0h:setup
-               for %s!" mode-name))
-             (t
-              (message "Calling inj0h:setup for %s..." mode-name)
-              (let* ((hook ',(inj0h:get-from-list-else parsed-list ":hook" nil))
-                     (assf ',(inj0h:get-from-list-else parsed-list ":assf" nil))
-                     (assf-mode
-                      ',(inj0h:get-from-list-else parsed-list ":assf-mode" nil))
-                     (assm ',(inj0h:get-from-list-else parsed-list ":assm" nil))
-                     (conf (cons 'lambda (cons '()
-                                               ',(inj0h:get-from-list-else
-                                                  parsed-list ":conf" nil)))))
-                (with-eval-after-load mode
-                  (let ((use-hook (if hook
-                                      hook
-                                    (intern
-                                     (concat (symbol-name mode) "-hook")))))
-                    (when assf
-                      (let* ((use-mode (if assf-mode assf-mode mode))
-                             (filetypes
-                              (mapcar #'(lambda (x) (cons x use-mode)) assf)))
-                        (dolist (ft filetypes)
-                          (add-to-list 'auto-mode-alist ft))))
-
-                    (when assm
-                      (dolist (md assm) (add-hook use-hook md)))
-
-                    (add-hook use-hook conf))))
-              (message "Completed inj0h:setup for %s" mode-name))))))
 
 (defmacro inj0h:evil-leader (:key key :bindings binds :per-mode permode)
   "For Evil mode, create Vim style leader bindings using the following
@@ -332,6 +257,9 @@ such that each mode creates a variable with its name."
          (cond ((string= "org" modename)
                 ;; local-set-key breaks SPC for insert mode in Org... ㅜㅜ
                 (evil-define-key 'motion org-mode-map leaderkey mkeymap))
+               ((string= "markdown" modename)
+                ;; local-set-key breaks SPC for insert mode in Markdown... ㅜㅜ
+                (evil-define-key 'motion markdown-mode-map leaderkey mkeymap))
                (t
                 (add-hook hook (lambda () (local-set-key leaderkey mkeymap)))))
          (when pmbinds
@@ -364,6 +292,73 @@ E.g.
                          (key (cadr b))
                          (function (cddr b)))
                      (evil-local-set-key vimode (kbd key) function)))))))
+
+;; TODO() Refactor error handling for bad argument values, E.g. a mode that
+;;        doesn't exist
+(defmacro inj0h:setup (&rest args)
+  "Set up an extant mode with the following parameters:
+
+- :mode (required) = Name of an extant mode without the \"-mode\" suffix
+- :assf            = List of filenames or extensions to associate with :mode
+- :assm            = List of other modes to load with :mode
+- :conf (required) = List of expressions to evaluate when first loading :mode
+
+Parameters :ASSF and :ASSM will evaluate when invoking this macro. Parameter
+:conf will evaluate lazily - after loading the mode argument.
+
+E.g.
+
+(inj0h:setup
+ :mode text-mode
+ :assf (\"COMMIT_EDITMSG\")
+ :assm (flyspell-mode)
+ :conf ((setq-local fill-column 80)))"
+  (let* ((parsed-list (inj0h:zip-pair args))
+         (labels (mapcar #'(lambda (pl) (symbol-name (car pl))) parsed-list))
+         (required-labels '(":mode" ":conf"))
+         (valid-labels (append required-labels '(":assf" ":assm")))
+         (invalid-args nil)
+         (incomplete-args nil))
+
+    ;; Check that arguments are valid:
+    (dolist (l labels)
+      (when (not (member l valid-labels))
+        (setq invalid-args t)))
+
+    ;; Check required arguments:
+    (dolist (rl required-labels)
+      (when (not (member rl labels))
+        (setq incomplete-args t)))
+
+    `(let* ((mode ',(inj0h:get-from-list-else parsed-list ":mode" nil))
+            (mode-name
+             (if mode (concat (symbol-name mode) "-mode") "INVALID_MODE"))
+            (mode-symb (intern mode-name)))
+       (cond (,invalid-args
+              (message
+               "Found invalid arguments labels while calling inj0h:setup
+               for %s!" mode-name))
+             (,incomplete-args
+              (message
+               "Missing required argument labels while calling inj0h:setup
+               for %s!" mode-name))
+             (t
+              (message "Calling inj0h:setup for %s..." mode-name)
+              (let ((assf ',(inj0h:get-from-list-else parsed-list ":assf" nil))
+                    (assm ',(inj0h:get-from-list-else parsed-list ":assm" nil))
+                    (conf (cons 'lambda (cons '()
+                                              ',(inj0h:get-from-list-else
+                                                 parsed-list ":conf" nil))))
+                    (hook (intern (concat mode-name "-hook"))))
+                (when assf
+                  (let ((filetypes
+                         (mapcar #'(lambda (x) (cons x mode-symb)) assf)))
+                    (dolist (ft filetypes)
+                      (add-to-list 'auto-mode-alist ft))))
+                (when assm
+                  (dolist (md assm) (add-hook hook md)))
+                (with-eval-after-load mode-symb (add-hook hook conf)))
+              (message "Completed inj0h:setup for %s" mode-name))))))
 
 ;;; 04. Disable:
 
@@ -578,7 +573,7 @@ E.g.
 (setq sh-indentation inj0h:default-indent)
 
 (inj0h:setup
- :mode text-mode
+ :mode text
  :assf ("COMMIT_EDITMSG" "\\.journal\\'")
  :assm (flyspell-mode)
  :conf ((setq-local evil-shift-width 2
@@ -686,7 +681,6 @@ E.g.
                     kuronami-theme
                     markdown-mode
                     ; nix-mode ; ㅜㅜ
-                    org-bullets
                     rust-mode
                     swift-mode
                     toml-mode
@@ -778,12 +772,12 @@ E.g.
                             ("r" . recompile)))
             (dired       . (("w" . wdired-change-to-wdired-mode)))
             (ibuffer     . ())
+            (markdown    . (("e" . inj0h:md-insert-sourceblock)))
             (org         . (("a" . org-archive-subtree)
                             ("c" . org-copy-subtree)
                             ("D" . (lambda ()
                                      (interactive) (org-deadline '(4))))
                             ("d" . org-deadline)
-                            ("e" . inj0h:org-insert-sourceblock)
                             ("i" . org-insert-heading)
                             ("p" . org-paste-subtree)
                             ("S" . (lambda ()
@@ -817,18 +811,16 @@ E.g.
 
 (load-theme 'kuronami t)
 
-(add-hook 'org-mode-hook 'org-bullets-mode)
-
 ;;; 12. Non-Vanilla Programming Language Packages:
 
 (inj0h:setup
- :mode go-mode
+ :mode go
  :conf ((let ((go-indent 2))
           (setq-local evil-shift-width go-indent
                       tab-width go-indent))))
 
 (inj0h:setup
- :mode json-mode
+ :mode json
  :assf ("\\.eslintrc\\'" "\\.prettierrc\\'")
  :conf ((let ((json-indent 2))
           (setq-local evil-shift-width json-indent
@@ -836,28 +828,30 @@ E.g.
                       tab-width json-indent))))
 
 (inj0h:setup
- :mode markdown-mode
- :assf-mode gfm-mode
- :assf ("\\.md\\'" )
+ :mode markdown
  :assm (flyspell-mode)
- :conf ((cond ((string-equal system-type "gnu/linux")
-               (setq markdown-command "/usr/bin/pandoc"))
-              ((string-equal system-type "darwin")
-               (setq markdown-command "/usr/local/bin/pandoc")))
-        (setq-local fill-column inj0h:default-column)))
+ :conf ())
+(inj0h:evil-local-overload
+ :mode markdown
+ :bindings ((motion . ("\C-c h" . markdown-table-move-column-left))
+            (motion . ("\C-c l" . markdown-table-move-column-right))
+            (motion . ("\C-c j" . markdown-table-move-row-down))
+            (motion . ("\C-c k" . markdown-table-move-row-up))
+            (motion . ("<tab>"  . markdown-cycle))))
 
 (inj0h:setup
- :mode rust-mode
+ :mode rust
  :conf ((setq-local fill-column 99)))
 
 (inj0h:setup
- :mode yaml-mode
+ :mode yaml
  :conf ((let ((yaml-indent 2))
           (setq yaml-indent-offset yaml-indent)
           (setq-local evil-shift-width yaml-indent
                       tab-width yaml-indent))))
 
 (inj0h:setup
- :mode zig-mode
+ :mode zig
  :conf ((setq zig-format-on-save nil)
-        (setq-local fill-column 100)))
+        (setq-local fill-column 100)
+        (zig-format-on-save-mode -1)))
