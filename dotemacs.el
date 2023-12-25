@@ -1,4 +1,10 @@
 ;; -*- lexical-binding: t -*-
+
+;; NOTE: For Emacs 29.1 on Mac, run this shell command to enable the system
+;;       theme on the title bar
+;;
+;;       $ defaults write org.gnu.Emacs NSRequiresAquaSystemAppearance -bool no
+
 ;;; 00. Startup:
 
 ;; 発信準備!/발신 준비!
@@ -50,6 +56,27 @@ interactively."
                            (cadr word)
                            (caddr word)
                            current-location))))
+
+(defun inj0h:check-brackets ()
+  "When `point' lies between two brackets (\"[ ]\") such that either a
+whitespace or an \"x\" character separates them, replace one with the other
+accordingly.
+
+- If [x] then [ ]
+- If [ ] then [x]
+
+You can call this function interactively."
+  (interactive)
+  (if (save-excursion
+        (backward-char)
+        (looking-at "\\[\\([[:space:]]\\|x\\)\\]"))
+      (let* ((spc 32)
+             (x 120)
+             (char (if (= x (following-char)) spc x)))
+        (delete-char 1)
+        (insert-char char)
+        (backward-char))
+    (message "Position not between \"[ ]\" chars!")))
 
 (defun inj0h:compile (dir)
   "Invoke `compilation-mode' after selecting a directory and compilation
@@ -126,6 +153,8 @@ You can call this function interactively."
 user-specified language mode and open the `edit-indirect' buffer accordingly.
 Otherwise, output an error message.
 
+When the user has `evil-mode' enabled, then switch to INSERT mode.
+
 Correct functionality assumes the user has both `markdown-mode' and
 `edit-indirect' installed.
 
@@ -134,10 +163,16 @@ You can call this function interactively."
   (let ((md-mode "markdown-mode"))
     (if (string= md-mode (print major-mode))
         (progn
-          (insert
-           (format "```%s\n```" lang))
-          (previous-line 1)
-          (markdown-edit-code-block))
+          (let ((bname (buffer-name)))
+            (insert
+             (format "```%s\n```" lang))
+            (previous-line 1)
+            (call-interactively #'markdown-edit-code-block)
+            (switch-to-buffer (concat "*edit-indirect " bname "*"))
+            (when (bound-and-true-p evil-mode)
+              (progn
+                (evil-insert-state)
+                (message "INSERT mode enabled")))))
       (message "You can only call this function from %s!" md-mode))))
 
 ;; TODO() Check this works on Windows (CMD and PowerShell)
@@ -418,6 +453,8 @@ E.g.
       scroll-bar-adjust-thumb-portion nil ; Only works on X11
       scroll-preserve-screen-position nil)
 
+(setq undo-limit 9000)
+
 ;; Windows/Frames
 (setq initial-frame-alist '((width . 90) (height . 35)))
 
@@ -603,6 +640,8 @@ E.g.
 (add-hook 'org-mode-hook
           #'(lambda () (setq-local fill-column inj0h:default-column)))
 (add-hook 'org-mode-hook 'org-indent-mode)
+(when (= 29 emacs-major-version) ; Because 29.1 on Mac is slow ㅜㅜ
+  (add-hook 'org-mode-hook (flyspell-mode -1)))
 
 (with-eval-after-load 'org-agenda
   (progn
@@ -722,6 +761,7 @@ E.g.
 (define-key evil-insert-state-map (kbd "\C-n")
   #'(lambda ()
       (interactive) (dabbrev-completion 1))) ; Search in same Major Mode Buffers
+(define-key evil-motion-state-map (kbd "\C-c m") 'inj0h:check-brackets)
 (define-key evil-normal-state-map (kbd "\C-r") 'undo-fu-only-redo)
 (define-key evil-normal-state-map "u" 'undo-fu-only-undo)
 
