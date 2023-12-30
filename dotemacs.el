@@ -289,10 +289,7 @@ such that each mode creates a variable with its name."
               (mkeymap (intern (concat keymap-prefix "-" modename "-keymap")))
               (hook (intern (concat modename "-mode-hook"))))
          (define-prefix-command mkeymap)
-         (cond ((string= "org" modename)
-                ;; local-set-key breaks SPC for insert mode in Org... ㅜㅜ
-                (evil-define-key 'motion org-mode-map leaderkey mkeymap))
-               ((string= "markdown" modename)
+         (cond ((string= "markdown" modename)
                 ;; local-set-key breaks SPC for insert mode in Markdown... ㅜㅜ
                 (evil-define-key 'motion markdown-mode-map leaderkey mkeymap))
                (t
@@ -317,8 +314,8 @@ insert, motion, normal, operator, replace, visual.
 E.g.
 
 (inj0h:evil-local-overload
- :mode org
- :bindings ((insert . (\"C-c b\" . inj0h:insert-custom-bracket))))"
+ :mode occur
+ :bindings ((motion (\"g\" . revert-buffer))))"
   `(let ((modehook (intern (concat (symbol-name ',mode) "-mode-hook"))))
      (add-hook modehook
                (lambda ()
@@ -438,7 +435,6 @@ E.g.
 ;; Keybindings
 (inj0h:add-local-vi-bindings
  '(bookmark-bmenu-mode-hook
-   org-agenda-mode-hook
    package-menu-mode-hook))
 
 ;; Minibuffer
@@ -617,85 +613,7 @@ E.g.
                     fill-column inj0h:default-column
                     tab-width 2)))
 
-;;; 08. Org Mode:
-
-(setq org-directory "~/Documents"
-      org-enforce-todo-dependencies t
-      org-hide-emphasis-markers t
-      org-indent-indentation-per-level 2
-      org-src-fontify-natively t
-      org-src-tab-acts-natively t
-      org-startup-folded t
-      org-time-stamp-custom-formats '("<%Y.%m.%d %A>" . "<%Y.%m.%d %A %H:%M>")
-      org-todo-keywords '((sequence "TODO(t)"
-                                    "ACTIVE(a!)"
-                                    "PAUSED(p!)"
-                                    "BLOCKED(b@/!)"
-                                    "|"
-                                    "DONE(d!)"
-                                    "CANCELED(c@/!)"))
-      org-use-fast-todo-selection t)
-(setq-default org-display-custom-times t)
-
-(add-hook 'org-mode-hook
-          #'(lambda () (setq-local fill-column inj0h:default-column)))
-(add-hook 'org-mode-hook 'org-indent-mode)
-(when (= 29 emacs-major-version) ; Because 29.1 on Mac is slow ㅜㅜ
-  (add-hook 'org-mode-hook (flyspell-mode -1)))
-
-(with-eval-after-load 'org-agenda
-  (progn
-    (setq org-agenda-custom-commands
-          `(("A" "Custom Agenda"
-             ((todo "ACTIVE\|BLOCKED"
-                    ((org-agenda-overriding-header
-                      "You Can (Not) Do It\n\nCurrent:")))
-              (agenda "" ((org-agenda-block-separator ?-)
-                          (org-agenda-overriding-header "\nToday:")
-                          (org-agenda-span 1)
-                          (org-deadline-warning-days 0)
-                          (org-scheduled-past-days 0)
-                          (org-agenda-day-face-function
-                           (lambda (date) 'org-agenda-date))
-                          (org-agenda-format-date "%Y.%m.%d %A")))
-              (agenda "" ((org-agenda-block-separator nil)
-                          (org-agenda-overriding-header "\nNext Two Weeks:")
-                          (org-agenda-start-on-weekday nil)
-                          (org-agenda-start-day "+1d") ; Start after 1 day to avoid overlap
-                          (org-agenda-span 14)
-                          (org-deadline-warning-days 0)
-                          (org-agenda-skip-function
-                           '(org-agenda-skip-entry-if 'todo 'done))
-                          (org-agenda-format-date "%Y.%m.%d %A")))
-              (agenda "" ((org-agenda-block-separator nil)
-                          (org-agenda-overriding-header "\nNext Thirty Days:")
-                          (org-agenda-time-grid nil)
-                          (org-agenda-start-on-weekday nil)
-                          (org-agenda-start-day "+15d") ; Start after 1+14 days to avoid overlap
-                          (org-agenda-span 30)
-                          (org-agenda-show-all-dates nil)
-                          (org-deadline-warning-days 0)
-                          (org-agenda-skip-function
-                           '(org-agenda-skip-entry-if 'todo 'done))
-                          (org-agenda-format-date "%Y.%m.%d %A")))))))
-    (setq org-agenda-files (list org-directory))))
-
-;; NOTE: Creating TODOs doesn't always auto-revert the TODO Org buffer
-;;       (Emacs 28.2, macOS 11)
-(setq org-capture-templates
-      '(("a"
-         "TODO Default"
-         entry
-         (file "todos.org")
-         "* TODO %?\n** Subtasks [/]\n** Notes\n")
-        ("b"
-         "TODO PR Code Change"
-         entry
-         (file "todos.org")
-         "* TODO Complete %?\n** Subtasks [/]\n- [ ] Implement\n- [ ] Test\n- [ ] Merge\n- [ ] Update Tickets\n** Notes\n")
-        ))
-
-;;; 09. Package Management:
+;;; 08. Package Management:
 
 ;; (setq url-proxy-services
 ;;       '(("http"  . "proxy:port")
@@ -730,7 +648,7 @@ E.g.
   (when (not (package-installed-p packages))
     (package-install packages)))
 
-;;; 10. Evil Mode (Non-Vanilla settings begin here):
+;;; 09. Evil Mode (Non-Vanilla settings begin here):
 
 ;; Summon the Editor of the Beast - VI VI VI
 ;;
@@ -779,19 +697,13 @@ E.g.
    ("gc" . comment-dwim)
    ("zg" . inj0h:add-word-to-dictionary)))
 
-(with-eval-after-load 'org
-  (evil-define-key 'motion org-mode-map (kbd "<tab>") 'org-cycle))
-
 (setq-default evil-escape-key-sequence "hh"
               evil-escape-excluded-states '(normal visual motion)
               evil-escape-delay 0.2)
 
 (inj0h:evil-leader
  :key "SPC"
- :bindings (("'" . (lambda ()
-                     (interactive) (org-agenda nil "A") (delete-other-windows)))
-            ("," . org-capture)
-            (">" . inj0h:tag-files)
+ :bindings ((">" . inj0h:tag-files)
             ("." . xref-find-definitions)
             ("p" . occur)
             ("g" . inj0h:grep-from-here)
@@ -812,20 +724,9 @@ E.g.
                             ("r" . recompile)))
             (dired       . (("w" . wdired-change-to-wdired-mode)))
             (ibuffer     . ())
-            (markdown    . (("e" . inj0h:md-insert-sourceblock)))
-            (org         . (("a" . org-archive-subtree)
-                            ("c" . org-copy-subtree)
-                            ("D" . (lambda ()
-                                     (interactive) (org-deadline '(4))))
-                            ("d" . org-deadline)
-                            ("i" . org-insert-heading)
-                            ("p" . org-paste-subtree)
-                            ("S" . (lambda ()
-                                     (interactive) (org-schedule '(4))))
-                            ("s" . org-schedule)
-                            ("x" . org-cut-subtree)))))
+            (markdown    . (("e" . inj0h:md-insert-sourceblock)))))
 
-;;; 11. Non-Vanilla Packages:
+;;; 10. Non-Vanilla Packages:
 
 (require 'corfu)
 (setq corfu-auto nil
@@ -839,19 +740,17 @@ E.g.
 
 (require 'diminish)
 (diminish 'evil-escape-mode)
-(with-eval-after-load 'org-indent (diminish 'org-indent-mode))
 (with-eval-after-load 'subword (diminish 'subword-mode))
 
 (require 'drag-stuff)
 (diminish 'drag-stuff-mode)
 (drag-stuff-global-mode 1)
-(add-hook 'org-mode-hook #'(lambda () (drag-stuff-mode -1)))
 (define-key drag-stuff-mode-map (kbd "M-<up>") 'drag-stuff-up)
 (define-key drag-stuff-mode-map (kbd "M-<down>") 'drag-stuff-down)
 
 (load-theme 'kuronami t)
 
-;;; 12. Non-Vanilla Programming Language Packages:
+;;; 11. Non-Vanilla Programming Language Packages:
 
 (inj0h:setup
  :mode go
