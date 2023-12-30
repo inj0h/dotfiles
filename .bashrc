@@ -15,6 +15,7 @@ alias groot='cd $(git rev-parse --show-toplevel)'
 alias gs="git status"
 alias gsroot='cd $(git rev-parse --show-superproject-working-tree)'
 alias gt="git stash"
+alias gtc="git stash clear"
 alias gtl="git stash list"
 alias gtp="git stash pop"
 alias gundo='git reset HEAD~'
@@ -43,7 +44,6 @@ gr()
 }
 
 gta() { git stash apply "stash@{$1}"   ; }
-gtc() { git stash clear                ; }
 gtd() { git stash drop "stash@{$1}"    ; }
 gts() { git stash show -p "stash@{$1}" ; }
 
