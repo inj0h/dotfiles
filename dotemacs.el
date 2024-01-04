@@ -1,13 +1,12 @@
 ;; -*- lexical-binding: t -*-
 
-;; NOTE: For Emacs 29.1 on Mac, run this shell command to enable the system
-;;       theme on the title bar
+;; NOTE: For the default Homebrew Emacs 29.1 build on Mac, run this shell
+;;       command to enable the system theme on the title bar
 ;;
 ;;       $ defaults write org.gnu.Emacs NSRequiresAquaSystemAppearance -bool no
 
 ;;; 00. Startup:
 
-;; 発信準備!/발신 준비!
 ;; You stole these GC hacks from the following sites
 ;; - https://github.com/daviwil/emacs-from-scratch/blob/master/Emacs.org
 ;; - https://github.com/hlissner/doom-emacs/blob/develop/docs/faq.org#how-does-doom-start-up-so-quickly
@@ -22,9 +21,12 @@
                                   (setq gc-cons-threshold 800000
                                         gc-cons-percentage 0.1)))
 
-;; Get in the text editor!
-(setq initial-scratch-message
-      ";; God's in his heaven. All's right with the world. ")
+(let* ((num (random 4))
+       (msg (cond ((= num 0) ";; God's in his heaven. All's right with the world. ")
+                  ((= num 1) ";; 発信準備!/발신 준비! ")
+                  ((= num 2) ";; Never Knows Best ")
+                  ((= num 3) ";; Selamat pagi! "))))
+  (setq initial-scratch-message msg))
 
 ;;; 01. User Variables:
 
@@ -551,6 +553,10 @@ E.g.
 ;; Subword Mode
 (add-hook 'prog-mode-hook 'subword-mode)
 
+(when (and (equal system-type 'darwin)
+           (bound-and-true-p mac-mouse-wheel-smooth-scroll))
+  (setq mac-mouse-wheel-smooth-scroll nil))
+
 (add-hook 'tetris-mode-hook
           #'(lambda ()
               (inj0h:create-keybindings
@@ -676,6 +682,7 @@ E.g.
 (setq evil-emacs-state-modes evil-emacs-state-modes)
 
 (define-key evil-insert-state-map (kbd "\C-c t") 'inj0h:todo)
+;; TODO() Refactor this keybinding into an advice call
 (define-key evil-insert-state-map (kbd "\C-n")
   #'(lambda ()
       (interactive) (dabbrev-completion 1))) ; Search in same Major Mode Buffers
