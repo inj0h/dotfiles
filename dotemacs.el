@@ -30,6 +30,11 @@
 
 ;;; 01. User Variables:
 
+(defvar inj0h:todo-file "~/Documents/todo.txt"
+  "Path to txt file for collecting TODO items.")
+(defvar inj0h:todo-archive-file "~/Documents/todo_archive.csv"
+  "Path to csv file for archiving TODO items.")
+
 (setq inj0h:default-column 80
       inj0h:default-indent 4)
 
@@ -193,7 +198,61 @@ You can call this function interactively."
     (visit-tags-table "TAGS")
     (cd original-buffer-dir)))
 
-(defun inj0h:todo (name)
+;; TODO() Enforce YYYY.MM.DD deadline format
+;; TODO() Pick deadline from calendar mode
+(defun inj0h:todo (todo deadline)
+  "Append a TODO item to `inj0h:todo-file'. You can call this function
+interactively."
+  (interactive "sTODO:\nsDEADLINE:")
+  (let* ((prefix "- [ ] TODO :: ")
+         (content (if (string-empty-p deadline)
+                      (concat prefix todo "\n")
+                    (concat prefix todo " :: DEADLINE " deadline "\n"))))
+    (if (file-exists-p inj0h:todo-file)
+        (append-to-file content nil inj0h:todo-file)
+      (message "File at %s does not exist!" inj0h:todo-file))))
+
+(defun inj0h:todo-archive ()
+  "Remove a completed TODO item from `inj0h:todo-file' and append its contents
+to `inj0h:todo-archive-file'.
+
+A completed TODO item has the format: \"- [x] YYYY.MM.DD :: NOTE\" such that a
+\" :: DEADLINE YYYY.MM.DD\" suffix does not affect its completion state.
+
+The following information becomes appended.
+
+FROM: \"- [x] YYYY.MM.DD :: NOTE (:: DEADLINE YYYY.MM.DD)\"
+
+TO:   \"YYYY.MM.DD (TODO started), YYYY.MM.DD (TODO ended), NOTE\"
+
+Where \"TODO ended\" is the date when a completed TODO item becomes archived,
+i.e. by calling this function.
+
+Before archiving, text from NOTE becomes quoted with double quotation marks.
+
+You can call this function interactively."
+  (interactive)
+  (if (file-exists-p inj0h:todo-archive-file)
+      (if (save-excursion
+            (beginning-of-line)
+            (looking-at "- \\[x\\] [0-9]\\{4\\}.[0-9]\\{2\\}.[0-9]\\{2\\} ::"))
+          (let* ((content
+                  (progn
+                    (beginning-of-line)
+                    (kill-line)
+                    (substring-no-properties (car kill-ring))))
+                 (content-form (split-string content "::" t "[[:space:]]"))
+                 (date-start
+                  (replace-regexp-in-string "- \\[x\\] " "" (car content-form)))
+                 (date-end (format-time-string "%Y.%m.%d"))
+                 (todo (cadr content-form))
+                 (archive (concat date-start "," date-end ",\"" todo "\"\n")))
+            (append-to-file archive nil inj0h:todo-archive-file)
+            (kill-line))
+        (message "ERROR: Format must match \"- [x] YYYY.MM.DD :: NOTE\""))
+    (message "File at %s does not exist!" inj0h:todo-archive-file)))
+
+(defun inj0h:todo-inline (name)
   "At the current cursor position, insert the text \"TODO('NAME') 'POINT'\" such
 that the user provides a string value for NAME and the cursor moves to POINT
 after the insertion.
@@ -219,6 +278,25 @@ You can call this function interactively."
     (progn
       (evil-insert-state)
       (message "INSERT mode enabled"))))
+
+(defun inj0h:todo-start ()
+  "Replace the \"TODO\" text for a TODO item in `inj0h:todo-file' with the
+current date using the YYYY.MM.DD format. This date marks the start of the TODO
+item.
+
+You can call this function interactively."
+  (interactive)
+  (if (save-excursion
+        (beginning-of-line)
+        (looking-at "- \\[[[:space:]]\\] TODO ::"))
+      (let ((timestamp (format-time-string "%Y.%m.%d")))
+        (beginning-of-line)
+        (forward-word)
+        (backward-kill-word 1)
+        (insert timestamp)
+        (beginning-of-line)
+        (forward-char 3))
+    (message "ERROR: Format must match \"- [ ] TODO :: NOTE\"")))
 
 (defun inj0h:zip-pair (list)
   "Return a list of cons cells from LIST.
@@ -292,8 +370,11 @@ such that each mode creates a variable with its name."
               (hook (intern (concat modename "-mode-hook"))))
          (define-prefix-command mkeymap)
          (cond ((string= "markdown" modename)
-                ;; local-set-key breaks SPC for insert mode in Markdown... ㅜㅜ
+                ;; local-set-key breaks SPC for insert mode in markdown-mode... ㅜㅜ
                 (evil-define-key 'motion markdown-mode-map leaderkey mkeymap))
+               ((string= "text" modename)
+                ;; local-set-key breaks SPC for insert mode in text-mode... ㅜㅜ
+                (evil-define-key 'motion text-mode-map leaderkey mkeymap))
                (t
                 (add-hook hook (lambda () (local-set-key leaderkey mkeymap)))))
          (when pmbinds
@@ -450,8 +531,6 @@ E.g.
       mouse-wheel-scroll-amount '(2 ((shift) . 1))
       scroll-bar-adjust-thumb-portion nil ; Only works on X11
       scroll-preserve-screen-position nil)
-
-(setq undo-limit 9000)
 
 ;; Windows/Frames
 (setq initial-frame-alist '((width . 90) (height . 35)))
@@ -614,7 +693,7 @@ E.g.
 (inj0h:setup
  :mode text
  :assf ("COMMIT_EDITMSG" "\\.journal\\'")
- :assm (flyspell-mode)
+ :assm (flyspell-mode goto-address-mode)
  :conf ((setq-local evil-shift-width 2
                     fill-column inj0h:default-column
                     tab-width 2)))
@@ -681,12 +760,13 @@ E.g.
   (add-to-list 'evil-motion-state-modes mode))
 (setq evil-emacs-state-modes evil-emacs-state-modes)
 
-(define-key evil-insert-state-map (kbd "\C-c t") 'inj0h:todo)
+(define-key evil-insert-state-map (kbd "\C-c t") 'inj0h:todo-inline)
 ;; TODO() Refactor this keybinding into an advice call
 (define-key evil-insert-state-map (kbd "\C-n")
   #'(lambda ()
       (interactive) (dabbrev-completion 1))) ; Search in same Major Mode Buffers
 (define-key evil-motion-state-map (kbd "\C-c m") 'inj0h:check-brackets)
+(define-key evil-normal-state-map (kbd "\C-c t") 'inj0h:todo)
 (define-key evil-normal-state-map (kbd "\C-r") 'undo-fu-only-redo)
 (define-key evil-normal-state-map "u" 'undo-fu-only-undo)
 
@@ -731,7 +811,9 @@ E.g.
                             ("r" . recompile)))
             (dired       . (("w" . wdired-change-to-wdired-mode)))
             (ibuffer     . ())
-            (markdown    . (("e" . inj0h:md-insert-sourceblock)))))
+            (markdown    . (("e" . inj0h:md-insert-sourceblock)))
+            (text        . (("a" . inj0h:todo-archive)
+                            ("s" . inj0h:todo-start)))))
 
 ;;; 10. Non-Vanilla Packages:
 
