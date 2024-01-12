@@ -64,7 +64,7 @@ interactively."
                            (caddr word)
                            current-location))))
 
-(defun inj0h:check-brackets ()
+(defun inj0h:brackets-check ()
   "When `point' lies between two brackets (\"[ ]\") such that either a
 whitespace or an \"x\" character separates them, replace one with the other
 accordingly.
@@ -84,6 +84,12 @@ You can call this function interactively."
         (insert-char char)
         (backward-char))
     (message "Position not between \"[ ]\" chars!")))
+
+(defun inj0h:brackets-insert ()
+  "Insert the text \"- [ ] \" at point. You can call this function
+interactively."
+  (interactive)
+  (insert "- [ ] "))
 
 (defun inj0h:compile (dir)
   "Invoke `compilation-mode' after selecting a directory and compilation
@@ -424,7 +430,7 @@ Parameters :ASSF and :ASSM will evaluate when invoking this macro. Parameter
 E.g.
 
 (inj0h:setup
- :mode text-mode
+ :mode text
  :assf (\"COMMIT_EDITMSG\")
  :assm (flyspell-mode)
  :conf ((setq-local fill-column 80)))"
@@ -696,7 +702,8 @@ E.g.
  :assm (flyspell-mode goto-address-mode)
  :conf ((setq-local evil-shift-width 2
                     fill-column inj0h:default-column
-                    tab-width 2)))
+                    tab-width 2)
+        (evil-define-key 'insert text-mode-map (kbd "\C-c r") 'inj0h:brackets-insert)))
 
 ;;; 08. Package Management:
 
@@ -765,7 +772,7 @@ E.g.
 (define-key evil-insert-state-map (kbd "\C-n")
   #'(lambda ()
       (interactive) (dabbrev-completion 1))) ; Search in same Major Mode Buffers
-(define-key evil-motion-state-map (kbd "\C-c m") 'inj0h:check-brackets)
+(define-key evil-motion-state-map (kbd "\C-c m") 'inj0h:brackets-check)
 (define-key evil-normal-state-map (kbd "\C-c t") 'inj0h:todo)
 (define-key evil-normal-state-map (kbd "\C-r") 'undo-fu-only-redo)
 (define-key evil-normal-state-map "u" 'undo-fu-only-undo)
