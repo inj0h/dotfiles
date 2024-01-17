@@ -38,6 +38,13 @@
 (setq inj0h:default-column 80
       inj0h:default-indent 4)
 
+(when (equal system-type 'darwin)
+  (progn
+    (setq mac-command-modifier 'super
+          mac-option-modifier 'meta)
+    (when (bound-and-true-p mac-mouse-wheel-smooth-scroll)
+      (setq mac-mouse-wheel-smooth-scroll nil))))
+
 ;;; 02. User Functions:
 
 (defun inj0h:add-local-vi-bindings (bind-modes)
@@ -457,12 +464,12 @@ E.g.
             (mode-symb (intern mode-name)))
        (cond (,invalid-args
               (message
-               "Found invalid arguments labels while calling inj0h:setup
-               for %s!" mode-name))
+               "Found invalid arguments labels while calling inj0h:setup for %s!"
+               mode-name))
              (,incomplete-args
               (message
-               "Missing required argument labels while calling inj0h:setup
-               for %s!" mode-name))
+               "Missing required argument labels while calling inj0h:setup for %s!"
+               mode-name))
              (t
               (message "Calling inj0h:setup for %s..." mode-name)
               (let ((assf ',(inj0h:get-from-list-else parsed-list ":assf" nil))
@@ -637,10 +644,6 @@ E.g.
 
 ;; Subword Mode
 (add-hook 'prog-mode-hook 'subword-mode)
-
-(when (and (equal system-type 'darwin)
-           (bound-and-true-p mac-mouse-wheel-smooth-scroll))
-  (setq mac-mouse-wheel-smooth-scroll nil))
 
 (add-hook 'tetris-mode-hook
           #'(lambda ()
