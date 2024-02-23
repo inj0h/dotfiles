@@ -168,33 +168,6 @@ You can call this function interactively."
                            " .")))
     (grep grep-args)))
 
-(defun inj0h:md-insert-sourceblock (lang)
-  "When in `markdown-mode', insert Markdown language source blocks using the
-user-specified language mode and open the `edit-indirect' buffer accordingly.
-Otherwise, output an error message.
-
-When the user has `evil-mode' enabled, then switch to INSERT mode.
-
-Correct functionality assumes the user has both `markdown-mode' and
-`edit-indirect' installed.
-
-You can call this function interactively."
-  (interactive "sLanguage mode:")
-  (let ((md-mode "markdown-mode"))
-    (if (string= md-mode (print major-mode))
-        (progn
-          (let ((bname (buffer-name)))
-            (insert
-             (format "```%s\n```" lang))
-            (previous-line 1)
-            (call-interactively #'markdown-edit-code-block)
-            (switch-to-buffer (concat "*edit-indirect " bname "*"))
-            (when (bound-and-true-p evil-mode)
-              (progn
-                (evil-insert-state)
-                (message "INSERT mode enabled")))))
-      (message "You can only call this function from %s!" md-mode))))
-
 ;; TODO() Check this works on Windows (CMD and PowerShell)
 (defun inj0h:tag-files (dir filetype)
   "Create then load an etags \"TAGS\" file for FILETYPE recursively searched
@@ -382,10 +355,7 @@ such that each mode creates a variable with its name."
               (mkeymap (intern (concat keymap-prefix "-" modename "-keymap")))
               (hook (intern (concat modename "-mode-hook"))))
          (define-prefix-command mkeymap)
-         (cond ((string= "markdown" modename)
-                ;; local-set-key breaks SPC for insert mode in markdown-mode... ㅜㅜ
-                (evil-define-key 'motion markdown-mode-map leaderkey mkeymap))
-               ((string= "text" modename)
+         (cond ((string= "text" modename)
                 ;; local-set-key breaks SPC for insert mode in text-mode... ㅜㅜ
                 (evil-define-key 'motion text-mode-map leaderkey mkeymap))
                (t
@@ -701,7 +671,7 @@ E.g.
 
 (inj0h:setup
  :mode text
- :assf ("COMMIT_EDITMSG" "\\.journal\\'")
+ :assf ("COMMIT_EDITMSG" "\\.journal\\'" "\\.md\\'")
  :assm (flyspell-mode goto-address-mode)
  :conf ((setq-local evil-shift-width 2
                     fill-column inj0h:default-column
@@ -725,13 +695,11 @@ E.g.
 (dolist (packages '(corfu
                     diminish
                     drag-stuff
-                    edit-indirect
                     evil
                     evil-escape
                     go-mode
                     json-mode
                     kuronami-theme
-                    markdown-mode
                     ; nix-mode ; ㅜㅜ
                     rust-mode
                     swift-mode
@@ -821,7 +789,6 @@ E.g.
                             ("r" . recompile)))
             (dired       . (("w" . wdired-change-to-wdired-mode)))
             (ibuffer     . ())
-            (markdown    . (("e" . inj0h:md-insert-sourceblock)))
             (text        . (("a" . inj0h:todo-archive)
                             ("s" . inj0h:todo-start)))))
 
@@ -864,18 +831,6 @@ E.g.
           (setq-local evil-shift-width json-indent
                       js-indent-level json-indent
                       tab-width json-indent))))
-
-(inj0h:setup
- :mode markdown
- :assm (flyspell-mode)
- :conf ())
-(inj0h:evil-local-overload
- :mode markdown
- :bindings ((motion . ("\C-c h" . markdown-table-move-column-left))
-            (motion . ("\C-c l" . markdown-table-move-column-right))
-            (motion . ("\C-c j" . markdown-table-move-row-down))
-            (motion . ("\C-c k" . markdown-table-move-row-up))
-            (motion . ("<tab>"  . markdown-cycle))))
 
 (inj0h:setup
  :mode rust

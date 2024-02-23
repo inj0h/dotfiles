@@ -4,7 +4,7 @@ color_red="\033[0;31m"
 color_green="\033[0;32m"
 
 # Where \033[0m is ASCII for clearing the color code
-print_color() { printf "$2%s\033[0m" "$1" ; }
+print_color() { printf "$1%s\033[0m" "$2" ; }
 
 exit_cd()
 {
