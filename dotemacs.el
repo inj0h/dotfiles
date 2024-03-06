@@ -168,6 +168,16 @@ You can call this function interactively."
                            " .")))
     (grep grep-args)))
 
+(defun inj0h:spell-set ()
+  "Enable `flyspell-mode' for the current buffer unless its first line matches
+the string \"#spellno\" as its value. Use this function only when hooking into
+various major modes, otherwise the string comparison will most likely fail."
+  (let ((marker-disable "#spellno")
+        (firstline (buffer-substring (line-beginning-position) (line-end-position))))
+    (if (string= marker-disable firstline)
+        (flyspell-mode -1)
+      (flyspell-mode 1))))
+
 ;; TODO() Check this works on Windows (CMD and PowerShell)
 (defun inj0h:tag-files (dir filetype)
   "Create then load an etags \"TAGS\" file for FILETYPE recursively searched
@@ -488,7 +498,7 @@ E.g.
 (setq default-buffer-file-coding-system 'utf-8-unix)
 
 ;; Font
-(set-frame-font "Iosevka Fixed-14" nil t) ; Make sure the OS has this installed!
+(set-frame-font "Iosevka 16" nil t) ; Make sure the OS has this installed!
 
 ;; Formatting
 (setq c-basic-offset inj0h:default-indent
@@ -672,11 +682,12 @@ E.g.
 (inj0h:setup
  :mode text
  :assf ("COMMIT_EDITMSG" "\\.journal\\'" "\\.md\\'")
- :assm (flyspell-mode goto-address-mode)
+ :assm (goto-address-mode)
  :conf ((setq-local evil-shift-width 2
                     fill-column inj0h:default-column
                     tab-width 2)
-        (evil-define-key 'insert text-mode-map (kbd "\C-c r") 'inj0h:brackets-insert)))
+        (evil-define-key 'insert text-mode-map (kbd "\C-c r") 'inj0h:brackets-insert)
+        (inj0h:spell-set)))
 
 ;;; 08. Package Management:
 
