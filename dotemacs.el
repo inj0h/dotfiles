@@ -28,22 +28,29 @@
                   ((= num 3) ";; Selamat pagi! "))))
   (setq initial-scratch-message msg))
 
+;; Mac Settings
+
+(when (equal system-type 'darwin)
+  (progn
+    ;; Keybindings
+    (setq mac-command-modifier 'super
+          mac-option-modifier 'meta)
+    (when (bound-and-true-p mac-mouse-wheel-smooth-scroll)
+      (setq mac-mouse-wheel-smooth-scroll nil))
+
+    ;; Shell
+    (setenv "SHELL" "/usr/local/bin/bash")
+    (setq explicit-shell-file-name "/usr/local/bin/bash")))
+
 ;;; 01. User Variables:
 
-(defvar inj0h:todo-file "~/Documents/todo.txt"
+(defvar inj0h:todo-file "~/todo.txt"
   "Path to txt file for collecting TODO items.")
-(defvar inj0h:todo-archive-file "~/Documents/todo_archive.csv"
+(defvar inj0h:todo-archive-file "~/todo_archive.csv"
   "Path to csv file for archiving TODO items.")
 
 (setq inj0h:default-column 80
       inj0h:default-indent 4)
-
-(when (equal system-type 'darwin)
-  (progn
-    (setq mac-command-modifier 'super
-          mac-option-modifier 'meta)
-    (when (bound-and-true-p mac-mouse-wheel-smooth-scroll)
-      (setq mac-mouse-wheel-smooth-scroll nil))))
 
 ;;; 02. User Functions:
 
@@ -134,6 +141,24 @@ Not original, but stolen from somewhere on the Internet."
     (let ((keybinding (kbd (car kb)))
           (function (cdr kb)))
       (define-key keymap keybinding function))))
+
+(defun inj0h:date-insert ()
+  "Insert today's Gregorian calendar date in year:month:day format.
+
+You can call this function interactively."
+  (interactive)
+  (insert (format-time-string "%Y.%m.%d")))
+
+(defun file-open-at-line (filename line &optional pos)
+  "Visit the file specified by FILENAME at the line number specified by LINE.
+When the POS parameter has a non-nil value, then position the window such that
+the line specified by LINE moves to the top of the window.
+
+You can call this function interactively."
+  (interactive)
+  (find-file filename)
+  (goto-line line)
+  (when pos (recenter-top-bottom 0)))
 
 (defun inj0h:get-from-list-else (list match else)
   "Given that LIST is a list of cons cells - E.g. returned from
@@ -516,6 +541,7 @@ E.g.
 ;; Minibuffer
 (defalias 'yes-or-no-p 'y-or-n-p)
 (add-hook 'minibuffer-setup-hook #'(lambda () (setq truncate-lines nil)))
+(define-key minibuffer-mode-map (kbd "\C-c d") 'inj0h:date-insert)
 
 ;; Mouse
 (setq mouse-drag-copy-region nil
@@ -750,6 +776,7 @@ E.g.
 (setq evil-emacs-state-modes evil-emacs-state-modes)
 
 (define-key evil-insert-state-map (kbd "\C-c t") 'inj0h:todo-inline)
+(define-key evil-insert-state-map (kbd "\C-c d") 'inj0h:date-insert)
 ;; TODO() Refactor this keybinding into an advice call
 (define-key evil-insert-state-map (kbd "\C-n")
   #'(lambda ()
@@ -779,7 +806,9 @@ E.g.
 
 (inj0h:evil-leader
  :key "SPC"
- :bindings ((">" . inj0h:tag-files)
+ :bindings (("0" . (lambda () (interactive) (file-open-at-line "~/dotemacs.el" 822 1))) ; Update line number when editing config!
+            ("1" . (lambda () (interactive) (find-file "~/todo.txt")))
+            (">" . inj0h:tag-files)
             ("." . xref-find-definitions)
             ("p" . occur)
             ("g" . inj0h:grep-from-here)
