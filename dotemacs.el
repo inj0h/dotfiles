@@ -731,7 +731,6 @@ E.g.
 
 (dolist (packages '(corfu
                     diminish
-                    drag-stuff
                     evil
                     evil-escape
                     go-mode
@@ -847,12 +846,6 @@ E.g.
 (require 'diminish)
 (diminish 'evil-escape-mode)
 (with-eval-after-load 'subword (diminish 'subword-mode))
-
-(require 'drag-stuff)
-(diminish 'drag-stuff-mode)
-(drag-stuff-global-mode 1)
-(define-key drag-stuff-mode-map (kbd "M-<up>") 'drag-stuff-up)
-(define-key drag-stuff-mode-map (kbd "M-<down>") 'drag-stuff-down)
 
 (load-theme 'kuronami t)
 
