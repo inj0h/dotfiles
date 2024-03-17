@@ -856,18 +856,6 @@ E.g.
 
 (load-theme 'kuronami t)
 
-;; ultra-scroll-mac
-(when (and (equal system-type 'darwin)
-           (and
-            (let ((version (emacs-version)))
-              (string-match-p "29" version)
-              (string-match-p "Carbon" version))))
-    (progn
-      (setq scroll-conservatively 101 ; Suggested in the package readme
-            scroll-margin 0)
-      (load "~/.config/emacs/ultra-scroll-mac/ultra-scroll-mac.el")
-      (ultra-scroll-mac-mode 1)))
-
 ;;; 11. Non-Vanilla Programming Language Packages:
 
 (inj0h:setup
