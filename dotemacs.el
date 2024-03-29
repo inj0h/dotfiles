@@ -28,7 +28,7 @@
                   ((= num 3) ";; Selamat pagi! "))))
   (setq initial-scratch-message msg))
 
-;; Mac Settings
+;; Mac Settings:
 
 (when (equal system-type 'darwin)
   (progn
@@ -44,10 +44,12 @@
 
 ;;; 01. User Variables:
 
-(defvar inj0h:todo-file "~/todo.txt"
-  "Path to txt file for collecting TODO items.")
-(defvar inj0h:todo-archive-file "~/todo_archive.csv"
-  "Path to csv file for archiving TODO items.")
+(defvar inj0h:file-dotemacs nil
+  "Filepath to dotemacs configuration.")
+(defvar inj0h:file-todo nil
+  "Filepath to .txt file for collecting TODO items.")
+(defvar inj0h:file-todo-archive nil
+  "Filepath to .csv file for archiving TODO items.")
 
 (setq inj0h:default-column 80
       inj0h:default-indent 4)
@@ -149,6 +151,32 @@ You can call this function interactively."
   (interactive)
   (insert (format-time-string "%Y.%m.%d")))
 
+(defun inj0h:evil-macro-apply ()
+  "Applies the `evil-mode' macro recorded at register \"q\" for the visually
+selected lines. Outputs an error message when called outside of
+`evil-visual-state'.
+
+You can call this function interactively."
+  (interactive)
+  (if evil-visual-state-minor-mode
+      (evil-ex-execute "'<,'>norm@q")
+    (message "Not in Evil VISUAL mode!")))
+
+(defun inj0h:evil-search-selection (start end)
+  "Searches the visually selected text. Outputs an error message when called
+outside of `evil-visual-state'.
+
+You can call this function interactively."
+  (interactive "r")
+  (if (and evil-visual-state-minor-mode (use-region-p))
+      (progn
+        (let ((region (buffer-substring start end)))
+          (setq evil-ex-search-pattern (evil-ex-make-search-pattern region)
+                evil-ex-search-direction 'forward)
+          (evil-normal-state)
+          (evil-ex-search)))
+    (message "Not in Evil VISUAL mode!")))
+
 (defun file-open-at-line (filename line &optional pos)
   "Visit the file specified by FILENAME at the line number specified by LINE.
 When the POS parameter has a non-nil value, then position the window such that
@@ -222,20 +250,20 @@ You can call this function interactively."
 ;; TODO() Enforce YYYY.MM.DD deadline format
 ;; TODO() Pick deadline from calendar mode
 (defun inj0h:todo (todo deadline)
-  "Append a TODO item to `inj0h:todo-file'. You can call this function
+  "Append a TODO item to `inj0h:file-todo'. You can call this function
 interactively."
   (interactive "sTODO:\nsDEADLINE:")
   (let* ((prefix "- [ ] TODO :: ")
          (content (if (string-empty-p deadline)
                       (concat prefix todo "\n")
                     (concat prefix todo " :: DEADLINE " deadline "\n"))))
-    (if (file-exists-p inj0h:todo-file)
-        (append-to-file content nil inj0h:todo-file)
-      (message "File at %s does not exist!" inj0h:todo-file))))
+    (if (file-exists-p inj0h:file-todo)
+        (append-to-file content nil inj0h:file-todo)
+      (message "File at %s does not exist!" inj0h:file-todo))))
 
 (defun inj0h:todo-archive ()
-  "Remove a completed TODO item from `inj0h:todo-file' and append its contents
-to `inj0h:todo-archive-file'.
+  "Remove a completed TODO item from `inj0h:file-todo' and append its contents
+to `inj0h:file-todo-archive'.
 
 A completed TODO item has the format: \"- [x] YYYY.MM.DD :: NOTE\" such that a
 \" :: DEADLINE YYYY.MM.DD\" suffix does not affect its completion state.
@@ -253,7 +281,7 @@ Before archiving, text from NOTE becomes quoted with double quotation marks.
 
 You can call this function interactively."
   (interactive)
-  (if (file-exists-p inj0h:todo-archive-file)
+  (if (file-exists-p inj0h:file-todo-archive)
       (if (save-excursion
             (beginning-of-line)
             (looking-at "- \\[x\\] [0-9]\\{4\\}.[0-9]\\{2\\}.[0-9]\\{2\\} ::"))
@@ -268,10 +296,10 @@ You can call this function interactively."
                  (date-end (format-time-string "%Y.%m.%d"))
                  (todo (cadr content-form))
                  (archive (concat date-start "," date-end ",\"" todo "\"\n")))
-            (append-to-file archive nil inj0h:todo-archive-file)
+            (append-to-file archive nil inj0h:file-todo-archive)
             (kill-line))
         (message "ERROR: Format must match \"- [x] YYYY.MM.DD :: NOTE\""))
-    (message "File at %s does not exist!" inj0h:todo-archive-file)))
+    (message "File at %s does not exist!" inj0h:file-todo-archive)))
 
 (defun inj0h:todo-inline (name)
   "At the current cursor position, insert the text \"TODO('NAME') 'POINT'\" such
@@ -301,7 +329,7 @@ You can call this function interactively."
       (message "INSERT mode enabled"))))
 
 (defun inj0h:todo-start ()
-  "Replace the \"TODO\" text for a TODO item in `inj0h:todo-file' with the
+  "Replace the \"TODO\" text for a TODO item in `inj0h:file-todo' with the
 current date using the YYYY.MM.DD format. This date marks the start of the TODO
 item.
 
@@ -679,7 +707,7 @@ E.g.
 ;;; 07. Vanilla Programming Language Packages:
 
 (add-hook 'java-mode-hook #'(lambda ()
-                              (let ((java-indent 2)) ; Blame Google
+                              (let ((java-indent 4))
                                 (setq-local c-basic-offset java-indent
                                             fill-column 100
                                             evil-shift-width java-indent
@@ -805,8 +833,9 @@ E.g.
 
 (inj0h:evil-leader
  :key "SPC"
- :bindings (("0" . (lambda () (interactive) (file-open-at-line "~/dotemacs.el" 822 1))) ; Update line number when editing config!
-            ("1" . (lambda () (interactive) (find-file "~/todo.txt")))
+ :bindings (("0" . (lambda () (interactive) (file-open-at-line inj0h:file-dotemacs 834 1))) ; Update line number when editing config!
+            ("1" . (lambda () (interactive) (find-file inj0h:file-todo)))
+            ("," . inj0h:evil-macro-apply)
             (">" . inj0h:tag-files)
             ("." . xref-find-definitions)
             ("p" . occur)
@@ -815,6 +844,7 @@ E.g.
             ("c" . inj0h:compile-again)
             ("r" . align-regexp)
             ("l" . global-display-line-numbers-mode)
+            ("/" . inj0h:evil-search-selection)
             ("a" . apropos)
             ("o" . switch-to-buffer)
             ("e" . find-file)
