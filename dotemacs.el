@@ -21,11 +21,12 @@
                                   (setq gc-cons-threshold 800000
                                         gc-cons-percentage 0.1)))
 
-(let* ((num (random 4))
+(let* ((num (random 5))
        (msg (cond ((= num 0) ";; God's in his heaven. All's right with the world. ")
                   ((= num 1) ";; 発信準備!/발신 준비! ")
                   ((= num 2) ";; Never Knows Best ")
-                  ((= num 3) ";; Selamat pagi! "))))
+                  ((= num 3) ";; Selamat pagi! ")
+                  ((= num 4) ";; Helvetica Standard "))))
   (setq initial-scratch-message msg))
 
 ;; Mac Settings:
@@ -151,15 +152,15 @@ You can call this function interactively."
   (interactive)
   (insert (format-time-string "%Y.%m.%d")))
 
-(defun inj0h:evil-macro-apply ()
-  "Applies the `evil-mode' macro recorded at register \"q\" for the visually
+(defun inj0h:evil-last-kb-macro-apply ()
+  "Applies the last played `evil-mode' keyboard macro (\"@@\") on the visually
 selected lines. Outputs an error message when called outside of
 `evil-visual-state'.
 
 You can call this function interactively."
   (interactive)
   (if evil-visual-state-minor-mode
-      (evil-ex-execute "'<,'>norm@q")
+      (evil-ex-execute "'<,'>norm@@")
     (message "Not in Evil VISUAL mode!")))
 
 (defun inj0h:evil-search-selection (start end)
@@ -696,6 +697,8 @@ E.g.
 
 (setq visible-bell 1)
 
+(setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
+
 ;; Whitespace Mode
 (setq-default whitespace-line-column nil) ; Use fill-column value
 (add-hook 'before-save-hook 'whitespace-cleanup)
@@ -736,7 +739,7 @@ E.g.
 (inj0h:setup
  :mode text
  :assf ("COMMIT_EDITMSG" "\\.journal\\'" "\\.md\\'")
- :assm (goto-address-mode)
+ :assm (goto-address-mode visual-line-mode)
  :conf ((setq-local evil-shift-width 2
                     fill-column inj0h:default-column
                     tab-width 2)
@@ -833,9 +836,9 @@ E.g.
 
 (inj0h:evil-leader
  :key "SPC"
- :bindings (("0" . (lambda () (interactive) (file-open-at-line inj0h:file-dotemacs 834 1))) ; Update line number when editing config!
+ :bindings (("0" . (lambda () (interactive) (file-open-at-line inj0h:file-dotemacs 837 1))) ; Update line number when editing config!
             ("1" . (lambda () (interactive) (find-file inj0h:file-todo)))
-            ("," . inj0h:evil-macro-apply)
+            ("," . inj0h:evil-last-kb-macro-apply)
             (">" . inj0h:tag-files)
             ("." . xref-find-definitions)
             ("p" . occur)
