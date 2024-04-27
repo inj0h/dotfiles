@@ -756,8 +756,8 @@ E.g.
  :assm (goto-address-mode visual-line-mode)
  :conf ((let ((text-indent 2))
           (setq-local evil-shift-width text-indent
-                      inj0h:default-indent xml-indent
-                      tab-width xml-indent)
+                      inj0h:default-indent text-indent
+                      tab-width text-indent)
           (evil-define-key
             'insert text-mode-map (kbd "\C-c r") 'inj0h:brackets-insert)
           (inj0h:spell-set))))
