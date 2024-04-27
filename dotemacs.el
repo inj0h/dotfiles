@@ -222,6 +222,18 @@ You can call this function interactively."
                            " .")))
     (grep grep-args)))
 
+(defun inj0h:indent-insert ()
+  "Inserts, at point, an n number of whitespace characters determined by
+`inj0h:default-indent'. You can call this function interactively."
+  (interactive)
+  (dotimes (i inj0h:default-indent) (insert " ")))
+
+(defun inj0h:indent-remove ()
+  "Removes, at point, an n number of whitespace characters determined by
+`inj0h:default-indent'. You can call this function interactively."
+  (interactive)
+  (backward-delete-char-untabify inj0h:default-indent))
+
 (defun inj0h:spell-set ()
   "Enable `flyspell-mode' for the current buffer unless its first line matches
 the string \"#spellno\" as its value. Use this function only when hooking into
@@ -712,8 +724,9 @@ E.g.
 (add-hook 'java-mode-hook #'(lambda ()
                               (let ((java-indent 4))
                                 (setq-local c-basic-offset java-indent
-                                            fill-column 100
                                             evil-shift-width java-indent
+                                            fill-column 100
+                                            inj0h:default-indent java-indent
                                             tab-width java-indent))))
 
 (add-hook 'js-mode-hook #'(lambda ()
@@ -732,6 +745,7 @@ E.g.
                 (setq nxml-attribute-indent xml-indent
                       nxml-child-indent xml-indent)
                 (setq-local evil-shift-width xml-indent
+                            inj0h:default-indent xml-indent
                             tab-width xml-indent))))
 
 (setq sh-indentation inj0h:default-indent)
@@ -740,11 +754,13 @@ E.g.
  :mode text
  :assf ("COMMIT_EDITMSG" "\\.journal\\'" "\\.md\\'")
  :assm (goto-address-mode visual-line-mode)
- :conf ((setq-local evil-shift-width 2
-                    fill-column inj0h:default-column
-                    tab-width 2)
-        (evil-define-key 'insert text-mode-map (kbd "\C-c r") 'inj0h:brackets-insert)
-        (inj0h:spell-set)))
+ :conf ((let ((text-indent 2))
+          (setq-local evil-shift-width text-indent
+                      inj0h:default-indent xml-indent
+                      tab-width xml-indent)
+          (evil-define-key
+            'insert text-mode-map (kbd "\C-c r") 'inj0h:brackets-insert)
+          (inj0h:spell-set))))
 
 ;;; 08. Package Management:
 
@@ -768,9 +784,9 @@ E.g.
                     json-mode
                     kuronami-theme
                     ; nix-mode ; ㅜㅜ
-                    rust-mode
+                    ; rust-mode
                     swift-mode
-                    toml-mode
+                    ; toml-mode
                     typescript-mode
                     undo-fu
                     yaml-mode
@@ -807,6 +823,8 @@ E.g.
 
 (define-key evil-insert-state-map (kbd "\C-c t") 'inj0h:todo-inline)
 (define-key evil-insert-state-map (kbd "\C-c d") 'inj0h:date-insert)
+(define-key evil-insert-state-map (kbd "<S-tab>") 'inj0h:indent-remove)
+(define-key evil-insert-state-map (kbd "<tab>") 'inj0h:indent-insert)
 ;; TODO() Refactor this keybinding into an advice call
 (define-key evil-insert-state-map (kbd "\C-n")
   #'(lambda ()
@@ -830,9 +848,9 @@ E.g.
    ("gc" . comment-dwim)
    ("zg" . inj0h:add-word-to-dictionary)))
 
-(setq-default evil-escape-key-sequence "hh"
+(setq-default evil-escape-key-sequence "hc"
               evil-escape-excluded-states '(normal visual motion)
-              evil-escape-delay 0.2)
+              evil-escape-delay 0.1)
 
 (inj0h:evil-leader
  :key "SPC"
@@ -888,6 +906,7 @@ E.g.
  :mode go
  :conf ((let ((go-indent 2))
           (setq-local evil-shift-width go-indent
+                      inj0h:default-indent go-indent
                       tab-width go-indent))))
 
 (inj0h:setup
@@ -895,6 +914,7 @@ E.g.
  :assf ("\\.eslintrc\\'" "\\.prettierrc\\'")
  :conf ((let ((json-indent 2))
           (setq-local evil-shift-width json-indent
+                      inj0h:default-indent json-indent
                       js-indent-level json-indent
                       tab-width json-indent))))
 
@@ -907,6 +927,7 @@ E.g.
  :conf ((let ((yaml-indent 2))
           (setq yaml-indent-offset yaml-indent)
           (setq-local evil-shift-width yaml-indent
+                      inj0h:default-indent yaml-indent
                       tab-width yaml-indent))))
 
 (inj0h:setup
