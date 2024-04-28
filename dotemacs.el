@@ -163,6 +163,20 @@ You can call this function interactively."
       (evil-ex-execute "'<,'>norm@@")
     (message "Not in Evil VISUAL mode!")))
 
+(defun inj0h:evil-leader-keybindings-goto ()
+  "Visits the file specified by `inj0h:file-dotemacs' and searches for the
+`inj0h:evil-leader' macro configuration code, recentering the buffer with the
+start of the macro at the top.
+
+You can call this function interactively."
+  (interactive)
+  (find-file inj0h:file-dotemacs)
+  (beginning-of-buffer) ; Should ensure the regex works...
+  (re-search-forward "^(inj0h:evil-leader\n :key \"SPC\"$")
+  (previous-line)
+  (beginning-of-line)
+  (recenter-top-bottom 0))
+
 (defun inj0h:evil-search-selection (start end)
   "Searches the visually selected text. Outputs an error message when called
 outside of `evil-visual-state'.
@@ -177,17 +191,6 @@ You can call this function interactively."
           (evil-normal-state)
           (evil-ex-search)))
     (message "Not in Evil VISUAL mode!")))
-
-(defun file-open-at-line (filename line &optional pos)
-  "Visit the file specified by FILENAME at the line number specified by LINE.
-When the POS parameter has a non-nil value, then position the window such that
-the line specified by LINE moves to the top of the window.
-
-You can call this function interactively."
-  (interactive)
-  (find-file filename)
-  (goto-line line)
-  (when pos (recenter-top-bottom 0)))
 
 (defun inj0h:get-from-list-else (list match else)
   "Given that LIST is a list of cons cells - E.g. returned from
@@ -848,13 +851,13 @@ E.g.
    ("gc" . comment-dwim)
    ("zg" . inj0h:add-word-to-dictionary)))
 
-(setq-default evil-escape-key-sequence "hc"
+(setq-default evil-escape-key-sequence "hh"
               evil-escape-excluded-states '(normal visual motion)
-              evil-escape-delay 0.1)
+              evil-escape-delay 0.2)
 
 (inj0h:evil-leader
  :key "SPC"
- :bindings (("0" . (lambda () (interactive) (file-open-at-line inj0h:file-dotemacs 837 1))) ; Update line number when editing config!
+ :bindings (("0" . inj0h:evil-leader-keybindings-goto)
             ("1" . (lambda () (interactive) (find-file inj0h:file-todo)))
             ("," . inj0h:evil-last-kb-macro-apply)
             (">" . inj0h:tag-files)
