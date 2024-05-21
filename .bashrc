@@ -26,6 +26,7 @@ case "$(uname -s)" in
         alias o="ls -AGl"
         alias get="pwd | pbcopy"
         alias here='cd $(pbpaste)'
+        alias uptime_plus="system_profiler SPSoftwareDataType -detailLevel mini"
         ;;
     "Linux")
         # NA
