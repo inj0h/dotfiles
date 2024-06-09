@@ -716,7 +716,19 @@ E.g.
 
 ;; Whitespace Mode
 (setq-default whitespace-line-column nil) ; Use fill-column value
+(setq whitespace-style
+      '(face
+        indentation
+        missing-newline-at-eof
+        newline
+        space-after-tab
+        space-before-tab
+        space-mark tab-mark
+        spaces
+        tabs
+        trailing))
 (add-hook 'before-save-hook 'whitespace-cleanup)
+(add-hook 'prog-mode-hook 'whitespace-mode)
 
 (inj0h:evil-local-overload
  :mode xref--xref-buffer
@@ -759,6 +771,7 @@ E.g.
  :assm (goto-address-mode visual-line-mode)
  :conf ((let ((text-indent 2))
           (setq-local evil-shift-width text-indent
+                      fill-column 72 ; Blame Git!
                       inj0h:default-indent text-indent
                       tab-width text-indent)
           (evil-define-key
@@ -781,6 +794,7 @@ E.g.
 
 (dolist (packages '(corfu
                     diminish
+                    dockerfile-mode
                     evil
                     evil-escape
                     go-mode
@@ -826,12 +840,15 @@ E.g.
 
 (define-key evil-insert-state-map (kbd "\C-c t") 'inj0h:todo-inline)
 (define-key evil-insert-state-map (kbd "\C-c d") 'inj0h:date-insert)
-(define-key evil-insert-state-map (kbd "<S-tab>") 'inj0h:indent-remove)
+;; TODO() We want to use "indent-for-tab-command" and "c-indent-line-or-region" accordingly for the modes that default to one or the other
+(define-key evil-insert-state-map (kbd "C-<tab>") 'indent-for-tab-command)
+(define-key evil-insert-state-map (kbd "S-<tab>") 'inj0h:indent-remove)
 (define-key evil-insert-state-map (kbd "<tab>") 'inj0h:indent-insert)
 ;; TODO() Refactor this keybinding into an advice call
 (define-key evil-insert-state-map (kbd "\C-n")
   #'(lambda ()
       (interactive) (dabbrev-completion 1))) ; Search in same Major Mode Buffers
+
 (define-key evil-motion-state-map (kbd "\C-c m") 'inj0h:brackets-check)
 (define-key evil-normal-state-map (kbd "\C-c t") 'inj0h:todo)
 (define-key evil-normal-state-map (kbd "\C-r") 'undo-fu-only-redo)
