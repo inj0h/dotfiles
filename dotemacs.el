@@ -622,7 +622,9 @@ E.g.
 
 (delete-selection-mode t)
 
-(setq dired-listing-switches "-alo")
+(setq dired-hide-details-hide-symlink-targets nil
+      dired-listing-switches "-Al")
+(add-hook 'dired-mode-hook #'dired-hide-details-mode)
 
 (setq display-line-numbers-grow-only t)
 
@@ -717,18 +719,20 @@ E.g.
 ;; Whitespace Mode
 (setq-default whitespace-line-column nil) ; Use fill-column value
 (setq whitespace-style
-      '(face
+      '(empty
+        face
         indentation
+        lines
         missing-newline-at-eof
         newline
         space-after-tab
         space-before-tab
-        space-mark tab-mark
+        space-mark
         spaces
+        tab-mark
         tabs
         trailing))
 (add-hook 'before-save-hook 'whitespace-cleanup)
-(add-hook 'prog-mode-hook 'whitespace-mode)
 
 (inj0h:evil-local-overload
  :mode xref--xref-buffer
@@ -893,6 +897,7 @@ E.g.
             ("s" . sort-lines)
             (";" . server-edit)
             ("b" . ibuffer)
+            ("W" . whitespace-cleanup)
             ("w" . whitespace-mode)
             ("v" . vc-annotate))
  :per-mode ((compilation . (("k" . kill-compilation)
