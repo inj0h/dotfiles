@@ -52,7 +52,7 @@
 (defvar inj0h:file-todo-archive nil
   "Filepath to .csv file for archiving TODO items.")
 
-(setq inj0h:default-column 80
+(setq inj0h:default-column 79
       inj0h:default-indent 4)
 
 ;;; 02. User Functions:
