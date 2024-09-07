@@ -9,7 +9,7 @@ alias gc="git commit"
 alias gch="git checkout"
 alias gD="git --no-pager diff"
 alias gd="git diff"
-alias gL="git log"
+alias gL="git log --graph"
 alias gl="git --no-pager log | head -n 30"
 alias groot='cd $(git rev-parse --show-toplevel)'
 alias gs="git status"
@@ -23,9 +23,10 @@ alias treee="tree -aC -I '.git|node_modules|target' ."
 alias u="cd .."
 case "$(uname -s)" in
     "Darwin")
-        alias o="ls -AGl"
+        alias ffx="open -a Firefox"
         alias get="pwd | pbcopy"
         alias here='cd $(pbpaste)'
+        alias o="ls -AGl"
         alias uptime_plus="system_profiler SPSoftwareDataType -detailLevel mini"
         ;;
     "Linux")

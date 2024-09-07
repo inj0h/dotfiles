@@ -5,7 +5,9 @@
 ;;
 ;;       $ defaults write org.gnu.Emacs NSRequiresAquaSystemAppearance -bool no
 
+
 ;;; 00. Startup:
+
 
 ;; You stole these GC hacks from the following sites
 ;; - https://github.com/daviwil/emacs-from-scratch/blob/master/Emacs.org
@@ -43,7 +45,9 @@
     (setenv "SHELL" "/usr/local/bin/bash")
     (setq explicit-shell-file-name "/usr/local/bin/bash")))
 
+
 ;;; 01. User Variables:
+
 
 (defvar inj0h:file-dotemacs nil
   "Filepath to dotemacs configuration.")
@@ -55,7 +59,9 @@
 (setq inj0h:default-column 79
       inj0h:default-indent 4)
 
+
 ;;; 02. User Functions:
+
 
 (defun inj0h:add-local-vi-bindings (bind-modes)
   "Add vi-like local keybindings to BIND-MODES where BIND-MODES is a list of
@@ -66,6 +72,7 @@ mode hooks."
                   (progn
                     (local-set-key (kbd "j") 'next-line)
                     (local-set-key (kbd "k") 'previous-line))))))
+
 
 (defun inj0h:add-word-to-dictionary ()
   "Add the word-at-point to aspell's dictionary. You can call this function
@@ -80,6 +87,7 @@ interactively."
                            (cadr word)
                            (caddr word)
                            current-location))))
+
 
 (defun inj0h:brackets-check ()
   "When `point' lies between two brackets (\"[ ]\") such that either a
@@ -102,11 +110,13 @@ You can call this function interactively."
         (backward-char))
     (message "Position not between \"[ ]\" chars!")))
 
+
 (defun inj0h:brackets-insert ()
   "Insert the text \"- [ ] \" at point. You can call this function
 interactively."
   (interactive)
   (insert "- [ ] "))
+
 
 (defun inj0h:compile (dir)
   "Invoke `compilation-mode' after selecting a directory and compilation
@@ -117,6 +127,7 @@ command. You can call this function interactively."
       (call-interactively 'compile)
       (switch-to-buffer "*compilation*")
       (delete-other-windows))))
+
 
 (defun inj0h:compile-again ()
   "Invoke `compilation-mode' with the previous settings or return an appropriate
@@ -130,6 +141,7 @@ error message in the minibuffer. You can call this function interactively."
           (recompile))
       (message "ERROR: You have not tried to compile anything yet."))))
 
+
 (defun inj0h:compile-with-color ()
   "Colorize from `compilation-filter-start' to `point'.
 
@@ -138,6 +150,7 @@ Not original, but stolen from somewhere on the Internet."
     (ansi-color-apply-on-region
      compilation-filter-start (point))))
 
+
 (defun inj0h:create-keybindings (keymap keybindings)
   "Create KEYBINDINGS based on an existing KEYMAP."
   (dolist (kb keybindings)
@@ -145,12 +158,22 @@ Not original, but stolen from somewhere on the Internet."
           (function (cdr kb)))
       (define-key keymap keybinding function))))
 
+
 (defun inj0h:date-insert ()
   "Insert today's Gregorian calendar date in year:month:day format.
 
 You can call this function interactively."
   (interactive)
   (insert (format-time-string "%Y.%m.%d")))
+
+
+(defun inj0h:evil-disable-indent ()
+  "Disables `evil-indent' and outputs a message accordingly.
+
+You can call this function interactively."
+  (interactive)
+  (message "evil-indent disabled!"))
+
 
 (defun inj0h:evil-last-kb-macro-apply ()
   "Applies the last played `evil-mode' keyboard macro (\"@@\") on the visually
@@ -162,6 +185,7 @@ You can call this function interactively."
   (if evil-visual-state-minor-mode
       (evil-ex-execute "'<,'>norm@@")
     (message "Not in Evil VISUAL mode!")))
+
 
 (defun inj0h:evil-leader-keybindings-goto ()
   "Visits the file specified by `inj0h:file-dotemacs' and searches for the
@@ -176,6 +200,7 @@ You can call this function interactively."
   (previous-line)
   (beginning-of-line)
   (recenter-top-bottom 0))
+
 
 (defun inj0h:evil-search-selection (start end)
   "Searches the visually selected text. Outputs an error message when called
@@ -192,6 +217,7 @@ You can call this function interactively."
           (evil-ex-search)))
     (message "Not in Evil VISUAL mode!")))
 
+
 (defun inj0h:get-from-list-else (list match else)
   "Given that LIST is a list of cons cells - E.g. returned from
 `inj0h:zip-pair', return the first of its elements such that the symbol name of
@@ -207,6 +233,7 @@ its element's car value equals MATCH. Otherwise, return ELSE."
 ;; (inj0h:get-from-list-else test ":foo" "oops")
 ;; (inj0h:get-from-list-else test ":bar" "oops")
 ;; (inj0h:get-from-list-else test ":baz" "oops")
+
 
 (defun inj0h:grep-from-here (query)
   "Run system grep from the current buffer's directory against the QUERY regexp.
@@ -225,17 +252,21 @@ You can call this function interactively."
                            " .")))
     (grep grep-args)))
 
+
 (defun inj0h:indent-insert ()
   "Inserts, at point, an n number of whitespace characters determined by
 `inj0h:default-indent'. You can call this function interactively."
   (interactive)
   (dotimes (i inj0h:default-indent) (insert " ")))
 
+
+;; TODO() Instead of deleting the chars, we want to shift the existing text.
 (defun inj0h:indent-remove ()
   "Removes, at point, an n number of whitespace characters determined by
 `inj0h:default-indent'. You can call this function interactively."
   (interactive)
   (backward-delete-char-untabify inj0h:default-indent))
+
 
 (defun inj0h:spell-set ()
   "Enable `flyspell-mode' for the current buffer unless its first line matches
@@ -246,6 +277,7 @@ various major modes, otherwise the string comparison will most likely fail."
     (if (string= marker-disable firstline)
         (flyspell-mode -1)
       (flyspell-mode 1))))
+
 
 ;; TODO() Check this works on Windows (CMD and PowerShell)
 (defun inj0h:tag-files (dir filetype)
@@ -263,6 +295,7 @@ You can call this function interactively."
     (visit-tags-table "TAGS")
     (cd original-buffer-dir)))
 
+
 ;; TODO() Enforce YYYY.MM.DD deadline format
 ;; TODO() Pick deadline from calendar mode
 (defun inj0h:todo (todo deadline)
@@ -276,6 +309,7 @@ interactively."
     (if (file-exists-p inj0h:file-todo)
         (append-to-file content nil inj0h:file-todo)
       (message "File at %s does not exist!" inj0h:file-todo))))
+
 
 (defun inj0h:todo-archive ()
   "Remove a completed TODO item from `inj0h:file-todo' and append its contents
@@ -317,6 +351,7 @@ You can call this function interactively."
         (message "ERROR: Format must match \"- [x] YYYY.MM.DD :: NOTE\""))
     (message "File at %s does not exist!" inj0h:file-todo-archive)))
 
+
 (defun inj0h:todo-inline (name)
   "At the current cursor position, insert the text \"TODO('NAME') 'POINT'\" such
 that the user provides a string value for NAME and the cursor moves to POINT
@@ -344,6 +379,7 @@ You can call this function interactively."
       (evil-insert-state)
       (message "INSERT mode enabled"))))
 
+
 (defun inj0h:todo-start ()
   "Replace the \"TODO\" text for a TODO item in `inj0h:file-todo' with the
 current date using the YYYY.MM.DD format. This date marks the start of the TODO
@@ -363,6 +399,7 @@ You can call this function interactively."
         (forward-char 3))
     (message "ERROR: Format must match \"- [ ] TODO :: NOTE\"")))
 
+
 (defun inj0h:zip-pair (list)
   "Return a list of cons cells from LIST.
 
@@ -377,6 +414,7 @@ For a LIST of size 1 or size 0 - I.e. the empty list, return nil."
 ;; (inj0h:zip-pair '(:foo))
 ;; (inj0h:zip-pair '())
 
+
 (defun inj0h:zip-pair-impl (list acc)
   "The implementation details for `inj0h:zip-pair'."
   (let ((first (car list))
@@ -388,7 +426,9 @@ For a LIST of size 1 or size 0 - I.e. the empty list, return nil."
           (inj0h:zip-pair-impl rest acc))
       (nreverse acc))))
 
+
 ;;; 03. User Macros:
+
 
 (defmacro inj0h:evil-leader (:key key :bindings binds :per-mode permode)
   "For Evil mode, create Vim style leader bindings using the following
@@ -445,6 +485,7 @@ such that each mode creates a variable with its name."
                    (function (cdr b)))
                (define-key mkeymap binding function))))))))
 
+
 (defmacro inj0h:evil-local-overload (:mode mode :bindings bindings)
   "For Evil mode, create Vim style bindings locally for an extant mode using the
 following parameters (all required):
@@ -469,6 +510,7 @@ E.g.
                          (key (cadr b))
                          (function (cddr b)))
                      (evil-local-set-key vimode (kbd key) function)))))))
+
 
 ;; TODO() Refactor error handling for bad argument values, E.g. a mode that
 ;;        doesn't exist
@@ -537,7 +579,9 @@ E.g.
                 (with-eval-after-load mode-symb (add-hook hook conf)))
               (message "Completed inj0h:setup for %s" mode-name))))))
 
+
 ;;; 04. Disable:
+
 
 (setq auto-save-default nil
       bookmark-set-fringe-mark nil
@@ -552,7 +596,9 @@ E.g.
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 
+
 ;;; 05. Vanilla Settings:
+
 
 ;; Custom File
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
@@ -604,7 +650,9 @@ E.g.
 (set-frame-parameter (selected-frame) 'alpha '(100 . 95))
 (add-to-list 'default-frame-alist '(alpha . (100 . 95)))
 
+
 ;;; 06. Vanilla Packages:
+
 
 (setq blink-cursor-blinks 30)
 (blink-cursor-mode 1)
@@ -738,7 +786,9 @@ E.g.
  :mode xref--xref-buffer
  :bindings ((motion . ("<return>" . xref-goto-xref))))
 
+
 ;;; 07. Vanilla Programming Language Packages:
+
 
 (add-hook 'java-mode-hook #'(lambda ()
                               (let ((java-indent 4))
@@ -782,7 +832,9 @@ E.g.
             'insert text-mode-map (kbd "\C-c r") 'inj0h:brackets-insert)
           (inj0h:spell-set))))
 
+
 ;;; 08. Package Management:
+
 
 ;; (setq url-proxy-services
 ;;       '(("http"  . "proxy:port")
@@ -796,7 +848,7 @@ E.g.
 (when (not package-archive-contents)
   (package-refresh-contents))
 
-(dolist (packages '(corfu
+(dolist (packages '(company
                     diminish
                     dockerfile-mode
                     evil
@@ -815,7 +867,9 @@ E.g.
   (when (not (package-installed-p packages))
     (package-install packages)))
 
+
 ;;; 09. Evil Mode (Non-Vanilla settings begin here):
+
 
 ;; Summon the Editor of the Beast - VI VI VI
 ;;
@@ -827,7 +881,7 @@ E.g.
 (require 'evil-escape)
 (require 'undo-fu)
 (evil-mode 1)
-(evil-escape-mode t)
+(evil-escape-mode 1)
 (evil-select-search-module 'evil-search-module 'evil-search)
 (setq evil-ex-complete-emacs-commands 'never ; Broken on Mac
       evil-want-empty-ex-last-command nil)
@@ -844,19 +898,12 @@ E.g.
 
 (define-key evil-insert-state-map (kbd "\C-c t") 'inj0h:todo-inline)
 (define-key evil-insert-state-map (kbd "\C-c d") 'inj0h:date-insert)
-;; TODO() We want to use "indent-for-tab-command" and "c-indent-line-or-region" accordingly for the modes that default to one or the other
-(define-key evil-insert-state-map (kbd "C-<tab>") 'indent-for-tab-command)
 (define-key evil-insert-state-map (kbd "S-<tab>") 'inj0h:indent-remove)
 (define-key evil-insert-state-map (kbd "<tab>") 'inj0h:indent-insert)
-;; TODO() Refactor this keybinding into an advice call
-(define-key evil-insert-state-map (kbd "\C-n")
-  #'(lambda ()
-      (interactive) (dabbrev-completion 1))) ; Search in same Major Mode Buffers
-
+(define-key evil-motion-state-map (kbd "=") 'inj0h:evil-disable-indent)
 (define-key evil-motion-state-map (kbd "\C-c m") 'inj0h:brackets-check)
 (define-key evil-normal-state-map (kbd "\C-c t") 'inj0h:todo)
 (define-key evil-normal-state-map (kbd "\C-r") 'undo-fu-only-redo)
-(define-key evil-normal-state-map "u" 'undo-fu-only-undo)
 
 ;; Binding the Evil vi style splits keys to Emacs splits prevents a bug with
 ;; random cursor "jumping"
@@ -864,6 +911,9 @@ E.g.
 (define-key evil-normal-state-map (kbd "C-w s") 'split-window-below)
 (define-key evil-normal-state-map (kbd "C-w C-v") 'split-window-right)
 (define-key evil-normal-state-map (kbd "C-w v") 'split-window-right)
+
+(define-key evil-normal-state-map (kbd "=") 'inj0h:evil-disable-indent)
+(define-key evil-normal-state-map "u" 'undo-fu-only-undo)
 
 (inj0h:create-keybindings
  evil-motion-state-map
@@ -907,25 +957,31 @@ E.g.
             (text        . (("a" . inj0h:todo-archive)
                             ("s" . inj0h:todo-start)))))
 
+
 ;;; 10. Non-Vanilla Packages:
 
-(require 'corfu)
-(setq corfu-auto nil
-      corfu-cycle t
-      corfu-excluded-modes '(bookmark-bmenu-mode
-                             compilation-mode
-                             dired-mode
-                             ibuffer-mode))
-(define-key corfu-map (kbd "M-t") 'corfu-previous)
-(global-corfu-mode)
+
+(require 'company)
+(global-company-mode)
+(setq company-idle-delay 0
+      company-format-margin-function nil)
+(setq-default company-dabbrev-downcase nil
+              company-dabbrev-ignore-case 1)
+(define-key company-active-map (kbd "M-n") nil)
+(define-key company-active-map (kbd "M-p") nil)
+(define-key company-active-map (kbd "C-n") #'company-select-next)
+(define-key company-active-map (kbd "C-t") #'company-select-previous)
 
 (require 'diminish)
+(diminish 'company-mode)
 (diminish 'evil-escape-mode)
 (with-eval-after-load 'subword (diminish 'subword-mode))
 
 (load-theme 'kuronami t)
 
+
 ;;; 11. Non-Vanilla Programming Language Packages:
+
 
 (inj0h:setup
  :mode go
