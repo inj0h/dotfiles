@@ -218,14 +218,14 @@
       "int" : 0
     },
     "unsnapRestore" : {
-      "int" : 0
+      "int" : 1
     },
     "windowSnapping" : {
       "int" : 0
     }
   },
   "shortcuts" : {
-    "centerHalf" : {
+    "center" : {
       "keyCode" : 125,
       "modifierFlags" : 1572864
     },
@@ -252,6 +252,10 @@
     "reflowTodo" : {
       "keyCode" : 45,
       "modifierFlags" : 786432
+    },
+    "restore" : {
+      "keyCode" : 31,
+      "modifierFlags" : 1572864
     },
     "rightHalf" : {
       "keyCode" : 124,

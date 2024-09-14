@@ -962,15 +962,15 @@ E.g.
 
 
 (require 'company)
-(global-company-mode)
+(global-company-mode 1)
 (setq company-idle-delay 0
       company-format-margin-function nil)
 (setq-default company-dabbrev-downcase nil
               company-dabbrev-ignore-case 1)
-(define-key company-active-map (kbd "M-n") nil)
-(define-key company-active-map (kbd "M-p") nil)
-(define-key company-active-map (kbd "C-n") #'company-select-next)
-(define-key company-active-map (kbd "C-t") #'company-select-previous)
+(define-key company-active-map (kbd "M-t") #'company-select-previous)
+(add-hook 'markdown-mode-hook #'(lambda () (company-mode -1)))
+(add-hook 'tex-mode-hook #'(lambda () (company-mode -1)))
+(add-hook 'text-mode-hook #'(lambda () (company-mode -1)))
 
 (require 'diminish)
 (diminish 'company-mode)

@@ -9,8 +9,7 @@ alias gc="git commit"
 alias gch="git checkout"
 alias gD="git --no-pager diff"
 alias gd="git diff"
-alias gL="git log --graph"
-alias gl="git --no-pager log | head -n 30"
+alias gl="git log --graph"
 alias groot='cd $(git rev-parse --show-toplevel)'
 alias gs="git status"
 alias gsroot='cd $(git rev-parse --show-superproject-working-tree)'
@@ -23,7 +22,8 @@ alias treee="tree -aC -I '.git|node_modules|target' ."
 alias u="cd .."
 case "$(uname -s)" in
     "Darwin")
-        alias ffx="open -a Firefox"
+        alias chrome="open -a chromium --new --args -incognito"
+        alias fx="open -a Firefox"
         alias get="pwd | pbcopy"
         alias here='cd $(pbpaste)'
         alias o="ls -AGl"
