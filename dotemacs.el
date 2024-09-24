@@ -848,8 +848,7 @@ E.g.
 (when (not package-archive-contents)
   (package-refresh-contents))
 
-(dolist (packages '(company
-                    diminish
+(dolist (packages '(diminish
                     dockerfile-mode
                     evil
                     evil-escape
@@ -898,6 +897,9 @@ E.g.
 
 (define-key evil-insert-state-map (kbd "\C-c t") 'inj0h:todo-inline)
 (define-key evil-insert-state-map (kbd "\C-c d") 'inj0h:date-insert)
+(define-key evil-insert-state-map (kbd "\C-n")
+  #'(lambda ()
+      (interactive) (dabbrev-completion 1))) ; Search in same Major Mode Buffers
 (define-key evil-insert-state-map (kbd "S-<tab>") 'inj0h:indent-remove)
 (define-key evil-insert-state-map (kbd "<tab>") 'inj0h:indent-insert)
 (define-key evil-motion-state-map (kbd "=") 'inj0h:evil-disable-indent)
@@ -960,20 +962,7 @@ E.g.
 
 ;;; 10. Non-Vanilla Packages:
 
-
-(require 'company)
-(global-company-mode 1)
-(setq company-idle-delay 0
-      company-format-margin-function nil)
-(setq-default company-dabbrev-downcase nil
-              company-dabbrev-ignore-case 1)
-(define-key company-active-map (kbd "M-t") #'company-select-previous)
-(add-hook 'markdown-mode-hook #'(lambda () (company-mode -1)))
-(add-hook 'tex-mode-hook #'(lambda () (company-mode -1)))
-(add-hook 'text-mode-hook #'(lambda () (company-mode -1)))
-
 (require 'diminish)
-(diminish 'company-mode)
 (diminish 'evil-escape-mode)
 (with-eval-after-load 'subword (diminish 'subword-mode))
 
