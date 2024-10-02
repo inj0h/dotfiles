@@ -1,6 +1,7 @@
 #!/bin/sh
-#
-# A POSIX compliant shell script to setup and teardown symbolic links for a set of files outlined by an argument configuration file.
+
+# A POSIX compliant shell script to setup and teardown symbolic links for a set
+# of files outlined by an argument configuration file.
 
 
 ### Variables:
@@ -9,10 +10,10 @@
 # Arguments
 flag_help="--help"
 flag_help_abbrev="-h"
-flag_link="--link"
-flag_link_abbrev="-l"
-flag_unlink="--unlink"
-flag_unlink_abbrev="-u"
+flag_create="--create"
+flag_create_abbrev="-c"
+flag_delete="--delete"
+flag_delete_abbrev="-d"
 
 # Configuration file
 configuration_file="dotfiles.txt"
@@ -22,13 +23,15 @@ link_action_link="link"
 link_action_unlink="unlink"
 
 # Printing
+color_red="\033[0;31m"
+color_green="\033[0;32m"
 delimiter="--------------------------------------------------"
 
 
 ### Functions:
 
 
-link()
+link_create()
 {
     # This function will parse the $configuration_file, and create a
     # symbolic link for each file per line at the specified directory.
@@ -48,7 +51,6 @@ link()
         exit 1
     fi
 
-    # TODO: Add support for Windows.
     case "$(uname -s)" in
         "Darwin")
             echo "BSD/Mac system detected."
@@ -83,7 +85,40 @@ link()
 }
 
 
+link_delete()
+{
+    # This function will parse the $configuration_file, and will remove
+    # the symbolic link for each file, i.e. the rightmost comma
+    # separated value.
+    #
+    # It short circuits the script upon encountering an error, and
+    # prints the cause of error to STDOUT.
+    #
+    # It assumes that the $configuration_file exists and its contents,
+    # parsable.
+
+    echo "Unlinking.."
+    echo "$delimiter"
+    echo "Removing.."
+
+    while IFS="," read -r filetype filepath linkpath
+    do
+        linkpath_full="$HOME/$linkpath"
+        linkpath_full_noexpand="${HOME:?}/$linkpath"
+
+        rm -rf "$linkpath_full_noexpand"
+        echo "-> $linkpath_full"
+    done < "$1"
+
+    echo "$delimiter"
+    echo "Done."
+}
+
+
 print_color() { printf "$1%s\033[0m" "$2" ; }
+
+
+print_color_n() { printf "$1%s\033[0m" "$2" ; echo ; }
 
 
 print_help()
@@ -98,16 +133,16 @@ print_help()
     Options: $flag_help_abbrev, $flag_help
     Print help, i.e. this output.
 
-    $flag_link_abbrev, $flag_link [file]
+    $flag_create_abbrev, $flag_create [file]
     Parse the contents of the configuration file, and if it
     contains no errors, i.e. the relevant directories and files
     exist on disk, create symbolic links for the file(s) listed
     per line.
 
-    $flag_unlink_abbrev, $flag_unlink [file]
+    $flag_delete_abbrev, $flag_delete [file]
     Parse the contents of the configuration file, and if it
     contains no errors, i.e. the relevant directories and files
-    exist on disk, destroy the symbolic links for the file(s)
+    exist on disk, delete the symbolic links for the file(s)
     listed per line.
 
     File:    A plain text configuration file named $configuration_file. It can
@@ -138,37 +173,7 @@ print_help()
 }
 
 
-unlink()
-{
-    # This function will parse the $configuration_file, and will remove
-    # the symbolic link for each file, i.e. the rightmost comma
-    # separated value.
-    #
-    # It short circuits the script upon encountering an error, and
-    # prints the cause of error to STDOUT.
-    #
-    # It assumes that the $configuration_file exists and its contents,
-    # parsable.
-
-    echo "Unlinking.."
-    echo "$delimiter"
-    echo "Removing.."
-
-    while IFS="," read -r filetype filepath linkpath
-    do
-        linkpath_full="$HOME/$linkpath"
-        linkpath_full_noexpand="${HOME:?}/$linkpath"
-
-        rm -rf "$linkpath_full_noexpand"
-        echo "-> $linkpath_full"
-    done < "$1"
-
-    echo "$delimiter"
-    echo "Done."
-}
-
-
-validate_file_content()
+validate_config()
 {
     # This function parses the $configuration_file, and validates
     # whether the files marked for linking and the directories where
@@ -184,60 +189,51 @@ validate_file_content()
         filepath_full="$HOME/$filepath"
         linkpath_directory="$HOME/$(dirname "$linkpath")"
 
-        if [ -z "$filetype" ]
-            then
-            echo "Error:   Non-parsable content"
-            echo "Content: $filetype"
-            echo "Please make sure $configuration_file has correct formatting."
-            echo "Exiting with nonzero code.."
-            exit 1
-        fi
-
-        if [ -z "$filepath" ]
-            then
-            echo "Error:   Non-parsable content"
-            echo "Content: $filepath"
-            echo "Please make sure $configuration_file has correct formatting."
-            echo "Exiting with nonzero code.."
-            exit 1
-        fi
-
-        if [ -z "$linkpath" ]
-            then
-            echo "Error:   Non-parsable content"
-            echo "Content: $linkpath"
-            echo "Please make sure $configuration_file has correct formatting."
-            echo "Exiting with nonzero code.."
-            exit 1
-        fi
+        # TODO(now) Remove print debug statements
+        print_color_n "$color_red" "DEBUG:"
+        echo "filetype           = $filetype"
+        echo "filepath           = $filepath"
+        echo "filepath_full      = $filepath_full"
+        echo "linkpath           = $linkpath"
+        echo "linkpath_directory = $linkpath_directory"
 
         case "$filetype" in
-        "d"*)
-            if [ ! -d "$filepath_full" ]
-            then
-            echo "Error:     Could not find directory on disk."
-            echo "Directory: $filepath_full"
-            echo "Exiting with nonzero code.."
-            exit 1
-            fi
-            ;;
-        "f"*)
-            if [ ! -f "$filepath_full" ]
-            then
-            echo "Error: Could not find file on disk."
-            echo "File:  $filepath_full"
-            echo "Exiting with nonzero code.."
-            exit 1
-            fi
-            ;;
-        *)
-            echo "Error:   Non-parsable content"
-            echo "Content: $filetype"
-            echo "Please make sure $configuration_file has correct formatting."
-            echo "Exiting with nonzero code.."
-            exit 1
+            "d"*)
+                if [ ! -d "$filepath_full" ]
+                    then
+                    echo "Error:     Could not find directory on disk."
+                    echo "Directory: $filepath_full"
+                    echo "Exiting with nonzero code.."
+                    exit 1
+                fi
+                ;;
+
+            "f"*)
+                if [ ! -f "$filepath_full" ]
+                then
+                    echo "Error: Could not find file on disk."
+                    echo "File:  $filepath_full"
+                    echo "Exiting with nonzero code.."
+                    exit 1
+                fi
+                ;;
+
+            "#"*)
+                print_color_n "$color_red" "Skipping line!"
+                # Treat lines starting with "#" as comments and do not evaluate them.
+                ;;
+
+            # TODO() Add support for skipping empty lines.
+
+            *)
+                echo "Error:   Non-parsable content"
+                echo "Content: $filetype"
+                echo "Please make sure $configuration_file has correct formatting."
+                echo "Exiting with nonzero code.."
+                exit 1
         esac
 
+        # TODO(now) Determine why we needed this.
         if [ ! -d "$linkpath_directory" ]
         then
             echo "Error:     Could not find directory on disk."
@@ -250,116 +246,63 @@ validate_file_content()
 }
 
 
-validate_file_path()
-{
-    # This function accepts a file path as its only argument, and checks
-    # whether the file exists on disk. The file must have the name of
-    # the variable $configuration_file.
-    #
-    # It short circuits the script upon encountering an error, and
-    # prints the cause of error to STDOUT.
-
-    case "$(basename "$1")" in
-        "$configuration_file")
-            if [ ! -e "$1" ]
-            then
-                echo "Error:         Could not find file on disk!"
-                echo "File argument: $1"
-                echo "Exiting with nonzero code.."
-                exit 1
-            fi
-            ;;
-        *)
-            echo "Error:         Non-parsable argument detected!"
-            echo "File argument: $1"
-            echo "Please provide the correct configuration file, i.e. $configuration_file."
-            echo "Exiting with nonzero code.."
-            exit 1
-    esac
-}
-
-
-validate_link_argument()
-{
-    # This function accepts a link argument as its only argument, and
-    # sets the link action accordingly. Refer to the [options] section
-    # of the help documentation, i.e. print_help, for more details.
-    #
-    # It short circuits the script upon encountering an error, and
-    # prints the cause of error to STDOUT.
-
-    case "$1" in
-        "$flag_help"|"$flag_help_abbrev")
-            echo "Error:    Non-parsable argument detected!"
-            echo "Argument: $1"
-            echo "Access the help documentation by only passing $flag_help."
-            echo "Exiting with nonzero code.."
-            exit 1
-            ;;
-        "$flag_link"|"$flag_link_abbrev")
-            echo "Creating symbolic links.."
-            link_action="$link_action_link"
-            ;;
-        "$flag_unlink"|"$flag_unlink_abbrev")
-            echo "Destroying symbolic links.."
-            link_action="$link_action_unlink"
-            ;;
-        *)
-            echo "Error:    Non-parsable argument detected!"
-            echo "Argument: $1"
-            echo "Exiting with nonzero code.."
-            exit 1
-    esac
-}
-
-
 ### Script:
 
 
-case "$#" in
-    1)
+case "$1" in
+    "$flag_help"|"$flag_help_abbrev")
+        print_help
+        exit 0
+        ;;
+
+    "$flag_create"|"$flag_create_abbrev"|"$flag_delete"|"$flag_delete_abbrev")
+        if [ "$#" -lt 2 ]
+        then
+            # TODO(now) Make the error output in color!
+            # TODO(now) Provide more context in print statement
+            echo "Incorrect number of arguments!"
+            exit 1
+        fi
+
+        if [ ! -f "$2" ]
+        then
+            # TODO(now) Make the error output in color!
+            # TODO(now) Provide more context in print statement?
+            echo "File $2 does not exist!"
+            exit 1
+        fi
+
+        validate_config "$2"
+
         case "$1" in
-            "$flag_help"|"$flag_help_abbrev")
-                print_help
+            "$flag_create"|"$flag_create_abbrev")
+                echo "Creating soft links..."
+                link_create "$2"
                 exit 0
                 ;;
-            "$flag_link"|"$flag_link_abbrev")
+
+            "$flag_delete"|"$flag_delete_abbrev")
+                echo "Deleting soft links..."
+                exit 0
+                link_delete "$2"
+                ;;
+
+            *)
+                # TODO(now) Make the error output in color!
+                # TODO(now) Refactor this into a function
                 echo "Error:    Non-parsable argument detected!"
                 echo "Argument: $1"
-                echo "Passing $flag_link requires a file argument!"
                 echo "Exiting with nonzero code.."
                 exit 1
                 ;;
-            "$flag_unlink"|"$flag_unlink_abbrev")
-                echo "Error:    Non-parsable argument detected!"
-                echo "Argument: $1"
-                echo "Passing $flag_unlink requires a file argument!"
-                echo "Exiting with nonzero code.."
-                exit 1
-                ;;
-        *)
-                echo "Error:    Non-parsable argument detected!"
-                echo "Argument: $1"
-                echo "Exiting with nonzero code.."
-                exit 1
         esac
         ;;
-    2)
-        validate_link_argument "$1"
-        validate_file_path "$2"
-        validate_file_content "$2"
 
-        if [ "$link_action" = "$link_action_link" ]
-        then
-            link "$2"
-        else
-            unlink "$2"
-        fi
-        ;;
     *)
-        echo "Error:     Invalid number of arguments!"
-        echo "Arguments: $# (expected 2)"
-        echo "Run this script with the $flag_help flag for more context."
+        # TODO(now) Make the error output in color!
+        # TODO(now) Refactor this into a function
+        echo "Error:    Non-parsable argument detected!"
+        echo "Argument: $1"
         echo "Exiting with nonzero code.."
         exit 1
 esac
