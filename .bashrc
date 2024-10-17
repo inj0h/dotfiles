@@ -20,10 +20,12 @@ alias gtp="git stash pop"
 alias gundo='git reset HEAD~'
 alias treee="tree -aC -I '.git|node_modules|target' ."
 alias u="cd .."
+alias vscode="emacs &" # ;P
 case "$(uname -s)" in
     "Darwin")
         alias chrome="open -a chromium --new --args -incognito"
-        alias fx="open -a Firefox"
+        alias fx="open -a firefox"
+        alias fxp="open -a firefox --new --args -private-window"
         alias get="pwd | pbcopy"
         alias here='cd $(pbpaste)'
         alias o="ls -AGl"

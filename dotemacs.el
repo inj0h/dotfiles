@@ -159,6 +159,15 @@ Not original, but stolen from somewhere on the Internet."
       (define-key keymap keybinding function))))
 
 
+(defun inj0h:dabbrev-complete-like-buffers ()
+  "Returns the results of `dabbrev-completion' sourcing matches from all open
+file buffers with the same major mode as the currently visited buffer.
+
+You can call this function interactively."
+  (interactive)
+  (dabbrev-completion 1))
+
+
 (defun inj0h:date-insert ()
   "Insert today's Gregorian calendar date in year:month:day format.
 
@@ -266,6 +275,27 @@ You can call this function interactively."
 `inj0h:default-indent'. You can call this function interactively."
   (interactive)
   (backward-delete-char-untabify inj0h:default-indent))
+
+
+(defun inj0h:insert-char (char)
+  "Inserts the character at point based on the `char' parameter such that it
+has a non-nil string of length 1 as its value. Any other value results in an
+error message that asserts this stipulation.
+
+You can call this function interactively."
+  (interactive)
+  (if (and char (eq (length char) 1))
+    (insert-char (aref char 0))
+    (message "ERROR: Bad input! Please input a non-nil string of length 1.")))
+
+
+(defun inj0h:insert-char-dash ()
+  "Calls `inj0h:insert-char' with the string value \"-\", i.e. character ASCII
+code 45, as its argument.
+
+You can call this function interactively."
+  (interactive)
+  (inj0h:insert-char "-"))
 
 
 (defun inj0h:spell-set ()
@@ -851,12 +881,12 @@ E.g.
 (dolist (packages '(diminish
                     dockerfile-mode
                     evil
-                    evil-escape
                     go-mode
                     json-mode
                     kuronami-theme
                     ; nix-mode ; ㅜㅜ
                     ; rust-mode
+                    smex
                     swift-mode
                     ; toml-mode
                     typescript-mode
@@ -877,10 +907,8 @@ E.g.
 ;; This configuration uses custom Elisp code to recreate Vim leader keybinding
 ;; features that third party packages like “Evil Leader” and “General” provide
 (require 'evil)
-(require 'evil-escape)
 (require 'undo-fu)
 (evil-mode 1)
-(evil-escape-mode 1)
 (evil-select-search-module 'evil-search-module 'evil-search)
 (setq evil-ex-complete-emacs-commands 'never ; Broken on Mac
       evil-want-empty-ex-last-command nil)
@@ -895,11 +923,12 @@ E.g.
   (add-to-list 'evil-motion-state-modes mode))
 (setq evil-emacs-state-modes evil-emacs-state-modes)
 
+(global-set-key (kbd "C--") 'inj0h:insert-char-dash)
+
+(define-key evil-insert-state-map (kbd "-") 'evil-force-normal-state)
 (define-key evil-insert-state-map (kbd "\C-c t") 'inj0h:todo-inline)
 (define-key evil-insert-state-map (kbd "\C-c d") 'inj0h:date-insert)
-(define-key evil-insert-state-map (kbd "\C-n")
-  #'(lambda ()
-      (interactive) (dabbrev-completion 1))) ; Search in same Major Mode Buffers
+(define-key evil-insert-state-map (kbd "\C-n") 'inj0h:dabbrev-complete-like-buffers)
 (define-key evil-insert-state-map (kbd "S-<tab>") 'inj0h:indent-remove)
 (define-key evil-insert-state-map (kbd "<tab>") 'inj0h:indent-insert)
 (define-key evil-motion-state-map (kbd "=") 'inj0h:evil-disable-indent)
@@ -924,9 +953,6 @@ E.g.
    ("gc" . comment-dwim)
    ("zg" . inj0h:add-word-to-dictionary)))
 
-(setq-default evil-escape-key-sequence "hh"
-              evil-escape-excluded-states '(normal visual motion)
-              evil-escape-delay 0.2)
 
 (inj0h:evil-leader
  :key "SPC"
@@ -962,11 +988,15 @@ E.g.
 
 ;;; 10. Non-Vanilla Packages:
 
+
 (require 'diminish)
-(diminish 'evil-escape-mode)
 (with-eval-after-load 'subword (diminish 'subword-mode))
 
 (load-theme 'kuronami t)
+
+(require 'smex)
+(global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 
 
 ;;; 11. Non-Vanilla Programming Language Packages:
