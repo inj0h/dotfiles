@@ -289,15 +289,6 @@ You can call this function interactively."
     (message "ERROR: Bad input! Please input a non-nil string of length 1.")))
 
 
-(defun inj0h:insert-char-dash ()
-  "Calls `inj0h:insert-char' with the string value \"-\", i.e. character ASCII
-code 45, as its argument.
-
-You can call this function interactively."
-  (interactive)
-  (inj0h:insert-char "-"))
-
-
 (defun inj0h:spell-set ()
   "Enable `flyspell-mode' for the current buffer unless its first line matches
 the string \"#spellno\" as its value. Use this function only when hooking into
@@ -881,6 +872,7 @@ E.g.
 (dolist (packages '(diminish
                     dockerfile-mode
                     evil
+                    evil-escape
                     go-mode
                     json-mode
                     kuronami-theme
@@ -907,8 +899,10 @@ E.g.
 ;; This configuration uses custom Elisp code to recreate Vim leader keybinding
 ;; features that third party packages like “Evil Leader” and “General” provide
 (require 'evil)
+(require 'evil-escape)
 (require 'undo-fu)
 (evil-mode 1)
+(evil-escape-mode 1)
 (evil-select-search-module 'evil-search-module 'evil-search)
 (setq evil-ex-complete-emacs-commands 'never ; Broken on Mac
       evil-want-empty-ex-last-command nil)
@@ -923,10 +917,6 @@ E.g.
   (add-to-list 'evil-motion-state-modes mode))
 (setq evil-emacs-state-modes evil-emacs-state-modes)
 
-(global-set-key (kbd "C--") 'inj0h:insert-char-dash)
-
-(define-key evil-insert-state-map (kbd "-") 'evil-force-normal-state)
-(define-key evil-insert-state-map (kbd "\C-c t") 'inj0h:todo-inline)
 (define-key evil-insert-state-map (kbd "\C-c d") 'inj0h:date-insert)
 (define-key evil-insert-state-map (kbd "\C-n") 'inj0h:dabbrev-complete-like-buffers)
 (define-key evil-insert-state-map (kbd "S-<tab>") 'inj0h:indent-remove)
@@ -953,6 +943,9 @@ E.g.
    ("gc" . comment-dwim)
    ("zg" . inj0h:add-word-to-dictionary)))
 
+(setq-default evil-escape-key-sequence "hh"
+              evil-escape-excluded-states '(normal visual motion)
+              evil-escape-delay 0.2)
 
 (inj0h:evil-leader
  :key "SPC"
@@ -990,6 +983,7 @@ E.g.
 
 
 (require 'diminish)
+(diminish 'evil-escape-mode)
 (with-eval-after-load 'subword (diminish 'subword-mode))
 
 (load-theme 'kuronami t)
