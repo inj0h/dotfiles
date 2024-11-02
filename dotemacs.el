@@ -25,7 +25,7 @@
 
 (let* ((num (random 5))
        (msg (cond ((= num 0) ";; God's in his heaven. All's right with the world. ")
-                  ((= num 1) ";; 発信準備!/발신 준비! ")
+                  ((= num 1) ";; 発信準備! / 발신 준비! ")
                   ((= num 2) ";; Never Knows Best ")
                   ((= num 3) ";; Selamat pagi! ")
                   ((= num 4) ";; Helvetica Standard "))))
@@ -917,6 +917,7 @@ E.g.
   (add-to-list 'evil-motion-state-modes mode))
 (setq evil-emacs-state-modes evil-emacs-state-modes)
 
+(define-key evil-insert-state-map (kbd "\C-t") 'evil-normal-state)
 (define-key evil-insert-state-map (kbd "\C-c t") 'inj0h:todo-inline)
 (define-key evil-insert-state-map (kbd "\C-c d") 'inj0h:date-insert)
 (define-key evil-insert-state-map (kbd "\C-n") 'inj0h:dabbrev-complete-like-buffers)
@@ -924,8 +925,10 @@ E.g.
 (define-key evil-insert-state-map (kbd "<tab>") 'inj0h:indent-insert)
 (define-key evil-motion-state-map (kbd "=") 'inj0h:evil-disable-indent)
 (define-key evil-motion-state-map (kbd "\C-c m") 'inj0h:brackets-check)
+(define-key evil-normal-state-map (kbd "\C-t") 'evil-force-normal-state)
 (define-key evil-normal-state-map (kbd "\C-c t") 'inj0h:todo)
 (define-key evil-normal-state-map (kbd "\C-r") 'undo-fu-only-redo)
+(define-key evil-visual-state-map (kbd "\C-t") 'evil-normal-state)
 
 ;; Binding the Evil vi style splits keys to Emacs splits prevents a bug with
 ;; random cursor "jumping"
