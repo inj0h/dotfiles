@@ -8,7 +8,7 @@
 !Brewfile
 !chrome_plug.sh
 !dotemacs.el
-!mac.terminal
+!dotghostty.conf
 !readme.txt
 !rectangle_config.json
 !slink.sh

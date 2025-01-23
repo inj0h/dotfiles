@@ -9,6 +9,7 @@ alias gc="git commit"
 alias gch="git checkout"
 alias gD="git --no-pager diff"
 alias gd="git diff"
+alias gdc="git diff --cached"
 alias gl="git log --graph"
 alias groot='cd $(git rev-parse --show-toplevel)'
 alias gs="git status"

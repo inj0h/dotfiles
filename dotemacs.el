@@ -56,7 +56,7 @@
 (defvar inj0h:file-todo-archive nil
   "Filepath to .csv file for archiving TODO items.")
 
-(setq inj0h:default-column 79
+(setq inj0h:default-column 79 ; GNU C style
       inj0h:default-indent 4)
 
 
@@ -928,7 +928,7 @@ E.g.
 (define-key evil-normal-state-map (kbd "\C-t") 'evil-force-normal-state)
 (define-key evil-normal-state-map (kbd "\C-c t") 'inj0h:todo)
 (define-key evil-normal-state-map (kbd "\C-r") 'undo-fu-only-redo)
-(define-key evil-visual-state-map (kbd "\C-t") 'evil-normal-state)
+(define-key evil-visual-state-map (kbd "\C-t") 'evil-exit-visual-state)
 
 ;; Binding the Evil vi style splits keys to Emacs splits prevents a bug with
 ;; random cursor "jumping"
