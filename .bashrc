@@ -19,7 +19,7 @@ alias gtc="git stash clear"
 alias gtl="git stash list"
 alias gtp="git stash pop"
 alias gundo='git reset HEAD~'
-alias treee="tree -aC -I '.git|node_modules|target' ."
+alias tre="tree -aC -I '.git|node_modules|target' ."
 alias u="cd .."
 alias vscode="emacs &" # ;P
 case "$(uname -s)" in
@@ -29,7 +29,7 @@ case "$(uname -s)" in
         alias fxp="open -a firefox --new --args -private-window"
         alias get="pwd | pbcopy"
         alias here='cd $(pbpaste)'
-        alias o="ls -AGl"
+        alias o="ls -AGo"
         alias uptime_plus="system_profiler SPSoftwareDataType -detailLevel mini"
         ;;
     "Linux")
@@ -71,5 +71,3 @@ case "$(uname -s)" in
     *)
         echo "Error: Unlisted system detected. Deferring additional system software."
 esac
-
-. "$HOME/.cargo/env"
