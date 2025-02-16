@@ -634,7 +634,7 @@ E.g.
 (setq default-buffer-file-coding-system 'utf-8-unix)
 
 ;; Font
-(set-frame-font "Iosevka 16" nil t) ; Make sure the OS has this installed!
+(set-frame-font "Sarasa Fixed Slab J 16" nil t) ; Make sure the OS has this installed!
 
 ;; Formatting
 (setq c-basic-offset inj0h:default-indent
