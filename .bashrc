@@ -19,7 +19,7 @@ alias gtc="git stash clear"
 alias gtl="git stash list"
 alias gtp="git stash pop"
 alias gundo='git reset HEAD~'
-alias tre="tree -aC -I '.git|node_modules|target' ."
+alias tre="tree -aC -I '.git|node_modules|target|zig-cache' ."
 alias u="cd .."
 alias vscode="emacs &" # ;P
 case "$(uname -s)" in
