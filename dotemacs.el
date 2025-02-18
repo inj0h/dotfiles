@@ -56,7 +56,7 @@
 (defvar inj0h:file-todo-archive nil
   "Filepath to .csv file for archiving TODO items.")
 
-(setq inj0h:default-column 79 ; GNU C style
+(setq inj0h:default-column 80 ; GNU C style + 1
       inj0h:default-indent 4)
 
 
@@ -169,11 +169,50 @@ You can call this function interactively."
 
 
 (defun inj0h:date-insert ()
-  "Insert today's Gregorian calendar date in year:month:day format.
+  "Insert today's Gregorian calendar date in the year:month:day(day-of-week)
+format with the corresponding Chinese character for day-of-week.
 
 You can call this function interactively."
   (interactive)
-  (insert (format-time-string "%Y.%m.%d")))
+  (let* ((day-of-week-num (format-time-string "%w"))
+         (day-of-week (cond ((string= day-of-week-num "0") "日")
+                            ((string= day-of-week-num "1") "月")
+                            ((string= day-of-week-num "2") "火")
+                            ((string= day-of-week-num "3") "水")
+                            ((string= day-of-week-num "4") "木")
+                            ((string= day-of-week-num "5") "金")
+                            ((string= day-of-week-num "6") "土"))))
+    (insert (concat (format-time-string "%Y.%m.%d") "(" day-of-week ")"))))
+
+
+(defun inj0h:day-insert (day)
+  "Using the logic below, insert the Chinese character for the given DAY
+argument of type string.
+
+      EN      JP        KR        漢字
+\"0\" | \"sun\" | \"nichi\" | \"il\"   -> \"日\"
+\"1\" | \"mon\" | \"getsu\" | \"wol\"  -> \"月\"
+\"2\" | \"tue\" | \"ka\"    | \"hwa\"  -> \"火\"
+\"3\" | \"wed\" | \"sui\"   | \"su\"   -> \"水\"
+\"4\" | \"thu\" | \"mok\"   | \"mog\"  -> \"木\"
+\"5\" | \"fri\" | \"kin\"   | \"guem\" -> \"金\"
+\"6\" | \"sat\" | \"do\"    | \"to\"   -> \"土\"
+
+You can call this function interactively."
+  (interactive "sDAY:")
+  (let* ((dayd (downcase day))
+         (day-2-insert
+          (cond ((inj0h:string-eq-or dayd '("0" "sun" "nichi" "il"))   "日")
+                ((inj0h:string-eq-or dayd '("1" "mon" "getsu" "wol"))  "月")
+                ((inj0h:string-eq-or dayd '("2" "tue" "ka"    "hwa"))  "火")
+                ((inj0h:string-eq-or dayd '("3" "wed" "sui"   "su"))   "水")
+                ((inj0h:string-eq-or dayd '("4" "thu" "mok"   "mog"))  "木")
+                ((inj0h:string-eq-or dayd '("5" "fri" "kin"   "guem")) "金")
+                ((inj0h:string-eq-or dayd '("6" "sat" "do"    "to"))   "土")
+                (t nil))))
+    (if day-2-insert
+        (insert day-2-insert)
+      (message "ERROR: Bad input! See function docstring."))))
 
 
 (defun inj0h:evil-disable-indent ()
@@ -298,6 +337,36 @@ various major modes, otherwise the string comparison will most likely fail."
     (if (string= marker-disable firstline)
         (flyspell-mode -1)
       (flyspell-mode 1))))
+
+
+(defun inj0h:string-eq-or (str comps)
+  "Where COMPs is of type list of string and STR is of type string.
+
+Evaluates whether at least one element of COMPS equals STR.
+
+You can call this function interactively."
+  (inj0h:string-eq-or-helper
+   (mapcar #'(lambda (comp) (string= str comp)) comps)))
+;; Tests:
+;; (inj0h:string-eq-or "foo" '("foo" "bar" "baz"))
+;; (inj0h:string-eq-or "foo" '("foo" "bar"))
+;; (inj0h:string-eq-or "foo" '("foo"))
+;; (inj0h:string-eq-or "foo" '())
+;; (inj0h:string-eq-or "foo" nil)
+
+
+(defun inj0h:string-eq-or-helper (comp-results)
+  "Helper function for `inj0h:string-eq-or'.
+
+Uses `or' to reduce a list of boolean, i.e. COMP-RESULTS."
+  (let ((first (car comp-results))
+        (next (cadr comp-results))
+        (rest (cddr comp-results)))
+    (if (not (seq-empty-p rest))
+        (progn
+          (push (or first next) rest)
+          (inj0h:string-eq-or-helper rest))
+      (or first next))))
 
 
 ;; TODO() Check this works on Windows (CMD and PowerShell)
@@ -652,6 +721,7 @@ E.g.
 ;; Minibuffer
 (defalias 'yes-or-no-p 'y-or-n-p)
 (add-hook 'minibuffer-setup-hook #'(lambda () (setq truncate-lines nil)))
+(define-key minibuffer-mode-map (kbd "\C-c c") 'inj0h:day-insert)
 (define-key minibuffer-mode-map (kbd "\C-c d") 'inj0h:date-insert)
 
 ;; Mouse
@@ -902,7 +972,7 @@ E.g.
 (require 'evil-escape)
 (require 'undo-fu)
 (evil-mode 1)
-(evil-escape-mode 1)
+(evil-escape-mode -1)
 (evil-select-search-module 'evil-search-module 'evil-search)
 (setq evil-ex-complete-emacs-commands 'never ; Broken on Mac
       evil-want-empty-ex-last-command nil)
@@ -917,17 +987,18 @@ E.g.
   (add-to-list 'evil-motion-state-modes mode))
 (setq evil-emacs-state-modes evil-emacs-state-modes)
 
-(define-key evil-insert-state-map (kbd "\C-t") 'evil-normal-state)
-(define-key evil-insert-state-map (kbd "\C-c t") 'inj0h:todo-inline)
-(define-key evil-insert-state-map (kbd "\C-c d") 'inj0h:date-insert)
-(define-key evil-insert-state-map (kbd "\C-n") 'inj0h:dabbrev-complete-like-buffers)
-(define-key evil-insert-state-map (kbd "S-<tab>") 'inj0h:indent-remove)
 (define-key evil-insert-state-map (kbd "<tab>") 'inj0h:indent-insert)
+(define-key evil-insert-state-map (kbd "S-<tab>") 'inj0h:indent-remove)
+(define-key evil-insert-state-map (kbd "\C-c c") 'inj0h:day-insert)
+(define-key evil-insert-state-map (kbd "\C-c d") 'inj0h:date-insert)
+(define-key evil-insert-state-map (kbd "\C-c t") 'inj0h:todo-inline)
+(define-key evil-insert-state-map (kbd "\C-n") 'inj0h:dabbrev-complete-like-buffers)
+(define-key evil-insert-state-map (kbd "\C-t") 'evil-normal-state)
 (define-key evil-motion-state-map (kbd "=") 'inj0h:evil-disable-indent)
 (define-key evil-motion-state-map (kbd "\C-c m") 'inj0h:brackets-check)
-(define-key evil-normal-state-map (kbd "\C-t") 'evil-force-normal-state)
 (define-key evil-normal-state-map (kbd "\C-c t") 'inj0h:todo)
 (define-key evil-normal-state-map (kbd "\C-r") 'undo-fu-only-redo)
+(define-key evil-normal-state-map (kbd "\C-t") 'evil-force-normal-state)
 (define-key evil-visual-state-map (kbd "\C-t") 'evil-exit-visual-state)
 
 ;; Binding the Evil vi style splits keys to Emacs splits prevents a bug with
@@ -937,8 +1008,8 @@ E.g.
 (define-key evil-normal-state-map (kbd "C-w C-v") 'split-window-right)
 (define-key evil-normal-state-map (kbd "C-w v") 'split-window-right)
 
-(define-key evil-normal-state-map (kbd "=") 'inj0h:evil-disable-indent)
 (define-key evil-normal-state-map "u" 'undo-fu-only-undo)
+(define-key evil-normal-state-map (kbd "=") 'inj0h:evil-disable-indent)
 
 (inj0h:create-keybindings
  evil-motion-state-map
