@@ -6,7 +6,7 @@
 ;;       $ defaults write org.gnu.Emacs NSRequiresAquaSystemAppearance -bool no
 
 
-;;; 00. Startup:
+;;; 00. Startup: ;;;
 
 
 ;; You stole these GC hacks from the following sites
@@ -46,7 +46,7 @@
     (setq explicit-shell-file-name "/usr/local/bin/bash")))
 
 
-;;; 01. User Variables:
+;;; 01. User Variables: ;;;
 
 
 (defvar inj0h:file-dotemacs nil
@@ -60,7 +60,7 @@
       inj0h:default-indent 4)
 
 
-;;; 02. User Functions:
+;;; 02. User Functions: ;;;
 
 
 (defun inj0h:add-local-vi-bindings (bind-modes)
@@ -149,6 +149,15 @@ Not original, but stolen from somewhere on the Internet."
   (let ((inhibit-read-only t))
     (ansi-color-apply-on-region
      compilation-filter-start (point))))
+
+
+(defun inj0h:completion-set-only-dabbrev (mode-hook)
+  "Replaces all completion functions for `completion-at-point-functions' with
+`cape-dabbrev' for the given MODE-HOOK."
+  (add-hook mode-hook
+            #'(lambda ()
+                (setq-local completion-at-point-functions '())
+                (add-hook 'completion-at-point-functions #'cape-dabbrev))))
 
 
 (defun inj0h:create-keybindings (keymap keybindings)
@@ -517,7 +526,7 @@ For a LIST of size 1 or size 0 - I.e. the empty list, return nil."
       (nreverse acc))))
 
 
-;;; 03. User Macros:
+;;; 03. User Macros: ;;;
 
 
 (defmacro inj0h:evil-leader (:key key :bindings binds :per-mode permode)
@@ -670,7 +679,7 @@ E.g.
               (message "Completed inj0h:setup for %s" mode-name))))))
 
 
-;;; 04. Disable:
+;;; 04. Disable: ;;;
 
 
 (setq auto-save-default nil
@@ -687,7 +696,7 @@ E.g.
 (tool-bar-mode -1)
 
 
-;;; 05. Vanilla Settings:
+;;; 05. Vanilla Settings: ;;;
 
 
 ;; Custom File
@@ -742,7 +751,7 @@ E.g.
 (add-to-list 'default-frame-alist '(alpha . (100 . 95)))
 
 
-;;; 06. Vanilla Packages:
+;;; 06. Vanilla Packages: ;;;
 
 
 (setq blink-cursor-blinks 30)
@@ -878,7 +887,7 @@ E.g.
  :bindings ((motion . ("<return>" . xref-goto-xref))))
 
 
-;;; 07. Vanilla Programming Language Packages:
+;;; 07. Vanilla Programming Language Packages: ;;;
 
 
 (add-hook 'java-mode-hook #'(lambda ()
@@ -924,7 +933,7 @@ E.g.
           (inj0h:spell-set))))
 
 
-;;; 08. Package Management:
+;;; 08. Package Management: ;;;
 
 
 ;; (setq url-proxy-services
@@ -939,7 +948,9 @@ E.g.
 (when (not package-archive-contents)
   (package-refresh-contents))
 
-(dolist (packages '(diminish
+(dolist (packages '(cape
+                    corfu
+                    diminish
                     dockerfile-mode
                     evil
                     evil-escape
@@ -959,7 +970,7 @@ E.g.
     (package-install packages)))
 
 
-;;; 09. Evil Mode (Non-Vanilla settings begin here):
+;;; 09. Evil Mode (Non-Vanilla settings begin here): ;;;
 
 
 ;; Summon the Editor of the Beast - VI VI VI
@@ -1054,8 +1065,33 @@ E.g.
                             ("s" . inj0h:todo-start)))))
 
 
-;;; 10. Non-Vanilla Packages:
+;;; 10. Non-Vanilla Packages: ;;;
 
+
+(require 'cape)
+(add-hook 'completion-at-point-functions #'cape-dabbrev)
+
+(inj0h:completion-set-only-dabbrev 'emacs-lisp-mode-hook)
+(inj0h:completion-set-only-dabbrev 'sh-mode-hook)
+
+(require 'corfu)
+(setq corfu-auto t
+      corfu-auto-delay 0.1
+      corfu-auto-prefix 2
+      corfu-cycle t
+      corfu-separator ?\s
+      ;; TODO() Test this exclusion function again because it doesn't work as of
+      ;;        2025.04.06(日).
+      ;; corfu-excluded-modes '(bookmark-bmenu-mode
+      ;;                        compilation-mode
+      ;;                        dired-mode
+      ;;                        ibuffer-mode
+      ;;                        text-mode)
+      )
+(define-key corfu-map (kbd "M-t") 'corfu-previous)
+;; TODO() Restore this global setting once corfu-excluded-modes works.
+;; (global-corfu-mode)
+(add-hook 'prog-mode-hook 'corfu-mode)
 
 (require 'diminish)
 (diminish 'evil-escape-mode)
@@ -1068,7 +1104,7 @@ E.g.
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 
 
-;;; 11. Non-Vanilla Programming Language Packages:
+;;; 11. Non-Vanilla Programming Language Packages: ;;;
 
 
 (inj0h:setup
