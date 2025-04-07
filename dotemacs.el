@@ -177,51 +177,77 @@ You can call this function interactively."
   (dabbrev-completion 1))
 
 
-(defun inj0h:date-insert ()
-  "Insert today's Gregorian calendar date in the year:month:day(day-of-week)
-format with the corresponding Chinese character for day-of-week.
+(defun inj0h:date-calc ()
+  "Calculates today's Gregorian calendar date in the year.month.day(day-of-week)
+format with the corresponding Chinese character for day-of-week via
+`inj0h:date-day-of-week-han'."
 
-You can call this function interactively."
-  (interactive)
-  (let* ((day-of-week-num (format-time-string "%w"))
-         (day-of-week (cond ((string= day-of-week-num "0") "日")
-                            ((string= day-of-week-num "1") "月")
-                            ((string= day-of-week-num "2") "火")
-                            ((string= day-of-week-num "3") "水")
-                            ((string= day-of-week-num "4") "木")
-                            ((string= day-of-week-num "5") "金")
-                            ((string= day-of-week-num "6") "土"))))
-    (insert (concat (format-time-string "%Y.%m.%d") "(" day-of-week ")"))))
+  (concat
+   (format-time-string "%Y.%m.%d")
+   "(" (inj0h:date-day-of-week-han (format-time-string "%w")) ")"))
 
 
-(defun inj0h:day-insert (day)
-  "Using the logic below, insert the Chinese character for the given DAY
-argument of type string.
+(defun inj0h:date-day-insert (day)
+  "Inserts the Chinese character for the given numerical Gregorian DAY argument
+of type string using the logic shown below, i.e. provided via
+`inj0h:date-day-of-week-han'.
 
-      EN      JP        KR        漢字
-\"0\" | \"sun\" | \"nichi\" | \"il\"   -> \"日\"
-\"1\" | \"mon\" | \"getsu\" | \"wol\"  -> \"月\"
-\"2\" | \"tue\" | \"ka\"    | \"hwa\"  -> \"火\"
-\"3\" | \"wed\" | \"sui\"   | \"su\"   -> \"水\"
-\"4\" | \"thu\" | \"mok\"   | \"mog\"  -> \"木\"
-\"5\" | \"fri\" | \"kin\"   | \"guem\" -> \"金\"
-\"6\" | \"sat\" | \"do\"    | \"to\"   -> \"土\"
+EN      JP        KR        漢字
+\"sun\" | \"nichi\" | \"il\"   -> \"日\"
+\"mon\" | \"getsu\" | \"wol\"  -> \"月\"
+\"tue\" | \"ka\"    | \"hwa\"  -> \"火\"
+\"wed\" | \"sui\"   | \"su\"   -> \"水\"
+\"thu\" | \"mok\"   | \"mog\"  -> \"木\"
+\"fri\" | \"kin\"   | \"guem\" -> \"金\"
+\"sat\" | \"do\"    | \"to\"   -> \"土\"
 
 You can call this function interactively."
   (interactive "sDAY:")
   (let* ((dayd (downcase day))
          (day-2-insert
-          (cond ((inj0h:string-eq-or dayd '("0" "sun" "nichi" "il"))   "日")
-                ((inj0h:string-eq-or dayd '("1" "mon" "getsu" "wol"))  "月")
-                ((inj0h:string-eq-or dayd '("2" "tue" "ka"    "hwa"))  "火")
-                ((inj0h:string-eq-or dayd '("3" "wed" "sui"   "su"))   "水")
-                ((inj0h:string-eq-or dayd '("4" "thu" "mok"   "mog"))  "木")
-                ((inj0h:string-eq-or dayd '("5" "fri" "kin"   "guem")) "金")
-                ((inj0h:string-eq-or dayd '("6" "sat" "do"    "to"))   "土")
-                (t nil))))
+          (cond ((inj0h:string-eq-or dayd '("sun" "nichi" "il"))   "0")
+                ((inj0h:string-eq-or dayd '("mon" "getsu" "wol"))  "1")
+                ((inj0h:string-eq-or dayd '("tue" "ka"    "hwa"))  "2")
+                ((inj0h:string-eq-or dayd '("wed" "sui"   "su"))   "3")
+                ((inj0h:string-eq-or dayd '("thu" "mok"   "mog"))  "4")
+                ((inj0h:string-eq-or dayd '("fri" "kin"   "guem")) "5")
+                ((inj0h:string-eq-or dayd '("sat" "do"    "to"))   "6")
+                (t                                                 nil))))
     (if day-2-insert
-        (insert day-2-insert)
+        (insert (inj0h:date-day-of-week-han day-2-insert))
       (message "ERROR: Bad input! See function docstring."))))
+
+
+(defun inj0h:date-day-of-week-han (day-as-num)
+  "Returns a string of the Chinese character for the corresponding numerical
+string representation of a Gregorian calendar day via DAY-AS-NUM using the logic
+shown below.
+
+Day-As-Number    漢字
+\"0\"           -> \"日\"
+\"1\"           -> \"月\"
+\"2\"           -> \"火\"
+\"3\"           -> \"水\"
+\"4\"           -> \"木\"
+\"5\"           -> \"金\"
+\"6\"           -> \"土\""
+  (cond ((string= day-as-num "0") "日")
+        ((string= day-as-num "1") "月")
+        ((string= day-as-num "2") "火")
+        ((string= day-as-num "3") "水")
+        ((string= day-as-num "4") "木")
+        ((string= day-as-num "5") "金")
+        ((string= day-as-num "6") "土")
+        (t                        "誤")))
+
+
+(defun inj0h:date-insert ()
+  "Inserts today's Gregorian calendar date with the logic provided via
+`inj0h:date-calc'.
+
+You can call this function interactively."
+  (interactive)
+  (insert (inj0h:date-calc)))
 
 
 (defun inj0h:evil-disable-indent ()
@@ -300,13 +326,14 @@ arguments.
 
 You can call this function interactively."
   (interactive "sgrep:")
-  (let ((grep-args (concat "grep"
-                           " --color"
-                           " --exclude-dir={.git,.idea,build,dist,node_modules,target}"
-                           " --exclude 'Cargo.lock'"
-                           " -Iinr "
-                           "\"" query "\""
-                           " .")))
+  (let ((grep-args (concat
+                    "grep"
+                    " --color"
+                    " --exclude-dir={.git,.idea,build,dist,node_modules,target}"
+                    " --exclude 'Cargo.lock'"
+                    " -Iinr "
+                    "\"" query "\""
+                    " .")))
     (grep grep-args)))
 
 
@@ -342,7 +369,8 @@ You can call this function interactively."
 the string \"#spellno\" as its value. Use this function only when hooking into
 various major modes, otherwise the string comparison will most likely fail."
   (let ((marker-disable "#spellno")
-        (firstline (buffer-substring (line-beginning-position) (line-end-position))))
+        (firstline
+         (buffer-substring (line-beginning-position) (line-end-position))))
     (if (string= marker-disable firstline)
         (flyspell-mode -1)
       (flyspell-mode 1))))
@@ -414,14 +442,18 @@ interactively."
   "Remove a completed TODO item from `inj0h:file-todo' and append its contents
 to `inj0h:file-todo-archive'.
 
-A completed TODO item has the format: \"- [x] YYYY.MM.DD :: NOTE\" such that a
-\" :: DEADLINE YYYY.MM.DD\" suffix does not affect its completion state.
+A completed TODO item has the format:
+
+\"- [x] YYYY.MM.DD(日) :: NOTE :: DEADLINE YYYY.MM.DD(日)\"
+
+Such that a TODO item may or may not have a DEADLINE suffix, and in the even
+that it does, the DEADLINE will not affect its archival process.
 
 The following information becomes appended.
 
-FROM: \"- [x] YYYY.MM.DD :: NOTE (:: DEADLINE YYYY.MM.DD)\"
+FROM: \"- [x] YYYY.MM.DD(日) :: NOTE :: DEADLINE YYYY.MM.DD(日)\"
 
-TO:   \"YYYY.MM.DD (TODO started), YYYY.MM.DD (TODO ended), NOTE\"
+TO:   \"YYYY.MM.DD(日) (TODO started), YYYY.MM.DD(日) (TODO ended), NOTE\"
 
 Where \"TODO ended\" is the date when a completed TODO item becomes archived,
 i.e. by calling this function.
@@ -433,7 +465,8 @@ You can call this function interactively."
   (if (file-exists-p inj0h:file-todo-archive)
       (if (save-excursion
             (beginning-of-line)
-            (looking-at "- \\[x\\] [0-9]\\{4\\}.[0-9]\\{2\\}.[0-9]\\{2\\} ::"))
+            (looking-at
+             "- \\[x\\] [0-9]\\{4\\}.[0-9]\\{2\\}.[0-9]\\{2\\}(.) ::"))
           (let* ((content
                   (progn
                     (beginning-of-line)
@@ -442,12 +475,12 @@ You can call this function interactively."
                  (content-form (split-string content "::" t "[[:space:]]"))
                  (date-start
                   (replace-regexp-in-string "- \\[x\\] " "" (car content-form)))
-                 (date-end (format-time-string "%Y.%m.%d"))
+                 (date-end (inj0h:date-calc))
                  (todo (cadr content-form))
                  (archive (concat date-start "," date-end ",\"" todo "\"\n")))
             (append-to-file archive nil inj0h:file-todo-archive)
             (kill-line))
-        (message "ERROR: Format must match \"- [x] YYYY.MM.DD :: NOTE\""))
+        (message "ERROR: Format must match \"- [x] YYYY.MM.DD(日) :: NOTE\""))
     (message "File at %s does not exist!" inj0h:file-todo-archive)))
 
 
@@ -481,19 +514,19 @@ You can call this function interactively."
 
 (defun inj0h:todo-start ()
   "Replace the \"TODO\" text for a TODO item in `inj0h:file-todo' with the
-current date using the YYYY.MM.DD format. This date marks the start of the TODO
-item.
+current date using the YYYY.MM.DD(日) format. This date marks the start of the
+TODO item.
 
 You can call this function interactively."
   (interactive)
   (if (save-excursion
         (beginning-of-line)
         (looking-at "- \\[[[:space:]]\\] TODO ::"))
-      (let ((timestamp (format-time-string "%Y.%m.%d")))
+      (progn
         (beginning-of-line)
         (forward-word)
         (backward-kill-word 1)
-        (insert timestamp)
+        (inj0h:date-insert)
         (beginning-of-line)
         (forward-char 3))
     (message "ERROR: Format must match \"- [ ] TODO :: NOTE\"")))
@@ -730,7 +763,7 @@ E.g.
 ;; Minibuffer
 (defalias 'yes-or-no-p 'y-or-n-p)
 (add-hook 'minibuffer-setup-hook #'(lambda () (setq truncate-lines nil)))
-(define-key minibuffer-mode-map (kbd "\C-c c") 'inj0h:day-insert)
+(define-key minibuffer-mode-map (kbd "\C-c c") 'inj0h:date-day-insert)
 (define-key minibuffer-mode-map (kbd "\C-c d") 'inj0h:date-insert)
 
 ;; Mouse
@@ -1000,7 +1033,7 @@ E.g.
 
 (define-key evil-insert-state-map (kbd "<tab>") 'inj0h:indent-insert)
 (define-key evil-insert-state-map (kbd "S-<tab>") 'inj0h:indent-remove)
-(define-key evil-insert-state-map (kbd "\C-c c") 'inj0h:day-insert)
+(define-key evil-insert-state-map (kbd "\C-c c") 'inj0h:date-day-insert)
 (define-key evil-insert-state-map (kbd "\C-c d") 'inj0h:date-insert)
 (define-key evil-insert-state-map (kbd "\C-c t") 'inj0h:todo-inline)
 (define-key evil-insert-state-map (kbd "\C-n") 'inj0h:dabbrev-complete-like-buffers)
