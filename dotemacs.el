@@ -804,7 +804,7 @@ E.g.
 (delete-selection-mode t)
 
 (setq dired-hide-details-hide-symlink-targets nil
-      dired-listing-switches "-Al")
+      dired-listing-switches "-Ao")
 (add-hook 'dired-mode-hook #'dired-hide-details-mode)
 
 (setq display-line-numbers-grow-only t)
@@ -958,7 +958,6 @@ E.g.
  :assm (goto-address-mode visual-line-mode)
  :conf ((let ((text-indent 2))
           (setq-local evil-shift-width text-indent
-                      fill-column 72 ; Blame Git!
                       inj0h:default-indent text-indent
                       tab-width text-indent)
           (evil-define-key
@@ -988,6 +987,7 @@ E.g.
                     evil
                     evil-escape
                     go-mode
+                    hcl-mode
                     json-mode
                     kuronami-theme
                     ; nix-mode ; ㅜㅜ
