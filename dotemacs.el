@@ -799,7 +799,8 @@ E.g.
 
 (setq dabbrev-case-distinction nil
       dabbrev-case-fold-search t
-      dabbrev-case-replace nil)
+      dabbrev-case-replace nil
+      dabbrev-check-all-buffers nil)
 
 (delete-selection-mode t)
 
@@ -1102,6 +1103,7 @@ E.g.
 
 
 (require 'cape)
+(setq cape-dabbrev-check-other-buffers 1) ; Use dabbrev--select-buffers.
 (add-hook 'completion-at-point-functions #'cape-dabbrev)
 
 (inj0h:completion-set-only-dabbrev 'emacs-lisp-mode-hook)
@@ -1110,7 +1112,7 @@ E.g.
 (require 'corfu)
 (setq corfu-auto t
       corfu-auto-delay 0.1
-      corfu-auto-prefix 2
+      corfu-auto-prefix 4
       corfu-cycle t
       corfu-separator ?\s
       ;; TODO() Test this exclusion function again because it doesn't work as of
