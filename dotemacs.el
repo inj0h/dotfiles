@@ -23,13 +23,7 @@
                                   (setq gc-cons-threshold 800000
                                         gc-cons-percentage 0.1)))
 
-(let* ((num (random 5))
-       (msg (cond ((= num 0) ";; God's in his heaven. All's right with the world. ")
-                  ((= num 1) ";; 発信準備! / 발신 준비! ")
-                  ((= num 2) ";; Never Knows Best ")
-                  ((= num 3) ";; Selamat pagi! ")
-                  ((= num 4) ";; Helvetica Standard "))))
-  (setq initial-scratch-message msg))
+(setq initial-scratch-message ";; Selamat pagi! ")
 
 ;; Mac Settings:
 
@@ -335,6 +329,20 @@ You can call this function interactively."
                     "\"" query "\""
                     " .")))
     (grep grep-args)))
+
+
+(defun inj0h:file-path-kill ()
+  "Copies the current buffer's filename and path to the clipboard. If called
+from `dired-mode', then this just copies the path.
+
+You can call this function interactively."
+  (interactive)
+  (let ((filepath (if (equal major-mode 'dired-mode)
+                      default-directory
+                    (buffer-file-name))))
+    (when filepath
+      (kill-new filepath)
+      (message "Copied buffer filepath: \"%s\" to the clipboard." filepath))))
 
 
 (defun inj0h:indent-insert ()
