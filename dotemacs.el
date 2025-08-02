@@ -261,7 +261,7 @@ You can call this function interactively."
   (interactive)
   (if evil-visual-state-minor-mode
       (evil-ex-execute "'<,'>norm@@")
-    (message "Not in Evil VISUAL mode!")))
+    (message "ERROR: Not in Evil VISUAL mode!")))
 
 
 (defun inj0h:evil-leader-keybindings-goto ()
@@ -293,6 +293,23 @@ You can call this function interactively."
           (evil-normal-state)
           (evil-ex-search)))
     (message "Not in Evil VISUAL mode!")))
+
+
+(defun inj0h:evil-visual-pattern-delete (pattern)
+  "Provides an easier to remember (hopefully) shortcut for Vim's visual deletion
+by pattern matching - \":'<,'>g/PATTERN/norm dd\" for example.
+
+You can call this function interactively."
+
+  (interactive "sPATTERN:")
+
+  (when (not evil-visual-state-minor-mode)
+    (message "ERROR: Not in Evil VISUAL mode!"))
+
+  (if (and pattern (not (string= pattern "")))
+      (let ((pattern-delete (concat "'<,'>g/" pattern "/norm dd")))
+        (evil-ex-execute pattern-delete))
+    (message "ERROR: String value must not be nil or empty (\"\")!")))
 
 
 (defun inj0h:get-from-list-else (list match else)
@@ -373,10 +390,11 @@ You can call this function interactively."
 
 
 (defun inj0h:spell-set ()
-  "Enable `flyspell-mode' for the current buffer unless its first line matches
-the string \"#spellno\" as its value. Use this function only when hooking into
-various major modes, otherwise the string comparison will most likely fail."
-  (let ((marker-disable "#spellno")
+  "Enables `flyspell-mode' for the current buffer unless its the value of the
+first line matches the \"#!spellno\" shebang. Use this function only when
+hooking into various major modes, otherwise the string comparison will most
+likely fail."
+  (let ((marker-disable "#!spellno")
         (firstline
          (buffer-substring (line-beginning-position) (line-end-position))))
     (if (string= marker-disable firstline)
@@ -933,6 +951,13 @@ E.g.
 ;; 07. Vanilla Programming Language Packages: ;;
 
 
+(add-hook 'emacs-lisp-mode-hook
+          #'(lambda ()
+              (define-key
+                evil-motion-state-map
+                (kbd "=")
+                'evil-indent)))
+
 (add-hook 'java-mode-hook #'(lambda ()
                               (let ((java-indent 4))
                                 (setq-local c-basic-offset java-indent
@@ -1083,6 +1108,7 @@ E.g.
             ("r" . align-regexp)
             ("l" . global-display-line-numbers-mode)
             ("/" . inj0h:evil-search-selection)
+            ("?" . inj0h:evil-visual-pattern-delete)
             ("a" . apropos)
             ("o" . switch-to-buffer)
             ("e" . find-file)
