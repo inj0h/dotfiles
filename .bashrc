@@ -7,18 +7,14 @@ alias ga="git add"
 alias gb="git branch"
 alias gc="git commit"
 alias gch="git checkout"
-alias gD="git --no-pager diff"
 alias gd="git diff"
 alias gdc="git diff --cached"
 alias gl="git log --graph"
 alias groot='cd $(git rev-parse --show-toplevel)'
 alias gs="git status"
 alias gsroot='cd $(git rev-parse --show-superproject-working-tree)'
-alias gt="git stash"
-alias gtc="git stash clear"
-alias gtl="git stash list"
-alias gtp="git stash pop"
 alias gundo='git reset HEAD~'
+alias mflac='mfl'
 alias tre="tree -aC -I '.git|node_modules|target|zig-cache' ."
 alias u="cd .."
 alias vscode="emacs &" # ;P
@@ -47,10 +43,6 @@ gr()
          --exclude 'package-lock.json'\
          -Iinr "$1" .
 }
-
-gta() { git stash apply "stash@{$1}"   ; }
-gtd() { git stash drop "stash@{$1}"    ; }
-gts() { git stash show -p "stash@{$1}" ; }
 
 case "$(uname -s)" in
     "Darwin")

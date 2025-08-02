@@ -4,10 +4,10 @@
 # outlined by an argument configuration file.
 
 
-### Variables:
+# Variables: #
 
 
-# Arguments
+# Arguments:
 flag_help="--help"
 flag_help_abbrev="-h"
 flag_create="--create"
@@ -15,28 +15,25 @@ flag_create_abbrev="-c"
 flag_delete="--delete"
 flag_delete_abbrev="-d"
 
-# Printing
+# Printing:
 color_red="\033[0;31m"
 color_green="\033[0;32m"
 color_yellow="\033[0;33m"
 format_bold="\033[1m"
 format_underline="\033[4m"
 
-# Etc
+# Etc:
 config_comment="#"
 
 
-### Functions:
+# Functions: #
 
 
-## Used by other functions:
+# Used by other functions:
 
-print_color() { printf "$1%s\033[0m" "$2" ; }
-
-print_green() { print_color "$color_green" "$1" ; }
-
-print_red() { print_color "$color_red" "$1" ; }
-
+print_color()  { printf "$1%s\033[0m" "$2"        ; }
+print_green()  { print_color "$color_green" "$1"  ; }
+print_red()    { print_color "$color_red" "$1"    ; }
 print_yellow() { print_color "$color_yellow" "$1" ; }
 
 
@@ -85,7 +82,6 @@ config_validate()
         fi
     done < "$1"
 }
-
 
 link_create()
 {
@@ -202,7 +198,7 @@ print_error()
 }
 
 
-### Script:
+# Script: #
 
 
 case "$1" in

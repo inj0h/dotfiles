@@ -6,7 +6,7 @@
 ;;       $ defaults write org.gnu.Emacs NSRequiresAquaSystemAppearance -bool no
 
 
-;;; 00. Startup: ;;;
+;; 00. Startup: ;;
 
 
 ;; You stole these GC hacks from the following sites
@@ -40,7 +40,7 @@
     (setq explicit-shell-file-name "/usr/local/bin/bash")))
 
 
-;;; 01. User Variables: ;;;
+;; 01. User Variables: ;;
 
 
 (defvar inj0h:file-dotemacs nil
@@ -54,7 +54,7 @@
       inj0h:default-indent 4)
 
 
-;;; 02. User Functions: ;;;
+;; 02. User Functions: ;;
 
 
 (defun inj0h:add-local-vi-bindings (bind-modes)
@@ -567,7 +567,7 @@ For a LIST of size 1 or size 0 - I.e. the empty list, return nil."
       (nreverse acc))))
 
 
-;;; 03. User Macros: ;;;
+;; 03. User Macros: ;;
 
 
 (defmacro inj0h:evil-leader (:key key :bindings binds :per-mode permode)
@@ -720,7 +720,7 @@ E.g.
               (message "Completed inj0h:setup for %s" mode-name))))))
 
 
-;;; 04. Disable: ;;;
+;; 04. Disable: ;;
 
 
 (setq auto-save-default nil
@@ -737,7 +737,7 @@ E.g.
 (tool-bar-mode -1)
 
 
-;;; 05. Vanilla Settings: ;;;
+;; 05. Vanilla Settings: ;;
 
 
 ;; Custom File
@@ -792,7 +792,7 @@ E.g.
 (add-to-list 'default-frame-alist '(alpha . (100 . 95)))
 
 
-;;; 06. Vanilla Packages: ;;;
+;; 06. Vanilla Packages: ;;
 
 
 (setq blink-cursor-blinks 30)
@@ -839,6 +839,7 @@ E.g.
  :mode ibuffer
  :bindings ((motion . ("<return>" . ibuffer-visit-buffer))
             (motion . ("g"        . ibuffer-update))))
+(add-hook 'ibuffer-mode-hook 'hl-line-mode)
 
 (setq ido-auto-merge-work-directories-length -1
       ido-case-fold t
@@ -929,7 +930,7 @@ E.g.
  :bindings ((motion . ("<return>" . xref-goto-xref))))
 
 
-;;; 07. Vanilla Programming Language Packages: ;;;
+;; 07. Vanilla Programming Language Packages: ;;
 
 
 (add-hook 'java-mode-hook #'(lambda ()
@@ -974,7 +975,7 @@ E.g.
           (inj0h:spell-set))))
 
 
-;;; 08. Package Management: ;;;
+;; 08. Package Management: ;;
 
 
 ;; (setq url-proxy-services
@@ -994,8 +995,7 @@ E.g.
                     diminish
                     dockerfile-mode
                     evil
-                    evil-escape
-                    go-mode
+                    ;; go-mode
                     hcl-mode
                     json-mode
                     kuronami-theme
@@ -1004,7 +1004,7 @@ E.g.
                     smex
                     swift-mode
                     ; toml-mode
-                    typescript-mode
+                    ; typescript-mode
                     undo-fu
                     yaml-mode
                     zig-mode))
@@ -1012,7 +1012,7 @@ E.g.
     (package-install packages)))
 
 
-;;; 09. Evil Mode (Non-Vanilla settings begin here): ;;;
+;; 09. Evil Mode (Non-Vanilla settings begin here): ;;
 
 
 ;; Summon the Editor of the Beast - VI VI VI
@@ -1022,10 +1022,8 @@ E.g.
 ;; This configuration uses custom Elisp code to recreate Vim leader keybinding
 ;; features that third party packages like “Evil Leader” and “General” provide
 (require 'evil)
-(require 'evil-escape)
 (require 'undo-fu)
 (evil-mode 1)
-(evil-escape-mode -1)
 (evil-select-search-module 'evil-search-module 'evil-search)
 (setq evil-ex-complete-emacs-commands 'never ; Broken on Mac
       evil-want-empty-ex-last-command nil)
@@ -1071,10 +1069,6 @@ E.g.
    ("gc" . comment-dwim)
    ("zg" . inj0h:add-word-to-dictionary)))
 
-(setq-default evil-escape-key-sequence "hh"
-              evil-escape-excluded-states '(normal visual motion)
-              evil-escape-delay 0.2)
-
 (inj0h:evil-leader
  :key "SPC"
  :bindings (("0" . inj0h:evil-leader-keybindings-goto)
@@ -1107,7 +1101,7 @@ E.g.
                             ("s" . inj0h:todo-start)))))
 
 
-;;; 10. Non-Vanilla Packages: ;;;
+;; 10. Non-Vanilla Packages: ;;
 
 
 (require 'cape)
@@ -1137,7 +1131,6 @@ E.g.
 (add-hook 'prog-mode-hook 'corfu-mode)
 
 (require 'diminish)
-(diminish 'evil-escape-mode)
 (with-eval-after-load 'subword (diminish 'subword-mode))
 
 (load-theme 'kuronami t)
@@ -1147,15 +1140,15 @@ E.g.
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 
 
-;;; 11. Non-Vanilla Programming Language Packages: ;;;
+;; 11. Non-Vanilla Programming Language Packages: ;;
 
 
-(inj0h:setup
- :mode go
- :conf ((let ((go-indent 2))
-          (setq-local evil-shift-width go-indent
-                      inj0h:default-indent go-indent
-                      tab-width go-indent))))
+;; (inj0h:setup
+;;  :mode go
+;;  :conf ((let ((go-indent 2))
+;;           (setq-local evil-shift-width go-indent
+;;                       inj0h:default-indent go-indent
+;;                       tab-width go-indent))))
 
 (inj0h:setup
  :mode json
@@ -1166,9 +1159,9 @@ E.g.
                       js-indent-level json-indent
                       tab-width json-indent))))
 
-(inj0h:setup
- :mode rust
- :conf ((setq-local fill-column 99)))
+;; (inj0h:setup
+;;  :mode rust
+;;  :conf ((setq-local fill-column 99)))
 
 (inj0h:setup
  :mode yaml
