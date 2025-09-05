@@ -771,7 +771,7 @@ E.g.
 (setq default-buffer-file-coding-system 'utf-8-unix)
 
 ;; Font
-(set-frame-font "Sarasa Fixed Slab J 16" nil t) ; Make sure the OS has this installed!
+(set-frame-font "Sarasa Fixed Slab J 18" nil t) ; Make sure the OS has this installed!
 
 ;; Formatting
 (setq c-basic-offset inj0h:default-indent
@@ -1020,7 +1020,8 @@ E.g.
                     diminish
                     dockerfile-mode
                     evil
-                    ;; go-mode
+                    evil-escape
+                    ; go-mode
                     hcl-mode
                     json-mode
                     kuronami-theme
@@ -1047,6 +1048,8 @@ E.g.
 ;; This configuration uses custom Elisp code to recreate Vim leader keybinding
 ;; features that third party packages like “Evil Leader” and “General” provide
 (require 'evil)
+(require 'evil-escape)
+(evil-escape-mode 1)
 (require 'undo-fu)
 (evil-mode 1)
 (evil-select-search-module 'evil-search-module 'evil-search)
@@ -1069,13 +1072,10 @@ E.g.
 (define-key evil-insert-state-map (kbd "\C-c d") 'inj0h:date-insert)
 (define-key evil-insert-state-map (kbd "\C-c t") 'inj0h:todo-inline)
 (define-key evil-insert-state-map (kbd "\C-n") 'inj0h:dabbrev-complete-like-buffers)
-(define-key evil-insert-state-map (kbd "\C-t") 'evil-normal-state)
 (define-key evil-motion-state-map (kbd "=") 'inj0h:evil-disable-indent)
 (define-key evil-motion-state-map (kbd "\C-c m") 'inj0h:brackets-check)
 (define-key evil-normal-state-map (kbd "\C-c t") 'inj0h:todo)
 (define-key evil-normal-state-map (kbd "\C-r") 'undo-fu-only-redo)
-(define-key evil-normal-state-map (kbd "\C-t") 'evil-force-normal-state)
-(define-key evil-visual-state-map (kbd "\C-t") 'evil-exit-visual-state)
 
 ;; Binding the Evil vi style splits keys to Emacs splits prevents a bug with
 ;; random cursor "jumping"
@@ -1093,6 +1093,10 @@ E.g.
    (":"  . evil-repeat-find-char)
    ("gc" . comment-dwim)
    ("zg" . inj0h:add-word-to-dictionary)))
+
+(setq-default evil-escape-key-sequence "hh"
+              evil-escape-excluded-states '(normal visual motion)
+              evil-escape-delay 0.2)
 
 (inj0h:evil-leader
  :key "SPC"
