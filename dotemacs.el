@@ -1,10 +1,5 @@
 ;; -*- lexical-binding: t -*-
 
-;; NOTE: For the default Homebrew Emacs 29.1 build on Mac, run this shell
-;;       command to enable the system theme on the title bar
-;;
-;;       $ defaults write org.gnu.Emacs NSRequiresAquaSystemAppearance -bool no
-
 
 ;; 00. Startup: ;;
 
@@ -40,7 +35,44 @@
     (setq explicit-shell-file-name "/usr/local/bin/bash")))
 
 
-;; 01. User Variables: ;;
+;; 01. Package Management: ;;
+
+
+;; (setq url-proxy-services
+;;       '(("http"  . "proxy:port")
+;;         ("https" . "proxy:port")))
+
+(require 'package)
+(package-initialize)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+
+(when (not package-archive-contents)
+  (package-refresh-contents))
+
+(dolist (packages '(cape
+                    corfu
+                    diminish
+                    dockerfile-mode
+                    evil
+                    evil-escape
+                    ; go-mode
+                    hcl-mode
+                    json-mode
+                    kuronami-theme ; (making some changes '( 0 _ 0  )')
+                    ; nix-mode ; ㅜㅜ
+                    ; rust-mode
+                    smex
+                    ; swift-mode
+                    ; toml-mode
+                    typescript-mode
+                    undo-fu
+                    yaml-mode
+                    zig-mode))
+  (when (not (package-installed-p packages))
+    (package-install packages)))
+
+
+;; 02. User Variables: ;;
 
 
 (defvar inj0h:file-dotemacs nil
@@ -54,7 +86,7 @@
       inj0h:default-indent 4)
 
 
-;; 02. User Functions: ;;
+;; 03. User Functions: ;;
 
 
 (defun inj0h:add-local-vi-bindings (bind-modes)
@@ -585,7 +617,7 @@ For a LIST of size 1 or size 0 - I.e. the empty list, return nil."
       (nreverse acc))))
 
 
-;; 03. User Macros: ;;
+;; 04. User Macros: ;;
 
 
 (defmacro inj0h:evil-leader (:key key :bindings binds :per-mode permode)
@@ -738,7 +770,7 @@ E.g.
               (message "Completed inj0h:setup for %s" mode-name))))))
 
 
-;; 04. Disable: ;;
+;; 05. Disable: ;;
 
 
 (setq auto-save-default nil
@@ -755,7 +787,7 @@ E.g.
 (tool-bar-mode -1)
 
 
-;; 05. Vanilla Settings: ;;
+;; 06. Vanilla Settings: ;;
 
 
 ;; Custom File
@@ -810,7 +842,7 @@ E.g.
 (add-to-list 'default-frame-alist '(alpha . (100 . 95)))
 
 
-;; 06. Vanilla Packages: ;;
+;; 07. Vanilla Packages: ;;
 
 
 (setq blink-cursor-blinks 30)
@@ -948,7 +980,7 @@ E.g.
  :bindings ((motion . ("<return>" . xref-goto-xref))))
 
 
-;; 07. Vanilla Programming Language Packages: ;;
+;; 08. Vanilla Programming Language Packages: ;;
 
 
 (add-hook 'emacs-lisp-mode-hook
@@ -998,44 +1030,6 @@ E.g.
           (evil-define-key
             'insert text-mode-map (kbd "\C-c r") 'inj0h:brackets-insert)
           (inj0h:spell-set))))
-
-
-;; 08. Package Management: ;;
-
-
-;; (setq url-proxy-services
-;;       '(("http"  . "proxy:port")
-;;         ("https" . "proxy:port")))
-
-;; TODO() Refactor this code so that it correctly installs missing packages
-(require 'package)
-(package-initialize)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-
-(when (not package-archive-contents)
-  (package-refresh-contents))
-
-(dolist (packages '(cape
-                    corfu
-                    diminish
-                    dockerfile-mode
-                    evil
-                    evil-escape
-                    ; go-mode
-                    hcl-mode
-                    json-mode
-                    kuronami-theme
-                    ; nix-mode ; ㅜㅜ
-                    ; rust-mode
-                    smex
-                    swift-mode
-                    ; toml-mode
-                    ; typescript-mode
-                    undo-fu
-                    yaml-mode
-                    zig-mode))
-  (when (not (package-installed-p packages))
-    (package-install packages)))
 
 
 ;; 09. Evil Mode (Non-Vanilla settings begin here): ;;
