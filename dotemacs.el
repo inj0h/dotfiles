@@ -31,8 +31,8 @@
       (setq mac-mouse-wheel-smooth-scroll nil))
 
     ;; Shell
-    (setenv "SHELL" "/usr/local/bin/bash")
-    (setq explicit-shell-file-name "/usr/local/bin/bash")))
+    (setenv "SHELL" "/opt/homebrew/bin/bash")
+    (setq explicit-shell-file-name "/opt/homebrew/bin/bash")))
 
 
 ;; 01. Package Management: ;;
@@ -880,7 +880,7 @@ E.g.
 (cond ((equal system-type 'gnu/linux)
        (setq ispell-program-name "/usr/bin/aspell"))
       ((equal system-type 'darwin)
-       (setq ispell-program-name "/usr/local/bin/aspell")))
+       (setq ispell-program-name "/opt/homebrew/bin/aspell")))
 
 (global-auto-revert-mode 1)
 

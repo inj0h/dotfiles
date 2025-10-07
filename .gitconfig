@@ -4,7 +4,7 @@
 [core]
     editor = emacsclient
     # Point to diff-highlight installation location on OS.
-    pager = /usr/local/share/git-core/contrib/diff-highlight/diff-highlight | less -R
+    pager = /opt/homebrew/share/git-core/contrib/diff-highlight/diff-highlight | less -R
 
 [color]
     ui = always
@@ -20,7 +20,7 @@
     defaultBranch = main
 [interactive]
     # Point to diff-highlight installation location on OS.
-    diffFilter = /usr/local/share/git-core/contrib/diff-highlight/diff-highlight | less -R
+    diffFilter = /opt/homebrew/share/git-core/contrib/diff-highlight/diff-highlight | less -R
 [merge]
     conflictstyle = diff3
 [push]

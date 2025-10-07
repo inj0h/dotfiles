@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 export PS1="\w>"
 
 alias ec="emacsclient -n"
@@ -46,7 +47,7 @@ gr()
 
 case "$(uname -s)" in
     "Darwin")
-        bash_comp_mac="/usr/local/etc/profile.d/bash_completion.sh"
+        bash_comp_mac="/opt/homebrew/etc/profile.d/bash_completion.sh"
         [[ -r "$bash_comp_mac" ]] && . "$bash_comp_mac"
 
         # For some tertiary Brew deps
