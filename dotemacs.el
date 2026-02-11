@@ -1,7 +1,7 @@
 ;; -*- lexical-binding: t -*-
 
 
-;; 00. Startup: ;;
+;; 00. Startup:
 
 
 ;; You stole these GC hacks from the following sites
@@ -18,9 +18,9 @@
                                   (setq gc-cons-threshold 800000
                                         gc-cons-percentage 0.1)))
 
-(setq initial-scratch-message ";; Selamat pagi! ")
+(setq initial-scratch-message ";; Measuring out my life with coffee spoons... ")
 
-;; Mac Settings:
+;; Mac Settings
 
 (when (equal system-type 'darwin)
   (progn
@@ -35,7 +35,7 @@
     (setq explicit-shell-file-name "/opt/homebrew/bin/bash")))
 
 
-;; 01. Package Management: ;;
+;; 01. Package Management:
 
 
 ;; (setq url-proxy-services
@@ -55,7 +55,7 @@
                     dockerfile-mode
                     evil
                     evil-escape
-                    ; go-mode
+                    go-mode
                     hcl-mode
                     json-mode
                     kuronami-theme ; (making some changes '( 0 _ 0  )')
@@ -72,7 +72,7 @@
     (package-install packages)))
 
 
-;; 02. User Variables: ;;
+;; 02. User Variables:
 
 
 (defvar inj0h:file-dotemacs nil
@@ -86,7 +86,7 @@
       inj0h:default-indent 4)
 
 
-;; 03. User Functions: ;;
+;; 03. User Functions:
 
 
 (defun inj0h:add-local-vi-bindings (bind-modes)
@@ -232,7 +232,7 @@ You can call this function interactively."
   (let* ((dayd (downcase day))
          (day-2-insert
           (cond ((inj0h:string-eq-or dayd '("sun" "nichi" "il"))   "0")
-                ((inj0h:string-eq-or dayd '("mon" "getsu" "wol"))  "1")
+                ((inj0h:string-eq-or dayd '("mon" "gatsu" "wol"))  "1")
                 ((inj0h:string-eq-or dayd '("tue" "ka"    "hwa"))  "2")
                 ((inj0h:string-eq-or dayd '("wed" "sui"   "su"))   "3")
                 ((inj0h:string-eq-or dayd '("thu" "mok"   "mog"))  "4")
@@ -354,7 +354,7 @@ its element's car value equals MATCH. Otherwise, return ELSE."
           ((string= match (symbol-name (car current)))
            (cdr current))
           (t (inj0h:get-from-list-else (cdr list) match else)))))
-;; Tests:
+;; Tests
 ;; (setq test (zip-pair '(:foo 0 :bar "bar" :baz)))
 ;; (inj0h:get-from-list-else test ":foo" "oops")
 ;; (inj0h:get-from-list-else test ":bar" "oops")
@@ -404,7 +404,9 @@ You can call this function interactively."
 ;; TODO() Instead of deleting the chars, we want to shift the existing text.
 (defun inj0h:indent-remove ()
   "Removes, at point, an n number of whitespace characters determined by
-`inj0h:default-indent'. You can call this function interactively."
+`inj0h:default-indent'.
+
+You can call this function interactively."
   (interactive)
   (backward-delete-char-untabify inj0h:default-indent))
 
@@ -419,6 +421,60 @@ You can call this function interactively."
   (if (and char (eq (length char) 1))
     (insert-char (aref char 0))
     (message "ERROR: Bad input! Please input a non-nil string of length 1.")))
+
+
+(defun inj0h:java-jdb-line-get ()
+  "Saves to the kill ring the line number at point prefixed by the full Java
+class name, including the package declaration path followed by a colon.
+
+E.g. \"org.foo.bar.Baz:22\" saved to the kill ring
+
+JDB sessions require pasting the full class path for each line breakpoint, which
+gets annoying for longer debugging sessions, especially on projects with
+ridiculous package declaration lengths (insert Java dunk here). This function
+aims to make that experience less painful.
+
+This function only works with `java-mode' enabled and expects a Java package
+declaration, though the declaration does not have to take up the topmost line of
+the file.
+
+You can call this function interactively."
+  (interactive)
+  (if (string= "java-mode" major-mode)
+      (let ((line (inj0h:line-number-get)))
+        (save-excursion
+          ;; Get package full path
+          (beginning-of-buffer)
+          (re-search-forward "^package.*;$") ; Error if no declaration
+          (let* ((package-path
+                  (cadr (split-string
+                         (buffer-substring-no-properties
+                          (line-beginning-position)
+                          (line-end-position))
+                         " ")))
+                 (package-path-len (length package-path))
+                 (package-path-refined
+                  (substring package-path 0 (- package-path-len 1))))
+
+            ;; Get class name
+            (re-search-forward "^.*class.*\{$")
+            (let* ((class
+                    (split-string
+                     (buffer-substring-no-properties (line-beginning-position)
+                                                     (line-end-position))
+                     " "))
+                   ;; - 2 b/c class name is penultimate elem, i.e. before "{"
+                   (class-refined (nth (- (length class) 2) class)))
+              (kill-new
+               (concat package-path-refined "." class-refined ":" line))))))
+    (message "ERROR: Currently not in java-mode!")))
+
+
+(defun inj0h:line-number-get ()
+  "Provides only the digits for the current line at point via `what-line'.
+
+Can't believe Emacs doesn't have this out of the box!"
+  (cadr (split-string (what-line) " ")))
 
 
 (defun inj0h:spell-set ()
@@ -442,7 +498,7 @@ Evaluates whether at least one element of COMPS equals STR.
 You can call this function interactively."
   (inj0h:string-eq-or-helper
    (mapcar #'(lambda (comp) (string= str comp)) comps)))
-;; Tests:
+;; Tests
 ;; (inj0h:string-eq-or "foo" '("foo" "bar" "baz"))
 ;; (inj0h:string-eq-or "foo" '("foo" "bar"))
 ;; (inj0h:string-eq-or "foo" '("foo"))
@@ -598,7 +654,7 @@ cells for elements n-1.
 
 For a LIST of size 1 or size 0 - I.e. the empty list, return nil."
   (inj0h:zip-pair-impl list '()))
-;; Tests:
+;; Tests
 ;; (inj0h:zip-pair '(:foo "foo" :bar "bar"))
 ;; (inj0h:zip-pair '(:foo "foo" :bar))
 ;; (inj0h:zip-pair '(:foo))
@@ -617,7 +673,7 @@ For a LIST of size 1 or size 0 - I.e. the empty list, return nil."
       (nreverse acc))))
 
 
-;; 04. User Macros: ;;
+;; 04. User Macros:
 
 
 (defmacro inj0h:evil-leader (:key key :bindings binds :per-mode permode)
@@ -729,12 +785,12 @@ E.g.
          (invalid-args nil)
          (incomplete-args nil))
 
-    ;; Check that arguments are valid:
+    ;; Check that arguments are valid
     (dolist (l labels)
       (when (not (member l valid-labels))
         (setq invalid-args t)))
 
-    ;; Check required arguments:
+    ;; Check required arguments
     (dolist (rl required-labels)
       (when (not (member rl labels))
         (setq incomplete-args t)))
@@ -770,7 +826,7 @@ E.g.
               (message "Completed inj0h:setup for %s" mode-name))))))
 
 
-;; 05. Disable: ;;
+;; 05. Disable:
 
 
 (setq auto-save-default nil
@@ -787,7 +843,7 @@ E.g.
 (tool-bar-mode -1)
 
 
-;; 06. Vanilla Settings: ;;
+;; 06. Vanilla Settings:
 
 
 ;; Custom File
@@ -842,7 +898,7 @@ E.g.
 (add-to-list 'default-frame-alist '(alpha . (100 . 95)))
 
 
-;; 07. Vanilla Packages: ;;
+;; 07. Vanilla Packages:
 
 
 (setq blink-cursor-blinks 30)
@@ -980,7 +1036,7 @@ E.g.
  :bindings ((motion . ("<return>" . xref-goto-xref))))
 
 
-;; 08. Vanilla Programming Language Packages: ;;
+;; 08. Vanilla Programming Language Packages:
 
 
 (add-hook 'emacs-lisp-mode-hook
@@ -1032,7 +1088,7 @@ E.g.
           (inj0h:spell-set))))
 
 
-;; 09. Evil Mode (Non-Vanilla settings begin here): ;;
+;; 09. Evil Mode (Non-Vanilla settings begin here):
 
 
 ;; Summon the Editor of the Beast - VI VI VI
@@ -1121,11 +1177,12 @@ E.g.
                             ("r" . recompile)))
             (dired       . (("w" . wdired-change-to-wdired-mode)))
             (ibuffer     . ())
+            (java        . (("l" . inj0h:java-jdb-line-get)))
             (text        . (("a" . inj0h:todo-archive)
                             ("s" . inj0h:todo-start)))))
 
 
-;; 10. Non-Vanilla Packages: ;;
+;; 10. Non-Vanilla Packages:
 
 
 (require 'cape)
@@ -1156,6 +1213,7 @@ E.g.
 
 (require 'diminish)
 (with-eval-after-load 'subword (diminish 'subword-mode))
+(diminish 'evil-escape-mode)
 
 (load-theme 'kuronami t)
 
@@ -1164,15 +1222,15 @@ E.g.
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 
 
-;; 11. Non-Vanilla Programming Language Packages: ;;
+;; 11. Non-Vanilla Programming Language Packages:
 
 
-;; (inj0h:setup
-;;  :mode go
-;;  :conf ((let ((go-indent 2))
-;;           (setq-local evil-shift-width go-indent
-;;                       inj0h:default-indent go-indent
-;;                       tab-width go-indent))))
+(inj0h:setup
+ :mode go
+ :conf ((let ((go-indent 2))
+          (setq-local evil-shift-width go-indent
+                      inj0h:default-indent go-indent
+                      tab-width go-indent))))
 
 (inj0h:setup
  :mode json
