@@ -62,7 +62,6 @@
                     ; nix-mode ; ㅜㅜ
                     ; rust-mode
                     smex
-                    ; swift-mode
                     ; toml-mode
                     typescript-mode
                     undo-fu
@@ -220,10 +219,10 @@ of type string using the logic shown below, i.e. provided via
 
 EN      JP        KR        漢字
 \"sun\" | \"nichi\" | \"il\"   -> \"日\"
-\"mon\" | \"getsu\" | \"wol\"  -> \"月\"
+\"mon\" | \"gatsu\" | \"wol\"  -> \"月\"
 \"tue\" | \"ka\"    | \"hwa\"  -> \"火\"
 \"wed\" | \"sui\"   | \"su\"   -> \"水\"
-\"thu\" | \"mok\"   | \"mog\"  -> \"木\"
+\"thu\" | \"moku\"  | \"mog\"  -> \"木\"
 \"fri\" | \"kin\"   | \"guem\" -> \"金\"
 \"sat\" | \"do\"    | \"to\"   -> \"土\"
 
@@ -235,7 +234,7 @@ You can call this function interactively."
                 ((inj0h:string-eq-or dayd '("mon" "gatsu" "wol"))  "1")
                 ((inj0h:string-eq-or dayd '("tue" "ka"    "hwa"))  "2")
                 ((inj0h:string-eq-or dayd '("wed" "sui"   "su"))   "3")
-                ((inj0h:string-eq-or dayd '("thu" "mok"   "mog"))  "4")
+                ((inj0h:string-eq-or dayd '("thu" "moku"  "mog"))  "4")
                 ((inj0h:string-eq-or dayd '("fri" "kin"   "guem")) "5")
                 ((inj0h:string-eq-or dayd '("sat" "do"    "to"))   "6")
                 (t                                                 nil))))
@@ -1144,7 +1143,7 @@ E.g.
    ("gc" . comment-dwim)
    ("zg" . inj0h:add-word-to-dictionary)))
 
-(setq-default evil-escape-key-sequence "hh"
+(setq-default evil-escape-key-sequence "jj"
               evil-escape-excluded-states '(normal visual motion)
               evil-escape-delay 0.2)
 

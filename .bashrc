@@ -3,6 +3,7 @@
 
 export PS1="\w>"
 
+alias a="cd .."
 alias ec="emacsclient -n"
 alias ga="git add"
 alias gb="git branch"
@@ -17,23 +18,28 @@ alias gsroot='cd $(git rev-parse --show-superproject-working-tree)'
 alias gundo='git reset HEAD~'
 alias mflac='mfl'
 alias tre="tree -aC -I '.git|node_modules|target|zig-cache' ."
-alias u="cd .."
 alias vscode="emacs &" # ;P
 case "$(uname -s)" in
     "Darwin")
-        alias chrome="open -a chromium --new --args -incognito"
-        alias fx="open -a firefox"
-        alias fxp="open -a firefox --new --args -private-window"
         alias get="pwd | pbcopy"
         alias here='cd $(pbpaste)'
-        alias o="ls -AGo"
+        alias s="ls -AGo" # BSD ls flags different than Linux
         alias uptime_plus="system_profiler SPSoftwareDataType -detailLevel mini"
+
+        # Apps
+        alias amail="open -a mail"
+        alias chrome="open -a chromium --new --args -incognito"
+        alias cl="open -a clock"
+        alias di="open -a dictionary"
+        alias fx="open -a firefox"
+        alias fxp="open -a firefox --new --args -private-window"
+        alias sys="open -a system\ preferences"
         ;;
     "Linux")
-        # NA
+        # N/A
         ;;
     *)
-        # NA
+        # N/A
 esac
 
 gr()
@@ -54,7 +60,7 @@ case "$(uname -s)" in
         export PATH="/usr/local/sbin:$PATH"
 
         export JAVA_HOME="/Library/Java/JavaVirtualMachines/openjdk-17.jdk/Contents/Home"
-        export PATH="/usr/local/opt/openjdk@17/bin:$PATH"
+        export PATH="/opt/homebrew/opt/openjdk@21/bin:$PATH"
         ;;
     "Linux")
         # TODO() Update this path
