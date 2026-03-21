@@ -722,6 +722,9 @@ such that each mode creates a variable with its name."
          (cond ((string= "text" modename)
                 ;; local-set-key breaks SPC for insert mode in text-mode... ㅜㅜ
                 (evil-define-key 'motion text-mode-map leaderkey mkeymap))
+               ((string= "java" modename)
+                ;; local-set-key breaks SPC for insert mode in java-mode... ㅜㅜ
+                (evil-define-key 'motion java-mode-map leaderkey mkeymap))
                (t
                 (add-hook hook (lambda () (local-set-key leaderkey mkeymap)))))
          (when pmbinds
@@ -997,10 +1000,10 @@ E.g.
           #'(lambda ()
               (inj0h:create-keybindings
                tetris-mode-map
-               '(("," . tetris-rotate-prev)
+               '(("w" . tetris-rotate-prev)
                  ("a" . tetris-move-left)
-                 ("o" . tetris-move-down)
-                 ("e" . tetris-move-right)))))
+                 ("s" . tetris-move-down)
+                 ("d" . tetris-move-right)))))
 
 (setq tramp-default-method "ssh")
 
