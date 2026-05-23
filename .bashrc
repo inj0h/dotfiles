@@ -59,8 +59,8 @@ case "$(uname -s)" in
         # For some tertiary Brew deps
         export PATH="/usr/local/sbin:$PATH"
 
-        export JAVA_HOME="/Library/Java/JavaVirtualMachines/openjdk-17.jdk/Contents/Home"
-        export PATH="/opt/homebrew/opt/openjdk@21/bin:$PATH"
+        export JAVA_HOME="$(brew --prefix openjdk@21)/libexec/openjdk.jdk/Contents/Home"
+        export PATH="$(brew --prefix openjdk@21)/bin:$PATH"
         ;;
     "Linux")
         # TODO() Update this path

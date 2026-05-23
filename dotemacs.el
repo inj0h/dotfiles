@@ -1208,7 +1208,6 @@ E.g.
       ;;                        ibuffer-mode
       ;;                        text-mode)
       )
-(define-key corfu-map (kbd "M-t") 'corfu-previous)
 ;; TODO() Restore this global setting once corfu-excluded-modes works.
 ;; (global-corfu-mode)
 (add-hook 'prog-mode-hook 'corfu-mode)

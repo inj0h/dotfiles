@@ -1,14 +1,15 @@
 *
 !*/
 
-!.bash_profile
-!.bashrc
-!.gitconfig
-!.gitignore
-!Brewfile
-!chrome_plug.sh
-!dotemacs.el
-!dotghostty.conf
-!readme.txt
-!rectangle_config.json
-!slink.sh
+!/.bash_profile
+!/.bashrc
+!/.gitconfig
+!/.gitignore
+!/Brewfile
+!/chrome_plug.sh
+!/dotemacs.el
+!/dotghostty.conf
+!/mac_defaults.sh
+!/readme.txt
+!/rectangle_config.json
+!/slink.sh
