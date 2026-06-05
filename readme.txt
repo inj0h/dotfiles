@@ -1,1 +1,1 @@
-Mostly Emacs.
+Mostly Emacs
