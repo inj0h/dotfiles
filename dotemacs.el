@@ -1183,6 +1183,13 @@ E.g.
             (text        . (("a" . inj0h:todo-archive)
                             ("s" . inj0h:todo-start)))))
 
+;; 特別！ Add Ctrl-g alternative to help with keyboards without a right ctrl
+(let ((kbd-bind-ctrl-g (if (equal system-type 'darwin) "s-g" "M-g")))
+  (global-set-key (kbd kbd-bind-ctrl-g) 'keyboard-quit)
+  (define-key minibuffer-mode-map (kbd kbd-bind-ctrl-g) 'abort-minibuffers)
+  (define-key evil-ex-completion-map (kbd kbd-bind-ctrl-g) 'abort-minibuffers)
+  (define-key evil-command-line-map (kbd kbd-bind-ctrl-g) 'abort-minibuffers))
+
 
 ;; 10. Non-Vanilla Packages:
 
