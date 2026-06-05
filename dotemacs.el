@@ -1186,8 +1186,11 @@ E.g.
 ;; 特別！ Add Ctrl-g alternative to help with keyboards without a right ctrl
 (let ((kbd-bind-ctrl-g (if (equal system-type 'darwin) "s-g" "M-g")))
   (global-set-key (kbd kbd-bind-ctrl-g) 'keyboard-quit)
+
   (define-key minibuffer-mode-map (kbd kbd-bind-ctrl-g) 'abort-minibuffers)
+
   (define-key evil-ex-completion-map (kbd kbd-bind-ctrl-g) 'abort-minibuffers)
+  (define-key evil-insert-state-map (kbd kbd-bind-ctrl-g) 'evil-normal-state)
   (define-key evil-command-line-map (kbd kbd-bind-ctrl-g) 'abort-minibuffers))
 
 
