@@ -9,6 +9,7 @@
 !/chr_plug.sh
 !/dotemacs.el
 !/dotghostty.conf
+!/dotvim.vim
 !/mac_defaults.sh
 !/readme.txt
 !/rectangle_config.json
