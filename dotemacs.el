@@ -1193,6 +1193,12 @@ E.g.
   (define-key evil-insert-state-map (kbd kbd-bind-ctrl-g) 'evil-normal-state)
   (define-key evil-command-line-map (kbd kbd-bind-ctrl-g) 'abort-minibuffers))
 
+;; 告別！ Add Ctrl-b,-f,-r alternatives to help with keyboards without a right ctrl
+(when (equal system-type 'darwin)
+  (define-key evil-motion-state-map (kbd "s-b") 'evil-scroll-page-up)
+  (define-key evil-motion-state-map (kbd "s-f") 'evil-scroll-page-down)
+  (define-key evil-normal-state-map (kbd "s-r") 'undo-fu-only-redo))
+
 
 ;; 10. Non-Vanilla Packages:
 

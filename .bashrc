@@ -16,7 +16,7 @@ alias groot='cd $(git rev-parse --show-toplevel)'
 alias gs="git status"
 alias gsroot='cd $(git rev-parse --show-superproject-working-tree)'
 alias gundo='git reset HEAD~'
-alias mflac='mfl'
+alias mfl='metaflac'
 alias tre="tree -aC -I '.git|node_modules|target|zig-cache' ."
 alias vscode="emacs &" # ;P
 case "$(uname -s)" in
@@ -42,6 +42,14 @@ case "$(uname -s)" in
         # N/A
 esac
 
+
+color_red="\033[0;31m"
+color_green="\033[0;32m"
+color_yellow="\033[0;33m"
+
+
+dither() { (ioreg -lw0 | grep -i enableDither | grep "Yes") >/dev/null 2>&1 ; }
+
 gr()
 {
     grep --color\
@@ -49,6 +57,33 @@ gr()
          --exclude 'Cargo.lock'\
          --exclude 'package-lock.json'\
          -Iinr "$1" .
+}
+
+print_color() { printf "$1%s\033[0m" "$2" ; }
+
+sco()
+{
+    if dither
+    then
+        print_color "$color_red" "予告！Dithering detected"; echo
+        echo "Restarting Stillcolor..."
+        pkill -x Stillcolor
+        open -a Stillcolor
+        echo "Done"
+
+        if dither
+        then
+            print_color "$color_red" \
+                        "予告！Dithering still detected; investigate manually"
+            echo
+        else
+            print_color "$color_green" \
+                        "Dithering undetected after Stillcolor restart"
+            echo
+        fi
+    else
+        print_color "$color_green" "No dithering detected"; echo
+    fi
 }
 
 case "$(uname -s)" in
@@ -61,6 +96,11 @@ case "$(uname -s)" in
 
         export JAVA_HOME="$(brew --prefix openjdk@21)/libexec/openjdk.jdk/Contents/Home"
         export PATH="$(brew --prefix openjdk@21)/bin:$PATH"
+
+        if dither
+        then
+            print_color "$color_red" "予告！Dithering detected"
+        fi
         ;;
     "Linux")
         # TODO() Update this path
